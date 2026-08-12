@@ -1,0 +1,43 @@
+---
+description: Known failure modes and fixes for SCB/Codex Docker runs
+alwaysApply: true
+---
+
+# Pitfalls (hit in MVP; do not repeat)
+
+## Docker + docker-py + Yandex credHelpers
+
+Host `~/.docker/config.json` has `credHelpers` → `docker-credential-yc`.  
+`docker-py` `images.build()` then raises `Credentials store error`.
+
+**Fix (already in `benchmark/scb_run.py`):** per-run isolated `DOCKER_CONFIG` with `{"auths":{}}`.  
+Image builds: `scripts/build_images.sh` (same pattern). Do not remove this.
+
+## SCB output path is `save_dir` + `save_template`
+
+`output_path=` CLI override is **ignored** by current SCB loader. Use:
+
+```text
+save_dir=<abs run dir>
+save_template=scb
+```
+
+## Early-stop cuts CP1→CP4
+
+`pass_policy: all-cases` stops the trajectory when Functionality fails even if Core passed.
+
+**Use `all-core-cases`** in arm configs so Core failures stop, but full CP1→CP4 still runs. Keep Functionality/Regression in collected metrics.
+
+## Ponytail hook must reach ProcessPool workers
+
+SCB always uses `ProcessPoolExecutor` (even `num_workers=1`). Parent-only monkeypatch does **not** apply.
+
+**Fix:** `HB_ENABLE_PONYTAIL=1` + `PYTHONPATH=harness_sitecustomize:<repo>` so `sitecustomize.py` installs the hook in every worker. Verify via `agent/harness_activation.json`. Unverified ponytail runs → `excluded_from_comparison`.
+
+## Structure metrics exclude list
+
+Never put `snapshot` (or other parent path segments) in `EXCLUDE_DIR_NAMES` — absolute/relative paths then match and LOC becomes 0. Exclude only real junk dirs inside the solution (`tests`, `.venv`, caches, …).
+
+## Vendor / network
+
+GitHub clones need unrestricted network (`required_permissions: ["all"]`). Pins live in `vendor/pins.json`; large checkouts are gitignored.

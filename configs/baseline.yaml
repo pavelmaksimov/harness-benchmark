@@ -1,0 +1,13 @@
+# Baseline arm: Codex without Ponytail / extra harness instructions.
+agent: configs/agent_codex.yaml
+environment: docker-python3.12-uv
+prompt: configs/prompts/just-solve.jinja
+model:
+  provider: codex_auth
+  name: gpt-5.5
+thinking: medium
+pass_policy: all-core-cases
+problems:
+  - file_backup
+save_dir: results/raw
+save_template: ${model.name}/baseline_${prompt}_${thinking}_${now:%Y%m%dT%H%M%S}

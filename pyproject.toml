@@ -1,0 +1,29 @@
+[project]
+name = "harness-benchmark"
+version = "0.1.0"
+description = "MVP benchmark: SlopCodeBench file_backup × Codex baseline vs Ponytail"
+readme = "README.md"
+requires-python = ">=3.12"
+dependencies = [
+    "slop-code-bench",
+    "typer>=0.12",
+    "pyyaml>=6.0",
+    "radon>=6.0",
+    "rich>=13.0",
+]
+
+[project.scripts]
+harness-benchmark = "benchmark.cli:app"
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.hatch.build.targets.wheel]
+packages = ["benchmark"]
+
+[tool.uv.sources]
+slop-code-bench = { path = "vendor/slop-code-bench", editable = true }
+
+[tool.ruff]
+line-length = 120

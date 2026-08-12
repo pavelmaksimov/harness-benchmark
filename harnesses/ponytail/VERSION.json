@@ -1,0 +1,8 @@
+{
+  "name": "ponytail",
+  "version": "4.8.4",
+  "source": "@dietrichgebert/ponytail",
+  "skill_sha256": "1316a2f3f95741d2300b116fe0c2d81ce4a9568656ed0a62643f54aaf09957f2",
+  "skill_bytes": 6637,
+  "pinned_from": "/home/user/.local/share/ponytail/skills/ponytail/SKILL.md"
+}

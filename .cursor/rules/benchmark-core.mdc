@@ -1,0 +1,42 @@
+---
+description: Core invariants for SlopCodeBench × Ponytail harness benchmark (Codex)
+alwaysApply: true
+---
+
+# Harness-benchmark core
+
+Agent under test is **Codex**, not Claude Code. Only one variable differs between arms: Ponytail skill vs none.
+
+## Layout (do not invent parallel systems)
+
+- Thin wrapper over SlopCodeBench: `benchmark/` + `configs/` + `harnesses/`
+- Vendored pins: `vendor/pins.json` (SCB + scb-problems commits, Codex version, Ponytail sha)
+- Do **not** fork/rewrite SCB runner unless unavoidable; prefer CLI/config overrides
+- Do **not** modify `vendor/scb-problems/file_backup` in MVP
+
+## Arms
+
+| Arm | Prompt | Hook |
+|-----|--------|------|
+| `baseline` | `configs/prompts/just-solve.jinja` | no Ponytail |
+| `ponytail` | `configs/prompts/ponytail-solve.jinja` | `HB_ENABLE_PONYTAIL=1` + skill copy |
+
+Same model/thinking/env/budgets. Auth: `codex_auth` via `~/.codex/auth.json`.
+
+## Before long runs
+
+```bash
+bash scripts/bootstrap_vendor.sh   # if vendor missing
+bash scripts/build_images.sh       # base + codex agent images
+docker ps                          # daemon up
+```
+
+Results: `results/<experiment>/<arm>/run_N/{scb,metrics,manifest.json}`  
+Reports: `reports/<experiment>/comparison.{txt,json}`
+
+## Do not
+
+- Invent a single weighted “benchmark score”
+- Add ponytail-review/audit/debt or extra AGENTS.md into arms
+- Commit secrets / print API keys; manifests store env **names** only
+- Treat N=1 as final science — after pipeline works, use `--runs 3`

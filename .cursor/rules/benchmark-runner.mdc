@@ -1,0 +1,41 @@
+---
+description: Conventions when editing benchmark runner, hooks, and SCB invocation
+globs: benchmark/**/*.py,harness_sitecustomize/**/*.py,scripts/**/*.sh,configs/**/*
+alwaysApply: false
+---
+
+# Runner / configs conventions
+
+## Invoking SCB
+
+Entry: `python -m benchmark.scb_main` (not raw `slop-code` alone) so hooks/env apply.  
+Env always set for runs:
+
+- `SCBENCH_PROBLEMS_PATH` → `vendor/scb-problems`
+- `SCBENCH_HOME` → per-run `.scbench_home`
+- `DOCKER_CONFIG` → per-run empty auth config
+- `HB_ENABLE_PONYTAIL=1` only for ponytail arm
+- `PYTHONPATH` includes `harness_sitecustomize` + repo root
+
+Agent config: `configs/agent_codex.yaml` — `version` must match Docker-installed Codex (pinned in `vendor/pins.json`).
+
+## Model flag
+
+```text
+--model codex_auth/gpt-5.5
+```
+
+Not `openai/...` unless `OPENAI_API_KEY` is intentionally used.
+
+## Ponytail injection
+
+`benchmark/ponytail_hook.py` copies pinned `harnesses/ponytail/SKILL.md` into Codex mount `~/.codex/skills/ponytail/` and writes `harness_activation.json` into artifacts. Keep activation mechanism recorded in that JSON.
+
+## Configs
+
+Arm YAMLs use `save_dir` / `save_template`, `pass_policy: all-core-cases`.  
+Prompt for ponytail must keep the activation phrase expected by `benchmark.paths.ACTIVATION_PHRASE`.
+
+## Metrics nulls
+
+If a token/cost field is missing from the adapter → store `null`. Never invent approximations for usage.

@@ -1,0 +1,20 @@
+---
+description: Poll benchmark runs every 1 minute until completion
+alwaysApply: true
+---
+
+# Waiting for benchmark runs
+
+When a benchmark (or related long job) is running in the background — e.g. `python -m benchmark run`, `run-all`, image builds, Docker SCB jobs — do **not** use long idle gaps.
+
+## Required polling
+
+- Check completion **every 1 minute** (`block_until_ms` ≈ `60000`).
+- Keep polling until the process exits or clearly fails.
+- Do **not** use multi-minute sleeps, exponential backoff beyond 1 minute, or waits of ~5–15+ minutes between checks.
+
+## How to wait
+
+Prefer `AwaitShell` with ~60s slices (and a completion/error pattern when useful). After each slice, inspect status/output and continue with another 60s wait if still running.
+
+Short smoke checks (`block_until_ms: 0`) are fine right after starting a background command; then switch to the 1-minute loop.
