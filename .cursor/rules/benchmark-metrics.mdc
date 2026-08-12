@@ -1,0 +1,38 @@
+---
+description: Metrics collection and comparison report conventions
+globs: benchmark/collect.py,benchmark/compare.py,benchmark/analyze.py,benchmark/structure.py,benchmark/cost.py,benchmark/dependencies.py,benchmark/judge.py
+alwaysApply: false
+---
+
+# Metrics conventions
+
+## Sources (prefer SCB artifacts)
+
+Per checkpoint under `scb/<problem>/checkpoint_N/`:
+
+- `inference_result.json` → usage / elapsed / reported cost
+- `evaluation.json` → pass_counts by Core/Functionality/Error/Regression
+- `diff.json` → file/line deltas
+- `snapshot/` → LOC, complexity (radon), dependency manifests
+
+Unified records: `metrics/checkpoint_N.json` + `metrics/run.json`.
+
+## Correctness
+
+`checkpoint_success` = all **Core** tests passed (not all-cases).  
+Still store functionality/regression counts for trajectory analysis.
+
+## Cost
+
+- `reported_cost_usd` from adapter/traces
+- `normalized_cost_usd` from `configs/pricing.yaml` (versioned)
+- Do not double-bill reasoning on top of output unless pricing explicitly requires it
+
+## Comparison
+
+No single score. `compare.py` keeps separate dimensions + mean/median/min/max/stddev.  
+Exclude ponytail runs with `harness_activation_verified=false` from arm aggregates.
+
+## Judge
+
+Optional blind LLM judge only; must not affect correctness. Store model, prompt version, raw response, scores.

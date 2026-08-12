@@ -1,0 +1,25 @@
+.DS_Store
+*.swp
+*~
+.idea/
+.vscode/
+.cursor/cache/
+
+# Python / uv
+.venv/
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.ruff_cache/
+.mypy_cache/
+dist/
+*.egg-info/
+# Experiment artifacts (keep structure via .gitkeep)
+results/**
+!results/.gitkeep
+reports/**
+!reports/.gitkeep
+
+# Large vendored checkouts (pin commits in vendor/pins.json)
+vendor/slop-code-bench/
+vendor/scb-problems/
