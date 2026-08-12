@@ -4,6 +4,12 @@
 .idea/
 .vscode/
 .cursor/cache/
+uv.lock
+# Secrets / local auth (never commit)
+.env
+**/auth.json
+**/credentials.json
+*.pem
 
 # Python / uv
 .venv/
@@ -14,7 +20,9 @@ __pycache__/
 .mypy_cache/
 dist/
 *.egg-info/
-# Experiment artifacts (keep structure via .gitkeep)
+
+# Raw experiment artifacts (keep empty dirs via .gitkeep)
+# Published summaries live in docs/ and ARE tracked.
 results/**
 !results/.gitkeep
 reports/**

@@ -96,6 +96,7 @@ def compare_arms(by_arm: dict[str, list[dict[str, Any]]]) -> dict[str, Any]:
 
     metric_keys = [
         "checkpoints_passed",
+        "checkpoints_total",
         "regression_failures",
         "total_input_tokens",
         "total_output_tokens",
@@ -168,7 +169,7 @@ def format_comparison_report(comparison: dict[str, Any], problem: str = "file_ba
     lines.append("-" * 60)
 
     labels = {
-        "checkpoints_passed": "CP passed",
+        "checkpoints_passed": "CP passed/total",
         "regression_failures": "Regressions",
         "total_input_tokens": "Input tokens",
         "total_output_tokens": "Output tokens",
@@ -199,7 +200,14 @@ def format_comparison_report(comparison: dict[str, Any], problem: str = "file_ba
                 return f"{v:.1f}"
             return f"{v:.0f}"
 
-        lines.append(f"{label:<22} {fmt(b):>12} {fmt(p):>12} {fmt(d):>12}")
+        if key == "checkpoints_passed":
+            totals = comparison["summary"]["checkpoints_total"]
+            b_display = f"{fmt(b)}/{fmt(totals['baseline']['mean'])}"
+            p_display = f"{fmt(p)}/{fmt(totals['ponytail']['mean'])}"
+        else:
+            b_display = fmt(b)
+            p_display = fmt(p)
+        lines.append(f"{label:<22} {b_display:>12} {p_display:>12} {fmt(d):>12}")
 
     lines.append("")
     lines.append("Per-checkpoint (raw):")

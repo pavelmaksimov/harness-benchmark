@@ -7,7 +7,7 @@ alwaysApply: true
 
 Agent under test is **Codex**, not Claude Code. Only one variable differs between arms: Ponytail skill vs none.
 
-## Layout (do not invent parallel systems)
+## Layout (do not invent parallel *codebases*)
 
 - Thin wrapper over SlopCodeBench: `benchmark/` + `configs/` + `harnesses/`
 - Vendored pins: `vendor/pins.json` (SCB + scb-problems commits, Codex version, Ponytail sha)
@@ -27,16 +27,30 @@ Same model/thinking/env/budgets. Auth: `codex_auth` via `~/.codex/auth.json`.
 
 ```bash
 bash scripts/bootstrap_vendor.sh   # if vendor missing
-bash scripts/build_images.sh       # base + codex agent images
+bash scripts/build_images.sh       # base + codex agent images (required before --jobs > 1)
 docker ps                          # daemon up
 ```
 
 Results: `results/<experiment>/<arm>/run_N/{scb,metrics,manifest.json}`  
 Reports: `reports/<experiment>/comparison.{txt,json}`
 
+## Parallel runs (default for multi-run experiments)
+
+Prefer overlapping independent `run_one` via `--jobs` — do **not** stay on serial `--jobs 1` unless debugging a single failure.
+
+```bash
+# MVP science: 2 arms × 3 runs, full overlap
+uv run python -m benchmark run-all --problem file_backup --runs 3 --jobs 6
+
+# Safer first parallel try
+uv run python -m benchmark run-all --problem file_backup --runs 3 --jobs 2
+```
+
+`--jobs` caps concurrent runs across arms. Each run already isolates dirs/env; API/Docker exhaustion may fail some runs (acceptable — others still finish). Do not invent a second parallel launcher outside this flag.
+
 ## Do not
 
 - Invent a single weighted “benchmark score”
 - Add ponytail-review/audit/debt or extra AGENTS.md into arms
 - Commit secrets / print API keys; manifests store env **names** only
-- Treat N=1 as final science — after pipeline works, use `--runs 3`
+- Treat N=1 as final science — after pipeline works, use `--runs 3 --jobs 6`

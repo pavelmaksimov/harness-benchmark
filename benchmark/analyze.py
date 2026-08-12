@@ -6,6 +6,7 @@ from typing import Any
 
 from benchmark.compare import compare_arms, format_comparison_report, load_experiment_runs
 from benchmark.paths import REPORTS_DIR
+from benchmark.publish import publish_short_report
 
 
 def analyze_experiment(experiment_dir: Path) -> dict[str, Any]:
@@ -24,3 +25,12 @@ def write_reports(experiment_dir: Path, comparison: dict[str, Any] | None = None
     json_path.write_text(json.dumps(comparison, indent=2, sort_keys=True) + "\n", encoding="utf-8")
     txt_path.write_text(format_comparison_report(comparison), encoding="utf-8")
     return json_path, txt_path
+
+
+def write_reports_and_publish(
+    experiment_dir: Path, comparison: dict[str, Any] | None = None
+) -> tuple[Path, Path, Path, Path, Path]:
+    comparison = comparison or analyze_experiment(experiment_dir)
+    json_path, txt_path = write_reports(experiment_dir, comparison)
+    short_md, short_json, board = publish_short_report(experiment_dir, comparison)
+    return json_path, txt_path, short_md, short_json, board

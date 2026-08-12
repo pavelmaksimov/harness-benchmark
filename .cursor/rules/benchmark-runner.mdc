@@ -6,6 +6,10 @@ alwaysApply: false
 
 # Runner / configs conventions
 
+## CLI parallelism
+
+`run` / `run-all` accept `--jobs N` (`benchmark.scb_run.run_matrix`). Default `1` is serial; for real experiments use `--jobs` up to `arms × runs` (see core rule). Pre-build images first.
+
 ## Invoking SCB
 
 Entry: `python -m benchmark.scb_main` (not raw `slop-code` alone) so hooks/env apply.  
