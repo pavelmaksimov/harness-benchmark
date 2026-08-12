@@ -7,7 +7,7 @@ from typing import Optional
 import typer
 from rich.console import Console
 
-from benchmark.analyze import analyze_experiment, write_reports
+from benchmark.analyze import analyze_experiment, write_reports_and_publish
 from benchmark.paths import (
     DEFAULT_MODEL,
     DEFAULT_PROBLEM,
@@ -17,7 +17,7 @@ from benchmark.paths import (
     RESULTS_DIR,
     SCB_DIR,
 )
-from benchmark.scb_run import run_arm_repeats
+from benchmark.scb_run import run_arm_repeats, run_matrix
 from benchmark.versions import load_pins
 
 app = typer.Typer(add_completion=False, no_args_is_help=True)
@@ -45,12 +45,15 @@ def run_cmd(
     model: str = typer.Option(DEFAULT_MODEL, "--model"),
     thinking: str = typer.Option(DEFAULT_THINKING, "--thinking"),
     experiment_id: Optional[str] = typer.Option(None, "--experiment-id"),
+    jobs: int = typer.Option(1, "--jobs", min=1, help="Max concurrent runs (1=serial)"),
 ) -> None:
     """Run one arm for N independent repetitions."""
     if arm not in {"baseline", "ponytail"}:
         raise typer.BadParameter("arm must be baseline or ponytail")
     experiment_id = experiment_id or datetime.now(timezone.utc).strftime("%Y%m%dT%H%M%S")
-    console.print(f"experiment_id={experiment_id} arm={arm} runs={runs} model={model}")
+    console.print(
+        f"experiment_id={experiment_id} arm={arm} runs={runs} jobs={jobs} model={model}"
+    )
     results = run_arm_repeats(
         arm=arm,
         problem=problem,
@@ -58,6 +61,7 @@ def run_cmd(
         model=model,
         thinking=thinking,
         experiment_id=experiment_id,
+        jobs=jobs,
     )
     console.print(f"Completed {len(results)} runs → {RESULTS_DIR / experiment_id / arm}")
 
@@ -69,19 +73,20 @@ def run_all_cmd(
     model: str = typer.Option(DEFAULT_MODEL, "--model"),
     thinking: str = typer.Option(DEFAULT_THINKING, "--thinking"),
     experiment_id: Optional[str] = typer.Option(None, "--experiment-id"),
+    jobs: int = typer.Option(1, "--jobs", min=1, help="Max concurrent runs across arms (1=serial)"),
 ) -> None:
     """Run baseline×N and ponytail×N, then write comparison report."""
     experiment_id = experiment_id or datetime.now(timezone.utc).strftime("%Y%m%dT%H%M%S")
-    for arm in ("baseline", "ponytail"):
-        console.print(f"=== {arm} × {runs} ===")
-        run_arm_repeats(
-            arm=arm,
-            problem=problem,
-            runs=runs,
-            model=model,
-            thinking=thinking,
-            experiment_id=experiment_id,
-        )
+    console.print(f"=== run-all × {runs} jobs={jobs} experiment_id={experiment_id} ===")
+    run_matrix(
+        arms=("baseline", "ponytail"),
+        problem=problem,
+        runs=runs,
+        model=model,
+        thinking=thinking,
+        experiment_id=experiment_id,
+        jobs=jobs,
+    )
     report_cmd(experiment_id=experiment_id, problem=problem)
 
 
@@ -100,9 +105,12 @@ def report_cmd(
     else:
         experiment_dir = RESULTS_DIR / experiment_id
     comparison = analyze_experiment(experiment_dir)
-    json_path, txt_path = write_reports(experiment_dir, comparison)
+    json_path, txt_path, short_md, short_json, board = write_reports_and_publish(
+        experiment_dir, comparison
+    )
     console.print(txt_path.read_text(encoding="utf-8"))
     console.print(f"Wrote {txt_path} and {json_path}")
+    console.print(f"Published {short_md}, {short_json}, {board}")
 
 
 @app.command("collect")

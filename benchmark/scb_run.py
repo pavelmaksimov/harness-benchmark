@@ -4,9 +4,10 @@ import os
 import shutil
 import subprocess
 import uuid
+from concurrent.futures import ThreadPoolExecutor, as_completed
 from datetime import datetime, timezone
 from pathlib import Path
-from typing import Any
+from typing import Any, Sequence
 
 from benchmark.collect import collect_run, write_checkpoint_jsons
 from benchmark.manifest import build_manifest, write_manifest
@@ -236,6 +237,55 @@ def run_one(
     return collected
 
 
+def run_matrix(
+    *,
+    arms: Sequence[str],
+    problem: str = DEFAULT_PROBLEM,
+    runs: int = 3,
+    thinking: str = DEFAULT_THINKING,
+    model: str = DEFAULT_MODEL,
+    experiment_id: str | None = None,
+    jobs: int = 1,
+) -> list[dict[str, Any]]:
+    """Run arm×run matrix. jobs=1 is serial; jobs>1 overlaps independent run_one calls.
+
+    Each run already isolates SCBENCH_HOME / DOCKER_CONFIG / results dir.
+    Concurrent Docker image builds can race — pre-build via scripts/build_images.sh.
+    API/Docker resource exhaustion may fail some runs; others still finish.
+    """
+    if jobs < 1:
+        raise ValueError("jobs must be >= 1")
+    experiment_id = experiment_id or datetime.now(timezone.utc).strftime("%Y%m%dT%H%M%S")
+    tasks = [(arm, idx) for arm in arms for idx in range(1, runs + 1)]
+
+    def _one(arm: str, run_index: int) -> dict[str, Any]:
+        return run_one(
+            arm=arm,
+            problem=problem,
+            thinking=thinking,
+            model=model,
+            run_index=run_index,
+            experiment_id=experiment_id,
+        )
+
+    if jobs == 1 or len(tasks) == 1:
+        return [_one(arm, idx) for arm, idx in tasks]
+
+    results: list[dict[str, Any]] = []
+    errors: list[str] = []
+    with ThreadPoolExecutor(max_workers=jobs) as pool:
+        futures = {pool.submit(_one, arm, idx): (arm, idx) for arm, idx in tasks}
+        for fut in as_completed(futures):
+            arm, idx = futures[fut]
+            try:
+                results.append(fut.result())
+            except Exception as exc:  # noqa: BLE001 — surface all failures after join
+                errors.append(f"{arm}/run_{idx}: {exc}")
+    if errors:
+        raise RuntimeError(f"{len(errors)}/{len(tasks)} run(s) failed: " + "; ".join(errors))
+    return results
+
+
 def run_arm_repeats(
     *,
     arm: str,
@@ -244,18 +294,14 @@ def run_arm_repeats(
     thinking: str = DEFAULT_THINKING,
     model: str = DEFAULT_MODEL,
     experiment_id: str | None = None,
+    jobs: int = 1,
 ) -> list[dict[str, Any]]:
-    experiment_id = experiment_id or datetime.now(timezone.utc).strftime("%Y%m%dT%H%M%S")
-    results = []
-    for idx in range(1, runs + 1):
-        results.append(
-            run_one(
-                arm=arm,
-                problem=problem,
-                thinking=thinking,
-                model=model,
-                run_index=idx,
-                experiment_id=experiment_id,
-            )
-        )
-    return results
+    return run_matrix(
+        arms=(arm,),
+        problem=problem,
+        runs=runs,
+        thinking=thinking,
+        model=model,
+        experiment_id=experiment_id,
+        jobs=jobs,
+    )

@@ -72,10 +72,18 @@ uv run python -m benchmark report --experiment-id YYYYMMDDTHHMMSS
 
 Результаты:
 
-- raw SCB outputs: `results/<experiment>/<arm>/run_N/scb/`
+- raw SCB outputs: `results/<experiment>/<arm>/run_N/scb/` (gitignored)
 - unified metrics: `results/<experiment>/<arm>/run_N/metrics/`
 - `manifest.json` на каждый run
-- comparison: `reports/<experiment>/comparison.{txt,json}`
+- full comparison: `reports/<experiment>/comparison.{txt,json}` (gitignored)
+- short report + leaderboard: `docs/reports/<id>.md`, `docs/LEADERBOARD.md` (committed)
+
+`report` / `run-all` всегда публикуют short report и пересобирают leaderboard.
+
+## Results guide
+
+- [Leaderboard](docs/LEADERBOARD.md) — срезы by task / by model / experiments (новые сверху)
+- [Short reports](docs/reports/) — один экран на эксперимент
 
 ## Ponytail activation (доказательная)
 
@@ -91,14 +99,8 @@ Baseline проверяется на отсутствие ponytail в prompt и 
 
 ## Smoke experiment (N=1)
 
-Уже прогнан один полный цикл (не N=3):
-
-```text
-results/mvp-smoke-baseline/
-reports/mvp-smoke-baseline/comparison.txt
-```
-
-Агент: Codex `0.145.0`, model `gpt-5.5`, thinking `medium`, problem `file_backup`.
+Первый smoke уже в гайде: [mvp-smoke-baseline](docs/reports/mvp-smoke-baseline.md)
+(Codex `0.145.0`, `gpt-5.5`, thinking `medium`, `file_backup`).
 
 Для статистики MVP после проверки pipeline:
 
@@ -106,6 +108,7 @@ reports/mvp-smoke-baseline/comparison.txt
 uv run python -m benchmark run-all --problem file_backup --runs 3
 ```
 
+## Optional judge
 
 Не влияет на correctness. Пример (после run):
 
@@ -126,8 +129,9 @@ benchmark/          # orchestration + metrics/report
 configs/            # baseline/ponytail/pricing/agent/prompts
 harnesses/ponytail/ # pinned SKILL.md
 vendor/             # slop-code-bench + scb-problems (pinned commits)
-results/            # experiment outputs
-reports/            # comparison tables
+docs/               # LEADERBOARD + short reports (committed)
+results/            # experiment outputs (gitignored)
+reports/            # full comparison tables (gitignored)
 ```
 
 ## Acceptance mapping
