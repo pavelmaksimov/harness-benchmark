@@ -1,0 +1,18 @@
+{
+  "name": "supermemory",
+  "skill_name": "supermemory",
+  "skill_names": [
+    "supermemory-add",
+    "supermemory-forget",
+    "supermemory-profile",
+    "supermemory-save",
+    "supermemory-search",
+    "supermemory-status"
+  ],
+  "version": "pinned-local",
+  "kind": "bundle",
+  "tree_sha256": "a7e7280d88d8fee233b44d058e6e7a2907dcd1f92408adf813297ba28e823780",
+  "file_count": 18,
+  "pinned_at": "2026-08-13T09:59:58.232+00:00",
+  "source": "~/.codex/skills/supermemory-* + ~/.codex/supermemory/*.js"
+}

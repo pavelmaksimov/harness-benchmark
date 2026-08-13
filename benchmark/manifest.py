@@ -10,6 +10,7 @@ from benchmark.versions import (
     capture_codex_version,
     env_var_names,
     git_head,
+    load_arm_meta,
     load_pins,
     load_ponytail_meta,
     sha256_file,
@@ -34,6 +35,7 @@ def build_manifest(
     import yaml
 
     pricing = yaml.safe_load(pricing_text)
+    harness_meta = load_arm_meta(arm)
     ponytail = load_ponytail_meta() if arm == "ponytail" else None
 
     manifest = {
@@ -43,7 +45,7 @@ def build_manifest(
         "arm": arm,
         "harness": arm,
         "harness_version": harness_version
-        or (ponytail["version"] if ponytail else "none"),
+        or ((harness_meta or {}).get("version") if harness_meta else "none"),
         "number_of_runs": runs,
         "agent": "codex",
         "agent_version": pins.get("codex_cli_host_version") or capture_codex_version(),
@@ -58,6 +60,7 @@ def build_manifest(
             "slop_code_bench": pins.get("slop-code-bench"),
             "scb_problems": pins.get("scb-problems"),
         },
+        "harness_meta": harness_meta,
         "ponytail": ponytail,
         "docker_image": docker_image,
         "pricing_version": pricing.get("version") if isinstance(pricing, dict) else None,

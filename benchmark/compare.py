@@ -5,6 +5,8 @@ import statistics
 from pathlib import Path
 from typing import Any
 
+from benchmark.arms import DEFAULT_EXPERIMENT_ARMS
+
 
 Number = int | float
 
@@ -45,14 +47,46 @@ def _run_totals(run: dict[str, Any]) -> dict[str, Any]:
     regressions = sum(
         int(cp.get("correctness", {}).get("regression_failed") or 0) for cp in cps
     )
-    input_tokens = sum(int(cp["usage"]["input_tokens"] or 0) for cp in cps if cp["usage"].get("input_tokens") is not None)
-    output_tokens = sum(int(cp["usage"]["output_tokens"] or 0) for cp in cps if cp["usage"].get("output_tokens") is not None)
-    reasoning = sum(int(cp["usage"]["reasoning_tokens"] or 0) for cp in cps if cp["usage"].get("reasoning_tokens") is not None)
-    cost = sum(float(cp["usage"]["normalized_cost_usd"] or 0) for cp in cps if cp["usage"].get("normalized_cost_usd") is not None)
-    elapsed = sum(float(cp["usage"]["elapsed_seconds"] or 0) for cp in cps if cp["usage"].get("elapsed_seconds") is not None)
-    lines_changed = sum(int(cp["change"]["lines_changed"] or 0) for cp in cps if cp["change"].get("lines_changed") is not None)
-    files_touched = sum(int(cp["change"]["files_touched"] or 0) for cp in cps if cp["change"].get("files_touched") is not None)
-    deps_added = sum(int(cp["code"]["dependencies_added"] or 0) for cp in cps if cp["code"].get("dependencies_added") is not None)
+    input_tokens = sum(
+        int(cp["usage"]["input_tokens"] or 0)
+        for cp in cps
+        if cp["usage"].get("input_tokens") is not None
+    )
+    output_tokens = sum(
+        int(cp["usage"]["output_tokens"] or 0)
+        for cp in cps
+        if cp["usage"].get("output_tokens") is not None
+    )
+    reasoning = sum(
+        int(cp["usage"]["reasoning_tokens"] or 0)
+        for cp in cps
+        if cp["usage"].get("reasoning_tokens") is not None
+    )
+    cost = sum(
+        float(cp["usage"]["normalized_cost_usd"] or 0)
+        for cp in cps
+        if cp["usage"].get("normalized_cost_usd") is not None
+    )
+    elapsed = sum(
+        float(cp["usage"]["elapsed_seconds"] or 0)
+        for cp in cps
+        if cp["usage"].get("elapsed_seconds") is not None
+    )
+    lines_changed = sum(
+        int(cp["change"]["lines_changed"] or 0)
+        for cp in cps
+        if cp["change"].get("lines_changed") is not None
+    )
+    files_touched = sum(
+        int(cp["change"]["files_touched"] or 0)
+        for cp in cps
+        if cp["change"].get("files_touched") is not None
+    )
+    deps_added = sum(
+        int(cp["code"]["dependencies_added"] or 0)
+        for cp in cps
+        if cp["code"].get("dependencies_added") is not None
+    )
     final = _final_checkpoint(run) or {}
     return {
         "checkpoints_passed": passed,
@@ -73,17 +107,19 @@ def _run_totals(run: dict[str, Any]) -> dict[str, Any]:
 
 
 def load_experiment_runs(experiment_dir: Path) -> dict[str, list[dict[str, Any]]]:
-    by_arm: dict[str, list[dict[str, Any]]] = {"baseline": [], "ponytail": []}
-    for arm in ("baseline", "ponytail"):
-        arm_dir = experiment_dir / arm
-        if not arm_dir.exists():
-            continue
+    by_arm: dict[str, list[dict[str, Any]]] = {}
+    if not experiment_dir.exists():
+        return by_arm
+    for arm_dir in sorted(p for p in experiment_dir.iterdir() if p.is_dir()):
+        arm = arm_dir.name
+        runs: list[dict[str, Any]] = []
         for run_dir in sorted(arm_dir.glob("run_*")):
             run_json = run_dir / "metrics" / "run.json"
             if not run_json.exists():
                 continue
-            data = json.loads(run_json.read_text(encoding="utf-8"))
-            by_arm[arm].append(data)
+            runs.append(json.loads(run_json.read_text(encoding="utf-8")))
+        if runs:
+            by_arm[arm] = runs
     return by_arm
 
 
@@ -93,6 +129,7 @@ def compare_arms(by_arm: dict[str, list[dict[str, Any]]]) -> dict[str, Any]:
         for arm, runs in by_arm.items()
     }
     totals = {arm: [_run_totals(r) for r in runs] for arm, runs in usable.items()}
+    arms = sorted(usable.keys(), key=lambda a: (0 if a == "baseline" else 1, a))
 
     metric_keys = [
         "checkpoints_passed",
@@ -110,14 +147,25 @@ def compare_arms(by_arm: dict[str, list[dict[str, Any]]]) -> dict[str, Any]:
         "complexity",
     ]
 
+    baseline_totals = totals.get("baseline", [])
     summary_table: dict[str, Any] = {}
     for key in metric_keys:
-        b = summarize([t.get(key) for t in totals.get("baseline", [])])
-        p = summarize([t.get(key) for t in totals.get("ponytail", [])])
-        delta = None
-        if b["mean"] is not None and p["mean"] is not None:
-            delta = p["mean"] - b["mean"]
-        summary_table[key] = {"baseline": b, "ponytail": p, "delta_mean": delta}
+        row: dict[str, Any] = {}
+        b = summarize([t.get(key) for t in baseline_totals])
+        row["baseline"] = b
+        for arm in arms:
+            if arm == "baseline":
+                continue
+            stats = summarize([t.get(key) for t in totals.get(arm, [])])
+            row[arm] = stats
+            delta = None
+            if b["mean"] is not None and stats["mean"] is not None:
+                delta = stats["mean"] - b["mean"]
+            row[f"delta_mean_{arm}"] = delta
+        # Back-compat for older publish code that expects delta_mean vs ponytail.
+        if "ponytail" in row:
+            row["delta_mean"] = row.get("delta_mean_ponytail")
+        summary_table[key] = row
 
     per_checkpoint_rows: list[dict[str, Any]] = []
     for arm, runs in usable.items():
@@ -143,30 +191,36 @@ def compare_arms(by_arm: dict[str, list[dict[str, Any]]]) -> dict[str, Any]:
                     }
                 )
 
-    return {
-        "n_baseline": len(usable.get("baseline", [])),
-        "n_ponytail": len(usable.get("ponytail", [])),
-        "excluded_ponytail_runs": sum(
-            1 for r in by_arm.get("ponytail", []) if r.get("excluded_from_comparison")
-        ),
+    out: dict[str, Any] = {
+        "arms": arms,
         "summary": summary_table,
         "per_checkpoint": per_checkpoint_rows,
         "raw_totals": totals,
+        "excluded_runs": {
+            arm: sum(1 for r in runs if r.get("excluded_from_comparison"))
+            for arm, runs in by_arm.items()
+        },
     }
+    for arm in set(DEFAULT_EXPERIMENT_ARMS) | set(by_arm):
+        out[f"n_{arm}"] = len(usable.get(arm, []))
+    out["excluded_ponytail_runs"] = out["excluded_runs"].get("ponytail", 0)
+    return out
 
 
 def format_comparison_report(comparison: dict[str, Any], problem: str = "file_backup") -> str:
+    arms = comparison.get("arms") or []
+    if not arms:
+        arms = [a for a in DEFAULT_EXPERIMENT_ARMS if comparison.get(f"n_{a}", 0)]
     lines: list[str] = []
-    lines.append(f"{problem.upper()} — MVP")
+    lines.append(f"{problem.upper()} — multi-harness")
     lines.append("")
-    lines.append(f"N baseline={comparison['n_baseline']}  N ponytail={comparison['n_ponytail']}")
-    if comparison.get("excluded_ponytail_runs"):
-        lines.append(
-            f"Excluded ponytail runs (activation unverified): {comparison['excluded_ponytail_runs']}"
-        )
+    n_parts = [f"{arm}={comparison.get(f'n_{arm}', 0)}" for arm in arms]
+    lines.append("N " + "  ".join(n_parts))
+    excluded = comparison.get("excluded_runs") or {}
+    excluded_bits = [f"{arm}={n}" for arm, n in excluded.items() if n]
+    if excluded_bits:
+        lines.append("Excluded (activation unverified): " + ", ".join(excluded_bits))
     lines.append("")
-    lines.append(f"{'Metric':<22} {'Baseline':>12} {'Ponytail':>12} {'Δ':>12}")
-    lines.append("-" * 60)
 
     labels = {
         "checkpoints_passed": "CP passed/total",
@@ -183,40 +237,57 @@ def format_comparison_report(comparison: dict[str, Any], problem: str = "file_ba
         "complexity": "Complexity",
     }
 
+    col_w = max(12, max((len(a) for a in arms), default=12))
+    header = f"{'Metric':<22}" + "".join(f" {a:>{col_w}}" for a in arms)
+    lines.append(header)
+    lines.append("-" * len(header))
+
+    def fmt(key: str, v: float | None) -> str:
+        if v is None:
+            return "-"
+        if key in {"normalized_cost"}:
+            return f"${v:.2f}"
+        if key in {"elapsed_time"}:
+            return f"{v / 60:.1f}m"
+        if isinstance(v, float) and not v.is_integer():
+            return f"{v:.1f}"
+        return f"{v:.0f}"
+
     for key, label in labels.items():
         row = comparison["summary"][key]
-        b = row["baseline"]["mean"]
-        p = row["ponytail"]["mean"]
-        d = row["delta_mean"]
+        cells: list[str] = []
+        for arm in arms:
+            mean = (row.get(arm) or {}).get("mean")
+            if key == "checkpoints_passed":
+                totals = comparison["summary"]["checkpoints_total"]
+                cells.append(
+                    f"{fmt(key, mean)}/{fmt(key, (totals.get(arm) or {}).get('mean'))}"
+                )
+            else:
+                cells.append(fmt(key, mean))
+        lines.append(f"{label:<22}" + "".join(f" {c:>{col_w}}" for c in cells))
 
-        def fmt(v: float | None) -> str:
-            if v is None:
-                return "-"
-            if key in {"normalized_cost"}:
-                return f"${v:.2f}"
-            if key in {"elapsed_time"}:
-                return f"{v / 60:.1f}m"
-            if isinstance(v, float) and not v.is_integer():
-                return f"{v:.1f}"
-            return f"{v:.0f}"
-
-        if key == "checkpoints_passed":
-            totals = comparison["summary"]["checkpoints_total"]
-            b_display = f"{fmt(b)}/{fmt(totals['baseline']['mean'])}"
-            p_display = f"{fmt(p)}/{fmt(totals['ponytail']['mean'])}"
-        else:
-            b_display = fmt(b)
-            p_display = fmt(p)
-        lines.append(f"{label:<22} {b_display:>12} {p_display:>12} {fmt(d):>12}")
+    lines.append("")
+    lines.append("Δ vs baseline (mean):")
+    lines.append(f"{'Metric':<22}" + "".join(f" {a:>{col_w}}" for a in arms if a != "baseline"))
+    for key, label in labels.items():
+        row = comparison["summary"][key]
+        cells = []
+        for arm in arms:
+            if arm == "baseline":
+                continue
+            cells.append(fmt(key, row.get(f"delta_mean_{arm}")))
+        lines.append(f"{label:<22}" + "".join(f" {c:>{col_w}}" for c in cells))
 
     lines.append("")
     lines.append("Per-checkpoint (raw):")
     lines.append(
-        f"{'CP':<4} {'Arm':<10} {'Pass':<5} {'Cost':>8} {'Tokens':>8} {'Time':>8} {'LOCΔ':>8} {'FilesΔ':>8} {'Reg':>5}"
+        f"{'CP':<4} {'Arm':<36} {'Pass':<5} {'Cost':>8} {'Tokens':>8} {'Time':>8} "
+        f"{'LOCΔ':>8} {'FilesΔ':>8} {'Reg':>5}"
     )
     for row in comparison["per_checkpoint"]:
         lines.append(
-            f"{str(row['cp']):<4} {row['arm']:<10} {str(row['pass']):<5} "
+            f"{str(row['cp']):<4} {row['arm']:<36} {str(row['pass']):<5} "
             f"{('-' if row['cost'] is None else f'{row['cost']:.2f}'):>8} "
             f"{('-' if row['tokens'] is None else str(row['tokens'])):>8} "
             f"{('-' if row['time'] is None else f'{row['time']:.0f}'):>8} "

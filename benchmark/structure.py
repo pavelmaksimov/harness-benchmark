@@ -8,6 +8,9 @@ from radon.complexity import cc_visit
 from radon.visitors import Function as RadonFunction
 
 SOURCE_SUFFIXES = {".py"}
+# Harness / tooling artifacts that are not solution code. Keep names leaf-only —
+# never add parent segments like "snapshot" (see pitfalls).
+# Agent-authored tests/ are solution output (e.g. TDD) and must count in LOC/change.
 EXCLUDE_DIR_NAMES = {
     ".git",
     ".venv",
@@ -20,8 +23,14 @@ EXCLUDE_DIR_NAMES = {
     "dist",
     "build",
     ".tox",
-    "tests",
+    "graphify-out",
 }
+
+
+def path_is_excluded(path: str | Path) -> bool:
+    """True if any path segment is a known non-solution artifact directory."""
+    parts = Path(path).parts
+    return any(part in EXCLUDE_DIR_NAMES for part in parts)
 
 
 def _iter_source_files(root: Path) -> list[Path]:
@@ -33,7 +42,7 @@ def _iter_source_files(root: Path) -> list[Path]:
             continue
         if path.suffix.lower() not in SOURCE_SUFFIXES:
             continue
-        if any(part in EXCLUDE_DIR_NAMES for part in path.parts):
+        if path_is_excluded(path):
             continue
         files.append(path)
     return sorted(files)

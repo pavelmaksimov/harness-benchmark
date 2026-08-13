@@ -20,6 +20,7 @@ ACTIVATION_MARKER = "harness_activation.json"
 ACTIVATION_PHRASE = "Activate and follow the installed Codex skill `ponytail`"
 
 DEFAULT_PROBLEM = "file_backup"
-DEFAULT_RUNS = 3
-DEFAULT_MODEL = "gpt-5.5"
-DEFAULT_THINKING = "medium"
+DEFAULT_RUNS = 1
+# Codex slug for "GPT-5.6 Luna"; reasoning effort "max" is the "luna max" setting.
+DEFAULT_MODEL = "gpt-5.6-luna"
+DEFAULT_THINKING = "max"

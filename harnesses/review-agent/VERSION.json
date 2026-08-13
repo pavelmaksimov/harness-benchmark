@@ -1,0 +1,12 @@
+{
+  "name": "review-agent",
+  "skill_name": "review-agent",
+  "version": "pinned-local",
+  "kind": "single",
+  "skill_sha256": "07079efd0dc76f05fade424e5dfb048dce1de2df7626e1a4f56292a4f3f92228",
+  "tree_sha256": "b5971a046de54eaf1df4bbac0bc5de0d89d3ced7300fa25e0d47223c059ac503",
+  "skill_bytes": 2661,
+  "file_count": 2,
+  "pinned_at": "2026-08-12T13:29:40.526394+00:00",
+  "source": "~/.codex/skills/review-agent"
+}

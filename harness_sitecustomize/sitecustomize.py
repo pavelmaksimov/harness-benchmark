@@ -6,16 +6,19 @@ import os
 
 
 def _maybe_install() -> None:
-    if os.environ.get("HB_ENABLE_PONYTAIL") != "1":
+    if os.environ.get("HB_ENABLE_HARNESS") != "1" and os.environ.get("HB_ENABLE_PONYTAIL") != "1":
+        return
+    arm = os.environ.get("HB_ARM", "")
+    if arm == "baseline":
         return
     try:
-        from benchmark.ponytail_hook import install_ponytail_hook
+        from benchmark.skill_hook import install_skill_hook
 
-        install_ponytail_hook()
+        install_skill_hook()
     except Exception as exc:  # noqa: BLE001
         import sys
 
-        print(f"[hb] ponytail hook install failed: {exc}", file=sys.stderr)
+        print(f"[hb] skill hook install failed: {exc}", file=sys.stderr)
 
 
 _maybe_install()

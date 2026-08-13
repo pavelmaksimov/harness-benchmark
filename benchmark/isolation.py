@@ -1,9 +1,11 @@
-"""Baseline isolation checks: no Ponytail / extra harness files in workspace."""
+"""Baseline isolation checks: no extra harness files in workspace."""
 
 from __future__ import annotations
 
 from pathlib import Path
 from typing import Any
+
+from benchmark.arms import SKILL_ARMS, get_arm
 
 FORBIDDEN_NAME_FRAGMENTS = (
     "ponytail",
@@ -46,8 +48,28 @@ def check_workspace_isolation(workspace: Path) -> dict[str, Any]:
 
 
 def verify_baseline_prompt(prompt_text: str) -> bool:
-    return "ponytail" not in prompt_text.lower()
+    lower = prompt_text.lower()
+    if "activate and follow the installed codex skill" in lower:
+        return False
+    if "ponytail" in lower:
+        return False
+    for arm in SKILL_ARMS:
+        if arm.lower() in lower:
+            return False
+    return True
+
+
+def verify_skill_prompt(arm: str, prompt_text: str) -> bool:
+    spec = get_arm(arm)
+    if spec.kind == "baseline":
+        return verify_baseline_prompt(prompt_text)
+    phrase = spec.activation_phrase or ""
+    if phrase and phrase not in prompt_text:
+        return False
+    if spec.skill_name and spec.skill_name not in prompt_text:
+        return False
+    return True
 
 
 def verify_ponytail_prompt(prompt_text: str) -> bool:
-    return "ponytail" in prompt_text.lower()
+    return verify_skill_prompt("ponytail", prompt_text)

@@ -34,9 +34,11 @@ SCB always uses `ProcessPoolExecutor` (even `num_workers=1`). Parent-only monkey
 
 **Fix:** `HB_ENABLE_PONYTAIL=1` + `PYTHONPATH=harness_sitecustomize:<repo>` so `sitecustomize.py` installs the hook in every worker. Verify via `agent/harness_activation.json`. Unverified ponytail runs → `excluded_from_comparison`.
 
-## Structure metrics exclude list
+## Structure / change metrics exclude list
 
-Never put `snapshot` (or other parent path segments) in `EXCLUDE_DIR_NAMES` — absolute/relative paths then match and LOC becomes 0. Exclude only real junk dirs inside the solution (`tests`, `.venv`, caches, …).
+Never put `snapshot` (or other parent path segments) in `EXCLUDE_DIR_NAMES` — absolute/relative paths then match and LOC becomes 0. Exclude only real junk dirs inside the solution (`.venv`, caches, `.git`, `graphify-out`, …). Do **not** exclude `tests` — agent-authored tests (e.g. TDD) count in LOC/change metrics.
+
+When analyzing a harness: map its workflow and extra files; non-solution artifacts must be excluded from metrics (`path_is_excluded` / `EXCLUDE_DIR_NAMES`). Diff totals that include harness junk must not be used as-is — `collect._diff_metrics` filters per-file paths.
 
 ## Vendor / network
 

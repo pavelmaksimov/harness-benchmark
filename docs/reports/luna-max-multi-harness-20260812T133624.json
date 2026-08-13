@@ -1,0 +1,215 @@
+{
+  "agent": "codex",
+  "agent_version": "0.145.0",
+  "arms": {
+    "baseline": {
+      "checkpoints_passed": 3.0,
+      "checkpoints_total": 4.0,
+      "complexity": 230.0,
+      "dependencies_added": 1.0,
+      "elapsed_time": 2501.096821,
+      "loc_changed": 1455.0,
+      "loc_final": 1065.0,
+      "normalized_cost": 2.189542,
+      "regression_failures": 106.0
+    },
+    "code-review": {
+      "checkpoints_passed": 4.0,
+      "checkpoints_total": 4.0,
+      "complexity": 235.0,
+      "dependencies_added": 2.0,
+      "elapsed_time": 4695.264581,
+      "loc_changed": 1276.0,
+      "loc_final": 986.0,
+      "normalized_cost": 2.04463325,
+      "regression_failures": 106.0
+    },
+    "graphify": {
+      "checkpoints_passed": 4.0,
+      "checkpoints_total": 4.0,
+      "complexity": 199.0,
+      "dependencies_added": 1.0,
+      "elapsed_time": 2758.399305,
+      "loc_changed": 1025.0,
+      "loc_final": 796.0,
+      "normalized_cost": 2.3434285,
+      "regression_failures": 100.0
+    },
+    "ponytail": {
+      "checkpoints_passed": 4.0,
+      "checkpoints_total": 4.0,
+      "complexity": 176.0,
+      "dependencies_added": 1.0,
+      "elapsed_time": 1831.881539,
+      "loc_changed": 751.0,
+      "loc_final": 515.0,
+      "normalized_cost": 1.6712007500000001,
+      "regression_failures": 106.0
+    },
+    "review-agent": {
+      "checkpoints_passed": 4.0,
+      "checkpoints_total": 4.0,
+      "complexity": 221.0,
+      "dependencies_added": 1.0,
+      "elapsed_time": 2986.975395,
+      "loc_changed": 1355.0,
+      "loc_final": 884.0,
+      "normalized_cost": 2.792841,
+      "regression_failures": 100.0
+    },
+    "supermemory": {
+      "checkpoints_passed": 3.0,
+      "checkpoints_total": 4.0,
+      "complexity": 228.0,
+      "dependencies_added": 1.0,
+      "elapsed_time": 2495.909998,
+      "loc_changed": 1287.0,
+      "loc_final": 1047.0,
+      "normalized_cost": 2.19257875,
+      "regression_failures": 106.0
+    },
+    "tdd": {
+      "checkpoints_passed": 4.0,
+      "checkpoints_total": 4.0,
+      "complexity": 213.0,
+      "dependencies_added": 1.0,
+      "elapsed_time": 3013.90991,
+      "loc_changed": 1848.0,
+      "loc_final": 1669.0,
+      "normalized_cost": 2.9011815,
+      "regression_failures": 49.0
+    },
+    "thermo-nuclear-code-quality-review": {
+      "checkpoints_passed": 4.0,
+      "checkpoints_total": 4.0,
+      "complexity": 172.0,
+      "dependencies_added": 1.0,
+      "elapsed_time": 2928.528285,
+      "loc_changed": 918.0,
+      "loc_final": 679.0,
+      "normalized_cost": 2.7207705,
+      "regression_failures": 106.0
+    }
+  },
+  "date": "2026-08-12T14:22:19.963530+00:00",
+  "deltas": {
+    "checkpoints_passed": 1.0,
+    "checkpoints_total": 0.0,
+    "complexity": -54.0,
+    "dependencies_added": 0.0,
+    "elapsed_time": -669.2152820000001,
+    "loc_changed": -704.0,
+    "loc_final": -550.0,
+    "normalized_cost": -0.5183412499999998,
+    "regression_failures": 0.0
+  },
+  "deltas_by_arm": {
+    "code-review": {
+      "checkpoints_passed": 1.0,
+      "checkpoints_total": 0.0,
+      "complexity": 5.0,
+      "dependencies_added": 1.0,
+      "elapsed_time": 2194.1677600000003,
+      "loc_changed": -179.0,
+      "loc_final": -79.0,
+      "normalized_cost": -0.14490874999999992,
+      "regression_failures": 0.0
+    },
+    "graphify": {
+      "checkpoints_passed": 1.0,
+      "checkpoints_total": 0.0,
+      "complexity": -31.0,
+      "dependencies_added": 0.0,
+      "elapsed_time": 257.3024839999998,
+      "loc_changed": -430.0,
+      "loc_final": -269.0,
+      "normalized_cost": 0.15388650000000004,
+      "regression_failures": -6.0
+    },
+    "ponytail": {
+      "checkpoints_passed": 1.0,
+      "checkpoints_total": 0.0,
+      "complexity": -54.0,
+      "dependencies_added": 0.0,
+      "elapsed_time": -669.2152820000001,
+      "loc_changed": -704.0,
+      "loc_final": -550.0,
+      "normalized_cost": -0.5183412499999998,
+      "regression_failures": 0.0
+    },
+    "review-agent": {
+      "checkpoints_passed": 1.0,
+      "checkpoints_total": 0.0,
+      "complexity": -9.0,
+      "dependencies_added": 0.0,
+      "elapsed_time": 485.87857399999984,
+      "loc_changed": -100.0,
+      "loc_final": -181.0,
+      "normalized_cost": 0.6032990000000003,
+      "regression_failures": -6.0
+    },
+    "supermemory": {
+      "checkpoints_passed": 0.0,
+      "checkpoints_total": 0.0,
+      "complexity": -2.0,
+      "dependencies_added": 0.0,
+      "elapsed_time": -5.186823000000004,
+      "loc_changed": -168.0,
+      "loc_final": -18.0,
+      "normalized_cost": 0.0030367500000001435,
+      "regression_failures": 0.0
+    },
+    "tdd": {
+      "checkpoints_passed": 1.0,
+      "checkpoints_total": 0.0,
+      "complexity": -17.0,
+      "dependencies_added": 0.0,
+      "elapsed_time": 512.8130889999998,
+      "loc_changed": 393.0,
+      "loc_final": 604.0,
+      "normalized_cost": 0.7116395,
+      "regression_failures": -57.0
+    },
+    "thermo-nuclear-code-quality-review": {
+      "checkpoints_passed": 1.0,
+      "checkpoints_total": 0.0,
+      "complexity": -58.0,
+      "dependencies_added": 0.0,
+      "elapsed_time": 427.4314639999998,
+      "loc_changed": -537.0,
+      "loc_final": -386.0,
+      "normalized_cost": 0.5312285000000001,
+      "regression_failures": 0.0
+    }
+  },
+  "excluded_ponytail_runs": 0,
+  "excluded_runs": {
+    "baseline": 0,
+    "code-review": 0,
+    "graphify": 0,
+    "ponytail": 0,
+    "review-agent": 0,
+    "supermemory": 0,
+    "tdd": 0,
+    "thermo-nuclear-code-quality-review": 0
+  },
+  "experiment_id": "luna-max-multi-harness-20260812T133624",
+  "git_commits": {
+    "harness_benchmark": "c508ed48d2450997a56521f2ba5fc8c0fe6a270e",
+    "scb_problems": "ef6a9dd13911566b6b01075ca121758c9f7b5c5f",
+    "slop_code_bench": "06b5c0687d4c05ee502e9696a4d0c22fc1eec5e0"
+  },
+  "model": "gpt-5.6-luna",
+  "n_baseline": 1,
+  "n_code-review": 1,
+  "n_graphify": 1,
+  "n_ponytail": 1,
+  "n_review-agent": 1,
+  "n_supermemory": 1,
+  "n_tdd": 1,
+  "n_thermo-nuclear-code-quality-review": 1,
+  "ponytail": null,
+  "pricing_version": "2026-08-12-openai-gpt-5.6-luna",
+  "problem": "file_backup",
+  "thinking": "max"
+}

@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import json
 import os
 import shutil
 import subprocess
@@ -9,6 +10,7 @@ from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any, Sequence
 
+from benchmark.arms import DEFAULT_EXPERIMENT_ARMS, get_arm
 from benchmark.collect import collect_run, write_checkpoint_jsons
 from benchmark.manifest import build_manifest, write_manifest
 from benchmark.paths import (
@@ -21,20 +23,49 @@ from benchmark.paths import (
     RESULTS_DIR,
     SCB_DIR,
 )
-from benchmark.versions import load_pins
+from benchmark.versions import load_arm_meta, load_pins
+
+# SCB ResolvedRunConfig accepts only none/disabled/low/medium/high/xhigh.
+# Codex gpt-5.6-luna also supports effort=max; map + force via agent extra_args.
+_SCB_THINKING_ALIASES = {
+    "max": "xhigh",
+}
+
+
+def _scb_thinking(thinking: str) -> str:
+    return _SCB_THINKING_ALIASES.get(thinking, thinking)
+
+
+def _agent_config_for_thinking(thinking: str, output_dir: Path) -> Path:
+    """Return agent yaml; for thinking=max, pin Codex reasoning effort to max."""
+    base = CONFIGS_DIR / "agent_codex.yaml"
+    if thinking != "max":
+        return _resolve_config_paths(base)
+    import yaml
+
+    data = yaml.safe_load(base.read_text(encoding="utf-8"))
+    extra = list(data.get("extra_args") or [])
+    extra.extend(["--config", 'model_reasoning_effort="max"'])
+    data["extra_args"] = extra
+    out = output_dir / "agent_codex.max.yaml"
+    out.write_text(yaml.safe_dump(data, sort_keys=False), encoding="utf-8")
+    return out
 
 
 def _arm_config(arm: str) -> Path:
-    if arm == "baseline":
-        return CONFIGS_DIR / "baseline.yaml"
-    if arm == "ponytail":
-        return CONFIGS_DIR / "ponytail.yaml"
-    raise ValueError(f"Unknown arm: {arm}")
+    return get_arm(arm).config_path
 
 
 def _resolve_config_paths(config_path: Path) -> Path:
     """Return absolute config path; SCB resolves relative paths from CWD."""
     return config_path if config_path.is_absolute() else (REPO_ROOT / config_path)
+
+
+def _environment_config(arm: str) -> Path:
+    """Resolve Docker environment yaml for an arm (absolute path for SCB)."""
+    if arm == "supermemory":
+        return CONFIGS_DIR / "environments" / "docker-python3.12-uv-hostnet.yaml"
+    return SCB_DIR / "configs" / "environments" / "docker-python3.12-uv.yaml"
 
 
 def run_slop_code(
@@ -47,13 +78,9 @@ def run_slop_code(
     dry_run: bool = False,
 ) -> Path:
     """Invoke SlopCodeBench run for one arm into output_dir."""
+    spec = get_arm(arm)
     config = _resolve_config_paths(_arm_config(arm))
-    agent = _resolve_config_paths(CONFIGS_DIR / "agent_codex.yaml")
-    prompt = _resolve_config_paths(
-        CONFIGS_DIR
-        / "prompts"
-        / ("ponytail-solve.jinja" if arm == "ponytail" else "just-solve.jinja")
-    )
+    prompt = _resolve_config_paths(spec.prompt_path)
 
     env = os.environ.copy()
     env["SCBENCH_PROBLEMS_PATH"] = str(PROBLEMS_DIR)
@@ -73,6 +100,7 @@ def run_slop_code(
     )
 
     output_dir.mkdir(parents=True, exist_ok=True)
+    agent = _agent_config_for_thinking(thinking, output_dir)
 
     # docker-py fails when host Docker config has broken credHelpers (e.g. yc).
     # Public base images used by SCB do not need those helpers.
@@ -81,6 +109,8 @@ def run_slop_code(
     (docker_config_dir / "config.json").write_text('{"auths": {}}\n', encoding="utf-8")
     env["DOCKER_CONFIG"] = str(docker_config_dir)
 
+    scb_thinking = _scb_thinking(thinking)
+    environment = _resolve_config_paths(_environment_config(arm))
     cmd = [
         "uv",
         "run",
@@ -95,21 +125,26 @@ def run_slop_code(
         "--prompt",
         str(prompt),
         "--environment",
-        str(SCB_DIR / "configs" / "environments" / "docker-python3.12-uv.yaml"),
+        str(environment),
         "--model",
         f"codex_auth/{model}",
         "--problem",
         problem,
-        f"thinking={thinking}",
+        f"thinking={scb_thinking}",
         f"save_dir={output_dir}",
         "save_template=scb",
     ]
     if dry_run:
         return output_dir
 
-    if arm == "ponytail":
-        env["HB_ENABLE_PONYTAIL"] = "1"
+    if spec.needs_hook:
+        env["HB_ENABLE_HARNESS"] = "1"
+        if arm == "ponytail":
+            env["HB_ENABLE_PONYTAIL"] = "1"
+        else:
+            env.pop("HB_ENABLE_PONYTAIL", None)
     else:
+        env.pop("HB_ENABLE_HARNESS", None)
         env.pop("HB_ENABLE_PONYTAIL", None)
 
     log_path = output_dir / "scb_run.log"
@@ -175,6 +210,7 @@ def run_one(
         "thinking": thinking,
         "slop_code_commit": pins.get("slop-code-bench"),
         "problems_commit": pins.get("scb-problems"),
+        "harness_meta": load_arm_meta(arm),
         "ponytail_commit": pins.get("ponytail_version") if arm == "ponytail" else None,
         "harness": arm,
         "docker_image": "ghcr.io/astral-sh/uv:python3.12-trixie-slim",
@@ -190,15 +226,15 @@ def run_one(
     metrics_dir = out_dir / "metrics"
     write_checkpoint_jsons(collected, metrics_dir)
 
-    # Activation gate for ponytail
-    if arm == "ponytail":
+    # Activation gate for skill arms
+    if get_arm(arm).needs_hook:
         verified = all(
             cp.get("harness", {}).get("harness_activation_verified")
             for cp in collected["checkpoints"]
         )
         collected["harness_activation_verified"] = verified
         (metrics_dir / "activation.json").write_text(
-            __import__("json").dumps(
+            json.dumps(
                 {
                     "harness_activation_verified": verified,
                     "checkpoints": [
@@ -231,7 +267,7 @@ def run_one(
     write_manifest(out_dir / "manifest.json", manifest)
     collected["manifest"] = manifest
     (metrics_dir / "run.json").write_text(
-        __import__("json").dumps(collected, indent=2, sort_keys=True) + "\n",
+        json.dumps(collected, indent=2, sort_keys=True) + "\n",
         encoding="utf-8",
     )
     return collected
@@ -255,6 +291,8 @@ def run_matrix(
     """
     if jobs < 1:
         raise ValueError("jobs must be >= 1")
+    for arm in arms:
+        get_arm(arm)
     experiment_id = experiment_id or datetime.now(timezone.utc).strftime("%Y%m%dT%H%M%S")
     tasks = [(arm, idx) for arm in arms for idx in range(1, runs + 1)]
 
@@ -305,3 +343,7 @@ def run_arm_repeats(
         experiment_id=experiment_id,
         jobs=jobs,
     )
+
+
+def default_arms() -> tuple[str, ...]:
+    return DEFAULT_EXPERIMENT_ARMS

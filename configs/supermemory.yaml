@@ -1,0 +1,14 @@
+# supermemory arm: Codex + pinned skill harness against local SuperMemory.
+# network=host so the agent can reach host http://127.0.0.1:6767 (local embeddings).
+agent: configs/agent_codex.yaml
+environment: configs/environments/docker-python3.12-uv-hostnet.yaml
+prompt: configs/prompts/supermemory-solve.jinja
+model:
+  provider: codex_auth
+  name: gpt-5.6-luna
+thinking: xhigh
+pass_policy: all-core-cases
+problems:
+  - file_backup
+save_dir: results/raw
+save_template: ${model.name}/supermemory_${prompt}_${thinking}_${now:%Y%m%dT%H%M%S}
