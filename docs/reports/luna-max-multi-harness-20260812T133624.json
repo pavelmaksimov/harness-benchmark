@@ -58,14 +58,14 @@
       "regression_failures": 100.0
     },
     "supermemory": {
-      "checkpoints_passed": 3.0,
+      "checkpoints_passed": 4.0,
       "checkpoints_total": 4.0,
-      "complexity": 228.0,
+      "complexity": 194.0,
       "dependencies_added": 1.0,
-      "elapsed_time": 2495.909998,
-      "loc_changed": 1287.0,
-      "loc_final": 1047.0,
-      "normalized_cost": 2.19257875,
+      "elapsed_time": 2581.6308950000002,
+      "loc_changed": 1257.0,
+      "loc_final": 838.0,
+      "normalized_cost": 2.42151875,
       "regression_failures": 106.0
     },
     "tdd": {
@@ -149,14 +149,14 @@
       "regression_failures": -6.0
     },
     "supermemory": {
-      "checkpoints_passed": 0.0,
+      "checkpoints_passed": 1.0,
       "checkpoints_total": 0.0,
-      "complexity": -2.0,
+      "complexity": -36.0,
       "dependencies_added": 0.0,
-      "elapsed_time": -5.186823000000004,
-      "loc_changed": -168.0,
-      "loc_final": -18.0,
-      "normalized_cost": 0.0030367500000001435,
+      "elapsed_time": 80.53407400000015,
+      "loc_changed": -198.0,
+      "loc_final": -227.0,
+      "normalized_cost": 0.2319767500000003,
       "regression_failures": 0.0
     },
     "tdd": {
