@@ -1,0 +1,12 @@
+{
+  "name": "thermo-nuclear-code-quality-review",
+  "skill_name": "thermo-nuclear-code-quality-review",
+  "version": "pinned-local",
+  "kind": "single",
+  "skill_sha256": "7faca08b51b643b2ddd0836f92af15574444024685dcc1e677dbbb39ae8c9e8f",
+  "tree_sha256": "e9c5b754bad633d094d21d7c98808b3fc9308957f0c2d7fde9a791fd331896cb",
+  "skill_bytes": 12437,
+  "file_count": 1,
+  "pinned_at": "2026-08-12T13:29:40.525096+00:00",
+  "source": "~/.codex/skills/thermo-nuclear-code-quality-review"
+}

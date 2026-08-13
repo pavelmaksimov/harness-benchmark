@@ -1,0 +1,12 @@
+{
+  "name": "code-review",
+  "skill_name": "code-review",
+  "version": "pinned-local",
+  "kind": "single",
+  "skill_sha256": "9cf46653dd9c710ea1e6c22423caf31a794c88773bc94bdaa23140277f470442",
+  "tree_sha256": "2235d171cafda2acf4842c7ec49d1d659c90e84e7d6cffd955f54feca1d28ff6",
+  "skill_bytes": 6634,
+  "file_count": 2,
+  "pinned_at": "2026-08-12T13:29:40.526169+00:00",
+  "source": "~/.codex/skills/code-review"
+}

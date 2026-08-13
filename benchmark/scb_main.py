@@ -1,4 +1,4 @@
-"""Entrypoint used inside `uv run` so Ponytail hook can be applied before SCB CLI."""
+"""Entrypoint used inside `uv run` so skill hooks can be applied before SCB CLI."""
 
 from __future__ import annotations
 
@@ -7,10 +7,15 @@ import sys
 
 
 def main() -> None:
-    if os.environ.get("HB_ENABLE_PONYTAIL") == "1":
-        from benchmark.ponytail_hook import install_ponytail_hook
+    arm = os.environ.get("HB_ARM", "")
+    if (
+        os.environ.get("HB_ENABLE_HARNESS") == "1"
+        or os.environ.get("HB_ENABLE_PONYTAIL") == "1"
+        or (arm and arm != "baseline")
+    ):
+        from benchmark.skill_hook import install_skill_hook
 
-        install_ponytail_hook()
+        install_skill_hook()
 
     # Ensure agent registrations load.
     import slop_code.agent_runner.agents  # noqa: F401

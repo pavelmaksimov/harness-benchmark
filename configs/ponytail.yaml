@@ -4,8 +4,8 @@ environment: docker-python3.12-uv
 prompt: configs/prompts/ponytail-solve.jinja
 model:
   provider: codex_auth
-  name: gpt-5.5
-thinking: medium
+  name: gpt-5.6-luna
+thinking: xhigh
 pass_policy: all-core-cases
 problems:
   - file_backup

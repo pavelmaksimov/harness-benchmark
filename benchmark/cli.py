@@ -8,6 +8,7 @@ import typer
 from rich.console import Console
 
 from benchmark.analyze import analyze_experiment, write_reports_and_publish
+from benchmark.arms import DEFAULT_EXPERIMENT_ARMS, known_arm_names
 from benchmark.paths import (
     DEFAULT_MODEL,
     DEFAULT_PROBLEM,
@@ -39,7 +40,7 @@ def bootstrap() -> None:
 
 @app.command("run")
 def run_cmd(
-    arm: str = typer.Option(..., "--arm", help="baseline|ponytail"),
+    arm: str = typer.Option(..., "--arm", help="|".join(known_arm_names())),
     problem: str = typer.Option(DEFAULT_PROBLEM, "--problem"),
     runs: int = typer.Option(1, "--runs", min=1),
     model: str = typer.Option(DEFAULT_MODEL, "--model"),
@@ -48,11 +49,12 @@ def run_cmd(
     jobs: int = typer.Option(1, "--jobs", min=1, help="Max concurrent runs (1=serial)"),
 ) -> None:
     """Run one arm for N independent repetitions."""
-    if arm not in {"baseline", "ponytail"}:
-        raise typer.BadParameter("arm must be baseline or ponytail")
+    if arm not in known_arm_names():
+        raise typer.BadParameter(f"arm must be one of: {', '.join(known_arm_names())}")
     experiment_id = experiment_id or datetime.now(timezone.utc).strftime("%Y%m%dT%H%M%S")
     console.print(
-        f"experiment_id={experiment_id} arm={arm} runs={runs} jobs={jobs} model={model}"
+        f"experiment_id={experiment_id} arm={arm} runs={runs} jobs={jobs} "
+        f"model={model} thinking={thinking}"
     )
     results = run_arm_repeats(
         arm=arm,
@@ -74,12 +76,24 @@ def run_all_cmd(
     thinking: str = typer.Option(DEFAULT_THINKING, "--thinking"),
     experiment_id: Optional[str] = typer.Option(None, "--experiment-id"),
     jobs: int = typer.Option(1, "--jobs", min=1, help="Max concurrent runs across arms (1=serial)"),
+    arms: Optional[str] = typer.Option(
+        None,
+        "--arms",
+        help="Comma-separated arms (default: all registered experiment arms)",
+    ),
 ) -> None:
-    """Run baseline×N and ponytail×N, then write comparison report."""
+    """Run selected arms × N, then write comparison report."""
     experiment_id = experiment_id or datetime.now(timezone.utc).strftime("%Y%m%dT%H%M%S")
-    console.print(f"=== run-all × {runs} jobs={jobs} experiment_id={experiment_id} ===")
+    selected = tuple(a.strip() for a in arms.split(",")) if arms else DEFAULT_EXPERIMENT_ARMS
+    unknown = [a for a in selected if a not in known_arm_names()]
+    if unknown:
+        raise typer.BadParameter(f"unknown arms: {', '.join(unknown)}")
+    console.print(
+        f"=== run-all × {runs} jobs={jobs} model={model} thinking={thinking} "
+        f"arms={','.join(selected)} experiment_id={experiment_id} ==="
+    )
     run_matrix(
-        arms=("baseline", "ponytail"),
+        arms=selected,
         problem=problem,
         runs=runs,
         model=model,
@@ -97,7 +111,9 @@ def report_cmd(
 ) -> None:
     """Build comparison report for an experiment directory."""
     if experiment_id is None:
-        experiments = sorted([p for p in RESULTS_DIR.iterdir() if p.is_dir()]) if RESULTS_DIR.exists() else []
+        experiments = (
+            sorted([p for p in RESULTS_DIR.iterdir() if p.is_dir()]) if RESULTS_DIR.exists() else []
+        )
         if not experiments:
             console.print("No experiments found in results/")
             raise typer.Exit(code=1)
@@ -125,7 +141,7 @@ def collect_cmd(
     """Collect unified metrics from an existing SCB problem output directory."""
     from benchmark.collect import collect_run, write_checkpoint_jsons
     from benchmark.paths import CONFIGS_DIR
-    from benchmark.versions import load_pins
+    from benchmark.versions import load_arm_meta, load_pins
 
     pins = load_pins()
     environment = {
@@ -134,6 +150,7 @@ def collect_cmd(
         "model": model,
         "slop_code_commit": pins.get("slop-code-bench"),
         "problems_commit": pins.get("scb-problems"),
+        "harness_meta": load_arm_meta(arm),
         "ponytail_commit": pins.get("ponytail_version") if arm == "ponytail" else None,
         "harness": arm,
     }

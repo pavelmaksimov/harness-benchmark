@@ -4,6 +4,7 @@ import json
 from pathlib import Path
 from typing import Any
 
+from benchmark.arms import DEFAULT_EXPERIMENT_ARMS
 from benchmark.paths import DOCS_DIR, DOCS_REPORTS_DIR
 
 METRIC_KEYS = (
@@ -81,17 +82,38 @@ def _fmt_delta(key: str, value: float | None) -> str:
     return f"{sign}{value:.0f}"
 
 
+def _comparison_arms(comparison: dict[str, Any]) -> list[str]:
+    arms = list(comparison.get("arms") or [])
+    if arms:
+        return arms
+    found = []
+    for arm in DEFAULT_EXPERIMENT_ARMS:
+        if comparison.get(f"n_{arm}", 0):
+            found.append(arm)
+    return found
+
+
 def build_publish_payload(experiment_dir: Path, comparison: dict[str, Any]) -> dict[str, Any]:
     manifest = _load_manifest(experiment_dir)
+    arm_names = _comparison_arms(comparison)
     arms = {
         arm: _arm_means(comparison, arm)
-        for arm in ("baseline", "ponytail")
+        for arm in arm_names
         if comparison.get(f"n_{arm}", 0)
     }
     deltas = {
+        arm: {
+            key: (comparison.get("summary") or {}).get(key, {}).get(f"delta_mean_{arm}")
+            for key in METRIC_KEYS
+        }
+        for arm in arm_names
+        if arm != "baseline"
+    }
+    # Back-compat single delta map for ponytail-era reports.
+    legacy_deltas = {
         key: (comparison.get("summary") or {}).get(key, {}).get("delta_mean") for key in METRIC_KEYS
     }
-    return {
+    payload: dict[str, Any] = {
         "experiment_id": experiment_dir.name,
         "date": manifest.get("date") or "",
         "problem": manifest.get("problem") or "unknown",
@@ -99,49 +121,52 @@ def build_publish_payload(experiment_dir: Path, comparison: dict[str, Any]) -> d
         "thinking": (manifest.get("model_settings") or {}).get("thinking"),
         "agent": manifest.get("agent"),
         "agent_version": manifest.get("agent_version"),
-        "n_baseline": comparison.get("n_baseline", 0),
-        "n_ponytail": comparison.get("n_ponytail", 0),
-        "excluded_ponytail_runs": comparison.get("excluded_ponytail_runs", 0),
         "arms": arms,
-        "deltas": deltas,
+        "deltas_by_arm": deltas,
+        "deltas": legacy_deltas,
         "git_commits": manifest.get("git_commits") or {},
         "ponytail": manifest.get("ponytail"),
         "pricing_version": manifest.get("pricing_version"),
+        "excluded_runs": comparison.get("excluded_runs") or {},
+        "excluded_ponytail_runs": comparison.get("excluded_ponytail_runs", 0),
     }
+    for arm in arm_names:
+        payload[f"n_{arm}"] = comparison.get(f"n_{arm}", 0)
+    payload["n_baseline"] = comparison.get("n_baseline", 0)
+    payload["n_ponytail"] = comparison.get("n_ponytail", 0)
+    return payload
 
 
 def _notes_from_payload(payload: dict[str, Any]) -> list[str]:
     notes: list[str] = []
-    b = (payload.get("arms") or {}).get("baseline") or {}
-    p = (payload.get("arms") or {}).get("ponytail") or {}
-    if not b or not p:
+    arms = payload.get("arms") or {}
+    baseline = arms.get("baseline") or {}
+    if not baseline:
         return notes
-    cp_b, cp_p = b.get("checkpoints_passed"), p.get("checkpoints_passed")
-    if cp_b is not None and cp_p is not None:
-        if cp_b == cp_p:
-            notes.append(f"Same CP pass ({_fmt_checkpoints(b)}).")
-        else:
-            notes.append(
-                f"CP pass baseline {_fmt_checkpoints(b)} vs ponytail {_fmt_checkpoints(p)}."
-            )
-    for key, label in (
-        ("loc_final", "final LOC"),
-        ("loc_changed", "changed LOC"),
-        ("regression_failures", "regressions"),
-        ("normalized_cost", "cost"),
-        ("elapsed_time", "time"),
-        ("complexity", "complexity"),
-    ):
-        bv, pv = b.get(key), p.get(key)
-        if bv is None or pv is None:
+    for arm, metrics in arms.items():
+        if arm == "baseline":
             continue
-        if pv < bv:
-            notes.append(f"Ponytail lower {label} ({_fmt_metric(key, pv)} vs {_fmt_metric(key, bv)}).")
-        elif pv > bv:
-            notes.append(f"Ponytail higher {label} ({_fmt_metric(key, pv)} vs {_fmt_metric(key, bv)}).")
-        if len(notes) >= 4:
+        cp_b, cp_p = baseline.get("checkpoints_passed"), metrics.get("checkpoints_passed")
+        if cp_b is not None and cp_p is not None and cp_b != cp_p:
+            notes.append(
+                f"{arm} CP {_fmt_checkpoints(metrics)} vs baseline {_fmt_checkpoints(baseline)}."
+            )
+        for key, label in (
+            ("loc_final", "final LOC"),
+            ("normalized_cost", "cost"),
+            ("elapsed_time", "time"),
+        ):
+            bv, pv = baseline.get(key), metrics.get(key)
+            if bv is None or pv is None or bv == pv:
+                continue
+            direction = "lower" if pv < bv else "higher"
+            notes.append(
+                f"{arm} {direction} {label} ({_fmt_metric(key, pv)} vs {_fmt_metric(key, bv)})."
+            )
             break
-    return notes[:4]
+        if len(notes) >= 6:
+            break
+    return notes[:6]
 
 
 def format_short_report(payload: dict[str, Any]) -> str:
@@ -149,6 +174,9 @@ def format_short_report(payload: dict[str, Any]) -> str:
     thinking = payload.get("thinking") or "-"
     agent = payload.get("agent") or "-"
     agent_version = payload.get("agent_version") or "-"
+    arms = payload.get("arms") or {}
+    arm_names = list(arms.keys()) or ["baseline"]
+    n_bits = " · ".join(f"{a}={payload.get(f'n_{a}', 0)}" for a in arm_names)
     lines = [
         f"# {eid}",
         "",
@@ -157,43 +185,47 @@ def format_short_report(payload: dict[str, Any]) -> str:
         f"| Problem | `{payload.get('problem')}` |",
         f"| Model | `{payload.get('model')}` · thinking `{thinking}` |",
         f"| Agent | {agent} `{agent_version}` |",
-        f"| N | baseline={payload.get('n_baseline')} · ponytail={payload.get('n_ponytail')} |",
-        "| Pins | SCB / problems / ponytail — see published JSON / local manifest |",
+        f"| N | {n_bits} |",
+        "| Pins | SCB / problems / harness pins — see published JSON / local manifest |",
         "",
         "## Metrics (mean)",
         "",
-        "| Metric | Baseline | Ponytail | Δ |",
-        "|--------|---------:|---------:|--:|",
     ]
-    deltas = payload.get("deltas") or {}
-    arms = payload.get("arms") or {}
-    baseline = arms.get("baseline") or {}
-    ponytail = arms.get("ponytail") or {}
+
+    header = "| Metric | " + " | ".join(arm_names) + " |"
+    sep = "|--------|" + "|".join(["---------:" for _ in arm_names]) + "|"
+    lines.extend([header, sep])
     for key, label in SHORT_LABELS.items():
-        baseline_value = (
-            _fmt_checkpoints(baseline)
-            if key == "checkpoints_passed"
-            else _fmt_metric(key, baseline.get(key))
-        )
-        ponytail_value = (
-            _fmt_checkpoints(ponytail)
-            if key == "checkpoints_passed"
-            else _fmt_metric(key, ponytail.get(key))
-        )
-        lines.append(
-            f"| {label} | {baseline_value} | {ponytail_value} | "
-            f"{_fmt_delta(key, deltas.get(key))} |"
-        )
+        cells = []
+        for arm in arm_names:
+            metrics = arms.get(arm) or {}
+            if key == "checkpoints_passed":
+                cells.append(_fmt_checkpoints(metrics))
+            else:
+                cells.append(_fmt_metric(key, metrics.get(key)))
+        lines.append(f"| {label} | " + " | ".join(cells) + " |")
+
+    deltas_by_arm = payload.get("deltas_by_arm") or {}
+    if deltas_by_arm:
+        lines.extend(["", "## Δ vs baseline", ""])
+        d_arms = [a for a in arm_names if a != "baseline" and a in deltas_by_arm]
+        if d_arms:
+            lines.append("| Metric | " + " | ".join(d_arms) + " |")
+            lines.append("|--------|" + "|".join(["---------:" for _ in d_arms]) + "|")
+            for key, label in SHORT_LABELS.items():
+                cells = [_fmt_delta(key, (deltas_by_arm.get(a) or {}).get(key)) for a in d_arms]
+                lines.append(f"| {label} | " + " | ".join(cells) + " |")
+
     notes = _notes_from_payload(payload)
     lines.extend(["", "## Notes", ""])
     if notes:
         lines.extend(f"- {n}" for n in notes)
     else:
-        lines.append("- No paired baseline/ponytail means to summarize.")
-    if payload.get("excluded_ponytail_runs"):
-        lines.append(
-            f"- Excluded ponytail runs (activation unverified): {payload['excluded_ponytail_runs']}."
-        )
+        lines.append("- No paired baseline/harness means to summarize.")
+    excluded = payload.get("excluded_runs") or {}
+    excluded_bits = [f"{arm}={n}" for arm, n in excluded.items() if n]
+    if excluded_bits:
+        lines.append(f"- Excluded (activation unverified): {', '.join(excluded_bits)}.")
     lines.extend(
         [
             "",
@@ -264,10 +296,10 @@ def _metric_cells(metrics: dict[str, Any]) -> str:
 
 
 def _sort_table_rows(rows: list[dict[str, Any]], secondary: str) -> list[dict[str, Any]]:
-    """Newest date first; within a date, secondary asc; baseline before ponytail."""
+    """Newest date first; within a date, secondary asc; baseline first."""
     ordered = sorted(
         rows,
-        key=lambda c: (c[secondary], 0 if c["harness"] == "baseline" else 1),
+        key=lambda c: (c[secondary], 0 if c["harness"] == "baseline" else 1, c["harness"]),
     )
     return sorted(ordered, key=lambda c: c["date"], reverse=True)
 
@@ -335,7 +367,11 @@ def format_leaderboard(payloads: list[dict[str, Any]]) -> str:
     for payload in payloads:
         eid = payload.get("experiment_id") or ""
         date = (payload.get("date") or "")[:10]
-        n = f"{payload.get('n_baseline', 0)}+{payload.get('n_ponytail', 0)}"
+        arms = list((payload.get("arms") or {}).keys())
+        if arms:
+            n = "+".join(str(payload.get(f"n_{a}", 0)) for a in arms)
+        else:
+            n = f"{payload.get('n_baseline', 0)}+{payload.get('n_ponytail', 0)}"
         lines.append(
             f"| {eid} | {date} | {payload.get('problem')} | {payload.get('model')} | {n} | "
             f"[short](reports/{eid}.md) |"

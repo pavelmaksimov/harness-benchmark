@@ -1,0 +1,12 @@
+{
+  "name": "graphify",
+  "skill_name": "graphify",
+  "version": "pinned-local",
+  "kind": "single",
+  "skill_sha256": "3898b1042721cad27d6f87ca44f638415a7f763203aefd86b90f9358ffea3a43",
+  "tree_sha256": "1b97729bdbaf7dc6bd560b9b9647a18e95f23f1e4824395ea85e7e97f6d0f9b9",
+  "skill_bytes": 41318,
+  "file_count": 10,
+  "pinned_at": "2026-08-12T13:29:40.525639+00:00",
+  "source": "~/.codex/skills/graphify"
+}

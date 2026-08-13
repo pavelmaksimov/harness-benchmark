@@ -7,10 +7,10 @@ from typing import Any
 
 from benchmark.cost import load_pricing, normalized_cost_usd
 from benchmark.dependencies import collect_dependencies, dependency_delta
-from benchmark.isolation import verify_baseline_prompt, verify_ponytail_prompt
-from benchmark.paths import ACTIVATION_MARKER, ACTIVATION_PHRASE, CONFIGS_DIR
-from benchmark.structure import analyze_snapshot
-from benchmark.versions import load_pins, load_ponytail_meta
+from benchmark.isolation import verify_baseline_prompt, verify_skill_prompt
+from benchmark.paths import ACTIVATION_MARKER, CONFIGS_DIR
+from benchmark.structure import analyze_snapshot, path_is_excluded
+from benchmark.versions import load_arm_meta, load_pins
 
 CHECKPOINT_RE = re.compile(r"checkpoint_(\d+)$")
 
@@ -73,15 +73,14 @@ def _diff_metrics(diff: dict[str, Any] | None) -> dict[str, Any]:
     added = deleted = modified = 0
     lines_added = 0
     lines_deleted = 0
+    counted_any = False
 
-    # Support both SCB pydantic dump and simplified docs format.
-    if "total_added" in diff or "total_removed" in diff:
-        lines_added = int(diff.get("total_added") or 0)
-        lines_deleted = int(diff.get("total_removed") or 0)
-
-    for meta in file_diffs.values():
+    for relpath, meta in file_diffs.items():
+        if path_is_excluded(relpath):
+            continue
         if not isinstance(meta, dict):
             continue
+        counted_any = True
         change = (meta.get("change_type") or meta.get("status") or "").lower()
         if change in {"created", "added", "filechangetype.created"}:
             added += 1
@@ -92,11 +91,18 @@ def _diff_metrics(diff: dict[str, Any] | None) -> dict[str, Any]:
         lines_added += int(meta.get("lines_added") or meta.get("added") or 0)
         lines_deleted += int(meta.get("lines_removed") or meta.get("lines_deleted") or meta.get("removed") or 0)
 
-    # If totals already present, prefer them for lines.
-    if "total_added" in diff:
-        lines_added = int(diff.get("total_added") or 0)
-    if "total_removed" in diff:
-        lines_deleted = int(diff.get("total_removed") or 0)
+    # Prefer SCB totals only when we did not filter any paths (no per-file list,
+    # or every listed path counted). Otherwise totals would include harness junk
+    # (.git, graphify-out, …).
+    if not file_diffs:
+        if "total_added" in diff:
+            lines_added = int(diff.get("total_added") or 0)
+        if "total_removed" in diff:
+            lines_deleted = int(diff.get("total_removed") or 0)
+    elif not counted_any and ("total_added" in diff or "total_removed" in diff):
+        # All files were excluded — report zeros for change metrics, not raw totals.
+        lines_added = 0
+        lines_deleted = 0
 
     touched = added + deleted + modified
     return {
@@ -121,16 +127,17 @@ def _activation_status(arm: str, checkpoint_dir: Path) -> dict[str, Any]:
         return {
             "harness_activation_verified": isolated,
             "baseline_isolation_verified": isolated,
-            "prompt_has_ponytail": "ponytail" in prompt_text.lower(),
+            "prompt_has_skill_activation": "activate and follow the installed codex skill"
+            in prompt_text.lower(),
             "marker_present": marker is not None,
             "marker": marker,
         }
 
-    prompt_ok = verify_ponytail_prompt(prompt_text) and (ACTIVATION_PHRASE in prompt_text)
+    prompt_ok = verify_skill_prompt(arm, prompt_text)
     marker_ok = bool(marker and marker.get("harness_activation_verified"))
     return {
         "harness_activation_verified": bool(prompt_ok and marker_ok),
-        "prompt_has_ponytail": "ponytail" in prompt_text.lower(),
+        "prompt_ok": prompt_ok,
         "marker_present": marker is not None,
         "marker": marker,
     }
@@ -295,7 +302,8 @@ def collect_run(
         "checkpoints": records,
         "cumulative": cumulative,
         "pins": load_pins(),
-        "ponytail": load_ponytail_meta() if arm == "ponytail" else None,
+        "harness_meta": load_arm_meta(arm),
+        "ponytail": load_arm_meta("ponytail") if arm == "ponytail" else None,
     }
 
 
