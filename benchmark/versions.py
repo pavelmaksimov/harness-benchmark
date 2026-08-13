@@ -57,6 +57,8 @@ def _copy_tree(src: Path, dest: Path) -> list[str]:
 
 
 SUPERMEMORY_LOCAL_BASE_URL = "http://127.0.0.1:6767"
+# Dedicated container — never reuse host cursor_local / personal memory.
+SUPERMEMORY_BENCHMARK_CONTAINER_TAG = "hb_supermemory"
 _SUPERMEMORY_API_KEY_CANDIDATES = (
     Path.home() / ".local" / "share" / "supermemory" / "api_key",
     Path.home() / ".local" / "share" / "supermemory" / "api-key",
@@ -114,15 +116,16 @@ def resolve_supermemory_runtime_config() -> dict[str, Any]:
     out = dict(cfg)
     out["apiKey"] = api_key
     out["baseUrl"] = SUPERMEMORY_LOCAL_BASE_URL
-    out.setdefault("userContainerTag", "cursor_local")
-    out.setdefault("projectContainerTag", "cursor_local")
+    # Always isolate from the host personal store (e.g. cursor_local).
+    out["userContainerTag"] = SUPERMEMORY_BENCHMARK_CONTAINER_TAG
+    out["projectContainerTag"] = SUPERMEMORY_BENCHMARK_CONTAINER_TAG
     return {
         "ok": True,
         "config": out,
         "base_url": SUPERMEMORY_LOCAL_BASE_URL,
         "source": source,
-        "user_container_tag": out.get("userContainerTag"),
-        "project_container_tag": out.get("projectContainerTag"),
+        "user_container_tag": SUPERMEMORY_BENCHMARK_CONTAINER_TAG,
+        "project_container_tag": SUPERMEMORY_BENCHMARK_CONTAINER_TAG,
     }
 
 

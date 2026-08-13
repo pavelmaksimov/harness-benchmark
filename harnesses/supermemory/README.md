@@ -5,6 +5,9 @@
 - Runtime config: benchmark hook installs `~/.codex/supermemory.json` from the host
   (`~/.codex/supermemory.json`, else `SUPERMEMORY_CODEX_API_KEY` / local `api_key` file)
   with `baseUrl=http://127.0.0.1:6767` (local supermemory-server, local embeddings).
+- **Memory isolation:** the installed config always forces
+  `userContainerTag` / `projectContainerTag` = `hb_supermemory` so benchmark
+  saves/searches never touch the host personal store (`cursor_local`).
 - Docker: `configs/environments/docker-python3.12-uv-hostnet.yaml` (`network: host`)
   so the agent container can reach host `:6767`.
 
