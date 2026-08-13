@@ -27,9 +27,18 @@ Same model/thinking/env/budgets. Auth: `codex_auth` via `~/.codex/auth.json`.
 
 ```bash
 bash scripts/bootstrap_vendor.sh   # if vendor missing
-bash scripts/build_images.sh       # base + codex agent images (required before --jobs > 1)
 docker ps                          # daemon up
+docker images | grep slop-code     # reuse existing base + Codex agent images
 ```
+
+**Docker images:** before pulling or building any image required by a benchmark, inspect the images already available
+locally (`docker image ls`). Reuse a local image when its repository/tag, platform, runtime, and required tooling are
+compatible—for example, reuse a suitable local Python image instead of downloading or building another copy. Pull or
+build only when no suitable local image exists or the benchmark pins a different version/configuration.
+
+For SCB specifically, run `bash scripts/build_images.sh` only when the required base + Codex agent images are missing,
+or after pin/Codex version changes that invalidate them. Pre-built images are required before `--jobs > 1`
+(concurrent builds race).
 
 For **new/changed skill harnesses**: CP1 smoke first (`uv run python -m benchmark smoke --arm <name>`), update `EXCLUDE_DIR_NAMES` if needed, commit `SMOKE.json`. `run` / `run-all` refuse arms without a valid smoke marker (see `benchmark-new-harness` rule).
 
