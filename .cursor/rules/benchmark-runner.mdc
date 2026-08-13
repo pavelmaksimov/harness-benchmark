@@ -8,7 +8,7 @@ alwaysApply: false
 
 ## CLI parallelism
 
-`run` / `run-all` accept `--jobs N` (`benchmark.scb_run.run_matrix`). Default `1` is serial; for real experiments use `--jobs` up to `arms × runs` (see core rule). Pre-build images first.
+`run` / `run-all` accept `--jobs N` (`benchmark.scb_run.run_matrix`). Default `1` is serial; for real experiments use `--jobs` up to `arms × runs` (see core rule). Check all locally available Docker images first and reuse any compatible image; pull or build only if no suitable local image exists (see core rule).
 
 New skill arms must pass **CP1 smoke** before full runs:
 
