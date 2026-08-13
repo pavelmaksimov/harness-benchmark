@@ -38,7 +38,7 @@ SCB always uses `ProcessPoolExecutor` (even `num_workers=1`). Parent-only monkey
 
 Never put `snapshot` (or other parent path segments) in `EXCLUDE_DIR_NAMES` — absolute/relative paths then match and LOC becomes 0. Exclude only real junk dirs inside the solution (`.venv`, caches, `.git`, `graphify-out`, …). Do **not** exclude `tests` — agent-authored tests (e.g. TDD) count in LOC/change metrics.
 
-When analyzing a harness: map its workflow and extra files; non-solution artifacts must be excluded from metrics (`path_is_excluded` / `EXCLUDE_DIR_NAMES`). Diff totals that include harness junk must not be used as-is — `collect._diff_metrics` filters per-file paths.
+When analyzing a harness: map its workflow and extra files **via CP1 smoke** (`benchmark smoke --arm …`) before full runs; non-solution artifacts must be excluded from metrics (`path_is_excluded` / `EXCLUDE_DIR_NAMES`). Diff totals that include harness junk must not be used as-is — `collect._diff_metrics` filters per-file paths. Full runs without `SMOKE.json` are refused.
 
 ## Vendor / network
 

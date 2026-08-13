@@ -21,9 +21,10 @@ Unified records: `metrics/checkpoint_N.json` + `metrics/run.json`.
 
 When analyzing a harness arm (skill, config, run, or comparison), do all of the following:
 
+0. **Smoke first** — before any full CP1→CP4 / multi-run experiment, run `uv run python -m benchmark smoke --arm <name>` (see `benchmark-new-harness` rule). Use the CP1 snapshot to discover extra files; commit `SMOKE.json`. Full `run`/`run-all` refuse arms without a valid smoke marker.
 1. **Workflow** — how the harness steers the agent (prompt/skill steps, hooks, sub-agents, tools, extra installs).
 2. **Extra files** — what additional files/dirs it creates or causes the agent to create in the solution workspace (e.g. `.git/`, `graphify-out/`, caches, reports, skill sidecars).
-3. **Metric exclusion** — if those files are **not solution code** (tooling, VCS, knowledge-graph dumps, caches), they **must not** inflate change/structure metrics (`files_touched`, lines changed, LOC, complexity). Agent-authored `tests/` **do** count (e.g. TDD); do not put `tests` in the exclude set.
+3. **Metric exclusion** — if those files are **not** solution code (tooling, VCS, knowledge-graph dumps, caches), they **must not** inflate change/structure metrics (`files_touched`, lines changed, LOC, complexity). Agent-authored `tests/` **do** count (e.g. TDD); do not put `tests` in the exclude set.
 
 Exclude non-solution roots via `EXCLUDE_DIR_NAMES` / `path_is_excluded` in `benchmark/structure.py` (used by snapshot analysis and `collect._diff_metrics`). When a new harness introduces a new non-code artifact root, add that leaf dir name to the exclude set and re-collect metrics if needed. Never put parent path segments like `snapshot` in the exclude list.
 

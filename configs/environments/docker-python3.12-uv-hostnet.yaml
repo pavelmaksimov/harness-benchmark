@@ -1,8 +1,9 @@
 # Docker env for arms that must reach host localhost services (e.g. SuperMemory :6767).
 # Same as SCB docker-python3.12-uv, but network=host so 127.0.0.1 inside the container
 # is the host loopback (Linux). Embeddings stay on the local supermemory-server.
+# Keep name=python3.12 so we reuse the existing slop-code:python3.12 base image.
 type: docker
-name: python3.12-hostnet
+name: python3.12
 docker:
   image: ghcr.io/astral-sh/uv:python3.12-trixie-slim
   workdir: /workspace

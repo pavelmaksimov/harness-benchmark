@@ -1,0 +1,11 @@
+{
+  "arm": "review-agent",
+  "checkpoints": [
+    "checkpoint_1"
+  ],
+  "grandfathered": true,
+  "harness_content_sha": "b5971a046de54eaf1df4bbac0bc5de0d89d3ced7300fa25e0d47223c059ac503",
+  "note": "Grandfathered at smoke-gate introduction; arm already used in experiments. Re-run `benchmark smoke --arm <name>` after harness content changes.",
+  "ok": true,
+  "validated_at": "2026-08-13T10:12:58.280947+00:00"
+}

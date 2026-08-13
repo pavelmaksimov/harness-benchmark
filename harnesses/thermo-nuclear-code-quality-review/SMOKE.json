@@ -1,0 +1,11 @@
+{
+  "arm": "thermo-nuclear-code-quality-review",
+  "checkpoints": [
+    "checkpoint_1"
+  ],
+  "grandfathered": true,
+  "harness_content_sha": "e9c5b754bad633d094d21d7c98808b3fc9308957f0c2d7fde9a791fd331896cb",
+  "note": "Grandfathered at smoke-gate introduction; arm already used in experiments. Re-run `benchmark smoke --arm <name>` after harness content changes.",
+  "ok": true,
+  "validated_at": "2026-08-13T10:12:58.266381+00:00"
+}

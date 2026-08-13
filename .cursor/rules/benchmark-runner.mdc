@@ -10,6 +10,14 @@ alwaysApply: false
 
 `run` / `run-all` accept `--jobs N` (`benchmark.scb_run.run_matrix`). Default `1` is serial; for real experiments use `--jobs` up to `arms × runs` (see core rule). Pre-build images first.
 
+New skill arms must pass **CP1 smoke** before full runs:
+
+```bash
+uv run python -m benchmark smoke --arm <name>
+```
+
+`run` / `run-all` call `require_smoke_validated` and exit unless `harnesses/<arm>/SMOKE.json` is ok (or `--skip-smoke-check`).
+
 ## Invoking SCB
 
 Entry: `python -m benchmark.scb_main` (not raw `slop-code` alone) so hooks/env apply.  

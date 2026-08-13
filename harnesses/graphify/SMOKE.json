@@ -1,0 +1,11 @@
+{
+  "arm": "graphify",
+  "checkpoints": [
+    "checkpoint_1"
+  ],
+  "grandfathered": true,
+  "harness_content_sha": "1b97729bdbaf7dc6bd560b9b9647a18e95f23f1e4824395ea85e7e97f6d0f9b9",
+  "note": "Grandfathered at smoke-gate introduction; arm already used in experiments. Re-run `benchmark smoke --arm <name>` after harness content changes.",
+  "ok": true,
+  "validated_at": "2026-08-13T10:12:58.266596+00:00"
+}

@@ -31,6 +31,8 @@ bash scripts/build_images.sh       # base + codex agent images (required before 
 docker ps                          # daemon up
 ```
 
+For **new/changed skill harnesses**: CP1 smoke first (`uv run python -m benchmark smoke --arm <name>`), update `EXCLUDE_DIR_NAMES` if needed, commit `SMOKE.json`. `run` / `run-all` refuse arms without a valid smoke marker (see `benchmark-new-harness` rule).
+
 Results: `results/<experiment>/<arm>/run_N/{scb,metrics,manifest.json}`  
 Reports: `reports/<experiment>/comparison.{txt,json}`
 

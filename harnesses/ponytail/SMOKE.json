@@ -1,0 +1,11 @@
+{
+  "arm": "ponytail",
+  "checkpoints": [
+    "checkpoint_1"
+  ],
+  "grandfathered": true,
+  "harness_content_sha": "1316a2f3f95741d2300b116fe0c2d81ce4a9568656ed0a62643f54aaf09957f2",
+  "note": "Grandfathered at smoke-gate introduction; arm already used in experiments. Re-run `benchmark smoke --arm <name>` after harness content changes.",
+  "ok": true,
+  "validated_at": "2026-08-13T10:12:58.266066+00:00"
+}

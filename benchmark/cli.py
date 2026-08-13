@@ -18,7 +18,7 @@ from benchmark.paths import (
     RESULTS_DIR,
     SCB_DIR,
 )
-from benchmark.scb_run import run_arm_repeats, run_matrix
+from benchmark.scb_run import run_arm_repeats, run_matrix, run_smoke
 from benchmark.versions import load_pins
 
 app = typer.Typer(add_completion=False, no_args_is_help=True)
@@ -38,6 +38,53 @@ def bootstrap() -> None:
     console.print("Bootstrap checks passed.")
 
 
+@app.command("smoke")
+def smoke_cmd(
+    arm: str = typer.Option(..., "--arm", help="Skill harness arm to validate"),
+    problem: str = typer.Option(DEFAULT_PROBLEM, "--problem"),
+    model: str = typer.Option(DEFAULT_MODEL, "--model"),
+    thinking: str = typer.Option(DEFAULT_THINKING, "--thinking"),
+    experiment_id: Optional[str] = typer.Option(None, "--experiment-id"),
+) -> None:
+    """CP1-only smoke: verify harness runs and discover non-solution artifact dirs."""
+    from benchmark.arms import get_arm
+    from benchmark.smoke import is_smoke_validated
+
+    if arm not in known_arm_names():
+        raise typer.BadParameter(f"arm must be one of: {', '.join(known_arm_names())}")
+    if not get_arm(arm).needs_hook:
+        console.print("baseline does not need smoke validation.")
+        raise typer.Exit(code=0)
+    console.print(
+        f"=== smoke CP1 arm={arm} problem={problem} model={model} thinking={thinking} ==="
+    )
+    collected = run_smoke(
+        arm=arm,
+        problem=problem,
+        model=model,
+        thinking=thinking,
+        experiment_id=experiment_id,
+    )
+    analysis = collected.get("smoke_snapshot_analysis") or {}
+    console.print(f"smoke_ok={collected.get('smoke_ok')} marker={collected.get('smoke_marker')}")
+    console.print(f"activation_verified={collected.get('harness_activation_verified')}")
+    console.print(f"snapshot top-level dirs: {analysis.get('top_level_dirs')}")
+    needs = analysis.get("needs_exclude_review") or []
+    if needs:
+        console.print(
+            "[yellow]Review these dirs for EXCLUDE_DIR_NAMES "
+            f"(benchmark/structure.py): {needs}[/yellow]"
+        )
+    else:
+        console.print("No obvious new artifact dirs flagged for exclusion review.")
+    if not collected.get("smoke_ok") or not is_smoke_validated(arm):
+        console.print("[red]Smoke failed — fix harness before full runs.[/red]")
+        raise typer.Exit(code=1)
+    console.print(
+        "[green]Smoke passed. Commit harnesses/<arm>/SMOKE.json after updating exclusions.[/green]"
+    )
+
+
 @app.command("run")
 def run_cmd(
     arm: str = typer.Option(..., "--arm", help="|".join(known_arm_names())),
@@ -47,6 +94,11 @@ def run_cmd(
     thinking: str = typer.Option(DEFAULT_THINKING, "--thinking"),
     experiment_id: Optional[str] = typer.Option(None, "--experiment-id"),
     jobs: int = typer.Option(1, "--jobs", min=1, help="Max concurrent runs (1=serial)"),
+    skip_smoke_check: bool = typer.Option(
+        False,
+        "--skip-smoke-check",
+        help="Allow full run even if harness lacks CP1 smoke validation",
+    ),
 ) -> None:
     """Run one arm for N independent repetitions."""
     if arm not in known_arm_names():
@@ -56,15 +108,20 @@ def run_cmd(
         f"experiment_id={experiment_id} arm={arm} runs={runs} jobs={jobs} "
         f"model={model} thinking={thinking}"
     )
-    results = run_arm_repeats(
-        arm=arm,
-        problem=problem,
-        runs=runs,
-        model=model,
-        thinking=thinking,
-        experiment_id=experiment_id,
-        jobs=jobs,
-    )
+    try:
+        results = run_arm_repeats(
+            arm=arm,
+            problem=problem,
+            runs=runs,
+            model=model,
+            thinking=thinking,
+            experiment_id=experiment_id,
+            jobs=jobs,
+            skip_smoke_check=skip_smoke_check,
+        )
+    except RuntimeError as exc:
+        console.print(f"[red]{exc}[/red]")
+        raise typer.Exit(code=1) from exc
     console.print(f"Completed {len(results)} runs → {RESULTS_DIR / experiment_id / arm}")
 
 
@@ -81,6 +138,11 @@ def run_all_cmd(
         "--arms",
         help="Comma-separated arms (default: all registered experiment arms)",
     ),
+    skip_smoke_check: bool = typer.Option(
+        False,
+        "--skip-smoke-check",
+        help="Allow full run even if harness lacks CP1 smoke validation",
+    ),
 ) -> None:
     """Run selected arms × N, then write comparison report."""
     experiment_id = experiment_id or datetime.now(timezone.utc).strftime("%Y%m%dT%H%M%S")
@@ -92,15 +154,20 @@ def run_all_cmd(
         f"=== run-all × {runs} jobs={jobs} model={model} thinking={thinking} "
         f"arms={','.join(selected)} experiment_id={experiment_id} ==="
     )
-    run_matrix(
-        arms=selected,
-        problem=problem,
-        runs=runs,
-        model=model,
-        thinking=thinking,
-        experiment_id=experiment_id,
-        jobs=jobs,
-    )
+    try:
+        run_matrix(
+            arms=selected,
+            problem=problem,
+            runs=runs,
+            model=model,
+            thinking=thinking,
+            experiment_id=experiment_id,
+            jobs=jobs,
+            skip_smoke_check=skip_smoke_check,
+        )
+    except RuntimeError as exc:
+        console.print(f"[red]{exc}[/red]")
+        raise typer.Exit(code=1) from exc
     report_cmd(experiment_id=experiment_id, problem=problem)
 
 
