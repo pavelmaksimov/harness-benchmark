@@ -1,0 +1,25 @@
+---
+description: Checklist when adding a new harness arm — smoke CP1 before full runs
+globs: harnesses/**,configs/*.yaml,configs/prompts/**,benchmark/arms.py,benchmark/smoke.py,benchmark/structure.py
+alwaysApply: true
+---
+
+# New harness checklist
+
+When adding or changing a skill arm (`harnesses/<name>/`, arm YAML, prompt, `benchmark/arms.py`):
+
+1. **Wire the arm** — `ArmSpec` in `arms.py`, config + prompt, skill pin `VERSION.json`, hook activation phrase.
+2. **Smoke first (required)** — one checkpoint only, not a full CP1→CP4 / multi-run experiment:
+
+```bash
+uv run python -m benchmark smoke --arm <name> --problem file_backup
+```
+
+3. **From the smoke snapshot** — map workflow + extra files; add non-solution dirs to `EXCLUDE_DIR_NAMES` in `benchmark/structure.py` (leaf names only; never `snapshot`; do not exclude agent `tests/`).
+4. **Commit** `harnesses/<name>/SMOKE.json` after a passing smoke (and any exclude updates). Marker is invalidated when `tree_sha256` / `skill_sha256` in `VERSION.json` changes — re-smoke.
+
+## Full-run gate
+
+`run` / `run-all` **refuse** skill arms without a valid `SMOKE.json`. Reminder before launching a full experiment: check smoke for every new/changed harness. Override only intentionally: `--skip-smoke-check`.
+
+Baseline needs no smoke. Do not treat smoke N=1 CP1 as science — after smoke is green, use `--runs 3 --jobs …`.

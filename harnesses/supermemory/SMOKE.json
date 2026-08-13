@@ -1,0 +1,11 @@
+{
+  "arm": "supermemory",
+  "checkpoints": [
+    "checkpoint_1"
+  ],
+  "grandfathered": true,
+  "harness_content_sha": "a7e7280d88d8fee233b44d058e6e7a2907dcd1f92408adf813297ba28e823780",
+  "note": "Grandfathered at smoke-gate introduction; arm already used in experiments. Re-run `benchmark smoke --arm <name>` after harness content changes.",
+  "ok": true,
+  "validated_at": "2026-08-13T10:12:58.279891+00:00"
+}

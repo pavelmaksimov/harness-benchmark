@@ -1,0 +1,11 @@
+{
+  "arm": "code-review",
+  "checkpoints": [
+    "checkpoint_1"
+  ],
+  "grandfathered": true,
+  "harness_content_sha": "2235d171cafda2acf4842c7ec49d1d659c90e84e7d6cffd955f54feca1d28ff6",
+  "note": "Grandfathered at smoke-gate introduction; arm already used in experiments. Re-run `benchmark smoke --arm <name>` after harness content changes.",
+  "ok": true,
+  "validated_at": "2026-08-13T10:12:58.280637+00:00"
+}

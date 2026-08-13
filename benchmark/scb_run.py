@@ -76,6 +76,7 @@ def run_slop_code(
     model: str = DEFAULT_MODEL,
     output_dir: Path,
     dry_run: bool = False,
+    problems_path: Path | None = None,
 ) -> Path:
     """Invoke SlopCodeBench run for one arm into output_dir."""
     spec = get_arm(arm)
@@ -83,7 +84,7 @@ def run_slop_code(
     prompt = _resolve_config_paths(spec.prompt_path)
 
     env = os.environ.copy()
-    env["SCBENCH_PROBLEMS_PATH"] = str(PROBLEMS_DIR)
+    env["SCBENCH_PROBLEMS_PATH"] = str(problems_path or PROBLEMS_DIR)
     # Keep SCB cache separate per arm/run for isolation of catalog state.
     env["SCBENCH_HOME"] = str(output_dir / ".scbench_home")
     env["HB_ARM"] = arm
@@ -185,6 +186,7 @@ def run_one(
     model: str = DEFAULT_MODEL,
     run_index: int = 1,
     experiment_id: str | None = None,
+    problems_path: Path | None = None,
 ) -> dict[str, Any]:
     experiment_id = experiment_id or datetime.now(timezone.utc).strftime("%Y%m%dT%H%M%S")
     run_id = f"{experiment_id}-{arm}-r{run_index}-{uuid.uuid4().hex[:8]}"
@@ -200,6 +202,7 @@ def run_one(
         thinking=thinking,
         model=model,
         output_dir=out_dir,
+        problems_path=problems_path,
     )
 
     scb_problem_dir = find_scb_problem_dir(out_dir / "scb", problem)
@@ -273,6 +276,69 @@ def run_one(
     return collected
 
 
+def run_smoke(
+    *,
+    arm: str,
+    problem: str = DEFAULT_PROBLEM,
+    thinking: str = DEFAULT_THINKING,
+    model: str = DEFAULT_MODEL,
+    experiment_id: str | None = None,
+) -> dict[str, Any]:
+    """Run a single-checkpoint (CP1) smoke for one harness arm and write SMOKE.json."""
+    from benchmark.smoke import (
+        analyze_smoke_snapshot,
+        stage_cp1_only_problem,
+        write_smoke_marker,
+    )
+
+    spec = get_arm(arm)
+    if not spec.needs_hook:
+        raise ValueError(f"arm {arm!r} is baseline — smoke is only for skill harnesses")
+
+    stamp = datetime.now(timezone.utc).strftime("%Y%m%dT%H%M%S")
+    experiment_id = experiment_id or f"smoke-{arm}-{stamp}"
+    out_dir = RESULTS_DIR / experiment_id / arm / "run_1"
+    problems_root = RESULTS_DIR / experiment_id / "_smoke_problems"
+    staged = stage_cp1_only_problem(problem=problem, dest_root=problems_root)
+
+    collected = run_one(
+        arm=arm,
+        problem=problem,
+        thinking=thinking,
+        model=model,
+        run_index=1,
+        experiment_id=experiment_id,
+        problems_path=staged,
+    )
+
+    cps = collected.get("checkpoints") or []
+    cp1 = next((cp for cp in cps if cp.get("checkpoint") == 1), cps[0] if cps else None)
+    snapshot_dir: Path | None = None
+    if cp1:
+        snap = (cp1.get("paths") or {}).get("snapshot_dir")
+        if snap:
+            snapshot_dir = Path(snap)
+    analysis = analyze_smoke_snapshot(snapshot_dir) if snapshot_dir else {}
+    activation = collected.get("harness_activation_verified")
+    if activation is None and cp1:
+        activation = (cp1.get("harness") or {}).get("harness_activation_verified")
+    ok = bool(cps) and activation is not False
+    marker_path = write_smoke_marker(
+        arm,
+        problem=problem,
+        experiment_id=experiment_id,
+        run_dir=out_dir,
+        ok=ok,
+        activation_verified=activation if isinstance(activation, bool) else None,
+        snapshot_analysis=analysis,
+        extra={"checkpoints_completed": [cp.get("checkpoint") for cp in cps]},
+    )
+    collected["smoke_marker"] = str(marker_path)
+    collected["smoke_ok"] = ok
+    collected["smoke_snapshot_analysis"] = analysis
+    return collected
+
+
 def run_matrix(
     *,
     arms: Sequence[str],
@@ -282,6 +348,7 @@ def run_matrix(
     model: str = DEFAULT_MODEL,
     experiment_id: str | None = None,
     jobs: int = 1,
+    skip_smoke_check: bool = False,
 ) -> list[dict[str, Any]]:
     """Run arm×run matrix. jobs=1 is serial; jobs>1 overlaps independent run_one calls.
 
@@ -289,10 +356,13 @@ def run_matrix(
     Concurrent Docker image builds can race — pre-build via scripts/build_images.sh.
     API/Docker resource exhaustion may fail some runs; others still finish.
     """
+    from benchmark.smoke import require_smoke_validated
+
     if jobs < 1:
         raise ValueError("jobs must be >= 1")
     for arm in arms:
         get_arm(arm)
+    require_smoke_validated(arms, skip=skip_smoke_check)
     experiment_id = experiment_id or datetime.now(timezone.utc).strftime("%Y%m%dT%H%M%S")
     tasks = [(arm, idx) for arm in arms for idx in range(1, runs + 1)]
 
@@ -333,6 +403,7 @@ def run_arm_repeats(
     model: str = DEFAULT_MODEL,
     experiment_id: str | None = None,
     jobs: int = 1,
+    skip_smoke_check: bool = False,
 ) -> list[dict[str, Any]]:
     return run_matrix(
         arms=(arm,),
@@ -342,6 +413,7 @@ def run_arm_repeats(
         model=model,
         experiment_id=experiment_id,
         jobs=jobs,
+        skip_smoke_check=skip_smoke_check,
     )
 
 

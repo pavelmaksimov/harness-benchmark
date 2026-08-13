@@ -1,0 +1,11 @@
+{
+  "arm": "tdd",
+  "checkpoints": [
+    "checkpoint_1"
+  ],
+  "grandfathered": true,
+  "harness_content_sha": "d5c91ab5674c51f99937adf1a456ae2b6ea82eaa28c943c90899893b9e05a158",
+  "note": "Grandfathered at smoke-gate introduction; arm already used in experiments. Re-run `benchmark smoke --arm <name>` after harness content changes.",
+  "ok": true,
+  "validated_at": "2026-08-13T10:12:58.280307+00:00"
+}

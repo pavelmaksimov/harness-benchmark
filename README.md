@@ -102,6 +102,16 @@ Baseline проверяется на отсутствие ponytail в prompt и 
 Первый smoke уже в гайде: [mvp-smoke-baseline](docs/reports/mvp-smoke-baseline.md)
 (Codex `0.145.0`, `gpt-5.5`, thinking `medium`, `file_backup`).
 
+Перед полным прогоном **нового** skill-harness — обязательный CP1-only smoke
+(проверяет, что arm стартует, и показывает лишние файлы для `EXCLUDE_DIR_NAMES`):
+
+```bash
+uv run python -m benchmark smoke --arm graphify --problem file_backup
+```
+
+`run` / `run-all` отказываются запускать arm без валидного `harnesses/<arm>/SMOKE.json`
+(override: `--skip-smoke-check`).
+
 Для статистики MVP после проверки pipeline:
 
 ```bash
