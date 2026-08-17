@@ -14,6 +14,7 @@ from collections.abc import Iterator, Mapping, MutableMapping
 from contextlib import contextmanager
 from dataclasses import dataclass
 from datetime import datetime
+from pathlib import Path
 from typing import Any
 
 import httpx
@@ -188,6 +189,13 @@ def uvicorn_process(
     child_env = os.environ.copy()
     if env:
         child_env.update(env)
+    # Match TestClient import path: ensure workspace package is visible.
+    cwd = str(Path.cwd().resolve())
+    if (Path(cwd) / "task_manager").is_dir():
+        existing = child_env.get("PYTHONPATH", "")
+        parts = [p for p in existing.split(os.pathsep) if p]
+        if cwd not in parts:
+            child_env["PYTHONPATH"] = os.pathsep.join([cwd, *parts])
     proc = subprocess.Popen(
         cmd,
         stdout=subprocess.PIPE,

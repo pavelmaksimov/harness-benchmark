@@ -3,9 +3,39 @@
   "checkpoints": [
     "checkpoint_1"
   ],
-  "grandfathered": true,
+  "checkpoints_completed": [
+    1
+  ],
+  "exclude_dir_names": [
+    ".git",
+    ".mypy_cache",
+    ".pytest_cache",
+    ".ruff_cache",
+    ".tox",
+    ".venv",
+    "__pycache__",
+    "build",
+    "dist",
+    "graphify-out",
+    "node_modules",
+    "venv"
+  ],
+  "experiment_id": "smoke-ponytail-tm-syspath-20260817",
+  "harness_activation_verified": true,
   "harness_content_sha": "1316a2f3f95741d2300b116fe0c2d81ce4a9568656ed0a62643f54aaf09957f2",
-  "note": "Grandfathered at smoke-gate introduction; arm already used in experiments. Re-run `benchmark smoke --arm <name>` after harness content changes.",
   "ok": true,
-  "validated_at": "2026-08-13T10:12:58.266066+00:00"
+  "problem": "task_manager",
+  "run_dir": "/home/user/my/harness-benchmark/results/smoke-ponytail-tm-syspath-20260817/ponytail/run_1",
+  "snapshot": {
+    "already_excluded": [],
+    "needs_exclude_review": [],
+    "top_level": [
+      "requirements.txt",
+      "task_manager"
+    ],
+    "top_level_dirs": [
+      "task_manager"
+    ]
+  },
+  "validated_at": "2026-08-17T13:08:41.769303+00:00"
 }
