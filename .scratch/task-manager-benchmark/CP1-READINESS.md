@@ -3,6 +3,11 @@
 Date: 2026-08-17  
 Scope: cheap offline path (no Docker / Codex smoke).
 
+## Reference solutions policy
+
+Only `problems/task_manager/solutions/checkpoint_1/` is retained for a cheap offline CP1 check.  
+CP2–CP15 have **no** cumulative reference apps: evaluation tests + checkpoint prompts grade the **agent** solution at run time. CP13–CP15 prompts/tests are ready under that policy.
+
 ## Proven
 
 ### Reference CP1 tests
