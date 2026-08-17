@@ -1,0 +1,36 @@
+---
+description: Triage failed smoke/run scores — model vs benchmark infrastructure
+alwaysApply: true
+---
+
+# Failure triage (required after smoke / run)
+
+When a smoke or full run finishes with failed tests / `checkpoint_success=false`, **do not** treat the score as model quality until triage is done. A dialogue that produced a runnable snapshot must be analyzed; failures often come from the bench, not the agent.
+
+## Required checks (in order)
+
+1. **Evaluation mode** — open `scb/<problem>/checkpoint_N/evaluation.json` and `evaluation/stdout.txt` (or stderr). Classify each failure:
+   - **Setup / import / collection ERROR** (e.g. `ModuleNotFoundError`, missing entrypoint, wrong cwd/`PYTHONPATH`, fixture crash before assertions) → **bench / problem packaging** until proven otherwise.
+   - **Assertion / contract FAIL** after the app imported and served → candidate **model / solution** defect.
+   - `infrastructure_failure: true` or empty/missing evaluation → **runner / Docker / SCB**, not the model.
+
+2. **Snapshot exists and is shaped correctly** — `checkpoint_N/snapshot/` has the expected package layout (e.g. `task_manager/main.py`). Missing or mis-placed files can still be agent error; present-and-importable code that tests cannot import is usually our harness.
+
+3. **Agent dialogue** — skim `infer.log` / agent messages: did the agent implement, self-check (HTTP/CLI), and claim done? If yes and eval died on import/setup, prefer infra hypothesis.
+
+4. **Re-score the same snapshot** — with fixed test env (or `PYTHONPATH=<snapshot>` + problem tests), re-run the checkpoint tests offline. If that pass rate is high while the Docker eval score was near-zero, the published score was **invalid**; fix the problem tests / SCB wiring before blaming the model or harness arm.
+
+5. **Report clearly** — in any write-up, separate:
+   - pipeline health (smoke_ok, activation, images);
+   - **valid** correctness (assertions on a loadable app);
+   - known **invalid** scores (setup ERRORs). Do not fold invalid scores into arm comparisons.
+
+## Known false-negative pattern
+
+`task_manager` CP1 smoke (2026-08-17): Core 1/7 because TestClient/`uvx` pytest lacked workspace on `sys.path`; only the uvicorn subprocess test passed. Same agent snapshot → **12/12** after `conftest`/`helpers` path fix. Do not repeat “weak model” conclusions from setup ERRORs.
+
+## Do not
+
+- Call N=1 smoke scores “science” without triage
+- Blame ponytail/baseline from import/setup failures
+- Skip re-scoring the snapshot when stdout shows identical setup errors across nearly all tests
