@@ -1,0 +1,9 @@
+type: opencode
+# Must match the OpenCode CLI version installed into the SCB Docker image.
+# Pinned in vendor/pins.json as opencode_cli_version.
+version: "1.14.33"
+env: {}
+cost_limits:
+  cost_limit: 25
+  step_limit: 0
+  net_cost_limit: 0

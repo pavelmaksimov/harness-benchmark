@@ -1,0 +1,13 @@
+# OpenCode Zen free model (catalog entry — not a run default).
+# Use: --agent opencode --provider opencode_auth --model deepseek-v4-flash-free
+internal_name: deepseek-v4-flash-free
+provider: opencode_auth
+pricing:
+  input: 0
+  output: 0
+  cache_read: 0
+  cache_write: 0
+aliases: []
+agent_specific:
+  opencode:
+    provider_name: opencode

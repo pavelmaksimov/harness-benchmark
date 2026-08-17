@@ -15,13 +15,16 @@ from benchmark.collect import collect_run, write_checkpoint_jsons
 from benchmark.manifest import build_manifest, write_manifest
 from benchmark.paths import (
     CONFIGS_DIR,
+    DEFAULT_AGENT,
     DEFAULT_MODEL,
     DEFAULT_PROBLEM,
+    DEFAULT_PROVIDER,
     DEFAULT_THINKING,
     PROBLEMS_DIR,
     REPO_ROOT,
     RESULTS_DIR,
     SCB_DIR,
+    SUPPORTED_AGENTS,
 )
 from benchmark.versions import load_arm_meta, load_pins
 
@@ -36,10 +39,58 @@ def _scb_thinking(thinking: str) -> str:
     return _SCB_THINKING_ALIASES.get(thinking, thinking)
 
 
-def _agent_config_for_thinking(thinking: str, output_dir: Path) -> Path:
-    """Return agent yaml; for thinking=max, pin Codex reasoning effort to max."""
-    base = CONFIGS_DIR / "agent_codex.yaml"
-    if thinking != "max":
+def resolve_run_selection(
+    *,
+    agent: str,
+    arm: str,
+    provider: str | None,
+    model: str | None,
+    thinking: str | None,
+) -> tuple[str, str, str, str]:
+    """Resolve agent/provider/model/thinking.
+
+    Codex keeps historical defaults when flags are omitted.
+    OpenCode requires explicit --provider and --model; thinking defaults to none.
+    """
+    if agent not in SUPPORTED_AGENTS:
+        raise ValueError(
+            f"unsupported agent {agent!r}; expected one of: {', '.join(SUPPORTED_AGENTS)}"
+        )
+
+    if agent == "opencode":
+        if get_arm(arm).needs_hook:
+            raise ValueError(
+                "OpenCode does not support skill harness arms "
+                f"(arm={arm!r}); use --arm baseline"
+            )
+        if not provider:
+            raise ValueError(
+                "OpenCode requires --provider (e.g. --provider opencode_auth)"
+            )
+        if not model:
+            raise ValueError(
+                "OpenCode requires --model (e.g. --model deepseek-v4-flash-free)"
+            )
+        return agent, provider, model, thinking if thinking is not None else "none"
+
+    return (
+        DEFAULT_AGENT,
+        provider or DEFAULT_PROVIDER,
+        model or DEFAULT_MODEL,
+        thinking or DEFAULT_THINKING,
+    )
+
+
+def _agent_config_path(agent: str) -> Path:
+    if agent == "opencode":
+        return CONFIGS_DIR / "agent_opencode.yaml"
+    return CONFIGS_DIR / "agent_codex.yaml"
+
+
+def _agent_config_for_thinking(agent: str, thinking: str, output_dir: Path) -> Path:
+    """Return agent yaml; for Codex thinking=max, pin reasoning effort to max."""
+    base = _agent_config_path(agent)
+    if agent != "codex" or thinking != "max":
         return _resolve_config_paths(base)
     import yaml
 
@@ -50,6 +101,12 @@ def _agent_config_for_thinking(thinking: str, output_dir: Path) -> Path:
     out = output_dir / "agent_codex.max.yaml"
     out.write_text(yaml.safe_dump(data, sort_keys=False), encoding="utf-8")
     return out
+
+
+def _agent_version(agent: str, pins: dict[str, Any]) -> str | None:
+    if agent == "opencode":
+        return pins.get("opencode_cli_version")
+    return pins.get("codex_cli_host_version")
 
 
 def _arm_config(arm: str) -> Path:
@@ -74,6 +131,8 @@ def run_slop_code(
     problem: str = DEFAULT_PROBLEM,
     thinking: str = DEFAULT_THINKING,
     model: str = DEFAULT_MODEL,
+    provider: str = DEFAULT_PROVIDER,
+    agent: str = DEFAULT_AGENT,
     output_dir: Path,
     dry_run: bool = False,
     problems_path: Path | None = None,
@@ -101,7 +160,7 @@ def run_slop_code(
     )
 
     output_dir.mkdir(parents=True, exist_ok=True)
-    agent = _agent_config_for_thinking(thinking, output_dir)
+    agent_cfg = _agent_config_for_thinking(agent, thinking, output_dir)
 
     # docker-py fails when host Docker config has broken credHelpers (e.g. yc).
     # Public base images used by SCB do not need those helpers.
@@ -122,13 +181,13 @@ def run_slop_code(
         "--config",
         str(config),
         "--agent",
-        str(agent),
+        str(agent_cfg),
         "--prompt",
         str(prompt),
         "--environment",
         str(environment),
         "--model",
-        f"codex_auth/{model}",
+        f"{provider}/{model}",
         "--problem",
         problem,
         f"thinking={scb_thinking}",
@@ -182,12 +241,21 @@ def run_one(
     *,
     arm: str,
     problem: str = DEFAULT_PROBLEM,
-    thinking: str = DEFAULT_THINKING,
-    model: str = DEFAULT_MODEL,
+    thinking: str | None = None,
+    model: str | None = None,
+    provider: str | None = None,
+    agent: str = DEFAULT_AGENT,
     run_index: int = 1,
     experiment_id: str | None = None,
     problems_path: Path | None = None,
 ) -> dict[str, Any]:
+    agent, provider, model, thinking = resolve_run_selection(
+        agent=agent,
+        arm=arm,
+        provider=provider,
+        model=model,
+        thinking=thinking,
+    )
     experiment_id = experiment_id or datetime.now(timezone.utc).strftime("%Y%m%dT%H%M%S")
     run_id = f"{experiment_id}-{arm}-r{run_index}-{uuid.uuid4().hex[:8]}"
     out_dir = RESULTS_DIR / experiment_id / arm / f"run_{run_index}"
@@ -201,14 +269,17 @@ def run_one(
         problem=problem,
         thinking=thinking,
         model=model,
+        provider=provider,
+        agent=agent,
         output_dir=out_dir,
         problems_path=problems_path,
     )
 
     scb_problem_dir = find_scb_problem_dir(out_dir / "scb", problem)
     environment = {
-        "agent": "codex",
-        "agent_version": pins.get("codex_cli_host_version"),
+        "agent": agent,
+        "agent_version": _agent_version(agent, pins),
+        "provider": provider,
         "model": model,
         "thinking": thinking,
         "slop_code_commit": pins.get("slop-code-bench"),
@@ -262,6 +333,8 @@ def run_one(
         problem=problem,
         model=model,
         thinking=thinking,
+        provider=provider,
+        agent=agent,
         runs=1,
         docker_image=environment["docker_image"],
         pricing_path=CONFIGS_DIR / "pricing.yaml",
@@ -280,8 +353,10 @@ def run_smoke(
     *,
     arm: str,
     problem: str = DEFAULT_PROBLEM,
-    thinking: str = DEFAULT_THINKING,
-    model: str = DEFAULT_MODEL,
+    thinking: str | None = None,
+    model: str | None = None,
+    provider: str | None = None,
+    agent: str = DEFAULT_AGENT,
     experiment_id: str | None = None,
 ) -> dict[str, Any]:
     """Run a single-checkpoint (CP1) smoke for one harness arm and write SMOKE.json."""
@@ -306,6 +381,8 @@ def run_smoke(
         problem=problem,
         thinking=thinking,
         model=model,
+        provider=provider,
+        agent=agent,
         run_index=1,
         experiment_id=experiment_id,
         problems_path=staged,
@@ -344,8 +421,10 @@ def run_matrix(
     arms: Sequence[str],
     problem: str = DEFAULT_PROBLEM,
     runs: int = 3,
-    thinking: str = DEFAULT_THINKING,
-    model: str = DEFAULT_MODEL,
+    thinking: str | None = None,
+    model: str | None = None,
+    provider: str | None = None,
+    agent: str = DEFAULT_AGENT,
     experiment_id: str | None = None,
     jobs: int = 1,
     skip_smoke_check: bool = False,
@@ -362,6 +441,14 @@ def run_matrix(
         raise ValueError("jobs must be >= 1")
     for arm in arms:
         get_arm(arm)
+        # Fail fast before scheduling work (OpenCode + skill arm, missing flags, …).
+        resolve_run_selection(
+            agent=agent,
+            arm=arm,
+            provider=provider,
+            model=model,
+            thinking=thinking,
+        )
     require_smoke_validated(arms, skip=skip_smoke_check)
     experiment_id = experiment_id or datetime.now(timezone.utc).strftime("%Y%m%dT%H%M%S")
     tasks = [(arm, idx) for arm in arms for idx in range(1, runs + 1)]
@@ -372,6 +459,8 @@ def run_matrix(
             problem=problem,
             thinking=thinking,
             model=model,
+            provider=provider,
+            agent=agent,
             run_index=run_index,
             experiment_id=experiment_id,
         )
@@ -399,8 +488,10 @@ def run_arm_repeats(
     arm: str,
     problem: str = DEFAULT_PROBLEM,
     runs: int = 3,
-    thinking: str = DEFAULT_THINKING,
-    model: str = DEFAULT_MODEL,
+    thinking: str | None = None,
+    model: str | None = None,
+    provider: str | None = None,
+    agent: str = DEFAULT_AGENT,
     experiment_id: str | None = None,
     jobs: int = 1,
     skip_smoke_check: bool = False,
@@ -411,6 +502,8 @@ def run_arm_repeats(
         runs=runs,
         thinking=thinking,
         model=model,
+        provider=provider,
+        agent=agent,
         experiment_id=experiment_id,
         jobs=jobs,
         skip_smoke_check=skip_smoke_check,

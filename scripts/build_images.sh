@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# Pre-build SlopCodeBench Docker images (base + Codex agent).
+# Pre-build SlopCodeBench Docker images (base + Codex + OpenCode agents).
 set -euo pipefail
 ROOT="$(cd "$(dirname "$0")/.." && pwd)"
 cd "$ROOT"
@@ -19,5 +19,10 @@ uv run python -m benchmark.scb_main docker build-agent \
   configs/agent_codex.yaml \
   vendor/slop-code-bench/configs/environments/docker-python3.12-uv.yaml
 
-docker images | grep slop-code || true
+echo "Building OpenCode agent image..."
+uv run python -m benchmark.scb_main docker build-agent \
+  configs/agent_opencode.yaml \
+  vendor/slop-code-bench/configs/environments/docker-python3.12-uv.yaml
+
+docker images | grep -E 'slop-code|sc-opencode|opencode' || true
 echo "Done."

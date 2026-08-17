@@ -16,6 +16,21 @@ def _install_eval_deps_hook() -> None:
         print(f"[hb] eval deps hook install failed: {exc}", file=sys.stderr)
 
 
+def _load_hb_models() -> None:
+    """Overlay harness-benchmark model YAMLs onto SCB ModelCatalog (ProcessPool-safe)."""
+    try:
+        from benchmark.paths import MODELS_DIR
+        from slop_code.agent_runner.credentials import ProviderCatalog
+        from slop_code.common.llms import ModelCatalog
+
+        ProviderCatalog.ensure_loaded()
+        ModelCatalog.ensure_loaded()
+        if MODELS_DIR.is_dir():
+            ModelCatalog.load_from_directory(MODELS_DIR)
+    except Exception as exc:  # noqa: BLE001
+        print(f"[hb] model catalog overlay failed: {exc}", file=sys.stderr)
+
+
 def _maybe_install_skill_hook() -> None:
     if os.environ.get("HB_ENABLE_HARNESS") != "1" and os.environ.get("HB_ENABLE_PONYTAIL") != "1":
         return
@@ -31,4 +46,5 @@ def _maybe_install_skill_hook() -> None:
 
 
 _install_eval_deps_hook()
+_load_hb_models()
 _maybe_install_skill_hook()

@@ -24,3 +24,7 @@ DEFAULT_RUNS = 1
 # Codex slug for "GPT-5.6 Luna"; reasoning effort "max" is the "luna max" setting.
 DEFAULT_MODEL = "gpt-5.6-luna"
 DEFAULT_THINKING = "max"
+DEFAULT_AGENT = "codex"
+DEFAULT_PROVIDER = "codex_auth"
+SUPPORTED_AGENTS = ("codex", "opencode")
+MODELS_DIR = CONFIGS_DIR / "models"
