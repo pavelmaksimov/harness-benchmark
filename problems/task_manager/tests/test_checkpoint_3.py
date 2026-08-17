@@ -11,7 +11,7 @@ from datetime import datetime, timezone
 import pytest
 from fastapi.testclient import TestClient
 
-from helpers import assert_error_contract, bearer_headers, login_account, register_account
+from helpers import assert_error_contract, bearer_headers, login_account, register_account, task_write_json
 
 
 def _states_by_category(client: TestClient, headers: dict[str, str]) -> dict[str, str]:
@@ -51,7 +51,7 @@ def test_due_date_and_due_at_mutually_exclusive_and_clearable(
     to_exact = client.patch(
         f"/tasks/{task_id}",
         headers=headers,
-        json={"due_at": "2024-06-21T15:30:00+03:00"},
+        json=task_write_json(task, due_at="2024-06-21T15:30:00+03:00"),
     )
     assert to_exact.status_code == 200, to_exact.text
     body = to_exact.json()
@@ -61,25 +61,27 @@ def test_due_date_and_due_at_mutually_exclusive_and_clearable(
     cleared = client.patch(
         f"/tasks/{task_id}",
         headers=headers,
-        json={"due_at": None},
+        json=task_write_json(body, due_at=None),
     )
     assert cleared.status_code == 200
     assert cleared.json()["due_at"] is None
     assert cleared.json()["due_date"] is None
+    body = cleared.json()
 
     dated_again = client.patch(
         f"/tasks/{task_id}",
         headers=headers,
-        json={"due_date": "2024-07-01"},
+        json=task_write_json(body, due_date="2024-07-01"),
     )
     assert dated_again.status_code == 200
     assert dated_again.json()["due_date"] == "2024-07-01"
     assert dated_again.json()["due_at"] is None
+    body = dated_again.json()
 
     clear_date = client.patch(
         f"/tasks/{task_id}",
         headers=headers,
-        json={"due_date": None},
+        json=task_write_json(body, due_date=None),
     )
     assert clear_date.status_code == 200
     assert clear_date.json()["due_date"] is None
@@ -156,7 +158,7 @@ def test_done_and_canceled_exclude_from_overdue_without_clearing_due(
     done = client.patch(
         f"/tasks/{task_id}",
         headers=headers,
-        json={"state_id": states["done"]},
+        json=task_write_json(task, state_id=states["done"]),
     )
     assert done.status_code == 200
     body = done.json()
@@ -166,16 +168,17 @@ def test_done_and_canceled_exclude_from_overdue_without_clearing_due(
     canceled = client.patch(
         f"/tasks/{task_id}",
         headers=headers,
-        json={"state_id": states["canceled"]},
+        json=task_write_json(body, state_id=states["canceled"]),
     )
     assert canceled.status_code == 200
     assert canceled.json()["due_at"] == "2024-07-01T00:00:00Z"
     assert canceled.json()["overdue"] is False
+    body = canceled.json()
 
     reopen = client.patch(
         f"/tasks/{task_id}",
         headers=headers,
-        json={"state_id": states["todo"]},
+        json=task_write_json(body, state_id=states["todo"]),
     )
     assert reopen.status_code == 200
     assert reopen.json()["overdue"] is True
@@ -227,13 +230,15 @@ def test_invalid_due_timezone_and_dual_patch(client: TestClient, accounts) -> No
     assert bad_at.status_code == 422
     assert_error_contract(bad_at.json(), status_code=422)
 
-    task_id = client.post(
+    task = client.post(
         "/tasks", headers=headers, json={"title": "Patch dual"}
-    ).json()["id"]
+    ).json()
     dual_patch = client.patch(
-        f"/tasks/{task_id}",
+        f"/tasks/{task['id']}",
         headers=headers,
-        json={"due_date": "2024-06-01", "due_at": "2024-06-01T12:00:00Z"},
+        json=task_write_json(
+            task, due_date="2024-06-01", due_at="2024-06-01T12:00:00Z"
+        ),
     )
     assert dual_patch.status_code == 422
     assert_error_contract(dual_patch.json(), status_code=422)

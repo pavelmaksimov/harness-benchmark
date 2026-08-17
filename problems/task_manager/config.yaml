@@ -63,9 +63,9 @@ checkpoints:
     include_prior_tests: true
 
   checkpoint_7:
-    version: 1
+    version: 2
     order: 7
-    state: Draft
+    state: Core Tests
     include_prior_tests: true
 
   checkpoint_8:
