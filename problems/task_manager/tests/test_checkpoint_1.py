@@ -17,6 +17,7 @@ import pytest
 from fastapi.testclient import TestClient
 
 from helpers import (
+    task_write_json,
     CLOCK_ENV,
     DB_PATH_ENV,
     assert_error_contract,
@@ -139,12 +140,13 @@ def test_task_patch_and_list_contract(client: TestClient, accounts) -> None:
         json={"title": "Patch me", "description": "keep-or-clear"},
     )
     assert created.status_code == 201
-    task_id = created.json()["id"]
+    task = created.json()
+    task_id = task["id"]
 
     patched = client.patch(
         f"/tasks/{task_id}",
         headers=headers,
-        json={"title": "Patched", "state_id": done["id"]},
+        json=task_write_json(task, title="Patched", state_id=done["id"]),
     )
     assert patched.status_code == 200, patched.text
     body = patched.json()
@@ -155,7 +157,7 @@ def test_task_patch_and_list_contract(client: TestClient, accounts) -> None:
     cleared = client.patch(
         f"/tasks/{task_id}",
         headers=headers,
-        json={"description": None},
+        json=task_write_json(body, description=None),
     )
     assert cleared.status_code == 200
     assert cleared.json()["description"] is None
@@ -176,12 +178,13 @@ def test_foreign_task_is_404(client: TestClient, accounts, case_store: dict[str,
         json={"title": "Private A"},
     )
     assert created.status_code == 201
-    task_id = created.json()["id"]
+    task = created.json()
+    task_id = task["id"]
     case_store["task_id"] = task_id
 
     for method, kwargs in (
         ("get", {}),
-        ("patch", {"json": {"title": "hijack"}}),
+        ("patch", {"json": task_write_json(task, title="hijack")}),
     ):
         response = getattr(client, method)(
             f"/tasks/{task_id}",
@@ -333,10 +336,11 @@ def test_missing_auth_and_validation_errors(client: TestClient, accounts) -> Non
         json={"title": "unknown field patch"},
     )
     assert created.status_code == 201
+    task = created.json()
     unknown = client.patch(
-        f"/tasks/{created.json()['id']}",
+        f"/tasks/{task['id']}",
         headers=account_a.headers,
-        json={"title": "x", "nope": 1},
+        json=task_write_json(task, title="x", nope=1),
     )
     assert unknown.status_code == 422
     assert_error_contract(unknown.json(), status_code=422)

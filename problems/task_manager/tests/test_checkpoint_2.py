@@ -9,7 +9,7 @@ from __future__ import annotations
 import pytest
 from fastapi.testclient import TestClient
 
-from helpers import assert_error_contract, two_accounts
+from helpers import assert_error_contract, two_accounts, task_write_json
 
 
 def _assert_project_shape(project: dict) -> None:
@@ -83,15 +83,16 @@ def test_task_moves_between_project_and_inbox(client: TestClient, accounts) -> N
     moved = client.patch(
         f"/tasks/{task['id']}",
         headers=headers,
-        json={"project_id": project_id},
+        json=task_write_json(task, project_id=project_id),
     )
     assert moved.status_code == 200, moved.text
     assert moved.json()["project_id"] == project_id
+    task = moved.json()
 
     back = client.patch(
         f"/tasks/{task['id']}",
         headers=headers,
-        json={"project_id": None},
+        json=task_write_json(task, project_id=None),
     )
     assert back.status_code == 200
     assert back.json()["project_id"] is None
@@ -114,11 +115,12 @@ def test_archived_project_readonly_for_project_and_tasks(
     project_id = client.post(
         "/projects", headers=headers, json={"name": "Freeze"}
     ).json()["id"]
-    task_id = client.post(
+    frozen = client.post(
         "/tasks",
         headers=headers,
         json={"title": "Frozen task", "project_id": project_id},
-    ).json()["id"]
+    ).json()
+    task_id = frozen["id"]
 
     assert client.post(f"/projects/{project_id}/archive", headers=headers).status_code == 200
 
@@ -127,6 +129,7 @@ def test_archived_project_readonly_for_project_and_tasks(
     got = client.get(f"/tasks/{task_id}", headers=headers)
     assert got.status_code == 200
     assert got.json()["project_id"] == project_id
+    frozen = got.json()
 
     # Mutations forbidden
     rename = client.patch(
@@ -148,7 +151,7 @@ def test_archived_project_readonly_for_project_and_tasks(
     patch_task = client.patch(
         f"/tasks/{task_id}",
         headers=headers,
-        json={"title": "Changed"},
+        json=task_write_json(frozen, title="Changed"),
     )
     assert patch_task.status_code == 409
     assert_error_contract(patch_task.json(), status_code=409)
@@ -156,7 +159,7 @@ def test_archived_project_readonly_for_project_and_tasks(
     move_out = client.patch(
         f"/tasks/{task_id}",
         headers=headers,
-        json={"project_id": None},
+        json=task_write_json(frozen, project_id=None),
     )
     assert move_out.status_code == 409
 
@@ -166,18 +169,18 @@ def test_archived_project_readonly_for_project_and_tasks(
     move_in = client.patch(
         f"/tasks/{task_id}",
         headers=headers,
-        json={"project_id": other_id},
+        json=task_write_json(frozen, project_id=other_id),
     )
     # Still in archived project → mutation forbidden
     assert move_in.status_code == 409
 
-    inbox_id = client.post(
+    inbox = client.post(
         "/tasks", headers=headers, json={"title": "Free task"}
-    ).json()["id"]
+    ).json()
     move_into_archived = client.patch(
-        f"/tasks/{inbox_id}",
+        f"/tasks/{inbox['id']}",
         headers=headers,
-        json={"project_id": project_id},
+        json=task_write_json(inbox, project_id=project_id),
     )
     assert move_into_archived.status_code == 409
 
@@ -186,7 +189,7 @@ def test_archived_project_readonly_for_project_and_tasks(
     ok_patch = client.patch(
         f"/tasks/{task_id}",
         headers=headers,
-        json={"title": "Thawed"},
+        json=task_write_json(frozen, title="Thawed"),
     )
     assert ok_patch.status_code == 200
     assert ok_patch.json()["title"] == "Thawed"

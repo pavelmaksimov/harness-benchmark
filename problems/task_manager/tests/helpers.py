@@ -66,6 +66,15 @@ def bearer_headers(token: str) -> dict[str, str]:
     return {"Authorization": f"Bearer {token}"}
 
 
+def task_write_json(task: Mapping[str, Any] | None, **fields: Any) -> dict[str, Any]:
+    """Build a task mutation body; include ``version`` when the task representation has it (CP7+)."""
+
+    body = dict(fields)
+    if task is not None and "version" in task:
+        body.setdefault("version", task["version"])
+    return body
+
+
 @dataclass(frozen=True)
 class AccountSession:
     email: str
