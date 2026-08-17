@@ -116,6 +116,10 @@ checkpoints:
     state: Core Tests
     include_prior_tests: true
 
+# Packages the test suite and baseline stack import (TestClient, httpx, …).
+# Libraries the agent chooses for the app belong in snapshot requirements.txt
+# (or PEP 621 pyproject.toml) and are installed into uvx by eval_deps_hook.
+# Do not grow this list for every third-party lib the model might pip-install.
 test_dependencies:
   - fastapi
   - httpx

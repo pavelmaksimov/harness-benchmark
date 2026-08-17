@@ -25,9 +25,11 @@ When a smoke or full run finishes with failed tests / `checkpoint_success=false`
    - **valid** correctness (assertions on a loadable app);
    - known **invalid** scores (setup ERRORs). Do not fold invalid scores into arm comparisons.
 
-## Known false-negative pattern
+## Known false-negative patterns
 
 `task_manager` CP1 smoke (2026-08-17): Core 1/7 because TestClient/`uvx` pytest lacked workspace on `sys.path`; only the uvicorn subprocess test passed. Same agent snapshot → **12/12** after `conftest`/`helpers` path fix. Do not repeat “weak model” conclusions from setup ERRORs.
+
+`task_manager` eval deps: TestClient/`uvx` does not use the agent `.venv`. App packages come from snapshot `requirements.txt` (HB `eval_deps_hook` → `uvx --with-requirements`); `test_dependencies` is only tests + baseline stack. Do not add every library the model installed to the whitelist. See root `AGENTS.md`.
 
 ## Do not
 
