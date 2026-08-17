@@ -23,6 +23,20 @@ Do **not** bump `version` on neighbors only because the board reflowed their `bo
 
 Locked by `test_neighbor_version_unchanged_when_other_task_leaves_column` in `problems/task_manager/tests/test_checkpoint_7.py`.
 
+## `task_manager`: controlled clock — read `TASK_MANAGER_NOW` per request
+
+Tests freeze/advance time via env `TASK_MANAGER_NOW` **without** restarting the app process (`controlled_clock` in conftest).
+
+The app must resolve “now” on **every** HTTP request (or every call into overdue / maintenance / horizon logic), not once at import or lifespan startup. Caching the clock at boot → wrong overdue, reminders, recurrence horizon after `freeze()`.
+
+Stated in `checkpoint_1.md` / `checkpoint_3.md` / `checkpoint_11.md`.
+
+## `task_manager`: error JSON shape (not FastAPI `detail`)
+
+Eval asserts `{"error": {"code": "...", "message": "...", "details"?}}` via `assert_error_contract`.
+
+Default FastAPI/Starlette bodies with top-level `detail` fail even when status codes are right. Override validation/HTTP exception handlers so `422` / `401` / `404` / `409` (and similar) use the `error` envelope. See CP1 Shared HTTP contract.
+
 ## Eval deps: tests vs solution (do not whitelist every app library)
 
 SCB runs pytest via `uvx` in an **isolated** env. That env is **not** the agent’s `.venv` (usually absent from the snapshot anyway).
