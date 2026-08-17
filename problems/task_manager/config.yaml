@@ -28,7 +28,7 @@ tags:
 
 checkpoints:
   checkpoint_1:
-    version: 1
+    version: 2
     order: 1
     state: Core Tests
 
