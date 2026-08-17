@@ -41,7 +41,23 @@ __all__ = [
 ]
 
 
+def _ensure_workspace_on_sys_path() -> None:
+    """SCB runs pytest via uvx; cwd (/workspace) is not always on sys.path.
+
+    Only add cwd when it actually contains the submission package so local
+    offline runs that rely on PYTHONPATH=solutions/checkpoint_1 stay intact.
+    """
+
+    root = Path.cwd().resolve()
+    if not (root / "task_manager").is_dir():
+        return
+    root_str = str(root)
+    if root_str not in sys.path:
+        sys.path.insert(0, root_str)
+
+
 def pytest_configure(config: pytest.Config) -> None:
+    _ensure_workspace_on_sys_path()
     config.addinivalue_line("markers", "functionality: non-core / nice-to-have tests")
     config.addinivalue_line("markers", "error: error-handling / edge-case tests")
 
@@ -103,6 +119,7 @@ def controlled_clock(monkeypatch: pytest.MonkeyPatch) -> ControlledClock:
 
 
 def _reload_task_manager() -> object:
+    _ensure_workspace_on_sys_path()
     for name in list(sys.modules):
         if name == "task_manager" or name.startswith("task_manager."):
             del sys.modules[name]
