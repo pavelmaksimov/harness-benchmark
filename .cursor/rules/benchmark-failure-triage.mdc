@@ -33,6 +33,10 @@ When a smoke or full run finishes with failed tests / `checkpoint_success=false`
 
 `task_manager` CP7/CP12: bumping `version` on board neighbors after another card moves is **not** the intended contract (clarified in `checkpoint_7.md`). That caused CP12 Core `KeyError: 'title'` via stale `version` → `VERSION_CONFLICT`. Do not treat that alone as “model missed recurrence keep-edited”.
 
+`task_manager` clock: if overdue/reminders/horizon ignore `freeze()`, suspect cached `TASK_MANAGER_NOW` at startup — must re-read env per request (see `AGENTS.md`).
+
+`task_manager` errors: responses with FastAPI `detail` instead of `{"error":{...}}` are contract fails, not infra.
+
 ## Do not
 
 - Call N=1 smoke scores “science” without triage
