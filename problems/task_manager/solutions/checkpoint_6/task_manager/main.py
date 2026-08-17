@@ -275,13 +275,16 @@ def ordered_column_tasks(db: Session, account_id: str, state_id: str) -> list[Ta
 
 
 def renumber_column(db: Session, account_id: str, state_id: str) -> None:
+    db.flush()
     for index, task in enumerate(ordered_column_tasks(db, account_id, state_id)):
         task.board_position = index
 
 
 def append_to_column(db: Session, task: Task, state_id: str) -> None:
+    position = next_board_position(db, task.account_id, state_id)
     task.state_id = state_id
-    task.board_position = next_board_position(db, task.account_id, state_id)
+    task.board_position = position
+    db.flush()
 
 
 def place_task_in_column(
