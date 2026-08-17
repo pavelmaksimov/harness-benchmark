@@ -8,6 +8,7 @@ import sys
 
 def main() -> None:
     from benchmark.eval_deps_hook import install_eval_deps_hook
+    from benchmark.paths import MODELS_DIR
 
     install_eval_deps_hook()
 
@@ -23,6 +24,15 @@ def main() -> None:
 
     # Ensure agent registrations load.
     import slop_code.agent_runner.agents  # noqa: F401
+    from slop_code.agent_runner.credentials import ProviderCatalog
+    from slop_code.common.llms import ModelCatalog
+
+    # SCB catalog first, then harness-benchmark overlays (e.g. free OpenCode models).
+    ProviderCatalog.ensure_loaded()
+    ModelCatalog.ensure_loaded()
+    if MODELS_DIR.is_dir():
+        ModelCatalog.load_from_directory(MODELS_DIR)
+
     from slop_code.entrypoints.cli import app
 
     # Typer apps expect argv without the module name.

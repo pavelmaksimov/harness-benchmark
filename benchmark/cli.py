@@ -10,19 +10,42 @@ from rich.console import Console
 from benchmark.analyze import analyze_experiment, write_reports_and_publish
 from benchmark.arms import DEFAULT_EXPERIMENT_ARMS, known_arm_names
 from benchmark.paths import (
+    DEFAULT_AGENT,
     DEFAULT_MODEL,
     DEFAULT_PROBLEM,
+    DEFAULT_PROVIDER,
     DEFAULT_RUNS,
     DEFAULT_THINKING,
     PROBLEMS_DIR,
     RESULTS_DIR,
     SCB_DIR,
+    SUPPORTED_AGENTS,
 )
-from benchmark.scb_run import run_arm_repeats, run_matrix, run_smoke
+from benchmark.scb_run import resolve_run_selection, run_arm_repeats, run_matrix, run_smoke
 from benchmark.versions import load_pins
 
 app = typer.Typer(add_completion=False, no_args_is_help=True)
 console = Console()
+
+
+def _validate_selection(
+    *,
+    agent: str,
+    arm: str,
+    provider: Optional[str],
+    model: Optional[str],
+    thinking: Optional[str],
+) -> tuple[str, str, str, str]:
+    try:
+        return resolve_run_selection(
+            agent=agent,
+            arm=arm,
+            provider=provider,
+            model=model,
+            thinking=thinking,
+        )
+    except ValueError as exc:
+        raise typer.BadParameter(str(exc)) from exc
 
 
 @app.command("bootstrap")
@@ -50,8 +73,22 @@ def bootstrap() -> None:
 def smoke_cmd(
     arm: str = typer.Option(..., "--arm", help="Skill harness arm to validate"),
     problem: str = typer.Option(DEFAULT_PROBLEM, "--problem"),
-    model: str = typer.Option(DEFAULT_MODEL, "--model"),
-    thinking: str = typer.Option(DEFAULT_THINKING, "--thinking"),
+    agent: str = typer.Option(DEFAULT_AGENT, "--agent", help="|".join(SUPPORTED_AGENTS)),
+    provider: Optional[str] = typer.Option(
+        None,
+        "--provider",
+        help=f"Credential provider (Codex default: {DEFAULT_PROVIDER}; required for OpenCode)",
+    ),
+    model: Optional[str] = typer.Option(
+        None,
+        "--model",
+        help=f"Model name (Codex default: {DEFAULT_MODEL}; required for OpenCode)",
+    ),
+    thinking: Optional[str] = typer.Option(
+        None,
+        "--thinking",
+        help=f"Thinking preset (Codex default: {DEFAULT_THINKING})",
+    ),
     experiment_id: Optional[str] = typer.Option(None, "--experiment-id"),
 ) -> None:
     """CP1-only smoke: verify harness runs and discover non-solution artifact dirs."""
@@ -63,12 +100,22 @@ def smoke_cmd(
     if not get_arm(arm).needs_hook:
         console.print("baseline does not need smoke validation.")
         raise typer.Exit(code=0)
+    agent, provider, model, thinking = _validate_selection(
+        agent=agent,
+        arm=arm,
+        provider=provider,
+        model=model,
+        thinking=thinking,
+    )
     console.print(
-        f"=== smoke CP1 arm={arm} problem={problem} model={model} thinking={thinking} ==="
+        f"=== smoke CP1 arm={arm} agent={agent} provider={provider} "
+        f"model={model} thinking={thinking} ==="
     )
     collected = run_smoke(
         arm=arm,
         problem=problem,
+        agent=agent,
+        provider=provider,
         model=model,
         thinking=thinking,
         experiment_id=experiment_id,
@@ -119,8 +166,22 @@ def run_cmd(
     arm: str = typer.Option(..., "--arm", help="|".join(known_arm_names())),
     problem: str = typer.Option(DEFAULT_PROBLEM, "--problem"),
     runs: int = typer.Option(1, "--runs", min=1),
-    model: str = typer.Option(DEFAULT_MODEL, "--model"),
-    thinking: str = typer.Option(DEFAULT_THINKING, "--thinking"),
+    agent: str = typer.Option(DEFAULT_AGENT, "--agent", help="|".join(SUPPORTED_AGENTS)),
+    provider: Optional[str] = typer.Option(
+        None,
+        "--provider",
+        help=f"Credential provider (Codex default: {DEFAULT_PROVIDER}; required for OpenCode)",
+    ),
+    model: Optional[str] = typer.Option(
+        None,
+        "--model",
+        help=f"Model name (Codex default: {DEFAULT_MODEL}; required for OpenCode)",
+    ),
+    thinking: Optional[str] = typer.Option(
+        None,
+        "--thinking",
+        help=f"Thinking preset (Codex default: {DEFAULT_THINKING})",
+    ),
     experiment_id: Optional[str] = typer.Option(None, "--experiment-id"),
     jobs: int = typer.Option(1, "--jobs", min=1, help="Max concurrent runs (1=serial)"),
     skip_smoke_check: bool = typer.Option(
@@ -132,16 +193,25 @@ def run_cmd(
     """Run one arm for N independent repetitions."""
     if arm not in known_arm_names():
         raise typer.BadParameter(f"arm must be one of: {', '.join(known_arm_names())}")
+    agent, provider, model, thinking = _validate_selection(
+        agent=agent,
+        arm=arm,
+        provider=provider,
+        model=model,
+        thinking=thinking,
+    )
     experiment_id = experiment_id or datetime.now(timezone.utc).strftime("%Y%m%dT%H%M%S")
     console.print(
         f"experiment_id={experiment_id} arm={arm} runs={runs} jobs={jobs} "
-        f"model={model} thinking={thinking}"
+        f"agent={agent} provider={provider} model={model} thinking={thinking}"
     )
     try:
         results = run_arm_repeats(
             arm=arm,
             problem=problem,
             runs=runs,
+            agent=agent,
+            provider=provider,
             model=model,
             thinking=thinking,
             experiment_id=experiment_id,
@@ -158,8 +228,22 @@ def run_cmd(
 def run_all_cmd(
     problem: str = typer.Option(DEFAULT_PROBLEM, "--problem"),
     runs: int = typer.Option(DEFAULT_RUNS, "--runs", min=1),
-    model: str = typer.Option(DEFAULT_MODEL, "--model"),
-    thinking: str = typer.Option(DEFAULT_THINKING, "--thinking"),
+    agent: str = typer.Option(DEFAULT_AGENT, "--agent", help="|".join(SUPPORTED_AGENTS)),
+    provider: Optional[str] = typer.Option(
+        None,
+        "--provider",
+        help=f"Credential provider (Codex default: {DEFAULT_PROVIDER}; required for OpenCode)",
+    ),
+    model: Optional[str] = typer.Option(
+        None,
+        "--model",
+        help=f"Model name (Codex default: {DEFAULT_MODEL}; required for OpenCode)",
+    ),
+    thinking: Optional[str] = typer.Option(
+        None,
+        "--thinking",
+        help=f"Thinking preset (Codex default: {DEFAULT_THINKING})",
+    ),
     experiment_id: Optional[str] = typer.Option(None, "--experiment-id"),
     jobs: int = typer.Option(1, "--jobs", min=1, help="Max concurrent runs across arms (1=serial)"),
     arms: Optional[str] = typer.Option(
@@ -179,8 +263,17 @@ def run_all_cmd(
     unknown = [a for a in selected if a not in known_arm_names()]
     if unknown:
         raise typer.BadParameter(f"unknown arms: {', '.join(unknown)}")
+    # Validate against first arm for shared agent/provider/model; matrix re-checks each arm.
+    agent, provider, model, thinking = _validate_selection(
+        agent=agent,
+        arm=selected[0],
+        provider=provider,
+        model=model,
+        thinking=thinking,
+    )
     console.print(
-        f"=== run-all × {runs} jobs={jobs} model={model} thinking={thinking} "
+        f"=== run-all × {runs} jobs={jobs} agent={agent} provider={provider} "
+        f"model={model} thinking={thinking} "
         f"arms={','.join(selected)} experiment_id={experiment_id} ==="
     )
     try:
@@ -188,6 +281,8 @@ def run_all_cmd(
             arms=selected,
             problem=problem,
             runs=runs,
+            agent=agent,
+            provider=provider,
             model=model,
             thinking=thinking,
             experiment_id=experiment_id,
@@ -195,6 +290,9 @@ def run_all_cmd(
             skip_smoke_check=skip_smoke_check,
         )
     except RuntimeError as exc:
+        console.print(f"[red]{exc}[/red]")
+        raise typer.Exit(code=1) from exc
+    except ValueError as exc:
         console.print(f"[red]{exc}[/red]")
         raise typer.Exit(code=1) from exc
     report_cmd(experiment_id=experiment_id, problem=problem)
@@ -231,7 +329,17 @@ def collect_cmd(
     arm: str = typer.Option(..., "--arm"),
     run_id: str = typer.Option("manual", "--run-id"),
     problem: str = typer.Option(DEFAULT_PROBLEM, "--problem"),
-    model: str = typer.Option(DEFAULT_MODEL, "--model"),
+    agent: str = typer.Option(DEFAULT_AGENT, "--agent", help="|".join(SUPPORTED_AGENTS)),
+    provider: Optional[str] = typer.Option(
+        None,
+        "--provider",
+        help=f"Credential provider (default: {DEFAULT_PROVIDER})",
+    ),
+    model: Optional[str] = typer.Option(
+        None,
+        "--model",
+        help=f"Model name (default: {DEFAULT_MODEL})",
+    ),
     out: Path = typer.Option(..., "--out", help="Directory for metrics JSON"),
 ) -> None:
     """Collect unified metrics from an existing SCB problem output directory."""
@@ -240,10 +348,17 @@ def collect_cmd(
     from benchmark.versions import load_arm_meta, load_pins
 
     pins = load_pins()
+    resolved_provider = provider or DEFAULT_PROVIDER
+    resolved_model = model or DEFAULT_MODEL
+    if agent == "opencode":
+        agent_version = pins.get("opencode_cli_version")
+    else:
+        agent_version = pins.get("codex_cli_host_version")
     environment = {
-        "agent": "codex",
-        "agent_version": pins.get("codex_cli_host_version"),
-        "model": model,
+        "agent": agent,
+        "agent_version": agent_version,
+        "provider": resolved_provider,
+        "model": resolved_model,
         "slop_code_commit": pins.get("slop-code-bench"),
         "problems_commit": pins.get("scb-problems"),
         "harness_meta": load_arm_meta(arm),

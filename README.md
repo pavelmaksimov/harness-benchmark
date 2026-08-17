@@ -23,6 +23,7 @@
 - `scb-problems`: см. pins
 - Ponytail skill: `4.8.4` (только `skills/ponytail/SKILL.md`)
 - Codex image version: `0.145.0` (`configs/agent_codex.yaml`)
+- OpenCode image version: см. `opencode_cli_version` в pins (`configs/agent_opencode.yaml`)
 
 ## Setup
 
@@ -32,11 +33,13 @@ bash scripts/bootstrap_vendor.sh
 
 # 2) Auth for Codex inside SCB Docker: ~/.codex/auth.json
 #    (provider: codex_auth)
+#    Optional OpenCode: ~/.local/share/opencode/auth.json
+#    (provider: opencode_auth; `opencode auth login`)
 
 # 3) Docker должен быть запущен
 docker ps
 
-# 4) Pre-build images (apt/nvm/rust/codex; 10–30 мин первый раз)
+# 4) Pre-build images (base + Codex + OpenCode; 10–30 мин первый раз)
 bash scripts/build_images.sh
 ```
 
@@ -50,6 +53,21 @@ Runner автоматически выставляет изолированны�
 ```bash
 uv run python -m benchmark run --arm baseline --problem file_backup --runs 1
 ```
+
+По умолчанию: `--agent codex`, `--provider codex_auth`, модель/thinking из дефолтов.
+Модель и провайдер можно задать явно: `--provider … --model …`.
+
+### OpenCode (baseline only; модель и провайдер обязательны)
+
+```bash
+uv run python -m benchmark run --arm baseline \
+  --agent opencode \
+  --provider opencode_auth \
+  --model deepseek-v4-flash-free \
+  --thinking none
+```
+
+Skill-arm’ы с OpenCode не поддерживаются (хуки skills заточены под Codex).
 
 ### Один ponytail run
 

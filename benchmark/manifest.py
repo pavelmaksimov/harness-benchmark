@@ -5,7 +5,7 @@ from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any
 
-from benchmark.paths import CONFIGS_DIR, REPO_ROOT
+from benchmark.paths import CONFIGS_DIR, DEFAULT_AGENT, DEFAULT_PROVIDER, REPO_ROOT
 from benchmark.versions import (
     capture_codex_version,
     env_var_names,
@@ -27,6 +27,8 @@ def build_manifest(
     runs: int,
     docker_image: str,
     pricing_path: Path,
+    provider: str = DEFAULT_PROVIDER,
+    agent: str = DEFAULT_AGENT,
     harness_version: str | None = None,
     extra: dict[str, Any] | None = None,
 ) -> dict[str, Any]:
@@ -38,6 +40,11 @@ def build_manifest(
     harness_meta = load_arm_meta(arm)
     ponytail = load_ponytail_meta() if arm == "ponytail" else None
 
+    if agent == "opencode":
+        agent_version = pins.get("opencode_cli_version")
+    else:
+        agent_version = pins.get("codex_cli_host_version") or capture_codex_version()
+
     manifest = {
         "date": datetime.now(timezone.utc).isoformat(),
         "experiment_id": experiment_id,
@@ -47,13 +54,13 @@ def build_manifest(
         "harness_version": harness_version
         or ((harness_meta or {}).get("version") if harness_meta else "none"),
         "number_of_runs": runs,
-        "agent": "codex",
-        "agent_version": pins.get("codex_cli_host_version") or capture_codex_version(),
+        "agent": agent,
+        "agent_version": agent_version,
         "codex_host_version": capture_codex_version(),
         "model": model,
         "model_settings": {
             "thinking": thinking,
-            "provider": "codex_auth",
+            "provider": provider,
         },
         "git_commits": {
             "harness_benchmark": git_head(REPO_ROOT),

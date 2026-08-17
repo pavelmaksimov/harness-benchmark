@@ -29,12 +29,19 @@ Env always set for runs:
 - `HB_ENABLE_PONYTAIL=1` only for ponytail arm
 - `PYTHONPATH` includes `harness_sitecustomize` + repo root
 
-Agent config: `configs/agent_codex.yaml` — `version` must match Docker-installed Codex (pinned in `vendor/pins.json`).
+Agent config: `configs/agent_codex.yaml` (default) or `configs/agent_opencode.yaml`.
+Versions must match Docker-installed CLI pins in `vendor/pins.json`.
 
-## Model flag
+## Model / provider flags
 
 ```text
---model codex_auth/gpt-5.5
+# Codex default (unchanged)
+--agent codex   # optional; this is the default
+# → SCB --model codex_auth/<model>
+
+# OpenCode (provider + model required)
+--agent opencode --provider opencode_auth --model deepseek-v4-flash-free
+# → SCB --model opencode_auth/deepseek-v4-flash-free
 ```
 
 Not `openai/...` unless `OPENAI_API_KEY` is intentionally used.
