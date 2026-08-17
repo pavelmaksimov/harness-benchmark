@@ -27,13 +27,21 @@ console = Console()
 
 @app.command("bootstrap")
 def bootstrap() -> None:
-    """Verify vendor pins and that file_backup is available."""
+    """Verify vendor pins and that file_backup / task_manager are available."""
     pins = load_pins()
     console.print("pins:", pins)
     problem = PROBLEMS_DIR / "file_backup"
     if not problem.exists():
         raise typer.Exit(code=1)
     console.print(f"file_backup OK: {problem}")
+    task_manager = PROBLEMS_DIR / "task_manager"
+    if not task_manager.exists():
+        console.print(
+            "[yellow]task_manager missing under vendor/scb-problems; "
+            "run bash scripts/sync_task_manager_problem.sh[/yellow]"
+        )
+        raise typer.Exit(code=1)
+    console.print(f"task_manager OK: {task_manager}")
     console.print(f"slop-code-bench: {SCB_DIR} @ {pins.get('slop-code-bench')}")
     console.print("Bootstrap checks passed.")
 
