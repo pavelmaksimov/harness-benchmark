@@ -93,6 +93,27 @@ def smoke_cmd(
     )
 
 
+@app.command("validate-problem")
+def validate_problem_cmd(
+    problem: str = typer.Option("task_manager", "--problem"),
+    sync: bool = typer.Option(True, "--sync/--no-sync", help="Run task_manager symlink sync"),
+) -> None:
+    """Offline readiness: sync, catalog, CP1 staging, smoke markers (no Docker/Codex)."""
+    from benchmark.validate_problem import validate_problem
+
+    report = validate_problem(problem, sync=sync)
+    for check in report.checks:
+        mark = "[green]ok[/green]" if check.ok else "[red]FAIL[/red]"
+        console.print(f"{mark} {check.name}: {check.detail}")
+    if not report.ok:
+        console.print("[red]validate-problem failed[/red]")
+        raise typer.Exit(code=1)
+    console.print(
+        f"[green]validate-problem passed[/green] problem={problem} "
+        f"default_problem={DEFAULT_PROBLEM} (unchanged)"
+    )
+
+
 @app.command("run")
 def run_cmd(
     arm: str = typer.Option(..., "--arm", help="|".join(known_arm_names())),
