@@ -7,6 +7,10 @@ import sys
 
 
 def main() -> None:
+    from benchmark.eval_deps_hook import install_eval_deps_hook
+
+    install_eval_deps_hook()
+
     arm = os.environ.get("HB_ARM", "")
     if (
         os.environ.get("HB_ENABLE_HARNESS") == "1"
