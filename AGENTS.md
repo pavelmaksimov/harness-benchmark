@@ -15,6 +15,14 @@ Only insert cwd when `(cwd / "task_manager").is_dir()`, so local offline runs wi
 
 Do not treat such scores as model failure or as a harness-arm result.
 
+## `task_manager` CP7: version only for intentional edits
+
+`version` grows for tasks the request **meant** to change (target patch/place, tasks explicitly moved by a multi-task op such as state delete + replacement).
+
+Do **not** bump `version` on neighbors only because the board reflowed their `board_position` after another card left the column. That side effect caused a false CP12 Core fail when a test patched two occurrences with versions taken before the first move (`VERSION_CONFLICT` → missing `title` in the error body).
+
+Locked by `test_neighbor_version_unchanged_when_other_task_leaves_column` in `problems/task_manager/tests/test_checkpoint_7.py`.
+
 ## Eval deps: tests vs solution (do not whitelist every app library)
 
 SCB runs pytest via `uvx` in an **isolated** env. That env is **not** the agent’s `.venv` (usually absent from the snapshot anyway).
