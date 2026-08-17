@@ -31,6 +31,8 @@ When a smoke or full run finishes with failed tests / `checkpoint_success=false`
 
 `task_manager` eval deps: TestClient/`uvx` does not use the agent `.venv`. App packages come from snapshot `requirements.txt` (HB `eval_deps_hook` → `uvx --with-requirements`); `test_dependencies` is only tests + baseline stack. Do not add every library the model installed to the whitelist. See root `AGENTS.md`.
 
+`task_manager` CP7/CP12: bumping `version` on board neighbors after another card moves is **not** the intended contract (clarified in `checkpoint_7.md`). That caused CP12 Core `KeyError: 'title'` via stale `version` → `VERSION_CONFLICT`. Do not treat that alone as “model missed recurrence keep-edited”.
+
 ## Do not
 
 - Call N=1 smoke scores “science” without triage
