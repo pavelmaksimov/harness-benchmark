@@ -43,3 +43,41 @@ When analyzing a harness: map its workflow and extra files **via CP1 smoke** (`b
 ## Vendor / network
 
 GitHub clones need unrestricted network (`required_permissions: ["all"]`). Pins live in `vendor/pins.json`; large checkouts are gitignored.
+
+## Cursor shell sandbox vs Docker / uv
+
+Sandboxed shell often cannot see `/var/run/docker.sock` even when `dockerd` is healthy → false “Docker is down”.  
+Same sandbox/limited network breaks `uv run` (e.g. `hatchling` from PyPI: connection reset).
+
+**Fix:** run Docker checks, image builds, and `uv run python -m benchmark …` with `required_permissions: ["all"]`. Do not conclude Docker/daemon failure from a sandboxed probe alone.
+
+## Missing agent images (esp. OpenCode)
+
+Local may have only `slop-code:codex-…-python3.12`. OpenCode needs `slop-code:opencode-<opencode_cli_version>-python3.12` (pin in `vendor/pins.json`).
+
+**Fix:** reuse existing local images when compatible; build only what’s missing via `scripts/build_images.sh` or:
+
+```bash
+# same empty DOCKER_CONFIG pattern as build_images.sh / scb_run
+uv run python -m benchmark.scb_main docker build-agent \
+  configs/agent_opencode.yaml \
+  vendor/slop-code-bench/configs/environments/docker-python3.12-uv.yaml
+```
+
+Before an OpenCode run, verify that tag exists (`docker images | grep opencode`).
+
+## Comparing different agents / models
+
+Results live at `results/<experiment_id>/<arm>/run_N/`. Codex and OpenCode both use `--arm baseline` → **same** `experiment_id` overwrites the other run.
+
+**Fix:** separate `--experiment-id` per agent/model (e.g. `tm-codex-gpt55-med-…` vs `tm-opencode-dsflash-…`).
+
+## Auth files — presence only
+
+For Codex / OpenCode, only check that auth files exist (`~/.codex/auth.json`, `~/.local/share/opencode/auth.json`).  
+Do **not** print or dump auth JSON contents (Auto-review / credential boundary).
+
+## task_manager under vendor
+
+Eval expects `vendor/scb-problems/task_manager` → symlink into `problems/task_manager`.  
+If missing or broken: `bash scripts/sync_task_manager_problem.sh`.
