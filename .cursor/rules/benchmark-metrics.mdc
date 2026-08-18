@@ -30,6 +30,8 @@ Exclude non-solution roots via `EXCLUDE_DIR_NAMES` / `path_is_excluded` in `benc
 
 In write-ups, distinguish **solution diffs** from **harness/process artifacts**; do not treat inflated `files_touched` from `.git` or similar as product churn.
 
+After the run, **delete** agent-created `.git` under checkpoint `snapshot/` (see `benchmark-git-cleanup` rule). Keep repo root and `vendor/**/.git`.
+
 ## Correctness
 
 `checkpoint_success` = all **Core** tests passed (not all-cases).  
