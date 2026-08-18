@@ -1,1 +1,1 @@
-Baseline arm: stock Codex via SlopCodeBench, no extra AGENTS.md / skills.
+Baseline arm: stock agent via the runner, no extra AGENTS.md / skills.

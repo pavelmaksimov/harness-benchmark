@@ -1,13 +1,15 @@
-# Harness benchmark (SlopCodeBench × Codex)
+# Harness benchmark
 
-Сравнение harness-траекторий на одной задаче SlopCodeBench: одинаковые агент, модель, thinking, среда и бюджеты. Меняется только закреплённый harness.
+Сравнение harness-траекторий на одной задаче: в одном эксперименте одинаковые агент, модель, thinking, среда и бюджеты; меняется только закреплённый harness.
 
-| Arm | Agent | Harness |
-|-----|-------|---------|
-| **baseline** | Codex CLI | нет skill и extra `AGENTS.md` |
-| **skill-arm** | Codex CLI | pin из `harnesses/<arm>/` + prompt |
+Построено поверх SlopCodeBench (вендор в `vendor/slop-code-bench`). Агент подключается через адаптер (`--agent` / configs); сейчас есть Codex и OpenCode — это не идентичность бенчмарка.
 
-Состав pin’а — свойство конкретного arm (`VERSION.json` + файлы в его каталоге), а не каталог скиллов этого репозитория. Список arm’ов — `benchmark/arms.py`. Claude Code не используется.
+| Arm | Harness |
+|-----|---------|
+| **baseline** | нет skill и extra `AGENTS.md` |
+| **skill-arm** | pin из `harnesses/<arm>/` + prompt |
+
+Состав pin’а — свойство конкретного arm (`VERSION.json` + файлы в его каталоге), а не каталог скиллов этого репозитория. Список arm’ов — `benchmark/arms.py`.
 
 `pass_policy: all-core-cases` — early-stop только если падают Core-тесты,
 чтобы траектория CP1→CP4 доходила до конца; Functionality/Regression всё равно
