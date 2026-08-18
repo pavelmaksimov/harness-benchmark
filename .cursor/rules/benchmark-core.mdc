@@ -1,16 +1,16 @@
 ---
-description: Core invariants for SlopCodeBench × Ponytail harness benchmark (Codex)
+description: Core invariants for the SlopCodeBench harness benchmark (Codex)
 alwaysApply: true
 ---
 
 # Harness-benchmark core
 
-Agent under test is **Codex**, not Claude Code. Only one variable differs between arms: Ponytail skill vs none.
+Agent under test is **Codex**, not Claude Code. In one experiment the only intended difference between arms is the harness pin (`harnesses/<name>/` + prompt). Same model/thinking/env/budgets. Do not treat this repo as a catalog of a particular skill family.
 
 ## Layout (do not invent parallel *codebases*)
 
 - Thin wrapper over SlopCodeBench: `benchmark/` + `configs/` + `harnesses/`
-- Vendored pins: `vendor/pins.json` (SCB + scb-problems commits, Codex version, Ponytail sha)
+- Vendored pins: `vendor/pins.json` (SCB + scb-problems commits, Codex version, skill-arm versions)
 - Do **not** fork/rewrite SCB runner unless unavoidable; prefer CLI/config overrides
 - Do **not** modify `vendor/scb-problems/file_backup` in MVP
 
@@ -18,8 +18,8 @@ Agent under test is **Codex**, not Claude Code. Only one variable differs betwee
 
 | Arm | Prompt | Hook |
 |-----|--------|------|
-| `baseline` | `configs/prompts/just-solve.jinja` | no Ponytail |
-| `ponytail` | `configs/prompts/ponytail-solve.jinja` | `HB_ENABLE_PONYTAIL=1` + skill copy |
+| `baseline` | `configs/prompts/just-solve.jinja` | no skill injection |
+| skill arm | `configs/prompts/<arm>-solve.jinja` | hook copies that arm’s pin into Codex home |
 
 Same model/thinking/env/budgets. Auth: `codex_auth` via `~/.codex/auth.json`.
 
@@ -62,6 +62,6 @@ uv run python -m benchmark run-all --problem file_backup --runs 3 --jobs 2
 ## Do not
 
 - Invent a single weighted “benchmark score”
-- Add ponytail-review/audit/debt or extra AGENTS.md into arms
+- Mix files into an arm that are not part of that arm’s pin (extra skills, extra `AGENTS.md`)
 - Commit secrets / print API keys; manifests store env **names** only
 - Treat N=1 as final science — after pipeline works, use `--runs 3 --jobs 6`

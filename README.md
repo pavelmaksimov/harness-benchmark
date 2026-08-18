@@ -1,13 +1,13 @@
-# SlopCodeBench × Ponytail MVP (agent = Codex)
+# Harness benchmark (SlopCodeBench × Codex)
 
-Сравнение двух harness-траекторий на задаче `file_backup` из SlopCodeBench:
+Сравнение harness-траекторий на одной задаче SlopCodeBench: одинаковые агент, модель, thinking, среда и бюджеты. Меняется только закреплённый harness.
 
-| Arm | Agent | Model | Harness |
-|-----|-------|-------|---------|
-| **baseline** | Codex CLI | pinned | none |
-| **ponytail** | Codex CLI | same | pinned Ponytail coding skill only |
+| Arm | Agent | Harness |
+|-----|-------|---------|
+| **baseline** | Codex CLI | нет skill и extra `AGENTS.md` |
+| **skill-arm** | Codex CLI | pin из `harnesses/<arm>/` + prompt |
 
-Меняется только harness. Claude Code не используется.
+Состав pin’а — свойство конкретного arm (`VERSION.json` + файлы в его каталоге), а не каталог скиллов этого репозитория. Список arm’ов — `benchmark/arms.py`. Claude Code не используется.
 
 `pass_policy: all-core-cases` — early-stop только если падают Core-тесты,
 чтобы траектория CP1→CP4 доходила до конца; Functionality/Regression всё равно
@@ -15,13 +15,13 @@
 
 ## Pins
 
-См. `vendor/pins.json` и `harnesses/ponytail/VERSION.json`.
+См. `vendor/pins.json` и `harnesses/<arm>/VERSION.json`.
 
 Текущие значения (зафиксированы при bootstrap):
 
 - `slop-code-bench`: см. pins
 - `scb-problems`: см. pins
-- Ponytail skill: `4.8.4` (только `skills/ponytail/SKILL.md`)
+- Skill pins: `harnesses/<arm>/VERSION.json`
 - Codex image version: `0.145.0` (`configs/agent_codex.yaml`)
 - OpenCode image version: см. `opencode_cli_version` в pins (`configs/agent_opencode.yaml`)
 
@@ -75,10 +75,11 @@ Skill-arm’ы с OpenCode не поддерживаются (хуки skills з
 uv run python -m benchmark run --arm ponytail --problem file_backup --runs 1
 ```
 
-### Полный MVP: 3×baseline + 3×ponytail + report
+### Несколько повторов по всем DEFAULT_EXPERIMENT_ARMS + report
 
 ```bash
 uv run python -m benchmark run-all --problem file_backup --runs 3
+# подмножество: --arms baseline,ponytail
 ```
 
 ### Report по последнему / заданному experiment
@@ -103,17 +104,17 @@ uv run python -m benchmark report --experiment-id YYYYMMDDTHHMMSS
 - [Leaderboard](docs/LEADERBOARD.md) — срезы by task / by model / experiments (новые сверху)
 - [Short reports](docs/reports/) — один экран на эксперимент
 
-## Ponytail activation (доказательная)
+## Skill activation (доказательная)
 
-Для arm=`ponytail`:
+Для skill-arm’а (пример: `ponytail`):
 
-1. Перед каждым checkpoint skill копируется в Codex home mount: `~/.codex/skills/ponytail/SKILL.md`
-2. Prompt начинается с явной активации (`configs/prompts/ponytail-solve.jinja`)
+1. Перед каждым checkpoint pin копируется в Codex home mount (`~/.codex/skills/<name>/`)
+2. Prompt начинается с явной активации (`configs/prompts/<arm>-solve.jinja`)
 3. В artifacts пишется `harness_activation.json` (sha256 skill + verified flag)
 
 Если verification fails → `harness_activation_verified=false` и run исключается из сравнения.
 
-Baseline проверяется на отсутствие ponytail в prompt и отсутствие activation marker.
+Baseline проверяется на отсутствие skill-активации в prompt и отсутствие activation marker.
 
 ## Smoke experiment (N=1)
 
@@ -154,8 +155,8 @@ run_judge_codex(
 
 ```text
 benchmark/          # orchestration + metrics/report
-configs/            # baseline/ponytail/pricing/agent/prompts
-harnesses/ponytail/ # pinned SKILL.md
+configs/            # arm YAML / pricing / agent / prompts
+harnesses/          # pinned skill trees per arm
 vendor/             # slop-code-bench + scb-problems (pinned commits)
 docs/               # LEADERBOARD + short reports (committed)
 results/            # experiment outputs (gitignored)
