@@ -23,9 +23,9 @@ Common types: `feat`, `fix`, `docs`, `style`, `refactor`, `perf`, `test`, `build
 ## Example offers
 
 ```text
-Suggested commit: feat(benchmark): add smoke gate for skill arms
+feat(benchmark): add smoke gate for skill arms
 ```
 
 ```text
-Suggested commit: fix(structure): exclude graphify-out from LOC metrics
+fix(structure): exclude graphify-out from LOC metrics
 ```
