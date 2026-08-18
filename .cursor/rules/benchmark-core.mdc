@@ -1,16 +1,18 @@
 ---
-description: Core invariants for the SlopCodeBench harness benchmark (Codex)
+description: Core invariants for the harness benchmark
 alwaysApply: true
 ---
 
 # Harness-benchmark core
 
-Agent under test is **Codex**, not Claude Code. In one experiment the only intended difference between arms is the harness pin (`harnesses/<name>/` + prompt). Same model/thinking/env/budgets. Do not treat this repo as a catalog of a particular skill family.
+In one experiment the only intended difference between arms is the harness pin (`harnesses/<name>/` + prompt). Same agent adapter, model, thinking, env, and budgets. Do not treat this repo as a catalog of a particular skill family or a single agent CLI.
+
+Built on SlopCodeBench (vendored); agents are pluggable adapters (Codex, OpenCode, …).
 
 ## Layout (do not invent parallel *codebases*)
 
 - Thin wrapper over SlopCodeBench: `benchmark/` + `configs/` + `harnesses/`
-- Vendored pins: `vendor/pins.json` (SCB + scb-problems commits, Codex version, skill-arm versions)
+- Vendored pins: `vendor/pins.json` (SCB + scb-problems commits, agent CLI versions, skill-arm versions)
 - Do **not** fork/rewrite SCB runner unless unavoidable; prefer CLI/config overrides
 - Do **not** modify `vendor/scb-problems/file_backup` in MVP
 
@@ -19,9 +21,9 @@ Agent under test is **Codex**, not Claude Code. In one experiment the only inten
 | Arm | Prompt | Hook |
 |-----|--------|------|
 | `baseline` | `configs/prompts/just-solve.jinja` | no skill injection |
-| skill arm | `configs/prompts/<arm>-solve.jinja` | hook copies that arm’s pin into Codex home |
+| skill arm | `configs/prompts/<arm>-solve.jinja` | hook copies that arm’s pin into the agent home |
 
-Same model/thinking/env/budgets. Auth: `codex_auth` via `~/.codex/auth.json`.
+Same model/thinking/env/budgets within an experiment. Default Codex auth: `codex_auth` via `~/.codex/auth.json`.
 
 ## Before long runs
 

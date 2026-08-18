@@ -1,7 +1,7 @@
 [project]
 name = "harness-benchmark"
 version = "0.1.0"
-description = "Compare Codex harness pins on SlopCodeBench tasks"
+description = "Compare agent harness pins on coding trajectory tasks"
 readme = "README.md"
 requires-python = ">=3.12"
 dependencies = [
