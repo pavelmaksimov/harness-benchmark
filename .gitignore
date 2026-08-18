@@ -31,3 +31,4 @@ reports/**
 # Large vendored checkouts (pin commits in vendor/pins.json)
 vendor/slop-code-bench/
 vendor/scb-problems/
+.omo/

@@ -1,5 +1,21 @@
 # Agent notes (harness-benchmark)
 
+## Cursor rules (обязательные к прочтению)
+
+Правила из `.cursor/rules/` — они применяются Cursor, но агенты вне Cursor должны читать их напрямую. Ключевые для работы с бенчмарком:
+
+| Правило | О чём |
+|---------|-------|
+| [benchmark-core](.cursor/rules/benchmark-core.mdc) | Инварианты репозитория: layout, arms, параллельные прогоны (`--jobs`), do-not |
+| [benchmark-failure-triage](.cursor/rules/benchmark-failure-triage.mdc) | Триаж упавших smoke/run: bench vs модель, re-score снапшота |
+| [benchmark-git-cleanup](.cursor/rules/benchmark-git-cleanup.mdc) | Удаление агентских `.git` внутри снапшотов после прогонов |
+| [benchmark-metrics](.cursor/rules/benchmark-metrics.mdc) | Метрики: источники, exclusions (`EXCLUDE_DIR_NAMES`), сравнение |
+| [benchmark-new-harness](.cursor/rules/benchmark-new-harness.mdc) | Чеклист нового skill arm: smoke CP1 → `SMOKE.json` → full-run gate |
+| [benchmark-pitfalls](.cursor/rules/benchmark-pitfalls.mdc) | Известные грабли MVP: Docker credHelpers, `save_dir`, ProcessPool hook, sandbox |
+| [benchmark-runner](.cursor/rules/benchmark-runner.mdc) | Конвенции правки runner/хуков/SCB-инвокации, model/provider флаги |
+| [benchmark-wait](.cursor/rules/benchmark-wait.mdc) | Ожидание длинных прогонов: поллинг каждые 3 минуты |
+| [conventional-commits](.cursor/rules/conventional-commits.mdc) | Формат commit-сообщений (предлагать, не коммитить) |
+
 ## `task_manager`: workspace must be on `sys.path` for eval
 
 SCB runs pytest via `uvx` with cwd `/workspace`. That directory is **not** always on Python’s `sys.path`, so `import task_manager` fails in TestClient fixtures even when the agent’s package is present under `/workspace/task_manager/`.
