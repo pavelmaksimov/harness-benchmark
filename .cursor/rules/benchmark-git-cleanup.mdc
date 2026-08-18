@@ -1,0 +1,32 @@
+---
+description: Delete agent-created .git under benchmark snapshots after runs
+alwaysApply: true
+---
+
+# Post-benchmark `.git` cleanup
+
+Agents under test sometimes create `.git/` inside the solution workspace (e.g. for TDD, code-review, or local VCS workflows). That is fine during the run; it must not linger as stored result junk.
+
+## After a smoke / run / collect finishes
+
+Delete every `.git` directory (or gitfile) that lives **inside a checkpoint snapshot** under results, for example:
+
+```text
+results/<experiment>/<arm>/run_N/scb/<problem>/checkpoint_N/snapshot/.git
+```
+
+Also remove nested `.git` under that snapshot if a harness created them deeper in the tree.
+
+## Do not delete
+
+- The repo root: `harness-benchmark/.git`
+- Vendored clones: `vendor/**/.git` (e.g. `vendor/scb-problems`, `vendor/slop-code-bench`)
+
+## Why
+
+- Snapshot `.git` is a process artifact, not solution code (already in `EXCLUDE_DIR_NAMES`).
+- Leaving it on disk bloats `results/`, confuses “where are the git repos?”, and can nest accidental repos under the tree.
+
+## When implementing automation
+
+Prefer cleanup in the post-run path (after metrics are collected from the snapshot) so LOC/diff already used the exclude filter; then strip `.git` from stored snapshots. Manual cleanup of existing stale snapshot `.git` dirs is also fine.
