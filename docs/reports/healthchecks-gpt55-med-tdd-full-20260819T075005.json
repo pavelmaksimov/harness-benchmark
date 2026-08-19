@@ -1,0 +1,60 @@
+{
+  "agent": "codex",
+  "agent_version": "0.145.0",
+  "arms": {
+    "tdd": {
+      "checkpoints_passed": 1.0,
+      "checkpoints_total": 2.0,
+      "complexity": 185.0,
+      "dependencies_added": 5.0,
+      "elapsed_time": 717.879456,
+      "loc_changed": 814.0,
+      "loc_final": 638.0,
+      "normalized_cost": 1.700662,
+      "regression_failures": 0.0
+    }
+  },
+  "date": "2026-08-19T08:32:28.257471+00:00",
+  "deltas": {
+    "checkpoints_passed": null,
+    "checkpoints_total": null,
+    "complexity": null,
+    "dependencies_added": null,
+    "elapsed_time": null,
+    "loc_changed": null,
+    "loc_final": null,
+    "normalized_cost": null,
+    "regression_failures": null
+  },
+  "deltas_by_arm": {
+    "tdd": {
+      "checkpoints_passed": null,
+      "checkpoints_total": null,
+      "complexity": null,
+      "dependencies_added": null,
+      "elapsed_time": null,
+      "loc_changed": null,
+      "loc_final": null,
+      "normalized_cost": null,
+      "regression_failures": null
+    }
+  },
+  "excluded_ponytail_runs": 0,
+  "excluded_runs": {
+    "tdd": 0
+  },
+  "experiment_id": "healthchecks-gpt55-med-tdd-full-20260819T075005",
+  "git_commits": {
+    "harness_benchmark": "e64bb50b5bc5b2726b97bc0b2d8513a59e8b75dd",
+    "scb_problems": "ef6a9dd13911566b6b01075ca121758c9f7b5c5f",
+    "slop_code_bench": "06b5c0687d4c05ee502e9696a4d0c22fc1eec5e0"
+  },
+  "model": "gpt-5.5",
+  "n_baseline": 0,
+  "n_ponytail": 0,
+  "n_tdd": 1,
+  "ponytail": null,
+  "pricing_version": "2026-08-12-openai-gpt-5.6-luna",
+  "problem": "healthchecks",
+  "thinking": "medium"
+}

@@ -8,6 +8,12 @@ Newer experiments appear first.
 
 ## By task
 
+### `healthchecks`
+
+| Model | Harness | N | CP | Reg | Cost | Time | LOC | ΔLOC | Deps | Cx |
+|-------|---------|--:|--:|----:|-----:|-----:|----:|-----:|-----:|---:|
+| gpt-5.5 | tdd | 1 | 1/2 | 0 | $1.70 | 12.0m | 638 | 814 | 5 | 185 |
+
 ### `file_backup`
 
 | Model | Harness | N | CP | Reg | Cost | Time | LOC | ΔLOC | Deps | Cx |
@@ -32,6 +38,14 @@ Newer experiments appear first.
 
 ## By model
 
+### `gpt-5.5`
+
+| Problem | Harness | N | CP | Reg | Cost | Time | LOC | ΔLOC | Deps | Cx |
+|---------|---------|--:|--:|----:|-----:|-----:|----:|-----:|-----:|---:|
+| healthchecks | tdd | 1 | 1/2 | 0 | $1.70 | 12.0m | 638 | 814 | 5 | 185 |
+| file_backup | baseline | 1 | 4/- | 100 | $2.15 | 11.1m | 581 | 732 | 1 | 151 |
+| file_backup | ponytail | 1 | 4/- | 49 | $2.41 | 12.2m | 485 | 560 | 1 | 133 |
+
 ### `gpt-5.6-luna`
 
 | Problem | Harness | N | CP | Reg | Cost | Time | LOC | ΔLOC | Deps | Cx |
@@ -45,13 +59,6 @@ Newer experiments appear first.
 | file_backup | tdd | 1 | 4/4 | 49 | $2.90 | 50.2m | 1669 | 1848 | 1 | 213 |
 | file_backup | thermo-nuclear-code-quality-review | 1 | 4/4 | 106 | $2.72 | 48.8m | 679 | 918 | 1 | 172 |
 
-### `gpt-5.5`
-
-| Problem | Harness | N | CP | Reg | Cost | Time | LOC | ΔLOC | Deps | Cx |
-|---------|---------|--:|--:|----:|-----:|-----:|----:|-----:|-----:|---:|
-| file_backup | baseline | 1 | 4/- | 100 | $2.15 | 11.1m | 581 | 732 | 1 | 151 |
-| file_backup | ponytail | 1 | 4/- | 49 | $2.41 | 12.2m | 485 | 560 | 1 | 133 |
-
 ### `unknown`
 
 | Problem | Harness | N | CP | Reg | Cost | Time | LOC | ΔLOC | Deps | Cx |
@@ -63,6 +70,7 @@ Newer experiments appear first.
 
 | Experiment | Date | Problem | Model | N | Report |
 |------------|------|---------|-------|---|--------|
+| healthchecks-gpt55-med-tdd-full-20260819T075005 | 2026-08-19 | healthchecks | gpt-5.5 | 1 | [short](reports/healthchecks-gpt55-med-tdd-full-20260819T075005.md) |
 | luna-max-multi-harness-20260812T133624 | 2026-08-12 | file_backup | gpt-5.6-luna | 1+1+1+1+1+1+1+1 | [short](reports/luna-max-multi-harness-20260812T133624.md) |
 | mvp-smoke-baseline | 2026-08-12 | file_backup | gpt-5.5 | 1+1 | [short](reports/mvp-smoke-baseline.md) |
 | tm-gpt-models |  | unknown | unknown | 1+1 | [short](reports/tm-gpt-models.md) |
