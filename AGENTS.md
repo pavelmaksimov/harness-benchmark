@@ -13,7 +13,7 @@
 | [benchmark-new-harness](.cursor/rules/benchmark-new-harness.mdc) | Чеклист нового skill arm: smoke CP1 → `SMOKE.json` → full-run gate |
 | [benchmark-pitfalls](.cursor/rules/benchmark-pitfalls.mdc) | Известные грабли MVP: Docker credHelpers, `save_dir`, ProcessPool hook, sandbox |
 | [benchmark-runner](.cursor/rules/benchmark-runner.mdc) | Конвенции правки runner/хуков/SCB-инвокации, model/provider флаги |
-| [benchmark-wait](.cursor/rules/benchmark-wait.mdc) | Ожидание длинных прогонов: поллинг каждые 3 минуты |
+| [benchmark-wait](.cursor/rules/benchmark-wait.mdc) | Ожидание длинных прогонов: поллинг каждые 5 минут |
 | [conventional-commits](.cursor/rules/conventional-commits.mdc) | Формат commit-сообщений (предлагать, не коммитить) |
 | [graphify](.cursor/rules/graphify.mdc) | Навигация по графу зависимостей и связям файлов |
 
