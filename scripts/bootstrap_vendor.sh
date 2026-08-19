@@ -32,4 +32,5 @@ git -C scb-problems checkout --detach "$PROB_COMMIT"
 cd "$ROOT"
 uv sync
 bash "$ROOT/scripts/sync_task_manager_problem.sh"
+bash "$ROOT/scripts/sync_realworld_problem.sh"
 uv run python -m benchmark bootstrap
