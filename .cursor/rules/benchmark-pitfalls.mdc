@@ -81,3 +81,11 @@ Do **not** print or dump auth JSON contents (Auto-review / credential boundary).
 
 Eval expects `vendor/scb-problems/task_manager` → symlink into `problems/task_manager`.  
 If missing or broken: `bash scripts/sync_task_manager_problem.sh`.
+
+## Evaluator pytest isolation for TDD snapshots
+
+TDD and other test-first agents may declare `pytest` or `pytest-*` in the snapshot's `requirements.txt` for their own tests. Treat those packages as evaluator-framework dependencies, not application dependencies.
+
+**Fix:** `benchmark/eval_deps_hook.py` temporarily removes `pytest`/`pytest-*` lines while SCB builds the evaluator environment, while forwarding all other solution dependencies, then restores the original snapshot file. Keep `tests/test_eval_deps_hook.py` green when changing this path.
+
+If evaluator stderr contains `pytest: error: unrecognized arguments: --checkpoint` or `--entrypoint`, classify the result as `infrastructure_failure=true` and do not compare its score as a model/arm result. Re-score the same snapshot with SCB's pytest environment before comparing quality.
