@@ -316,7 +316,7 @@ def report_cmd(
         experiment_dir = RESULTS_DIR / experiment_id
     comparison = analyze_experiment(experiment_dir)
     json_path, txt_path, short_md, short_json, board = write_reports_and_publish(
-        experiment_dir, comparison
+        experiment_dir, comparison, problem=problem
     )
     console.print(txt_path.read_text(encoding="utf-8"))
     console.print(f"Wrote {txt_path} and {json_path}")
