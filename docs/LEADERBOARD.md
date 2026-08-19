@@ -23,6 +23,13 @@ Newer experiments appear first.
 | gpt-5.5 | baseline | 1 | 4/- | 100 | $2.15 | 11.1m | 581 | 732 | 1 | 151 |
 | gpt-5.5 | ponytail | 1 | 4/- | 49 | $2.41 | 12.2m | 485 | 560 | 1 | 133 |
 
+### `unknown`
+
+| Model | Harness | N | CP | Reg | Cost | Time | LOC | ΔLOC | Deps | Cx |
+|-------|---------|--:|--:|----:|-----:|-----:|----:|-----:|-----:|---:|
+| unknown | gpt55-medium | 1 | 15/15 | 14 | $14.64 | 64.8m | 2820 | 3590 | 5 | 778 |
+| unknown | gpt56-luna-xhigh | 1 | 15/15 | 0 | $11.02 | 184.3m | 4768 | 6054 | 4 | 978 |
+
 ## By model
 
 ### `gpt-5.6-luna`
@@ -45,9 +52,17 @@ Newer experiments appear first.
 | file_backup | baseline | 1 | 4/- | 100 | $2.15 | 11.1m | 581 | 732 | 1 | 151 |
 | file_backup | ponytail | 1 | 4/- | 49 | $2.41 | 12.2m | 485 | 560 | 1 | 133 |
 
+### `unknown`
+
+| Problem | Harness | N | CP | Reg | Cost | Time | LOC | ΔLOC | Deps | Cx |
+|---------|---------|--:|--:|----:|-----:|-----:|----:|-----:|-----:|---:|
+| unknown | gpt55-medium | 1 | 15/15 | 14 | $14.64 | 64.8m | 2820 | 3590 | 5 | 778 |
+| unknown | gpt56-luna-xhigh | 1 | 15/15 | 0 | $11.02 | 184.3m | 4768 | 6054 | 4 | 978 |
+
 ## Experiments
 
 | Experiment | Date | Problem | Model | N | Report |
 |------------|------|---------|-------|---|--------|
 | luna-max-multi-harness-20260812T133624 | 2026-08-12 | file_backup | gpt-5.6-luna | 1+1+1+1+1+1+1+1 | [short](reports/luna-max-multi-harness-20260812T133624.md) |
 | mvp-smoke-baseline | 2026-08-12 | file_backup | gpt-5.5 | 1+1 | [short](reports/mvp-smoke-baseline.md) |
+| tm-gpt-models |  | unknown | unknown | 1+1 | [short](reports/tm-gpt-models.md) |
