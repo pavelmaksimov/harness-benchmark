@@ -10,6 +10,7 @@ import re
 import socket
 import subprocess
 import time
+import uuid
 from collections.abc import Iterator, Mapping, MutableMapping
 from contextlib import contextmanager
 from dataclasses import dataclass
@@ -45,10 +46,27 @@ def render_placeholders(value: Any, store: Mapping[str, Any]) -> Any:
     return value
 
 
-def assert_error_contract(payload: Any, *, status_code: int | None = None) -> dict[str, Any]:
+def assert_uuid(value: Any, *, field: str = "id") -> str:
+    """Assert that an API identifier is a non-empty UUID string."""
+
+    assert isinstance(value, str) and value, f"{field} must be non-empty UUID string"
+    try:
+        uuid.UUID(value)
+    except (ValueError, AttributeError) as exc:
+        raise AssertionError(f"{field} must be UUID string, got {value!r}") from exc
+    return value
+
+
+def assert_error_contract(
+    payload: Any,
+    *,
+    status_code: int | None = None,
+    expected_code: str | None = None,
+) -> dict[str, Any]:
     """Assert the shared HTTP error object shape."""
 
     assert isinstance(payload, dict), f"error body must be object, got {type(payload)}"
+    assert "detail" not in payload, f"FastAPI/Starlette 'detail' must not leak: {payload!r}"
     assert "error" in payload, f"missing top-level 'error': {payload!r}"
     error = payload["error"]
     assert isinstance(error, dict), f"'error' must be object, got {type(error)}"
@@ -56,6 +74,10 @@ def assert_error_contract(payload: Any, *, status_code: int | None = None) -> di
     assert isinstance(error.get("message"), str) and error["message"], (
         "error.message must be non-empty str"
     )
+    if expected_code is not None:
+        assert error["code"] == expected_code, (
+            f"expected error.code={expected_code!r}, got {error['code']!r}"
+        )
     if "details" in error and error["details"] is not None:
         assert isinstance(error["details"], (dict, list)), "error.details must be object or array"
     if status_code is not None:
@@ -97,7 +119,7 @@ def register_account(
     response = client.post("/auth/register", json={"email": email, "password": password})
     assert response.status_code == 201, response.text
     body = response.json()
-    assert isinstance(body.get("id"), str) and body["id"]
+    assert_uuid(body.get("id"), field="account.id")
     return body
 
 
@@ -107,6 +129,7 @@ def login_account(client: TestClient, *, email: str, password: str) -> str:
     body = response.json()
     token = body.get("access_token")
     assert isinstance(token, str) and token, body
+    assert body.get("token_type") == "bearer", body
     return token
 
 
