@@ -1,5 +1,5 @@
 ---
-description: Poll benchmark runs every 3 minutes until completion
+description: Poll benchmark runs every 5 minutes until completion
 alwaysApply: true
 ---
 
@@ -9,12 +9,12 @@ When a benchmark (or related long job) is running in the background — e.g. `py
 
 ## Required polling
 
-- Check completion **every 3 minutes** (`block_until_ms` ≈ `180000`).
+- Check completion **every 5 minutes** (`block_until_ms` ≈ `300000`).
 - Keep polling until the process exits or clearly fails.
-- Do **not** use multi-minute sleeps longer than 3 minutes, exponential backoff beyond 3 minutes, or waits of ~5–15+ minutes between checks.
+- Do **not** use multi-minute sleeps longer than 5 minutes, exponential backoff beyond 5 minutes, or waits of ~10–15+ minutes between checks.
 
 ## How to wait
 
-Prefer `AwaitShell` with ~180s slices (and a completion/error pattern when useful). After each slice, inspect status/output and continue with another 180s wait if still running.
+Prefer `AwaitShell` with ~300s slices (and a completion/error pattern when useful). After each slice, inspect status/output and continue with another 300s wait if still running.
 
-Short smoke checks (`block_until_ms: 0`) are fine right after starting a background command; then switch to the 3-minute loop.
+Short smoke checks (`block_until_ms: 0`) are fine right after starting a background command; then switch to the 5-minute loop.
