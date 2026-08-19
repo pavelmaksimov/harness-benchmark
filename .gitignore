@@ -4,6 +4,7 @@
 .idea/
 .vscode/
 .cursor/cache/
+graphify-out/
 uv.lock
 # Secrets / local auth (never commit)
 .env
