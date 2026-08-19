@@ -1,6 +1,6 @@
 # Healthchecks benchmark trajectory
 
-The problem is an API-only cumulative clone inspired by `healthchecks/healthchecks`. Every checkpoint is a complete product feature and all prior tests remain active.
+The problem is an API-only cumulative implementation trajectory inspired by `healthchecks/healthchecks`. Every checkpoint is a complete product feature. The codebase carries prior functionality forward, but each checkpoint is scored by its own focused test file rather than rerunning all prior checkpoint tests.
 
 | CP | Feature |
 |---:|---|
