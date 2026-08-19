@@ -35,6 +35,7 @@ def _reload():
 def db_path(tmp_path, monkeypatch):
     p = tmp_path / "healthchecks.db"
     monkeypatch.setenv(DB_ENV, str(p))
+    monkeypatch.setenv("HEALTHCHECKS_PING_EMAIL_DOMAIN", "example.test")
     return p
 
 @pytest.fixture
