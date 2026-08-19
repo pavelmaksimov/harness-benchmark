@@ -15,6 +15,7 @@
 | [benchmark-runner](.cursor/rules/benchmark-runner.mdc) | Конвенции правки runner/хуков/SCB-инвокации, model/provider флаги |
 | [benchmark-wait](.cursor/rules/benchmark-wait.mdc) | Ожидание длинных прогонов: поллинг каждые 3 минуты |
 | [conventional-commits](.cursor/rules/conventional-commits.mdc) | Формат commit-сообщений (предлагать, не коммитить) |
+| [graphify](.cursor/rules/graphify.mdc) | Навигация по графу зависимостей и связям файлов |
 
 ## `task_manager`: workspace must be on `sys.path` for eval
 
@@ -80,3 +81,16 @@ Two sources of packages:
 - `-e .` / exotic index flags in requirements may fail at install time; that failure is the signal, not a whitelist gap.
 
 **Known case (2026-08-17):** agent used `pwdlib[argon2]` in-session; eval `uvx` lacked it and tests ERROR’d on import. Fix is the snapshot `requirements.txt` path above, not adding `pwdlib` to `test_dependencies`.
+
+## graphify
+
+This project has a knowledge graph at graphify-out/ with god nodes, community structure, and cross-file relationships.
+
+When the user types `/graphify`, use the installed graphify skill or instructions before doing anything else.
+
+Rules:
+- For codebase questions, first run `graphify query "<question>"` when graphify-out/graph.json exists. Use `graphify path "<A>" "<B>"` for relationships and `graphify explain "<concept>"` for focused concepts. These return a scoped subgraph, usually much smaller than GRAPH_REPORT.md or raw grep output.
+- Dirty graphify-out/ files are expected after hooks or incremental updates; dirty graph files are not a reason to skip graphify. Only skip graphify if the task is about stale or incorrect graph output, or the user explicitly says not to use it.
+- If graphify-out/wiki/index.md exists, use it for broad navigation instead of raw source browsing.
+- Read graphify-out/GRAPH_REPORT.md only for broad architecture review or when query/path/explain do not surface enough context.
+- After modifying code, run `graphify update .` to keep the graph current (AST-only, no API cost).
