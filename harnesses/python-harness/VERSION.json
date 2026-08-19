@@ -1,0 +1,15 @@
+{
+  "name": "python-harness",
+  "skill_name": "python-harness",
+  "version": "1.2.3",
+  "kind": "single",
+  "skill_sha256": "52db22396682266f3d234e39079ba134ece83e9b4e7ddce92acbacf02399c086",
+  "tree_sha256": "52db22396682266f3d234e39079ba134ece83e9b4e7ddce92acbacf02399c086",
+  "skill_bytes": 5363,
+  "file_count": 1,
+  "pinned_at": "2026-08-19",
+  "source": "https://github.com/pavelmaksimov/python-harness",
+  "source_commit": "38ada37707ba31fea94ec852b3272b77364a88fd",
+  "catalog_version": "1.2.3",
+  "benchmark_adapter": "non-interactive deterministic selection"
+}

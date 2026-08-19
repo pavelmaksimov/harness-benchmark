@@ -108,6 +108,14 @@ ARMS: dict[str, ArmSpec] = {
         skill_name="review-agent",
         activation_phrase="Activate and follow the installed Codex skill `review-agent`",
     ),
+    "python-harness": ArmSpec(
+        name="python-harness",
+        kind="single",
+        skill_name="python-harness",
+        activation_phrase=(
+            "Activate and follow the installed Codex skill `python-harness`"
+        ),
+    ),
 }
 
 DEFAULT_EXPERIMENT_ARMS: tuple[str, ...] = (
