@@ -1,0 +1,29 @@
+{
+  "agent": null,
+  "agent_version": null,
+  "arms": {},
+  "date": "",
+  "deltas": {
+    "checkpoints_passed": null,
+    "checkpoints_total": null,
+    "complexity": null,
+    "dependencies_added": null,
+    "elapsed_time": null,
+    "loc_changed": null,
+    "loc_final": null,
+    "normalized_cost": null,
+    "regression_failures": null
+  },
+  "deltas_by_arm": {},
+  "excluded_ponytail_runs": 0,
+  "excluded_runs": {},
+  "experiment_id": "realworld-multi-harness-20260819T204314",
+  "git_commits": {},
+  "model": "unknown",
+  "n_baseline": 0,
+  "n_ponytail": 0,
+  "ponytail": null,
+  "pricing_version": null,
+  "problem": "unknown",
+  "thinking": null
+}
