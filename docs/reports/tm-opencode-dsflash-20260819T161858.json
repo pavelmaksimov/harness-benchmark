@@ -1,0 +1,47 @@
+{
+  "agent": "opencode",
+  "agent_version": "1.14.33",
+  "arms": {
+    "baseline": {
+      "checkpoints_passed": 8.0,
+      "checkpoints_total": 10.0,
+      "complexity": 434.0,
+      "dependencies_added": 6.0,
+      "elapsed_time": 8358.303473,
+      "loc_changed": 3263.0,
+      "loc_final": 1754.0,
+      "normalized_cost": 0.0,
+      "regression_failures": 8.0
+    }
+  },
+  "date": "2026-08-19T14:16:23.980166+00:00",
+  "deltas": {
+    "checkpoints_passed": null,
+    "checkpoints_total": null,
+    "complexity": null,
+    "dependencies_added": null,
+    "elapsed_time": null,
+    "loc_changed": null,
+    "loc_final": null,
+    "normalized_cost": null,
+    "regression_failures": null
+  },
+  "deltas_by_arm": {},
+  "excluded_ponytail_runs": 0,
+  "excluded_runs": {
+    "baseline": 0
+  },
+  "experiment_id": "tm-opencode-dsflash-20260819T161858",
+  "git_commits": {
+    "harness_benchmark": "9db58e368457a78368a4e977f9c15083e4325150",
+    "scb_problems": "ef6a9dd13911566b6b01075ca121758c9f7b5c5f",
+    "slop_code_bench": "06b5c0687d4c05ee502e9696a4d0c22fc1eec5e0"
+  },
+  "model": "deepseek-v4-flash-free",
+  "n_baseline": 1,
+  "n_ponytail": 0,
+  "ponytail": null,
+  "pricing_version": "2026-08-12-openai-gpt-5.6-luna",
+  "problem": "task_manager",
+  "thinking": "none"
+}

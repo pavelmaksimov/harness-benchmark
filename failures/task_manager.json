@@ -1,0 +1,42 @@
+[
+  {
+    "agent": "opencode",
+    "agent_version": "1.14.33",
+    "arm": "baseline",
+    "checkpoint": "checkpoint_3",
+    "date": "2026-08-19T15:38:52.148858+00:00",
+    "experiment_id": "tm-opencode-dsflash-20260819T161858",
+    "failed_tests": [
+      "test_timestamps_use_controlled_clock",
+      "test_done_and_canceled_exclude_from_overdue_without_clearing_due",
+      "test_overdue_from_controlled_clock_and_account_timezone"
+    ],
+    "fix": "security.py: TTL default 86400->31536000; decode options verify_iat:False + verify_exp:False",
+    "harness": "baseline",
+    "infrastructure_failure": false,
+    "model": "deepseek-v4-flash-free",
+    "pass_counts": {
+      "Core": 1,
+      "Error": 1,
+      "Functionality": 1,
+      "Regression": 17
+    },
+    "paths": {
+      "run_dir": "/home/user/my/harness-benchmark/results/tm-opencode-dsflash-20260819T161858/baseline/run_1",
+      "scb_problem_dir": "/home/user/my/harness-benchmark/results/tm-opencode-dsflash-20260819T161858/baseline/run_1/scb/task_manager",
+      "snapshot_dir": "/home/user/my/harness-benchmark/results/tm-opencode-dsflash-20260819T161858/baseline/run_1/scb/task_manager/checkpoint_3/snapshot"
+    },
+    "post_fix_score": "23/23",
+    "problem": "task_manager",
+    "provider": "opencode_auth",
+    "resumed": true,
+    "root_cause": "JWT layer defect: get_ttl_seconds default 86400s (24h) expires tokens on controlled-clock jumps; decode_token lacks verify_iat=False so PyJWT>=2.10 rejects future-frozen iat as ImmatureSignatureError -> 401 -> overdue KeyError",
+    "thinking": "none",
+    "total_counts": {
+      "Core": 3,
+      "Error": 1,
+      "Functionality": 1,
+      "Regression": 18
+    }
+  }
+]
