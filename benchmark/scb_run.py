@@ -26,6 +26,7 @@ from benchmark.paths import (
     SCB_DIR,
     SUPPORTED_AGENTS,
 )
+from benchmark.rework import record_rework_events
 from benchmark.versions import load_arm_meta, load_pins
 
 # SCB ResolvedRunConfig accepts only none/disabled/low/medium/high/xhigh.
@@ -131,6 +132,7 @@ def run_slop_code(
     output_dir: Path,
     dry_run: bool = False,
     problems_path: Path | None = None,
+    rework_attempts: int = 2,
 ) -> Path:
     """Invoke SlopCodeBench run for one arm into output_dir."""
     spec = get_arm(arm)
@@ -143,6 +145,7 @@ def run_slop_code(
     env["SCBENCH_HOME"] = str(output_dir / ".scbench_home")
     env["HB_ARM"] = arm
     env["HB_RUN_OUTPUT"] = str(output_dir)
+    env["HB_REWORK_ATTEMPTS"] = str(rework_attempts)
     # supermemory container tag per problem: memory of one task must not leak
     # into another task's run (see versions.SUPERMEMORY_BENCHMARK_CONTAINER_TAG).
     if arm == "supermemory":
@@ -247,6 +250,7 @@ def run_one(
     run_index: int = 1,
     experiment_id: str | None = None,
     problems_path: Path | None = None,
+    rework_attempts: int = 2,
 ) -> dict[str, Any]:
     agent, provider, model, thinking = resolve_run_selection(
         agent=agent,
@@ -272,6 +276,7 @@ def run_one(
         agent=agent,
         output_dir=out_dir,
         problems_path=problems_path,
+        rework_attempts=rework_attempts,
     )
 
     scb_problem_dir = find_scb_problem_dir(out_dir / "scb", problem)
@@ -345,6 +350,7 @@ def run_one(
         json.dumps(collected, indent=2, sort_keys=True) + "\n",
         encoding="utf-8",
     )
+    record_rework_events(collected=collected, manifest=manifest, run_dir=out_dir)
     return collected
 
 
@@ -357,6 +363,7 @@ def run_smoke(
     provider: str | None = None,
     agent: str = DEFAULT_AGENT,
     experiment_id: str | None = None,
+    rework_attempts: int = 0,
 ) -> dict[str, Any]:
     """Run a single-checkpoint (CP1) smoke for one harness arm and write SMOKE.json."""
     from benchmark.smoke import (
@@ -385,6 +392,7 @@ def run_smoke(
         run_index=1,
         experiment_id=experiment_id,
         problems_path=staged,
+        rework_attempts=rework_attempts,
     )
 
     cps = collected.get("checkpoints") or []
@@ -427,6 +435,7 @@ def run_matrix(
     experiment_id: str | None = None,
     jobs: int = 1,
     skip_smoke_check: bool = False,
+    rework_attempts: int = 2,
 ) -> list[dict[str, Any]]:
     """Run arm×run matrix. jobs=1 is serial; jobs>1 overlaps independent run_one calls.
 
@@ -462,6 +471,7 @@ def run_matrix(
             agent=agent,
             run_index=run_index,
             experiment_id=experiment_id,
+            rework_attempts=rework_attempts,
         )
 
     if jobs == 1 or len(tasks) == 1:
@@ -494,6 +504,7 @@ def run_arm_repeats(
     experiment_id: str | None = None,
     jobs: int = 1,
     skip_smoke_check: bool = False,
+    rework_attempts: int = 2,
 ) -> list[dict[str, Any]]:
     return run_matrix(
         arms=(arm,),
@@ -506,6 +517,7 @@ def run_arm_repeats(
         experiment_id=experiment_id,
         jobs=jobs,
         skip_smoke_check=skip_smoke_check,
+        rework_attempts=rework_attempts,
     )
 
 

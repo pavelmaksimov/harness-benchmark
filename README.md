@@ -139,6 +139,32 @@ uv run python -m benchmark smoke --arm graphify --problem file_backup
 uv run python -m benchmark run-all --problem file_backup --runs 3
 ```
 
+## Rework loop (test-failure retries)
+
+По умолчанию падение Core-тестов чекпоинта останавливает траекторию
+(`pass_policy: all-core-cases`). Флаг `--rework-attempts N` (run/run-all,
+по умолчанию `2`) вместо остановки возвращает задачу агенту на доработку:
+промпт чекпоинта дополняется блоком `[REWORK ATTEMPT k]` со списком упавших
+тестов, а workspace сохраняет код предыдущей попытки, так что агент правит
+в месте. Попытка пере-оценивается тем же пайплайном.
+
+- Лимит `N` — это **дополнительные** попытки сверх первой; `--rework-attempts 0` выключает реворк (поведение SCB как раньше).
+- Реворк не запускается, если попытка завершилась ошибкой агента, rate-limit'ом
+  или `infrastructure_failure` (это проблемы раннера, а не модели).
+- Каждая попытка пишет `rework.json` в каталог чекпоинта:
+  `{checkpoint, attempts_total, fixed, attempts: [{passed_policy, pass_counts,
+  total_counts, failed_tests, ...}]}`.
+- Статистика попадает в метрики (`cumulative.rework_*`), comparison report
+  (строки `Rework attempts/fixed/unresolved`), short report (Notes) и в
+  `failures/<problem>.json` как записи с `source: "rework"` — по ним видно,
+  какие модели на какие тесты попадают и как часто исправляются.
+- Smoke (CP1 gate) всегда идёт с `rework_attempts=0`.
+
+```bash
+uv run python -m benchmark run --arm baseline --problem file_backup --runs 1 --rework-attempts 2
+uv run python -m benchmark run-all --problem file_backup --runs 3 --rework-attempts 0
+```
+
 ## Optional judge
 
 Не влияет на correctness. Пример (после run):

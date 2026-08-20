@@ -36,17 +36,28 @@ def load_failures(problem: str) -> list[dict[str, Any]]:
 def record_failure(problem: str, entry: dict[str, Any]) -> Path:
     """Append a failure entry to the per-problem file (creating it if needed).
 
-    Entries are keyed by ``(experiment_id, checkpoint)``: recording the same
-    failure twice (e.g. after a fix was verified) replaces the previous entry
-    instead of duplicating it.
+    Entries are keyed by ``(experiment_id, checkpoint, run_index)``: recording
+    the same failure twice (e.g. after a fix was verified) replaces the
+    previous entry instead of duplicating it.  Entries without a ``run_index``
+    (written before the key was extended) keep keying on the first two fields,
+    so legacy records are never dropped.
     """
     path = failures_path(problem)
     entries = load_failures(problem)
-    key = (entry.get("experiment_id"), entry.get("checkpoint"))
+    key = (
+        entry.get("experiment_id"),
+        entry.get("checkpoint"),
+        entry.get("run_index"),
+    )
     entries = [
         existing
         for existing in entries
-        if (existing.get("experiment_id"), existing.get("checkpoint")) != key
+        if (
+            existing.get("experiment_id"),
+            existing.get("checkpoint"),
+            existing.get("run_index"),
+        )
+        != key
     ]
     entries.append(entry)
     path.parent.mkdir(parents=True, exist_ok=True)

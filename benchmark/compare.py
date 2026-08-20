@@ -87,6 +87,12 @@ def _run_totals(run: dict[str, Any]) -> dict[str, Any]:
         for cp in cps
         if cp["code"].get("dependencies_added") is not None
     )
+    reworked = [cp for cp in cps if cp.get("rework")]
+    rework_attempts = sum(
+        int(cp["rework"]["attempts_total"] or 0) for cp in reworked
+    )
+    rework_fixed = sum(1 for cp in reworked if cp["rework"].get("fixed"))
+    rework_unresolved = len(reworked) - rework_fixed
     final = _final_checkpoint(run) or {}
     return {
         "checkpoints_passed": passed,
@@ -102,6 +108,9 @@ def _run_totals(run: dict[str, Any]) -> dict[str, Any]:
         "files_touched": files_touched,
         "dependencies_added": deps_added,
         "complexity": (final.get("code") or {}).get("cyclomatic_complexity_total"),
+        "rework_attempts": rework_attempts,
+        "rework_fixed": rework_fixed,
+        "rework_unresolved": rework_unresolved,
         "excluded_from_comparison": bool(run.get("excluded_from_comparison")),
     }
 
@@ -145,6 +154,9 @@ def compare_arms(by_arm: dict[str, list[dict[str, Any]]]) -> dict[str, Any]:
         "files_touched",
         "dependencies_added",
         "complexity",
+        "rework_attempts",
+        "rework_fixed",
+        "rework_unresolved",
     ]
 
     baseline_totals = totals.get("baseline", [])
@@ -235,6 +247,9 @@ def format_comparison_report(comparison: dict[str, Any], problem: str = "file_ba
         "files_touched": "Files touched",
         "dependencies_added": "Dependencies",
         "complexity": "Complexity",
+        "rework_attempts": "Rework attempts",
+        "rework_fixed": "Rework fixed",
+        "rework_unresolved": "Rework unresolved",
     }
 
     col_w = max(12, max((len(a) for a in arms), default=12))

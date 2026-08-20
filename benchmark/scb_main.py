@@ -22,6 +22,14 @@ def main() -> None:
 
         install_skill_hook()
 
+    from benchmark.rework_hook import HB_REWORK_ATTEMPTS, install_rework_hook
+    try:
+        rework_attempts = int(os.environ.get(HB_REWORK_ATTEMPTS, "0") or "0")
+    except ValueError:
+        rework_attempts = 0
+    if rework_attempts > 0:
+        install_rework_hook(rework_attempts)
+
     # Ensure agent registrations load.
     import slop_code.agent_runner.agents  # noqa: F401
     from slop_code.agent_runner.credentials import ProviderCatalog

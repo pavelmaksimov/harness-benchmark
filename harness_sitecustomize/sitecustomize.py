@@ -45,6 +45,23 @@ def _maybe_install_skill_hook() -> None:
         print(f"[hb] skill hook install failed: {exc}", file=sys.stderr)
 
 
+def _maybe_install_rework_hook() -> None:
+    raw = os.environ.get("HB_REWORK_ATTEMPTS", "0") or "0"
+    try:
+        attempts = int(raw)
+    except ValueError:
+        return
+    if attempts <= 0:
+        return
+    try:
+        from benchmark.rework_hook import install_rework_hook
+
+        install_rework_hook(attempts)
+    except Exception as exc:  # noqa: BLE001
+        print(f"[hb] rework hook install failed: {exc}", file=sys.stderr)
+
+
 _install_eval_deps_hook()
 _load_hb_models()
 _maybe_install_skill_hook()
+_maybe_install_rework_hook()

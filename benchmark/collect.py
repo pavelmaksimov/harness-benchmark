@@ -9,6 +9,7 @@ from benchmark.cost import load_pricing, normalized_cost_usd
 from benchmark.dependencies import collect_dependencies, dependency_delta
 from benchmark.isolation import verify_baseline_prompt, verify_skill_prompt
 from benchmark.paths import ACTIVATION_MARKER, CONFIGS_DIR
+from benchmark.rework import rework_stats
 from benchmark.structure import analyze_snapshot, path_is_excluded
 from benchmark.versions import load_arm_meta, load_pins
 
@@ -212,6 +213,7 @@ def collect_checkpoint_record(
     dep_metrics = dependency_delta(prev_deps, deps)
     change = _diff_metrics(diff)
     activation = _activation_status(arm, checkpoint_dir)
+    rework = _read_json(checkpoint_dir / "rework.json")
 
     record = {
         "run_id": run_id,
@@ -263,6 +265,8 @@ def collect_checkpoint_record(
             "snapshot_dir": str(snapshot_dir),
         },
     }
+    if rework is not None:
+        record["rework"] = rework
     return record, deps
 
 
@@ -349,6 +353,7 @@ def _cumulative_metrics(records: list[dict[str, Any]]) -> dict[str, Any]:
             "regression_failures": acc["regression_failures"],
             "lines_changed": acc["lines_changed"],
         }
+    out.update(rework_stats(records))
     return out
 
 
