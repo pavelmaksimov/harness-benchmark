@@ -323,6 +323,80 @@ def report_cmd(
     console.print(f"Published {short_md}, {short_json}, {board}")
 
 
+@app.command("repair")
+def repair_cmd(
+    experiment_id: str = typer.Option(..., "--experiment-id"),
+    arm: str = typer.Option("baseline", "--arm", help="|".join(known_arm_names())),
+    run_index: int = typer.Option(1, "--run", min=1),
+    problem: Optional[str] = typer.Option(
+        None, "--problem", help="Defaults to the problem in manifest.json"
+    ),
+    fix_snapshot: Optional[Path] = typer.Option(
+        None,
+        "--fix-snapshot",
+        help="Fixed snapshot dir to copy over the failed checkpoint's snapshot",
+    ),
+    fixer_agent: Optional[str] = typer.Option(
+        None,
+        "--fixer-agent",
+        help="Run a fixer agent on the snapshot (supported: opencode)",
+    ),
+    fixer_model: Optional[str] = typer.Option(
+        None,
+        "--fixer-model",
+        help="Model for the fixer agent (e.g. deepseek-v4-flash-free)",
+    ),
+    root_cause: Optional[str] = typer.Option(
+        None, "--root-cause", help="Root-cause note to record with the failure"
+    ),
+    fix: Optional[str] = typer.Option(
+        None, "--fix", help="Description of the applied fix to record"
+    ),
+    no_resume: bool = typer.Option(
+        False,
+        "--no-resume",
+        help="Record + fix + verify only; do not continue the SCB run",
+    ),
+    dry_run: bool = typer.Option(
+        False,
+        "--dry-run",
+        help="Record the failure only (no snapshot change, no SCB run)",
+    ),
+) -> None:
+    """Record a model failure and (optionally) fix + continue the run."""
+    from benchmark.repair import repair_run
+
+    try:
+        result = repair_run(
+            experiment_id=experiment_id,
+            arm=arm,
+            run_index=run_index,
+            problem=problem,
+            fix_snapshot_dir=Path(fix_snapshot) if fix_snapshot else None,
+            fixer_agent=fixer_agent,
+            fixer_model=fixer_model,
+            root_cause=root_cause,
+            fix=fix,
+            no_resume=no_resume,
+            dry_run=dry_run,
+        )
+    except (FileNotFoundError, RuntimeError, ValueError) as exc:
+        console.print(f"[red]{exc}[/red]")
+        raise typer.Exit(code=1) from exc
+    console.print(f"status={result.get('status')} problem={result.get('problem')}")
+    if result.get("checkpoint"):
+        console.print(f"checkpoint={result['checkpoint']}")
+    if result.get("failures_path"):
+        console.print(f"failures_file={result['failures_path']}")
+    if result.get("verification"):
+        v = result["verification"]
+        console.print(f"verification: {v['passed']} passed / {v['failed']} failed")
+    if result.get("backup_dir"):
+        console.print(f"backup_dir={result['backup_dir']}")
+    if result.get("resume_log"):
+        console.print(f"resume_log={result['resume_log']}")
+
+
 @app.command("collect")
 def collect_cmd(
     scb_problem_dir: Path = typer.Argument(..., exists=True, file_okay=False),
