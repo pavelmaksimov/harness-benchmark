@@ -109,6 +109,17 @@ def build_publish_payload(experiment_dir: Path, comparison: dict[str, Any]) -> d
         for arm in arm_names
         if arm != "baseline"
     }
+    rework: dict[str, dict[str, int]] = {}
+    raw_totals = comparison.get("raw_totals") or {}
+    for arm, totals in raw_totals.items():
+        attempts = sum(int(t.get("rework_attempts") or 0) for t in totals)
+        if attempts <= 0:
+            continue
+        rework[arm] = {
+            "attempts": attempts,
+            "fixed": sum(int(t.get("rework_fixed") or 0) for t in totals),
+            "unresolved": sum(int(t.get("rework_unresolved") or 0) for t in totals),
+        }
     # Back-compat single delta map for ponytail-era reports.
     legacy_deltas = {
         key: (comparison.get("summary") or {}).get(key, {}).get("delta_mean") for key in METRIC_KEYS
@@ -130,6 +141,8 @@ def build_publish_payload(experiment_dir: Path, comparison: dict[str, Any]) -> d
         "excluded_runs": comparison.get("excluded_runs") or {},
         "excluded_ponytail_runs": comparison.get("excluded_ponytail_runs", 0),
     }
+    if rework:
+        payload["rework"] = rework
     for arm in arm_names:
         payload[f"n_{arm}"] = comparison.get(f"n_{arm}", 0)
     payload["n_baseline"] = comparison.get("n_baseline", 0)
@@ -222,6 +235,13 @@ def format_short_report(payload: dict[str, Any]) -> str:
         lines.extend(f"- {n}" for n in notes)
     else:
         lines.append("- No paired baseline/harness means to summarize.")
+    rework = payload.get("rework") or {}
+    if rework:
+        for arm, rw in rework.items():
+            lines.append(
+                f"- Rework {arm}: {rw['attempts']} extra attempts, "
+                f"{rw['fixed']} fixed, {rw['unresolved']} unresolved."
+            )
     excluded = payload.get("excluded_runs") or {}
     excluded_bits = [f"{arm}={n}" for arm, n in excluded.items() if n]
     if excluded_bits:

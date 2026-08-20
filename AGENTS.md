@@ -82,6 +82,29 @@ Two sources of packages:
 
 **Known case (2026-08-17):** agent used `pwdlib[argon2]` in-session; eval `uvx` lacked it and tests ERROR’d on import. Fix is the snapshot `requirements.txt` path above, not adding `pwdlib` to `test_dependencies`.
 
+## Rework loop: test-failure retries (`--rework-attempts` / `HB_REWORK_ATTEMPTS`)
+
+`run` / `run-all` принимают `--rework-attempts N` (default `2`, min `0`; smoke всегда `0`).
+Внутри одного чекпоинта при падении Core-тестов (не ошибка агента, не rate-limit,
+не `infrastructure_failure`, не skip/concurrent eval) агент пере-вызывается с тем же
+промптом + блоком `[REWORK ATTEMPT k]` со списком упавших тестов; workspace
+сохраняет код предыдущей попытки (`Session.finish_checkpoint` не сбрасывает workspace),
+попытка пере-оценивается обычным пайплайном.
+
+- Хук: `benchmark/rework_hook.py` — monkeypatch `AgentRunner._run_checkpoint`
+  (установка из `benchmark.scb_main.py` и `harness_sitecustomize` для ProcessPool-воркеров,
+  идемпотентно). Vendor SCB не трогаем.
+- Артефакт: `<checkpoint>/rework.json` (`attempts_total`, `fixed`, `attempts[]`).
+- Метрики: `cumulative.rework_*` (collect.py), строки `Rework attempts/fixed/unresolved`
+  в comparison (compare.py), Notes в short report (publish.py), записи
+  `source: "rework"` в `failures/<problem>.json` (rework.py).
+- `failures.py` ключует записи по `(experiment_id, checkpoint, run_index)` —
+  backward compatible (записи без `run_index` не выпадают).
+- **Триаж:** чекпоинт, упавший после реворка, — по-прежнему валидный failure;
+  `usage`/cost агента кумулятивны по попыткам (это намеренно — цена включает доработку).
+  `infrastructure_failure` внутри реворка не считается моделью — см.
+  `benchmark-failure-triage.mdc`.
+
 ## graphify
 
 This project has a knowledge graph at graphify-out/ with god nodes, community structure, and cross-file relationships.

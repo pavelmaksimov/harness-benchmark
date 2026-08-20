@@ -141,6 +141,7 @@ def build_failure_entry(
         "thinking": model_settings.get("thinking"),
         "problem": problem,
         "checkpoint": checkpoint,
+        "run_index": run_index,
         "pass_counts": evaluation.get("pass_counts"),
         "total_counts": evaluation.get("total_counts"),
         "failed_tests": _failed_test_names(evaluation),

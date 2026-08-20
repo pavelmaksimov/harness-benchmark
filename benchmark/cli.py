@@ -189,6 +189,12 @@ def run_cmd(
         "--skip-smoke-check",
         help="Allow full run even if harness lacks CP1 smoke validation",
     ),
+    rework_attempts: int = typer.Option(
+        2,
+        "--rework-attempts",
+        min=0,
+        help="Extra agent attempts per checkpoint when tests fail (0 disables)",
+    ),
 ) -> None:
     """Run one arm for N independent repetitions."""
     if arm not in known_arm_names():
@@ -217,6 +223,7 @@ def run_cmd(
             experiment_id=experiment_id,
             jobs=jobs,
             skip_smoke_check=skip_smoke_check,
+            rework_attempts=rework_attempts,
         )
     except RuntimeError as exc:
         console.print(f"[red]{exc}[/red]")
@@ -256,6 +263,12 @@ def run_all_cmd(
         "--skip-smoke-check",
         help="Allow full run even if harness lacks CP1 smoke validation",
     ),
+    rework_attempts: int = typer.Option(
+        2,
+        "--rework-attempts",
+        min=0,
+        help="Extra agent attempts per checkpoint when tests fail (0 disables)",
+    ),
 ) -> None:
     """Run selected arms × N, then write comparison report."""
     experiment_id = experiment_id or datetime.now(timezone.utc).strftime("%Y%m%dT%H%M%S")
@@ -288,6 +301,7 @@ def run_all_cmd(
             experiment_id=experiment_id,
             jobs=jobs,
             skip_smoke_check=skip_smoke_check,
+            rework_attempts=rework_attempts,
         )
     except RuntimeError as exc:
         console.print(f"[red]{exc}[/red]")

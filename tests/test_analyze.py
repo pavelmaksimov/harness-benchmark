@@ -19,6 +19,9 @@ SUMMARY_KEYS = (
     "files_touched",
     "dependencies_added",
     "complexity",
+    "rework_attempts",
+    "rework_fixed",
+    "rework_unresolved",
 )
 
 
