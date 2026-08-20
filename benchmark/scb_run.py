@@ -58,11 +58,6 @@ def resolve_run_selection(
         )
 
     if agent == "opencode":
-        if get_arm(arm).needs_hook:
-            raise ValueError(
-                "OpenCode does not support skill harness arms "
-                f"(arm={arm!r}); use --arm baseline"
-            )
         if not provider:
             raise ValueError(
                 "OpenCode requires --provider (e.g. --provider opencode_auth)"
@@ -148,6 +143,10 @@ def run_slop_code(
     env["SCBENCH_HOME"] = str(output_dir / ".scbench_home")
     env["HB_ARM"] = arm
     env["HB_RUN_OUTPUT"] = str(output_dir)
+    # supermemory container tag per problem: memory of one task must not leak
+    # into another task's run (see versions.SUPERMEMORY_BENCHMARK_CONTAINER_TAG).
+    if arm == "supermemory":
+        env["SUPERMEMORY_BENCHMARK_TAG"] = f"hb_supermemory_{problem}"
     # Ensure sitecustomize runs inside ProcessPool workers too.
     env["PYTHONPATH"] = os.pathsep.join(
         p

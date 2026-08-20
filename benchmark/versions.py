@@ -58,7 +58,10 @@ def _copy_tree(src: Path, dest: Path) -> list[str]:
 
 SUPERMEMORY_LOCAL_BASE_URL = "http://127.0.0.1:6767"
 # Dedicated container — never reuse host cursor_local / personal memory.
-SUPERMEMORY_BENCHMARK_CONTAINER_TAG = "hb_supermemory"
+# scb_run.py sets SUPERMEMORY_BENCHMARK_TAG per problem for memory isolation.
+SUPERMEMORY_BENCHMARK_CONTAINER_TAG = os.environ.get(
+    "SUPERMEMORY_BENCHMARK_TAG", "hb_supermemory"
+)
 _SUPERMEMORY_API_KEY_CANDIDATES = (
     Path.home() / ".local" / "share" / "supermemory" / "api_key",
     Path.home() / ".local" / "share" / "supermemory" / "api-key",
