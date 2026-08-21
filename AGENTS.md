@@ -22,6 +22,16 @@
 | [conventional-commits](.cursor/rules/conventional-commits.mdc) | Формат commit-сообщений (предлагать, не коммитить) |
 | [graphify](.cursor/rules/graphify.mdc) | Навигация по графу зависимостей и связям файлов |
 
+## Онбординг новых харнесов
+
+Добавление/тестирование нового skill-arm (strictdoc, doorstop, …): чеклист внедрения,
+известные проблемы/решения и советы по смоук-тестам — в
+[docs/harness-onboarding.md](docs/harness-onboarding.md). Кратко: изучи инструмент руками на
+ground truth → SKILL.md с non-interactive командами → arms.py + configs + prompt →
+`scripts/pin_harness.py <name>` → `benchmark smoke --arm <name> --checkpoints 2` → триаж
+снапшота → эксклюзии при необходимости → commit SMOKE.json. Смоук-гейт для skill-arm обязателен
+перед полными прогонами.
+
 ## `task_manager`: workspace must be on `sys.path` for eval
 
 SCB runs pytest via `uvx` with cwd `/workspace`. That directory is **not** always on Python’s `sys.path`, so `import task_manager` fails in TestClient fixtures even when the agent’s package is present under `/workspace/task_manager/`.
