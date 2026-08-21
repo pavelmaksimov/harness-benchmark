@@ -6,6 +6,7 @@ import shutil
 import subprocess
 import uuid
 from concurrent.futures import ThreadPoolExecutor, as_completed
+from dataclasses import dataclass
 from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any, Sequence
@@ -26,6 +27,16 @@ from benchmark.paths import (
     SCB_DIR,
     SUPPORTED_AGENTS,
 )
+from benchmark.resume_state import (
+    clear_stale_resume_artifacts,
+    detect_native_resume,
+    latest_state,
+    load_state,
+    read_json_dict,
+    run_dirs,
+    verify_selection_against_state,
+    write_state,
+)
 from benchmark.rework import record_rework_events
 from benchmark.versions import load_arm_meta, load_pins
 
@@ -34,15 +45,23 @@ from benchmark.versions import load_arm_meta, load_pins
 _SCB_THINKING_ALIASES = {
     "max": "xhigh",
 }
+DEFAULT_REWORK_ATTEMPTS = 2
 
 
 def _scb_thinking(thinking: str) -> str:
     return _SCB_THINKING_ALIASES.get(thinking, thinking)
 
 
+def new_experiment_id(prefix: str | None = None) -> str:
+    """Return a collision-resistant id for a new experiment."""
+    stamp = datetime.now(timezone.utc).strftime("%Y%m%dT%H%M%S%f")
+    suffix = uuid.uuid4().hex[:8]
+    return f"{prefix}-{stamp}-{suffix}" if prefix else f"{stamp}-{suffix}"
+
+
 def resolve_run_selection(
     *,
-    agent: str,
+    agent: str | None,
     arm: str,
     provider: str | None,
     model: str | None,
@@ -53,6 +72,7 @@ def resolve_run_selection(
     Codex keeps historical defaults when flags are omitted.
     OpenCode requires explicit --provider and --model; thinking defaults to none.
     """
+    agent = DEFAULT_AGENT if agent is None else agent
     if agent not in SUPPORTED_AGENTS:
         raise ValueError(
             f"unsupported agent {agent!r}; expected one of: {', '.join(SUPPORTED_AGENTS)}"
@@ -71,9 +91,9 @@ def resolve_run_selection(
 
     return (
         DEFAULT_AGENT,
-        provider or DEFAULT_PROVIDER,
-        model or DEFAULT_MODEL,
-        thinking or DEFAULT_THINKING,
+        provider if provider is not None else DEFAULT_PROVIDER,
+        model if model is not None else DEFAULT_MODEL,
+        thinking if thinking is not None else DEFAULT_THINKING,
     )
 
 
@@ -121,24 +141,231 @@ def _environment_config(arm: str) -> Path:
     return SCB_DIR / "configs" / "environments" / "docker-python3.12-uv.yaml"
 
 
-def run_slop_code(
-    *,
+@dataclass
+class RunContext:
+    """Resolved identity and lifecycle inputs for one benchmark run."""
+
+    experiment_id: str
+    arm: str
+    problem: str
+    run_index: int
+    output_dir: Path
+    run_id: str
+    agent: str
+    model: str
+    provider: str
+    thinking: str
+    rework_attempts: int
+    problems_path: Path | None
+    pins: dict[str, Any]
+
+    @property
+    def selection(self) -> dict[str, str]:
+        return {
+            "agent": self.agent,
+            "model": self.model,
+            "provider": self.provider,
+            "thinking": self.thinking,
+        }
+
+    def persist(self, *, phase: str, exit_code: int | None = None) -> Path:
+        """Persist one lifecycle transition for this run."""
+        return write_state(
+            output_dir=self.output_dir,
+            experiment_id=self.experiment_id,
+            arm=self.arm,
+            run_index=self.run_index,
+            problem=self.problem,
+            selection=self.selection,
+            problems_path=self.problems_path,
+            rework_attempts=self.rework_attempts,
+            exit_code=exit_code,
+            phase=phase,
+        )
+
+
+def _resolve_rework_attempts(
+    requested: int | None,
+    saved_state: dict[str, Any] | None,
+) -> int:
+    saved = saved_state.get("rework_attempts") if saved_state else None
+    if saved is not None:
+        try:
+            saved = int(saved)
+        except (TypeError, ValueError) as exc:
+            raise ValueError("resume refused — invalid rework_attempts in state.json") from exc
+        if requested is None:
+            return saved
+        if requested != saved:
+            raise ValueError(
+                "resume refused — requested rework_attempts differs from the recorded run: "
+                f"run={saved!r} requested={requested!r}"
+            )
+    return requested if requested is not None else DEFAULT_REWORK_ATTEMPTS
+
+
+def _resume_defaults(
+    experiment_id: str | None,
     arm: str,
-    problem: str = DEFAULT_PROBLEM,
-    thinking: str = DEFAULT_THINKING,
-    model: str = DEFAULT_MODEL,
-    provider: str = DEFAULT_PROVIDER,
-    agent: str = DEFAULT_AGENT,
+    problem: str,
+) -> dict[str, Any]:
+    if experiment_id is None:
+        return {}
+    return latest_state(RESULTS_DIR / experiment_id, arm, problem=problem) or {}
+
+
+def _recorded_run_selection(run_dir: Path) -> dict[str, Any] | None:
+    """Read the immutable selection from state, falling back to a manifest."""
+    state = load_state(run_dir)
+    if state is not None:
+        return {
+            "arm": state.get("arm"),
+            "problem": state.get("problem"),
+            "agent": state.get("agent"),
+            "provider": state.get("provider"),
+            "model": state.get("model"),
+            "thinking": state.get("thinking"),
+            "rework_attempts": state.get("rework_attempts"),
+        }
+
+    manifest = read_json_dict(Path(run_dir) / "manifest.json")
+    if manifest is None:
+        return None
+    settings = manifest.get("model_settings") or {}
+    return {
+        "arm": manifest.get("arm"),
+        "problem": manifest.get("problem"),
+        "agent": manifest.get("agent"),
+        "provider": settings.get("provider"),
+        "model": manifest.get("model"),
+        "thinking": settings.get("thinking"),
+        "rework_attempts": None,
+    }
+
+
+def _validate_existing_experiment(
+    experiment_dir: Path,
+    *,
+    arms: Sequence[str],
+    problem: str,
+    selection_by_arm: dict[str, tuple[str, str, str, str]],
+    rework_attempts: int,
+) -> None:
+    """Prevent a fresh run from mixing or overwriting an experiment."""
+    for arm in arms:
+        agent, provider, model, thinking = selection_by_arm[arm]
+        requested = {
+            "arm": arm,
+            "problem": problem,
+            "agent": agent,
+            "provider": provider,
+            "model": model,
+            "thinking": thinking,
+            "rework_attempts": rework_attempts,
+        }
+        for run_dir in run_dirs(experiment_dir, arm):
+            recorded = _recorded_run_selection(run_dir)
+            if recorded is None:
+                raise ValueError(
+                    f"cannot append to {experiment_dir}: {run_dir} has no state.json "
+                    "or manifest.json; use a new --experiment-id"
+                )
+            mismatches = [
+                f"{field}: run={recorded.get(field)!r} requested={value!r}"
+                for field, value in requested.items()
+                if recorded.get(field) is not None and recorded.get(field) != value
+            ]
+            if mismatches:
+                raise ValueError(
+                    f"experiment {experiment_dir.name} already contains a different "
+                    f"selection in {run_dir}:\n  " + "\n  ".join(mismatches)
+                    + "\nUse a new --experiment-id for another adapter/model/harness combination."
+                )
+
+
+def _next_append_index(experiment_dir: Path, arms: Sequence[str]) -> int:
+    """Choose a fresh common run index without overwriting any arm's data."""
+    highest = max(
+        (
+            int(path.name.removeprefix("run_"))
+            for arm in arms
+            for path in run_dirs(experiment_dir, arm)
+        ),
+        default=0,
+    )
+    return highest + 1
+
+
+def _resume_reference(
+    experiment_dir: Path,
+    *,
+    arms: Sequence[str],
+    problem: str,
+    agent: str | None,
+    provider: str | None,
+    model: str | None,
+    thinking: str | None,
+    rework_attempts: int | None,
+) -> dict[str, Any]:
+    """Validate one experiment's saved selection and return shared defaults."""
+    records: list[tuple[Path, dict[str, Any]]] = []
+    for arm in arms:
+        for run_dir in run_dirs(experiment_dir, arm):
+            recorded = _recorded_run_selection(run_dir)
+            if recorded is not None:
+                records.append((run_dir, recorded))
+    if not records:
+        return {}
+
+    fields = ("problem", "agent", "provider", "model", "thinking", "rework_attempts")
+    reference_path, reference = records[0]
+    for path, recorded in records[1:]:
+        mismatches = [
+            f"{field}: {reference.get(field)!r} != {recorded.get(field)!r}"
+            for field in fields
+            if reference.get(field) is not None
+            and recorded.get(field) is not None
+            and reference.get(field) != recorded.get(field)
+        ]
+        if mismatches:
+            raise ValueError(
+                f"resume refused — experiment contains different selections in "
+                f"{reference_path} and {path}:\n  " + "\n  ".join(mismatches)
+            )
+
+    requested = {
+        "problem": problem,
+        "agent": agent,
+        "provider": provider,
+        "model": model,
+        "thinking": thinking,
+        "rework_attempts": rework_attempts,
+    }
+    mismatches = [
+        f"{field}: run={reference.get(field)!r} requested={value!r}"
+        for field, value in requested.items()
+        if value is not None
+        and reference.get(field) is not None
+        and reference.get(field) != value
+    ]
+    if mismatches:
+        raise ValueError(
+            "resume refused — requested selection differs from the experiment:\n  "
+            + "\n  ".join(mismatches)
+        )
+    return reference
+
+
+def _build_scb_env(
     output_dir: Path,
-    dry_run: bool = False,
+    arm: str,
+    problem: str,
+    *,
     problems_path: Path | None = None,
     rework_attempts: int = 2,
-) -> Path:
-    """Invoke SlopCodeBench run for one arm into output_dir."""
+) -> dict[str, str]:
+    """Build the per-run environment used by SCB."""
     spec = get_arm(arm)
-    config = _resolve_config_paths(_arm_config(arm))
-    prompt = _resolve_config_paths(spec.prompt_path)
-
     env = os.environ.copy()
     env["SCBENCH_PROBLEMS_PATH"] = str(problems_path or PROBLEMS_DIR)
     # Keep SCB cache separate per arm/run for isolation of catalog state.
@@ -161,43 +388,12 @@ def run_slop_code(
         if p
     )
 
-    output_dir.mkdir(parents=True, exist_ok=True)
-    agent_cfg = _agent_config_for_thinking(agent, thinking, output_dir)
-
     # docker-py fails when host Docker config has broken credHelpers (e.g. yc).
     # Public base images used by SCB do not need those helpers.
     docker_config_dir = output_dir / ".docker"
     docker_config_dir.mkdir(parents=True, exist_ok=True)
     (docker_config_dir / "config.json").write_text('{"auths": {}}\n', encoding="utf-8")
     env["DOCKER_CONFIG"] = str(docker_config_dir)
-
-    scb_thinking = _scb_thinking(thinking)
-    environment = _resolve_config_paths(_environment_config(arm))
-    cmd = [
-        "uv",
-        "run",
-        "python",
-        "-m",
-        "benchmark.scb_main",
-        "run",
-        "--config",
-        str(config),
-        "--agent",
-        str(agent_cfg),
-        "--prompt",
-        str(prompt),
-        "--environment",
-        str(environment),
-        "--model",
-        f"{provider}/{model}",
-        "--problem",
-        problem,
-        f"thinking={scb_thinking}",
-        f"save_dir={output_dir}",
-        "save_template=scb",
-    ]
-    if dry_run:
-        return output_dir
 
     if spec.needs_hook:
         env["HB_ENABLE_HARNESS"] = "1"
@@ -208,6 +404,74 @@ def run_slop_code(
     else:
         env.pop("HB_ENABLE_HARNESS", None)
         env.pop("HB_ENABLE_PONYTAIL", None)
+    return env
+
+
+def run_slop_code(
+    *,
+    arm: str,
+    problem: str = DEFAULT_PROBLEM,
+    thinking: str = DEFAULT_THINKING,
+    model: str = DEFAULT_MODEL,
+    provider: str = DEFAULT_PROVIDER,
+    agent: str = DEFAULT_AGENT,
+    output_dir: Path,
+    dry_run: bool = False,
+    problems_path: Path | None = None,
+    rework_attempts: int = 2,
+    resume: bool = False,
+) -> Path:
+    """Invoke SlopCodeBench run for one arm into output_dir.
+
+    ``resume`` switches the underlying invocation to SCB's native
+    ``run --resume <output_dir>/scb``: the saved config.yaml / environment.yaml
+    supply model, agent and prompts, and SCB itself detects which checkpoints
+    survived (see vendor ``agent_runner/resume.py``). All explicit selection
+    flags are skipped on resume because they conflict with ``--resume``.
+    """
+    spec = get_arm(arm)
+    if dry_run:
+        output_dir.mkdir(parents=True, exist_ok=True)
+        return output_dir
+
+    output_dir.mkdir(parents=True, exist_ok=True)
+    env = _build_scb_env(
+        output_dir,
+        arm,
+        problem,
+        problems_path=problems_path,
+        rework_attempts=rework_attempts,
+    )
+    scb_thinking = _scb_thinking(thinking)
+    cmd = [
+        "uv",
+        "run",
+        "python",
+        "-m",
+        "benchmark.scb_main",
+        "run",
+    ]
+    if resume:
+        cmd += ["--resume", str(output_dir / "scb")]
+    else:
+        agent_cfg = _agent_config_for_thinking(agent, thinking, output_dir)
+        cmd += [
+            "--config",
+            str(_resolve_config_paths(_arm_config(arm))),
+            "--agent",
+            str(agent_cfg),
+            "--prompt",
+            str(_resolve_config_paths(spec.prompt_path)),
+            "--environment",
+            str(_resolve_config_paths(_environment_config(arm))),
+            "--model",
+            f"{provider}/{model}",
+            "--problem",
+            problem,
+            f"thinking={scb_thinking}",
+            f"save_dir={output_dir}",
+            "save_template=scb",
+        ]
 
     log_path = output_dir / "scb_run.log"
     with log_path.open("w", encoding="utf-8") as log:
@@ -239,73 +503,36 @@ def find_scb_problem_dir(scb_root: Path, problem: str) -> Path:
     raise FileNotFoundError(f"Could not find SCB problem dir for {problem} under {scb_root}")
 
 
-def run_one(
-    *,
-    arm: str,
-    problem: str = DEFAULT_PROBLEM,
-    thinking: str | None = None,
-    model: str | None = None,
-    provider: str | None = None,
-    agent: str = DEFAULT_AGENT,
-    run_index: int = 1,
-    experiment_id: str | None = None,
-    problems_path: Path | None = None,
-    rework_attempts: int = 2,
-) -> dict[str, Any]:
-    agent, provider, model, thinking = resolve_run_selection(
-        agent=agent,
-        arm=arm,
-        provider=provider,
-        model=model,
-        thinking=thinking,
-    )
-    experiment_id = experiment_id or datetime.now(timezone.utc).strftime("%Y%m%dT%H%M%S")
-    run_id = f"{experiment_id}-{arm}-r{run_index}-{uuid.uuid4().hex[:8]}"
-    out_dir = RESULTS_DIR / experiment_id / arm / f"run_{run_index}"
-    if out_dir.exists():
-        shutil.rmtree(out_dir)
-    out_dir.mkdir(parents=True, exist_ok=True)
-
-    pins = load_pins()
-    run_slop_code(
-        arm=arm,
-        problem=problem,
-        thinking=thinking,
-        model=model,
-        provider=provider,
-        agent=agent,
-        output_dir=out_dir,
-        problems_path=problems_path,
-        rework_attempts=rework_attempts,
-    )
-
-    scb_problem_dir = find_scb_problem_dir(out_dir / "scb", problem)
+def _finalize_run(ctx: RunContext) -> dict[str, Any]:
+    """Collect artifacts and publish the completed run metadata."""
+    scb_problem_dir = find_scb_problem_dir(ctx.output_dir / "scb", ctx.problem)
     environment = {
-        "agent": agent,
-        "agent_version": _agent_version(agent, pins),
-        "provider": provider,
-        "model": model,
-        "thinking": thinking,
-        "slop_code_commit": pins.get("slop-code-bench"),
-        "problems_commit": pins.get("scb-problems"),
-        "harness_meta": load_arm_meta(arm),
-        "ponytail_commit": pins.get("ponytail_version") if arm == "ponytail" else None,
-        "harness": arm,
+        "agent": ctx.agent,
+        "agent_version": _agent_version(ctx.agent, ctx.pins),
+        "provider": ctx.provider,
+        "model": ctx.model,
+        "thinking": ctx.thinking,
+        "slop_code_commit": ctx.pins.get("slop-code-bench"),
+        "problems_commit": ctx.pins.get("scb-problems"),
+        "harness_meta": load_arm_meta(ctx.arm),
+        "ponytail_commit": ctx.pins.get("ponytail_version")
+        if ctx.arm == "ponytail"
+        else None,
+        "harness": ctx.arm,
         "docker_image": "ghcr.io/astral-sh/uv:python3.12-trixie-slim",
     }
     collected = collect_run(
         scb_problem_dir=scb_problem_dir,
-        run_id=run_id,
-        arm=arm,
-        problem=problem,
+        run_id=ctx.run_id,
+        arm=ctx.arm,
+        problem=ctx.problem,
         environment=environment,
         pricing_path=CONFIGS_DIR / "pricing.yaml",
     )
-    metrics_dir = out_dir / "metrics"
+    metrics_dir = ctx.output_dir / "metrics"
     write_checkpoint_jsons(collected, metrics_dir)
 
-    # Activation gate for skill arms
-    if get_arm(arm).needs_hook:
+    if get_arm(ctx.arm).needs_hook:
         verified = all(
             cp.get("harness", {}).get("harness_activation_verified")
             for cp in collected["checkpoints"]
@@ -318,7 +545,9 @@ def run_one(
                     "checkpoints": [
                         {
                             "checkpoint": cp["checkpoint"],
-                            "verified": cp.get("harness", {}).get("harness_activation_verified"),
+                            "verified": cp.get("harness", {}).get(
+                                "harness_activation_verified"
+                            ),
                         }
                         for cp in collected["checkpoints"]
                     ],
@@ -332,26 +561,178 @@ def run_one(
             collected["excluded_from_comparison"] = True
 
     manifest = build_manifest(
-        experiment_id=experiment_id,
-        arm=arm,
-        problem=problem,
-        model=model,
-        thinking=thinking,
-        provider=provider,
-        agent=agent,
+        experiment_id=ctx.experiment_id,
+        arm=ctx.arm,
+        problem=ctx.problem,
+        model=ctx.model,
+        thinking=ctx.thinking,
+        provider=ctx.provider,
+        agent=ctx.agent,
         runs=1,
         docker_image=environment["docker_image"],
         pricing_path=CONFIGS_DIR / "pricing.yaml",
-        extra={"run_id": run_id, "run_index": run_index},
+        extra={"run_id": ctx.run_id, "run_index": ctx.run_index},
     )
-    write_manifest(out_dir / "manifest.json", manifest)
+    write_manifest(ctx.output_dir / "manifest.json", manifest)
     collected["manifest"] = manifest
     (metrics_dir / "run.json").write_text(
         json.dumps(collected, indent=2, sort_keys=True) + "\n",
         encoding="utf-8",
     )
-    record_rework_events(collected=collected, manifest=manifest, run_dir=out_dir)
+    record_rework_events(collected=collected, manifest=manifest, run_dir=ctx.output_dir)
+    resume_info = detect_native_resume(ctx.output_dir, ctx.problem, ctx.problems_path)
+    phase = (
+        "completed"
+        if resume_info is not None and not resume_info.resume_from_checkpoint
+        else "incomplete"
+    )
+    ctx.persist(phase=phase, exit_code=0)
     return collected
+
+
+def run_one(
+    *,
+    arm: str,
+    problem: str = DEFAULT_PROBLEM,
+    thinking: str | None = None,
+    model: str | None = None,
+    provider: str | None = None,
+    agent: str | None = None,
+    run_index: int = 1,
+    experiment_id: str | None = None,
+    problems_path: Path | None = None,
+    rework_attempts: int | None = None,
+    resume: bool = False,
+) -> dict[str, Any]:
+    experiment_id = experiment_id or new_experiment_id()
+    run_id = f"{experiment_id}-{arm}-r{run_index}-{uuid.uuid4().hex[:8]}"
+    out_dir = RESULTS_DIR / experiment_id / arm / f"run_{run_index}"
+    saved_state = load_state(out_dir) if resume and out_dir.exists() else None
+
+    if resume and out_dir.exists() and saved_state is None:
+        raise ValueError(
+            f"cannot resume {out_dir}: no state.json "
+            "(this run never started, or pass a different --experiment-id)"
+        )
+    if not resume and out_dir.exists():
+        raise ValueError(
+            f"refusing to overwrite existing run {out_dir}; use --resume to continue "
+            "it or choose a new --experiment-id/run index"
+        )
+    if saved_state is not None:
+        agent = agent if agent is not None else saved_state.get("agent")
+        provider = provider if provider is not None else saved_state.get("provider")
+        model = model if model is not None else saved_state.get("model")
+        thinking = thinking if thinking is not None else saved_state.get("thinking")
+
+    rework_attempts = _resolve_rework_attempts(rework_attempts, saved_state)
+    agent, provider, model, thinking = resolve_run_selection(
+        agent=agent,
+        arm=arm,
+        provider=provider,
+        model=model,
+        thinking=thinking,
+    )
+
+    if not resume:
+        experiment_dir = RESULTS_DIR / experiment_id
+        if experiment_dir.exists():
+            _validate_existing_experiment(
+                experiment_dir,
+                arms=(arm,),
+                problem=problem,
+                selection_by_arm={arm: (agent, provider, model, thinking)},
+                rework_attempts=rework_attempts,
+            )
+
+    if resume and out_dir.exists():
+        mismatches = verify_selection_against_state(
+            saved_state,
+            experiment_id=experiment_id,
+            arm=arm,
+            run_index=run_index,
+            problem=problem,
+            agent=agent,
+            provider=provider,
+            model=model,
+            thinking=thinking,
+        )
+        if mismatches:
+            raise ValueError(
+                "resume refused — requested identity differs from the recorded run:\n  "
+                + "\n  ".join(mismatches)
+                + "\nRe-run without --resume to start fresh."
+            )
+        native_resume = (
+            detect_native_resume(out_dir, problem, problems_path)
+            if (out_dir / "scb").is_dir()
+            else None
+        )
+        if (
+            saved_state.get("phase") == "completed"
+            and saved_state.get("exit_code") == 0
+            and native_resume is not None
+            and not native_resume.resume_from_checkpoint
+        ):
+            collection = read_existing_collection(out_dir)
+            if collection is not None:
+                return collection
+        if native_resume is None:
+            shutil.rmtree(out_dir)
+            out_dir.mkdir(parents=True, exist_ok=True)
+        else:
+            clear_stale_resume_artifacts(
+                out_dir, problem, native_resume, problems_path
+            )
+    else:
+        out_dir.mkdir(parents=True, exist_ok=True)
+
+    pins = load_pins()
+    ctx = RunContext(
+        experiment_id=experiment_id,
+        arm=arm,
+        problem=problem,
+        run_index=run_index,
+        output_dir=out_dir,
+        run_id=run_id,
+        agent=agent,
+        model=model,
+        provider=provider,
+        thinking=thinking,
+        rework_attempts=rework_attempts,
+        problems_path=problems_path,
+        pins=pins,
+    )
+    # Start marker written BEFORE SCB launches: an interrupted run must still
+    # be self-describing (identity + which checkpoint was reached last).
+    ctx.persist(phase="started")
+    use_native_resume = resume and (out_dir / "scb").is_dir()
+
+    try:
+        run_slop_code(
+            arm=arm,
+            problem=problem,
+            thinking=ctx.thinking,
+            model=ctx.model,
+            provider=ctx.provider,
+            agent=ctx.agent,
+            output_dir=ctx.output_dir,
+            problems_path=ctx.problems_path,
+            rework_attempts=ctx.rework_attempts,
+            resume=use_native_resume,
+        )
+        return _finalize_run(ctx)
+    except BaseException as exc:  # noqa: BLE001 — persist lifecycle before propagating
+        exit_code_path = ctx.output_dir / "scb_exit_code.txt"
+        try:
+            exit_code = int(exit_code_path.read_text(encoding="utf-8").strip())
+        except (OSError, ValueError):
+            exit_code = None
+        ctx.persist(
+            phase="interrupted" if isinstance(exc, KeyboardInterrupt) else "failed",
+            exit_code=exit_code,
+        )
+        raise
 
 
 def run_smoke(
@@ -376,8 +757,7 @@ def run_smoke(
     if not spec.needs_hook:
         raise ValueError(f"arm {arm!r} is baseline — smoke is only for skill harnesses")
 
-    stamp = datetime.now(timezone.utc).strftime("%Y%m%dT%H%M%S")
-    experiment_id = experiment_id or f"smoke-{arm}-{stamp}"
+    experiment_id = experiment_id or new_experiment_id(f"smoke-{arm}")
     out_dir = RESULTS_DIR / experiment_id / arm / "run_1"
     problems_root = RESULTS_DIR / experiment_id / "_smoke_problems"
     staged = stage_cp1_only_problem(problem=problem, dest_root=problems_root)
@@ -423,6 +803,11 @@ def run_smoke(
     return collected
 
 
+def read_existing_collection(output_dir: Path) -> dict[str, Any] | None:
+    """Reload ``metrics/run.json`` of a finished run (resume-skip path)."""
+    return read_json_dict(Path(output_dir) / "metrics" / "run.json")
+
+
 def run_matrix(
     *,
     arms: Sequence[str],
@@ -431,47 +816,144 @@ def run_matrix(
     thinking: str | None = None,
     model: str | None = None,
     provider: str | None = None,
-    agent: str = DEFAULT_AGENT,
+    agent: str | None = None,
     experiment_id: str | None = None,
     jobs: int = 1,
     skip_smoke_check: bool = False,
-    rework_attempts: int = 2,
+    rework_attempts: int | None = None,
+    resume: bool = False,
 ) -> list[dict[str, Any]]:
     """Run arm×run matrix. jobs=1 is serial; jobs>1 overlaps independent run_one calls.
 
     Each run already isolates SCBENCH_HOME / DOCKER_CONFIG / results dir.
     Concurrent Docker image builds can race — pre-build via scripts/build_images.sh.
     API/Docker resource exhaustion may fail some runs; others still finish.
+
+    With ``resume``, each slot resolves against its ``state.json``: a finished
+    trajectory reloads ``metrics/run.json`` and skips; an incomplete one
+    continues through SCB's native ``run --resume``; a slot that never started
+    launches fresh. Requires an explicit ``experiment_id`` and refuses ``runs``
+    smaller than the highest recorded run index.
     """
     from benchmark.smoke import require_smoke_validated
 
     if jobs < 1:
         raise ValueError("jobs must be >= 1")
+    resolved_by_arm: dict[str, tuple[str, str, str, str]] = {}
     for arm in arms:
         get_arm(arm)
         # Fail fast before scheduling work (OpenCode + skill arm, missing flags, …).
-        resolve_run_selection(
+        # On resume, omitted flags are legitimate: run_one restores them from
+        # state.json, so demanding them here would break flag-less resumes.
+        if not resume:
+            resolved_by_arm[arm] = resolve_run_selection(
+                agent=agent,
+                arm=arm,
+                provider=provider,
+                model=model,
+                thinking=thinking,
+            )
+    require_smoke_validated(arms, skip=skip_smoke_check)
+    if resume and not experiment_id:
+        raise ValueError("--resume requires an explicit --experiment-id")
+    if not resume and experiment_id:
+        experiment_dir = RESULTS_DIR / experiment_id
+        if experiment_dir.exists():
+            resolved_by_arm = {
+                arm: resolved_by_arm.get(arm)
+                or resolve_run_selection(
+                    agent=agent,
+                    arm=arm,
+                    provider=provider,
+                    model=model,
+                    thinking=thinking,
+                )
+                for arm in arms
+            }
+            _validate_existing_experiment(
+                experiment_dir,
+                arms=arms,
+                problem=problem,
+                selection_by_arm=resolved_by_arm,
+                rework_attempts=(
+                    rework_attempts
+                    if rework_attempts is not None
+                    else DEFAULT_REWORK_ATTEMPTS
+                ),
+            )
+    resume_defaults: dict[str, dict[str, Any]] = {}
+    if resume and experiment_id:
+        _resume_reference(
+            RESULTS_DIR / experiment_id,
+            arms=arms,
+            problem=problem,
             agent=agent,
-            arm=arm,
             provider=provider,
             model=model,
             thinking=thinking,
+            rework_attempts=rework_attempts,
         )
-    require_smoke_validated(arms, skip=skip_smoke_check)
-    experiment_id = experiment_id or datetime.now(timezone.utc).strftime("%Y%m%dT%H%M%S")
-    tasks = [(arm, idx) for arm in arms for idx in range(1, runs + 1)]
+        recorded_by_arm = {
+            arm: max(
+                (
+                    int(path.name.removeprefix("run_"))
+                    for path in run_dirs(RESULTS_DIR / experiment_id, arm)
+                ),
+                default=0,
+            )
+            for arm in arms
+        }
+        offenders = {
+            arm: recorded
+            for arm, recorded in recorded_by_arm.items()
+            if recorded > runs
+        }
+        if offenders:
+            required_runs = max(offenders.values())
+            details = ", ".join(f"{arm}={recorded}" for arm, recorded in offenders.items())
+            raise ValueError(
+                f"--resume found recorded runs for selected arm(s) in {experiment_id}: "
+                f"{details}; pass --runs {required_runs} (got {runs})"
+            )
+        resume_defaults = {
+            arm: _resume_defaults(experiment_id, arm, problem) for arm in arms
+        }
+        shared_defaults = next(
+            (state for state in resume_defaults.values() if state),
+            {},
+        )
+        for arm, state in resume_defaults.items():
+            if not state and shared_defaults:
+                resume_defaults[arm] = shared_defaults
+    experiment_id = experiment_id or new_experiment_id()
+    first_run_index = (
+        _next_append_index(RESULTS_DIR / experiment_id, arms)
+        if not resume
+        else 1
+    )
+    tasks = [
+        (arm, first_run_index + offset)
+        for arm in arms
+        for offset in range(runs)
+    ]
 
     def _one(arm: str, run_index: int) -> dict[str, Any]:
+        saved = resume_defaults.get(arm, {})
         return run_one(
             arm=arm,
             problem=problem,
-            thinking=thinking,
-            model=model,
-            provider=provider,
-            agent=agent,
+            thinking=thinking if thinking is not None else saved.get("thinking"),
+            model=model if model is not None else saved.get("model"),
+            provider=provider if provider is not None else saved.get("provider"),
+            agent=agent if agent is not None else saved.get("agent"),
             run_index=run_index,
             experiment_id=experiment_id,
-            rework_attempts=rework_attempts,
+            rework_attempts=(
+                rework_attempts
+                if rework_attempts is not None
+                else saved.get("rework_attempts")
+            ),
+            resume=resume,
         )
 
     if jobs == 1 or len(tasks) == 1:
@@ -500,11 +982,12 @@ def run_arm_repeats(
     thinking: str | None = None,
     model: str | None = None,
     provider: str | None = None,
-    agent: str = DEFAULT_AGENT,
+    agent: str | None = None,
     experiment_id: str | None = None,
     jobs: int = 1,
     skip_smoke_check: bool = False,
-    rework_attempts: int = 2,
+    rework_attempts: int | None = None,
+    resume: bool = False,
 ) -> list[dict[str, Any]]:
     return run_matrix(
         arms=(arm,),
@@ -518,6 +1001,7 @@ def run_arm_repeats(
         jobs=jobs,
         skip_smoke_check=skip_smoke_check,
         rework_attempts=rework_attempts,
+        resume=resume,
     )
 
 

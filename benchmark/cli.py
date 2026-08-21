@@ -1,8 +1,7 @@
 from __future__ import annotations
 
-from datetime import datetime, timezone
 from pathlib import Path
-from typing import Optional
+from typing import Any, Optional
 
 import typer
 from rich.console import Console
@@ -21,7 +20,13 @@ from benchmark.paths import (
     SCB_DIR,
     SUPPORTED_AGENTS,
 )
-from benchmark.scb_run import resolve_run_selection, run_arm_repeats, run_matrix, run_smoke
+from benchmark.scb_run import (
+    new_experiment_id,
+    resolve_run_selection,
+    run_arm_repeats,
+    run_matrix,
+    run_smoke,
+)
 from benchmark.versions import load_pins
 
 app = typer.Typer(add_completion=False, no_args_is_help=True)
@@ -30,7 +35,7 @@ console = Console()
 
 def _validate_selection(
     *,
-    agent: str,
+    agent: Optional[str],
     arm: str,
     provider: Optional[str],
     model: Optional[str],
@@ -166,7 +171,7 @@ def run_cmd(
     arm: str = typer.Option(..., "--arm", help="|".join(known_arm_names())),
     problem: str = typer.Option(DEFAULT_PROBLEM, "--problem"),
     runs: int = typer.Option(1, "--runs", min=1),
-    agent: str = typer.Option(DEFAULT_AGENT, "--agent", help="|".join(SUPPORTED_AGENTS)),
+    agent: Optional[str] = typer.Option(None, "--agent", help="|".join(SUPPORTED_AGENTS)),
     provider: Optional[str] = typer.Option(
         None,
         "--provider",
@@ -189,27 +194,37 @@ def run_cmd(
         "--skip-smoke-check",
         help="Allow full run even if harness lacks CP1 smoke validation",
     ),
-    rework_attempts: int = typer.Option(
-        2,
+    rework_attempts: Optional[int] = typer.Option(
+        None,
         "--rework-attempts",
         min=0,
         help="Extra agent attempts per checkpoint when tests fail (0 disables)",
     ),
+    resume: bool = typer.Option(
+        False,
+        "--resume",
+        help="Continue interrupted runs via their state.json (requires --experiment-id)",
+    ),
 ) -> None:
     """Run one arm for N independent repetitions."""
+    if resume and experiment_id is None:
+        raise typer.BadParameter("--resume requires an explicit --experiment-id")
     if arm not in known_arm_names():
         raise typer.BadParameter(f"arm must be one of: {', '.join(known_arm_names())}")
-    agent, provider, model, thinking = _validate_selection(
-        agent=agent,
-        arm=arm,
-        provider=provider,
-        model=model,
-        thinking=thinking,
-    )
-    experiment_id = experiment_id or datetime.now(timezone.utc).strftime("%Y%m%dT%H%M%S")
+    # On --resume run_one restores flags from state.json; defaults here would shadow them.
+    if not resume:
+        agent, provider, model, thinking = _validate_selection(
+            agent=agent,
+            arm=arm,
+            provider=provider,
+            model=model,
+            thinking=thinking,
+        )
+    experiment_id = experiment_id or new_experiment_id()
     console.print(
         f"experiment_id={experiment_id} arm={arm} runs={runs} jobs={jobs} "
-        f"agent={agent} provider={provider} model={model} thinking={thinking}"
+        f"agent={agent or '(state.json)'} provider={provider or '(state.json)'} "
+        f"model={model or '(state.json)'} thinking={thinking or '(state.json)'}"
     )
     try:
         results = run_arm_repeats(
@@ -224,8 +239,9 @@ def run_cmd(
             jobs=jobs,
             skip_smoke_check=skip_smoke_check,
             rework_attempts=rework_attempts,
+            resume=resume,
         )
-    except RuntimeError as exc:
+    except (RuntimeError, ValueError) as exc:
         console.print(f"[red]{exc}[/red]")
         raise typer.Exit(code=1) from exc
     console.print(f"Completed {len(results)} runs → {RESULTS_DIR / experiment_id / arm}")
@@ -235,7 +251,7 @@ def run_cmd(
 def run_all_cmd(
     problem: str = typer.Option(DEFAULT_PROBLEM, "--problem"),
     runs: int = typer.Option(DEFAULT_RUNS, "--runs", min=1),
-    agent: str = typer.Option(DEFAULT_AGENT, "--agent", help="|".join(SUPPORTED_AGENTS)),
+    agent: Optional[str] = typer.Option(None, "--agent", help="|".join(SUPPORTED_AGENTS)),
     provider: Optional[str] = typer.Option(
         None,
         "--provider",
@@ -263,30 +279,40 @@ def run_all_cmd(
         "--skip-smoke-check",
         help="Allow full run even if harness lacks CP1 smoke validation",
     ),
-    rework_attempts: int = typer.Option(
-        2,
+    rework_attempts: Optional[int] = typer.Option(
+        None,
         "--rework-attempts",
         min=0,
         help="Extra agent attempts per checkpoint when tests fail (0 disables)",
     ),
+    resume: bool = typer.Option(
+        False,
+        "--resume",
+        help="Continue interrupted runs via their state.json (requires --experiment-id)",
+    ),
 ) -> None:
     """Run selected arms × N, then write comparison report."""
-    experiment_id = experiment_id or datetime.now(timezone.utc).strftime("%Y%m%dT%H%M%S")
+    if resume and experiment_id is None:
+        raise typer.BadParameter("--resume requires an explicit --experiment-id")
+    experiment_id = experiment_id or new_experiment_id()
     selected = tuple(a.strip() for a in arms.split(",")) if arms else DEFAULT_EXPERIMENT_ARMS
     unknown = [a for a in selected if a not in known_arm_names()]
     if unknown:
         raise typer.BadParameter(f"unknown arms: {', '.join(unknown)}")
     # Validate against first arm for shared agent/provider/model; matrix re-checks each arm.
-    agent, provider, model, thinking = _validate_selection(
-        agent=agent,
-        arm=selected[0],
-        provider=provider,
-        model=model,
-        thinking=thinking,
-    )
+    # On --resume, omitted flags are restored from state.json inside run_one.
+    if not resume:
+        agent, provider, model, thinking = _validate_selection(
+            agent=agent,
+            arm=selected[0],
+            provider=provider,
+            model=model,
+            thinking=thinking,
+        )
     console.print(
-        f"=== run-all × {runs} jobs={jobs} agent={agent} provider={provider} "
-        f"model={model} thinking={thinking} "
+        f"=== run-all × {runs} jobs={jobs} agent={agent or '(state.json)'} "
+        f"provider={provider or '(state.json)'} model={model or '(state.json)'} "
+        f"thinking={thinking or '(state.json)'} "
         f"arms={','.join(selected)} experiment_id={experiment_id} ==="
     )
     try:
@@ -302,12 +328,15 @@ def run_all_cmd(
             jobs=jobs,
             skip_smoke_check=skip_smoke_check,
             rework_attempts=rework_attempts,
+            resume=resume,
         )
-    except RuntimeError as exc:
+    except (RuntimeError, ValueError) as exc:
         console.print(f"[red]{exc}[/red]")
-        raise typer.Exit(code=1) from exc
-    except ValueError as exc:
-        console.print(f"[red]{exc}[/red]")
+        if (RESULTS_DIR / experiment_id).is_dir():
+            try:
+                report_cmd(experiment_id=experiment_id, problem=problem)
+            except (OSError, ValueError):
+                pass
         raise typer.Exit(code=1) from exc
     report_cmd(experiment_id=experiment_id, problem=problem)
 
@@ -335,6 +364,65 @@ def report_cmd(
     console.print(txt_path.read_text(encoding="utf-8"))
     console.print(f"Wrote {txt_path} and {json_path}")
     console.print(f"Published {short_md}, {short_json}, {board}")
+
+
+def _format_status_line(state: dict[str, Any]) -> str:
+    done = state.get("last_completed_checkpoint") or "-"
+    if state.get("fully_completed"):
+        endpoint = state.get("interrupt_reason") or "ok"
+    elif state.get("stopped_at_checkpoint"):
+        endpoint = f"-> {state['stopped_at_checkpoint']}"
+    else:
+        endpoint = state.get("interrupt_reason") or "?"
+    bits = [
+        f"{name}[{status}]"
+        for name, status in (state.get("checkpoints") or {}).items()
+        if status != "done"
+    ]
+    suffix = f"  rerun: {', '.join(bits)}" if bits else ""
+    return (
+        f"{state.get('experiment_id', '?')}/{state.get('arm', '?')}/"
+        f"run_{state.get('run_index', '?')} done={done} stop={endpoint}{suffix}"
+    )
+
+
+@app.command("status")
+def status_cmd(
+    experiment_id: str | None = typer.Option(None, "--experiment-id"),
+) -> None:
+    """Read-only overview of runs via their state.json (no SCB/Docker)."""
+    from benchmark.resume_state import load_state, run_dirs
+
+    if RESULTS_DIR.is_dir():
+        experiments = sorted(p.name for p in RESULTS_DIR.iterdir() if p.is_dir())
+    else:
+        experiments = []
+    selected = [experiment_id] if experiment_id else experiments
+    if not selected:
+        console.print("No experiments found in results/")
+        raise typer.Exit(code=1)
+    lines: list[str] = []
+    for exp in selected:
+        exp_dir = RESULTS_DIR / exp
+        if not exp_dir.is_dir():
+            console.print(f"[red]experiment not found:[/red] {exp}")
+            raise typer.Exit(code=1)
+        states: list[dict[str, Any]] = []
+        stale: list[str] = []
+        for run_dir in run_dirs(exp_dir):
+            state = load_state(run_dir)
+            if state is None:
+                stale.append(f"{run_dir.parent.name}/{run_dir.name}")
+            else:
+                states.append(state)
+        lines.extend(_format_status_line(state) for state in states)
+        if stale:
+            lines.append("legacy (no state.json; start fresh, --resume unavailable): " + ", ".join(stale))
+    if not lines:
+        console.print("No state.json found under results/ — nothing tracked yet.")
+        raise typer.Exit(code=0)
+    for line in lines:
+        console.print(line)
 
 
 @app.command("repair")

@@ -1,7 +1,7 @@
 # Leaderboard
 
 No single score. Absolute metrics only. Δ vs baseline is only in short reports
-for the same `(problem, model)` cell.
+for the same `(problem, adapter, provider, model)` cell.
 
 Published from `docs/reports/*.json`. Rebuilt by `python -m benchmark report`.
 Newer experiments appear first.
@@ -12,5 +12,5 @@ Newer experiments appear first.
 
 ## Experiments
 
-| Experiment | Date | Problem | Model | N | Report |
-|------------|------|---------|-------|---|--------|
+| Experiment | Date | Problem | Agent | Provider | Model | N | Report |
+|------------|------|---------|-------|----------|-------|---|--------|

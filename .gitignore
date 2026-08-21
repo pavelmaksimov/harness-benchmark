@@ -33,3 +33,4 @@ reports/**
 vendor/slop-code-bench/
 vendor/scb-problems/
 .omo/
+TODO.md

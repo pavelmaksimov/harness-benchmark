@@ -11,9 +11,10 @@
 
 Состав pin’а — свойство конкретного arm (`VERSION.json` + файлы в его каталоге), а не каталог скиллов этого репозитория. Список arm’ов — `benchmark/arms.py`.
 
-`pass_policy: all-core-cases` — early-stop только если падают Core-тесты,
-чтобы траектория CP1→CP4 доходила до конца; Functionality/Regression всё равно
-собираются в метриках.
+`pass_policy: all-core-cases` определяет correctness чекпоинта. Тестовый
+провал не обрывает траекторию: benchmark hook доводит CP1→CP4 до конца,
+а ошибки агента, rate-limit и инфраструктурные сбои оставляют run
+`incomplete` для resume.
 
 ## Pins
 
@@ -164,6 +165,71 @@ uv run python -m benchmark run-all --problem file_backup --runs 3
 uv run python -m benchmark run --arm baseline --problem file_backup --runs 1 --rework-attempts 2
 uv run python -m benchmark run-all --problem file_backup --runs 3 --rework-attempts 0
 ```
+
+## Resume прерванных прогонов (`--resume`, `state.json`)
+
+Каждый run пишет `state.json` в каталог `results/<experiment>/<arm>/run_N/`
+(рядом с `manifest.json`). Файл пишется до старта SCB (маркер `started`
+с identity), после успеха/краша и при Ctrl-C (`phase: interrupted` с
+фактическим местом остановки). Одна читка отвечает на вопрос
+«что перезапускать»: последний пройденный чекпоинт, точка остановки и причина.
+
+```bash
+# Где остановился эксперимент (read-only, без SCB/Docker)
+uv run python -m benchmark status
+uv run python -m benchmark status --experiment-id <id>
+
+# Продолжить с места остановки
+uv run python -m benchmark run-all --problem file_backup \
+  --experiment-id <id> --runs 3 --jobs 2 --resume
+# То же для одиночного run: ... --arm baseline --runs 1 --resume
+```
+
+Как это работает:
+
+- Под капотом включается нативный resume SlopCodeBench — SCB сам определяет,
+  какие чекпоинты выжили (агент завершил без ошибки), и запускает только
+  оставшиеся. Метка/среду берут из сохранённого конфигурационного снапшота;
+  флаги `--model/--agent/...` при resume не передаются.
+- Опущенные при `--resume` флаги `--provider/--model/--thinking` (и `--agent`
+  по умолчанию) восстанавливаются из `state.json` — повторять исходный запуск
+  не требуется; явно переданный флаг, отличающийся от записанного, отклоняется.
+- Опущенный `--rework-attempts` также восстанавливается из `state.json`; явно
+  переданное отличающееся значение отклоняется. Новые слоты при расширении
+  матрицы наследуют сохранённый выбор своего arm.
+- Завершённые слоты матрицы (все чекпоинты `done`, exit 0, `metrics/run.json`
+  на месте) прогоняются мимо — метрики перечитываются с диска, SCB не стартует.
+  `incomplete` runs сохраняются для диагностики, но не попадают в средние
+  значения отчета.
+- Workspace агентского каталога между попытками сохраняется (prompt.txt /
+  черновики — как были); устаревшие `rework.json`/`evaluation.json` за
+  чекпоинтами, которые реально перезапустятся, удаляются до старта.
+- `--resume` требует явный `--experiment-id`, отказывается, если identity
+  запроса отличается от записанной в `state.json`, и отклоняет `--runs N`,
+  меньше чем уже записанных слотов (перезапись готовых прогонов запрещена).
+- Новый запуск с тем же `--experiment-id` не удаляет старые `run_N`: он
+  проверяет identity и добавляет следующие свободные индексы. Для другого
+  adapter/model/harness используется новый `experiment_id`.
+
+Поля `state.json`, useful for automation: identity (`experiment_id`, `arm`,
+`run_index`, `problem`, `agent`, `provider`, `model`, `thinking`), lifecycle
+(`phase`, `exit_code`, `interrupt_reason`) и native checkpoint state
+(`checkpoints`, `last_completed_checkpoint`, `stopped_at_checkpoint`,
+`fully_completed`), а также конфигурация rework (`rework_attempts`).
+
+Лимитации (семантика SCB, а не обёртки):
+
+- Агентовский чекпоинт с красными тестами считается завершённым и НЕ
+  перезапускается: resume идёт дальше него. Прошедший pass-policy early stop
+  возобновляется с первого **не начатого** чекпоинта.
+- `SIGKILL` обновить `state.json` не может в принципе; resume всё равно
+  продолжит корректно — выжившие чекпоинты SCB определяет по диску, а
+  записанный до старта маркер `started` сохраняет identity прогона.
+- Прогон, начатый до введения `state.json`, резюмабельностью не обладает:
+  `status` пометит его `legacy (no state.json; start fresh)`, `--resume`
+  откажется продолжать — перезапустите такой run без флага.
+- Сбой самого runner'а (Docker/API) во время первой попытки нужно сначала
+  триажить по правилам failure-triage, прежде чем верить `interrupt_reason`.
 
 ## Optional judge
 
