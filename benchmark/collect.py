@@ -117,9 +117,20 @@ def _diff_metrics(diff: dict[str, Any] | None) -> dict[str, Any]:
     }
 
 
+def _checkpoint_prompt_text(checkpoint_dir: Path) -> str:
+    """Prompt text of a checkpoint.
+
+    Codex adapters save ``agent/prompt.txt``; OpenCode saves ``prompt.txt`` at the
+    checkpoint root. Accept both so skill-arm activation checks work for every agent.
+    """
+    for candidate in (checkpoint_dir / "agent" / "prompt.txt", checkpoint_dir / "prompt.txt"):
+        if candidate.is_file():
+            return candidate.read_text(encoding="utf-8")
+    return ""
+
+
 def _activation_status(arm: str, checkpoint_dir: Path) -> dict[str, Any]:
-    prompt_path = checkpoint_dir / "agent" / "prompt.txt"
-    prompt_text = prompt_path.read_text(encoding="utf-8") if prompt_path.exists() else ""
+    prompt_text = _checkpoint_prompt_text(checkpoint_dir)
     marker_path = checkpoint_dir / "agent" / ACTIVATION_MARKER
     marker = _read_json(marker_path) if marker_path.exists() else None
 

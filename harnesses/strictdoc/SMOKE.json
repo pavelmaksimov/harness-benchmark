@@ -22,11 +22,11 @@
     "venv"
   ],
   "experiment_id": "smoke-strictdoc-20260821T142516204366-1b83eeba",
-  "harness_activation_verified": false,
+  "harness_activation_verified": true,
   "harness_content_sha": "915034ef5b3f2cadf57dce7e024324417dc9ac019fdfb0a8f4a50ff4b2487d63",
-  "ok": false,
+  "ok": true,
   "problem": "file_backup",
-  "run_dir": "/home/user/my/harness-benchmark/results/smoke-strictdoc-20260821T142516204366-1b83eeba/strictdoc/run_1",
+  "run_dir": "results/smoke-strictdoc-20260821T142516204366-1b83eeba/strictdoc/run_1",
   "snapshot": {
     "already_excluded": [],
     "needs_exclude_review": [
@@ -41,5 +41,5 @@
       "strictdoc-docs"
     ]
   },
-  "validated_at": "2026-08-21T14:37:14.593113+00:00"
+  "validated_at": "2026-08-21T14:54:23.067602+00:00"
 }

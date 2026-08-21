@@ -1,0 +1,50 @@
+{
+  "arm": "doorstop",
+  "checkpoints": [
+    "checkpoint_1"
+  ],
+  "checkpoints_completed": [
+    1,
+    2
+  ],
+  "exclude_dir_names": [
+    ".git",
+    ".mypy_cache",
+    ".pytest_cache",
+    ".ruff_cache",
+    ".tox",
+    ".venv",
+    "__pycache__",
+    "build",
+    "dist",
+    "doorstop-docs",
+    "graphify-out",
+    "node_modules",
+    "strictdoc-docs",
+    "venv"
+  ],
+  "experiment_id": "smoke-doorstop-20260821T155220018610-364b7dcb",
+  "harness_activation_verified": true,
+  "harness_content_sha": "7dedb7cff3d725eb5abb444160a1beb0fcd7faacc6d09d5d017aeeab7e126dfa",
+  "ok": true,
+  "problem": "file_backup",
+  "run_dir": "/home/user/my/harness-benchmark/results/smoke-doorstop-20260821T155220018610-364b7dcb/doorstop/run_1",
+  "snapshot": {
+    "already_excluded": [
+      ".git",
+      "doorstop-docs"
+    ],
+    "needs_exclude_review": [],
+    "top_level": [
+      ".git",
+      "backup_scheduler.py",
+      "doorstop-docs",
+      "requirements.txt"
+    ],
+    "top_level_dirs": [
+      ".git",
+      "doorstop-docs"
+    ]
+  },
+  "validated_at": "2026-08-21T16:04:35.593750+00:00"
+}

@@ -24,6 +24,9 @@ EXCLUDE_DIR_NAMES = {
     "build",
     ".tox",
     "graphify-out",
+    # Mandated docs roots of requirements arms (strictdoc/doorstop): process artifacts, not solution code.
+    "strictdoc-docs",
+    "doorstop-docs",
 }
 
 

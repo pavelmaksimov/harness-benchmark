@@ -1,0 +1,56 @@
+{
+  "agent": "opencode",
+  "agent_version": "1.14.33",
+  "arms": {
+    "baseline": {
+      "checkpoints_passed": 14.0,
+      "checkpoints_total": 14.0,
+      "complexity": 197.0,
+      "dependencies_added": 5.0,
+      "elapsed_time": 2251.535949,
+      "loc_changed": 1053.0,
+      "loc_final": 976.0,
+      "normalized_cost": 0.0,
+      "regression_failures": 0.0
+    }
+  },
+  "date": "2026-08-21T13:11:26.108751+00:00",
+  "deltas": {
+    "checkpoints_passed": null,
+    "checkpoints_total": null,
+    "complexity": null,
+    "dependencies_added": null,
+    "elapsed_time": null,
+    "loc_changed": null,
+    "loc_final": null,
+    "normalized_cost": null,
+    "regression_failures": null
+  },
+  "deltas_by_arm": {},
+  "excluded_ponytail_runs": 0,
+  "excluded_runs": {
+    "baseline": 0
+  },
+  "experiment_id": "rw-opencode-oxalpha-high",
+  "git_commits": {
+    "harness_benchmark": "b4a6f9c5a81e0c136b58f543a7519473c802c929",
+    "scb_problems": "ef6a9dd13911566b6b01075ca121758c9f7b5c5f",
+    "slop_code_bench": "06b5c0687d4c05ee502e9696a4d0c22fc1eec5e0"
+  },
+  "incomplete_runs": {},
+  "model": "x-preview-f-free",
+  "n_baseline": 1,
+  "n_ponytail": 0,
+  "ponytail": null,
+  "pricing_version": "2026-08-12-openai-gpt-5.6-luna",
+  "problem": "realworld",
+  "provider": "opencode_auth",
+  "rework": {
+    "baseline": {
+      "attempts": 6,
+      "fixed": 3,
+      "unresolved": 0
+    }
+  },
+  "thinking": "high"
+}
