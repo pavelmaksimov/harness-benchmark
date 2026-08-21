@@ -32,6 +32,49 @@ ground truth → SKILL.md с non-interactive командами → arms.py + co
 снапшота → эксклюзии при необходимости → commit SMOKE.json. Смоук-гейт для skill-arm обязателен
 перед полными прогонами.
 
+### Инциденты внедрения strictdoc/doorstop (2026-08-21): проблемы → решения
+
+Детальные таблицы грабель инструментов — в [docs/harness-onboarding.md](docs/harness-onboarding.md) (§3).
+
+1. **Ложная `harness_activation_verified=false` у OpenCode skill-arm'ов.** OpenCode сохраняет
+   промпт как `checkpoint_N/prompt.txt`, Codex — `checkpoint_N/agent/prompt.txt`; collect читал
+   только второй путь. Симптом: маркер верифицирован (`marker.harness_activation_verified=true`),
+   но итог false из-за `prompt_ok=false`. Фикс: `_checkpoint_prompt_text()` в
+   `benchmark/collect.py` принимает оба пути. Новый адаптер с третьим путём даст тот же симптом —
+   добавлять путь туда.
+
+2. **Перепиннинг чужого арма инвалидирует его SMOKE.json.** Схема `tree_sha256` в исторических
+   VERSION.json отличается от скриптовой; тестовый пересчёт tdd сменил бы хеш → рассинхрон
+   `harness_content_sha` с маркером → `run-all` отказал бы. Правило: `scripts/pin_harness.py`
+   для новых армов; после правок существующего `skill/` — перепиннить и ОБЯЗАТЕЛЬНО
+   пересмокать этот арм.
+
+3. **Код возврата после пайпа — код последней команды.** `strictdoc export … | tail; echo $?`
+   возвращал код `tail`, из-за чего почти записали в скилл неверный вывод «экспорт всегда 0».
+   Гейты проверять без пайпа либо с `set -o pipefail`.
+
+4. **Запуск двух смоуков фоном из shell.** Редирект лога второго прогона упал («No such file or
+   directory»), tool-timeout убил обёртку, дети выжили. Рабочий порядок: заранее создать
+   лог-файл (абсолютный путь), `( setsid nohup … > log 2>&1 < /dev/null & )`, живость по
+   `pgrep -af scb_main`; перед повторным запуском убедиться в отсутствии дублей процессов,
+   иначе фантомный run_N.
+
+5. **Удалённый `/tmp/tmp*` под живым контейнером** → потеря попытки doorstop-смоука. Симптомы:
+   ws-source `[MISSING]` при живом контейнере; любой `docker exec` падает с «container breakout
+   detected». Лечение: `docker rm -f <c>`, дождаться `phase=incomplete/interrupted` в state.json,
+   перезапустить smoke начисто. Не чистить `/tmp` во время прогонов.
+
+6. **Медленный free-tier ≠ зависание.** CP шёл часы против обычных ~40 минут; прогресс
+   подтверждали mtimes файлов workspace на хосте (маунт-сурс из `docker inspect`). CPU агента
+   почти не растёт (сетевые ожидания), логи SCB буферизуются — не убивать работающий прогон по
+   «тишине» в tail лога или низкому CPU.
+
+7. **Грамматика SDoc 0.28 и Doorstop 3.2 headless** — кратко: бинарь `strictdoc` (не `sdoc`),
+   связи `RELATIONS:` (не `REFS:`), в `[DOCUMENT]` нет UID, файлу нужен завершающий `\n`,
+   экспорт пустой директории выходит 0 → гейт = exit 0 И grep UID в HTML; doorstop — всегда
+   `-j .` (дефолтный корень `/tmp!`), `git init`, дочерний документ `-p PARENT`, `EDITOR=true`.
+   Полные таблицы и рабочие последовательности команд — §3.3/3.4 онбординг-дока.
+
 ## `task_manager`: workspace must be on `sys.path` for eval
 
 SCB runs pytest via `uvx` with cwd `/workspace`. That directory is **not** always on Python’s `sys.path`, so `import task_manager` fails in TestClient fixtures even when the agent’s package is present under `/workspace/task_manager/`.
@@ -228,21 +271,67 @@ agent_specific:
 ## Rework-промпты и resume: не редактируйте артефакты прогона руками
 
 `prompt.txt` чекпоинта сравнивается нативным resume с заново отрендеренным
-ожидаемым промптом (`_check_prompt_mismatch`, точное сравнение). Любое отличие —
-в том числе оставленный блок `[REWORK ATTEMPT]` ИЛИ несовершенная ручная чистка —
-инвалидирует этот чекпоинт **и все последующие** (SPEC_CHANGED): SCB при
-`--resume` перезапустит их с началом цепочки и удалит протухшие каталоги,
-а finalize классифицирует весь run как `incomplete`.
+ожидаемым промптом (`_check_prompt_mismatch`; сравнение через `strip()`,
+т.е. нормализовано по краям, но не по содержимому). Любое содержимое,
+которого нет в каноническом рендере — в том числе оставленный блок
+`[REWORK ATTEMPT]` — инвалидирует этот чекпоинт **и все последующие**
+(SPEC_CHANGED): SCB при `--resume` перезапустит их с началом цепочки и
+удалит протухшие каталоги, а finalize классифицирует весь run как
+`incomplete`.
 
 - Правильное лечение причины — в коде (`rework_hook.py` восстанавливает
   канонический промпт всегда, не только при успехе реворка).
 - Если run уже завершён со старым багом: НЕ запускайте `--resume`, чтобы
   «починить» фазу, — при invalidated-цепочке это удалит готовые результаты.
-  Вместо этого обновите только `state.json` через адаптер
-  (`benchmark.resume_state.write_state`) после байт-точной проверки промптов,
-  либо примите `incomplete` (такой run не попадёт в средние отчёта).
-- Реставрация текста должна быть байт-в-байт: `rstrip()` у канонического хвоста
-  уже даёт mismatch.
+  Либо примите `incomplete` (такой run не попадёт в средние отчёта), либо
+  сначала почините артефакты (см. следующий раздел) и **обязательно
+  прогоните детектор до запуска resume**.
+
+## Восстановление прогона после внешней гибели контейнера (рецепт 2026-08-21)
+
+Если агентский runtime-контейнер убит извне (например, массовое удаление
+docker-контейнеров посреди чекпоинта):
+
+1. Симптомы фатального выхода SCB: `ExecutionError` про workspace
+   (`expected … got: /tmp/tmpXXXX`), а `run_info.yaml` помечает **ВСЕ**
+   чекпоинты `skipped` (summary пишется из пустого in-memory списка
+   результатов). finalize ставит `phase=incomplete`.
+2. Наивный `--resume` в таком состоянии инвалидирует ВСЕ чекпоинты
+   (MISSING_RESULT) → удалит все `evaluation.json`/`rework.json` и начнёт
+   задачу с нуля. Не запускайте его до починки.
+3. Починка (проверено на healthchecks 2026-08-21):
+   - регенерируйте `prompt.txt` **рендерером SCB**, а не ручной резкой:
+     `_generate_expected_prompt(config, checkpoint, template, environment,
+     entry_file, is_first_checkpoint=…)` c входами из
+     `benchmark.resume_state._native_inputs(problem)` +
+     `_saved_native_inputs(run_dir)` (это `prompt_content` из
+     `scb/config.yaml` и `scb/environment.yaml`);
+   - приведите `run_info.yaml` `summary.checkpoints` к факту: завершённые
+     чекпоинты → `ran`, оборванный → `error`;
+   - проверка перед запуском: `detect_native_resume(run_dir, problem)`
+     должен показать `invalidated == [целевой чекпоинт]` и ничего больше.
+4. Гард слотов в CLI: `--resume` требует `--runs >= max(индекс run_N)`
+   («baseline=2; pass --runs 2»), а увеличение `--runs` создаст **полный
+   новый прогон** в отсутствующем слоте. Обход — прямой вызов одного слота
+   в обход матрицы:
+
+```python
+from benchmark.scb_run import run_one
+run_one(arm="baseline", problem=<problem>, run_index=<slot>,
+        experiment_id=<id>, agent="opencode",
+        provider="opencode_auth", model=<model>, thinking=<thinking>,
+        resume=True)
+```
+
+   (`thinking` передавайте явно: дефолт для opencode — `none`.)
+
+## Time в лидерборде — это время инференса, не wall-clock
+
+Колонка `Time` = сумма `elapsed_seconds` по чекпоинтам (чистое время
+агентских сессий). Wall-clock больше за счёт: eval'а тестов в Docker после
+каждого чекпоинта/реворк-попытки (~2–6 мин каждая), снапшотов/diff/сбора
+метрик, параллельной конкуренции прогонов за Docker/CPU и простоев по
+инцидентам. Ожидайте wall ≈ 2–4× от `Time`.
 
 ## graphify
 
