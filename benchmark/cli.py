@@ -94,6 +94,12 @@ def smoke_cmd(
         "--thinking",
         help=f"Thinking preset (Codex default: {DEFAULT_THINKING})",
     ),
+    checkpoints: int = typer.Option(
+        1,
+        "--checkpoints",
+        min=1,
+        help="How many leading checkpoints to run (1 = classic CP1 smoke gate)",
+    ),
     experiment_id: Optional[str] = typer.Option(None, "--experiment-id"),
 ) -> None:
     """CP1-only smoke: verify harness runs and discover non-solution artifact dirs."""
@@ -113,7 +119,7 @@ def smoke_cmd(
         thinking=thinking,
     )
     console.print(
-        f"=== smoke CP1 arm={arm} agent={agent} provider={provider} "
+        f"=== smoke CP{checkpoints} arm={arm} agent={agent} provider={provider} "
         f"model={model} thinking={thinking} ==="
     )
     collected = run_smoke(
@@ -124,6 +130,7 @@ def smoke_cmd(
         model=model,
         thinking=thinking,
         experiment_id=experiment_id,
+        checkpoint_count=checkpoints,
     )
     analysis = collected.get("smoke_snapshot_analysis") or {}
     console.print(f"smoke_ok={collected.get('smoke_ok')} marker={collected.get('smoke_marker')}")

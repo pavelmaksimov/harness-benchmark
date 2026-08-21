@@ -108,6 +108,18 @@ ARMS: dict[str, ArmSpec] = {
         skill_name="review-agent",
         activation_phrase="Activate and follow the installed Codex skill `review-agent`",
     ),
+    "strictdoc": ArmSpec(
+        name="strictdoc",
+        kind="single",
+        skill_name="strictdoc",
+        activation_phrase="Activate and follow the installed Codex skill `strictdoc`",
+    ),
+    "doorstop": ArmSpec(
+        name="doorstop",
+        kind="single",
+        skill_name="doorstop",
+        activation_phrase="Activate and follow the installed Codex skill `doorstop`",
+    ),
 }
 
 DEFAULT_EXPERIMENT_ARMS: tuple[str, ...] = (
@@ -119,6 +131,8 @@ DEFAULT_EXPERIMENT_ARMS: tuple[str, ...] = (
     "tdd",
     "code-review",
     "review-agent",
+    "strictdoc",
+    "doorstop",
 )
 
 SKILL_ARMS: tuple[str, ...] = tuple(a for a in DEFAULT_EXPERIMENT_ARMS if a != "baseline")

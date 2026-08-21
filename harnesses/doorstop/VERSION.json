@@ -1,0 +1,12 @@
+{
+  "name": "doorstop",
+  "skill_name": "doorstop",
+  "version": "pinned-local",
+  "kind": "single",
+  "skill_sha256": "4a996750e759c744155409bb8a28d73495ebd52fd2b3ad7691aaa0c7a537de7e",
+  "tree_sha256": "7dedb7cff3d725eb5abb444160a1beb0fcd7faacc6d09d5d017aeeab7e126dfa",
+  "skill_bytes": 4367,
+  "file_count": 2,
+  "pinned_at": "2026-08-21T14:24:40.568007+00:00",
+  "source": "/home/user/my/harness-benchmark/harnesses/doorstop/skill"
+}

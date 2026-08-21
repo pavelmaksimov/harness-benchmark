@@ -1,0 +1,13 @@
+# doorstop arm: requirements-management harness (Doorstop).
+agent: configs/agent_codex.yaml
+environment: docker-python3.12-uv
+prompt: configs/prompts/doorstop-solve.jinja
+model:
+  provider: codex_auth
+  name: gpt-5.6-luna
+thinking: xhigh
+pass_policy: all-core-cases
+problems:
+  - file_backup
+save_dir: results/raw
+save_template: ${model.name}/doorstop_${prompt}_${thinking}_${now:%Y%m%dT%H%M%S}
