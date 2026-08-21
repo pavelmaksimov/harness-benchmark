@@ -1,0 +1,28 @@
+# OpenCode Zen free model "Ox Alpha Free (Unlimited)" (catalog entry — not a run default).
+# Same model is also exposed as opencode-go/ox-alpha-free; we use the `opencode` route.
+# Use: --agent opencode --provider opencode_auth --model x-preview-f-free --thinking high
+# Catalog (models.dev 2026-08-21) declares reasoning_options low|high|max but ships no
+# named variants, so define them here — SCB passes thinking via `--variant=<name>`.
+internal_name: x-preview-f-free
+provider: opencode_auth
+pricing:
+  input: 0
+  output: 0
+  cache_read: 0
+  cache_write: 0
+aliases: []
+agent_specific:
+  opencode:
+    provider_name: opencode
+    config:
+      provider:
+        opencode:
+          models:
+            x-preview-f-free:
+              variants:
+                low:
+                  reasoningEffort: low
+                high:
+                  reasoningEffort: high
+                max:
+                  reasoningEffort: max
