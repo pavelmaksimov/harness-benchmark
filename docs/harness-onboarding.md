@@ -67,6 +67,7 @@ uv run python -m benchmark smoke --arm <name> --problem file_backup --checkpoint
 | Артефакты харнеса портят метрики (LOC/diff/files_touched) | Мандатируй в скилле ЕДИНСТВЕННЫЙ корень вида `<tool>-docs/` и добавь этот leaf в `EXCLUDE_DIR_NAMES` после смоука. Не исключай `tests/` и parent-сегменты вроде `snapshot`. |
 | Агентский `.git` внутри snapshot | Doorstop и TDD-стили просят `git init`. Уже покрыто: `.git` в эксклюзиях + правило удаления после прогона (`benchmark-git-cleanup`). |
 | Фоновый запуск из agent-shell | Только паттерн из AGENTS.md: `setsid nohup … > log 2>&1 < /dev/null & disown`, лог-файл создавать заранее, живость — `pgrep -af scb_main`. Повторный запуск тем же `--experiment-id` молча создаёт следующий `run_N` — ищи фантомы. |
+| Удаление `/tmp/tmp*` на хосте под живым прогоном | SCB держит agent-workspace как bind-mount source в /tmp. Если источник удалён, контейнер жив, но любой `docker exec` падает с «container breakout detected», а снапшот потом брать неоткуда. Симптомы: ws-source `[MISSING]` в проверке маунтов при живом контейнере. Лечение: `docker rm -f <container>`, дождаться `phase=incomplete/interrupted` в state.json, перезапустить smoke начисто (слот run_1 остаётся диагностикой). Инцидент doorstop-смоука 2026-08-21: попытка №1 потеряна так. Не чистить `/tmp` во время прогонов. |
 | Логи отстают от реальности | structlog буферизуется: истину смотри по диску (`scb/<problem>/checkpoint_N/`, `state.json`) и `docker top <container>`, а не по tail. |
 | Free-tier маршрут (ox-alpha-free): первая попытка CP отдаёт 0 токенов и пустой снапшот | Флейк провайдера, а не модели: rework обычно спасает (пример task_manager CP1). В smoke реворка нет (`rework_attempts=0`) — просто перезапусти смоук. Диагностика: 1–3 события в `checkpoint_N/agent/messages.jsonl` + нули в `inference_result.json`. |
 
@@ -77,6 +78,7 @@ uv run python -m benchmark smoke --arm <name> --problem file_backup --checkpoint
 | Новая модель без именованных variants | Overlay в `configs/models/<model>.yaml` с `agent_specific.opencode.config.provider.<...>.models.<model>.variants` (`low/high/max`); SCB передаёт thinking как `--variant=<имя>`. Пример: `configs/models/x-preview-f-free.yaml`. |
 | Один инструмент — несколько маршрутов провайдера | Конвенция репо: маршрут `opencode` (`provider_name: opencode`). |
 | Skills-mount | Хук кладёт скиллы в `~/.config/opencode/skills/`; activation phrase в промпте всё равно упоминает «Codex skill» (конвенция формулировок, механизм тот же). |
+| OpenCode сохраняет промпт как `checkpoint_N/prompt.txt`, а Codex — `checkpoint_N/agent/prompt.txt` | `_activation_status` в `benchmark/collect.py` принимает оба пути (fallback добавлен 2026-08-21 после ложного `ok:false` у strictdoc-смоука). Если появится новый адаптер с третьим путём — симптом тот же: маркер верифицирован, а `harness_activation_verified=false` из-за `prompt_ok=false`. |
 
 ### 3.3 StrictDoc (проверено на PyPI strictdoc 0.28.1)
 

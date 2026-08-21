@@ -1,0 +1,1423 @@
+[
+  {
+    "agent": "opencode",
+    "agent_version": "1.14.33",
+    "arm": "baseline",
+    "attempts": [
+      {
+        "attempt": 1,
+        "duration": 15.929728984832764,
+        "failed_tests": [
+          "test_exhausted_one_shot_oncalendar_stays_up",
+          "test_oncalendar_multiline_uses_earliest_occurrence",
+          "test_switching_schedule_kind_does_not_heal_down_check"
+        ],
+        "infrastructure_failure": false,
+        "pass_counts": {
+          "Core": 1,
+          "Error": 0,
+          "Functionality": 0,
+          "Regression": 14
+        },
+        "passed_policy": false,
+        "total_counts": {
+          "Core": 4,
+          "Error": 0,
+          "Functionality": 0,
+          "Regression": 14
+        }
+      },
+      {
+        "attempt": 2,
+        "duration": 14.186709642410278,
+        "failed_tests": [
+          "test_exhausted_one_shot_oncalendar_stays_up",
+          "test_oncalendar_multiline_uses_earliest_occurrence",
+          "test_switching_schedule_kind_does_not_heal_down_check"
+        ],
+        "infrastructure_failure": false,
+        "pass_counts": {
+          "Core": 1,
+          "Error": 0,
+          "Functionality": 0,
+          "Regression": 14
+        },
+        "passed_policy": false,
+        "total_counts": {
+          "Core": 4,
+          "Error": 0,
+          "Functionality": 0,
+          "Regression": 14
+        }
+      },
+      {
+        "attempt": 3,
+        "duration": 15.801045179367065,
+        "failed_tests": [
+          "test_exhausted_one_shot_oncalendar_stays_up",
+          "test_oncalendar_multiline_uses_earliest_occurrence",
+          "test_switching_schedule_kind_does_not_heal_down_check"
+        ],
+        "infrastructure_failure": false,
+        "pass_counts": {
+          "Core": 1,
+          "Error": 0,
+          "Functionality": 0,
+          "Regression": 14
+        },
+        "passed_policy": false,
+        "total_counts": {
+          "Core": 4,
+          "Error": 0,
+          "Functionality": 0,
+          "Regression": 14
+        }
+      }
+    ],
+    "attempts_total": 3,
+    "checkpoint": "checkpoint_5",
+    "date": "2026-08-21T16:01:19.457400+00:00",
+    "experiment_id": "hc-opencode-oxalpha-high",
+    "failed_tests": [
+      "test_exhausted_one_shot_oncalendar_stays_up",
+      "test_oncalendar_multiline_uses_earliest_occurrence",
+      "test_switching_schedule_kind_does_not_heal_down_check"
+    ],
+    "fix": "rework",
+    "fixed": false,
+    "harness": "baseline",
+    "infrastructure_failure": false,
+    "model": "x-preview-f-free",
+    "pass_counts": {
+      "Core": 1,
+      "Error": 0,
+      "Functionality": 0,
+      "Regression": 14
+    },
+    "paths": {
+      "checkpoint_dir": "/home/user/my/harness-benchmark/results/hc-opencode-oxalpha-high/baseline/run_2/scb/healthchecks/checkpoint_5",
+      "run_dir": "/home/user/my/harness-benchmark/results/hc-opencode-oxalpha-high/baseline/run_2",
+      "snapshot_dir": "/home/user/my/harness-benchmark/results/hc-opencode-oxalpha-high/baseline/run_2/scb/healthchecks/checkpoint_5/snapshot"
+    },
+    "post_fix_score": "15/18",
+    "problem": "healthchecks",
+    "provider": "opencode_auth",
+    "resumed": false,
+    "root_cause": null,
+    "run_index": 2,
+    "source": "rework",
+    "thinking": "high",
+    "total_counts": {
+      "Core": 4,
+      "Error": 0,
+      "Functionality": 0,
+      "Regression": 14
+    }
+  },
+  {
+    "agent": "opencode",
+    "agent_version": "1.14.33",
+    "arm": "baseline",
+    "attempts": [
+      {
+        "attempt": 1,
+        "duration": 18.345001220703125,
+        "failed_tests": [
+          "test_exhausted_one_shot_oncalendar_stays_up",
+          "test_oncalendar_multiline_uses_earliest_occurrence",
+          "test_switching_schedule_kind_does_not_heal_down_check",
+          "test_manual_resume_turns_lifecycle_pings_into_ignored_history",
+          "test_pause_is_idempotent_and_resume_resets_monitoring_state"
+        ],
+        "infrastructure_failure": false,
+        "pass_counts": {
+          "Core": 1,
+          "Error": 0,
+          "Functionality": 0,
+          "Regression": 15
+        },
+        "passed_policy": false,
+        "total_counts": {
+          "Core": 3,
+          "Error": 0,
+          "Functionality": 0,
+          "Regression": 18
+        }
+      },
+      {
+        "attempt": 2,
+        "duration": 18.30393695831299,
+        "failed_tests": [
+          "test_exhausted_one_shot_oncalendar_stays_up",
+          "test_oncalendar_multiline_uses_earliest_occurrence",
+          "test_switching_schedule_kind_does_not_heal_down_check",
+          "test_manual_resume_turns_lifecycle_pings_into_ignored_history",
+          "test_pause_is_idempotent_and_resume_resets_monitoring_state"
+        ],
+        "infrastructure_failure": false,
+        "pass_counts": {
+          "Core": 1,
+          "Error": 0,
+          "Functionality": 0,
+          "Regression": 15
+        },
+        "passed_policy": false,
+        "total_counts": {
+          "Core": 3,
+          "Error": 0,
+          "Functionality": 0,
+          "Regression": 18
+        }
+      },
+      {
+        "attempt": 3,
+        "duration": 24.2582368850708,
+        "failed_tests": [
+          "test_exhausted_one_shot_oncalendar_stays_up",
+          "test_oncalendar_multiline_uses_earliest_occurrence",
+          "test_switching_schedule_kind_does_not_heal_down_check",
+          "test_manual_resume_turns_lifecycle_pings_into_ignored_history",
+          "test_pause_is_idempotent_and_resume_resets_monitoring_state"
+        ],
+        "infrastructure_failure": false,
+        "pass_counts": {
+          "Core": 1,
+          "Error": 0,
+          "Functionality": 0,
+          "Regression": 15
+        },
+        "passed_policy": false,
+        "total_counts": {
+          "Core": 3,
+          "Error": 0,
+          "Functionality": 0,
+          "Regression": 18
+        }
+      }
+    ],
+    "attempts_total": 3,
+    "checkpoint": "checkpoint_6",
+    "date": "2026-08-21T16:01:19.458075+00:00",
+    "experiment_id": "hc-opencode-oxalpha-high",
+    "failed_tests": [
+      "test_exhausted_one_shot_oncalendar_stays_up",
+      "test_oncalendar_multiline_uses_earliest_occurrence",
+      "test_switching_schedule_kind_does_not_heal_down_check",
+      "test_manual_resume_turns_lifecycle_pings_into_ignored_history",
+      "test_pause_is_idempotent_and_resume_resets_monitoring_state"
+    ],
+    "fix": "rework",
+    "fixed": false,
+    "harness": "baseline",
+    "infrastructure_failure": false,
+    "model": "x-preview-f-free",
+    "pass_counts": {
+      "Core": 1,
+      "Error": 0,
+      "Functionality": 0,
+      "Regression": 15
+    },
+    "paths": {
+      "checkpoint_dir": "/home/user/my/harness-benchmark/results/hc-opencode-oxalpha-high/baseline/run_2/scb/healthchecks/checkpoint_6",
+      "run_dir": "/home/user/my/harness-benchmark/results/hc-opencode-oxalpha-high/baseline/run_2",
+      "snapshot_dir": "/home/user/my/harness-benchmark/results/hc-opencode-oxalpha-high/baseline/run_2/scb/healthchecks/checkpoint_6/snapshot"
+    },
+    "post_fix_score": "16/21",
+    "problem": "healthchecks",
+    "provider": "opencode_auth",
+    "resumed": false,
+    "root_cause": null,
+    "run_index": 2,
+    "source": "rework",
+    "thinking": "high",
+    "total_counts": {
+      "Core": 3,
+      "Error": 0,
+      "Functionality": 0,
+      "Regression": 18
+    }
+  },
+  {
+    "agent": "opencode",
+    "agent_version": "1.14.33",
+    "arm": "baseline",
+    "attempts": [
+      {
+        "attempt": 1,
+        "duration": 18.531920909881592,
+        "failed_tests": [
+          "test_email_subject_and_body_use_same_precedence",
+          "test_http_filtering_precedence_failure_success_start_default_fail",
+          "test_manual_resume_has_priority_over_filters",
+          "test_post_only_method_filter_ignores_get_before_keywords",
+          "test_exhausted_one_shot_oncalendar_stays_up",
+          "test_oncalendar_multiline_uses_earliest_occurrence",
+          "test_switching_schedule_kind_does_not_heal_down_check",
+          "test_manual_resume_turns_lifecycle_pings_into_ignored_history",
+          "test_pause_is_idempotent_and_resume_resets_monitoring_state"
+        ],
+        "infrastructure_failure": false,
+        "pass_counts": {
+          "Core": 0,
+          "Error": 0,
+          "Functionality": 0,
+          "Regression": 25
+        },
+        "passed_policy": false,
+        "total_counts": {
+          "Core": 4,
+          "Error": 0,
+          "Functionality": 0,
+          "Regression": 30
+        }
+      },
+      {
+        "attempt": 2,
+        "duration": 20.692617416381836,
+        "failed_tests": [
+          "test_email_subject_and_body_use_same_precedence",
+          "test_http_filtering_precedence_failure_success_start_default_fail",
+          "test_manual_resume_has_priority_over_filters",
+          "test_post_only_method_filter_ignores_get_before_keywords",
+          "test_oncalendar_multiline_uses_earliest_occurrence",
+          "test_switching_schedule_kind_does_not_heal_down_check",
+          "test_manual_resume_turns_lifecycle_pings_into_ignored_history",
+          "test_pause_is_idempotent_and_resume_resets_monitoring_state"
+        ],
+        "infrastructure_failure": false,
+        "pass_counts": {
+          "Core": 0,
+          "Error": 0,
+          "Functionality": 0,
+          "Regression": 26
+        },
+        "passed_policy": false,
+        "total_counts": {
+          "Core": 4,
+          "Error": 0,
+          "Functionality": 0,
+          "Regression": 30
+        }
+      },
+      {
+        "attempt": 3,
+        "duration": 25.504255056381226,
+        "failed_tests": [
+          "test_email_subject_and_body_use_same_precedence",
+          "test_http_filtering_precedence_failure_success_start_default_fail",
+          "test_manual_resume_has_priority_over_filters",
+          "test_post_only_method_filter_ignores_get_before_keywords",
+          "test_oncalendar_multiline_uses_earliest_occurrence",
+          "test_switching_schedule_kind_does_not_heal_down_check",
+          "test_manual_resume_turns_lifecycle_pings_into_ignored_history",
+          "test_pause_is_idempotent_and_resume_resets_monitoring_state"
+        ],
+        "infrastructure_failure": false,
+        "pass_counts": {
+          "Core": 0,
+          "Error": 0,
+          "Functionality": 0,
+          "Regression": 26
+        },
+        "passed_policy": false,
+        "total_counts": {
+          "Core": 4,
+          "Error": 0,
+          "Functionality": 0,
+          "Regression": 30
+        }
+      }
+    ],
+    "attempts_total": 3,
+    "checkpoint": "checkpoint_10",
+    "date": "2026-08-21T16:01:19.458653+00:00",
+    "experiment_id": "hc-opencode-oxalpha-high",
+    "failed_tests": [
+      "test_email_subject_and_body_use_same_precedence",
+      "test_http_filtering_precedence_failure_success_start_default_fail",
+      "test_manual_resume_has_priority_over_filters",
+      "test_post_only_method_filter_ignores_get_before_keywords",
+      "test_oncalendar_multiline_uses_earliest_occurrence",
+      "test_switching_schedule_kind_does_not_heal_down_check",
+      "test_manual_resume_turns_lifecycle_pings_into_ignored_history",
+      "test_pause_is_idempotent_and_resume_resets_monitoring_state"
+    ],
+    "fix": "rework",
+    "fixed": false,
+    "harness": "baseline",
+    "infrastructure_failure": false,
+    "model": "x-preview-f-free",
+    "pass_counts": {
+      "Core": 0,
+      "Error": 0,
+      "Functionality": 0,
+      "Regression": 26
+    },
+    "paths": {
+      "checkpoint_dir": "/home/user/my/harness-benchmark/results/hc-opencode-oxalpha-high/baseline/run_2/scb/healthchecks/checkpoint_10",
+      "run_dir": "/home/user/my/harness-benchmark/results/hc-opencode-oxalpha-high/baseline/run_2",
+      "snapshot_dir": "/home/user/my/harness-benchmark/results/hc-opencode-oxalpha-high/baseline/run_2/scb/healthchecks/checkpoint_10/snapshot"
+    },
+    "post_fix_score": "26/34",
+    "problem": "healthchecks",
+    "provider": "opencode_auth",
+    "resumed": false,
+    "root_cause": null,
+    "run_index": 2,
+    "source": "rework",
+    "thinking": "high",
+    "total_counts": {
+      "Core": 4,
+      "Error": 0,
+      "Functionality": 0,
+      "Regression": 30
+    }
+  },
+  {
+    "agent": "opencode",
+    "agent_version": "1.14.33",
+    "arm": "baseline",
+    "attempts": [
+      {
+        "attempt": 1,
+        "duration": 21.36511540412903,
+        "failed_tests": [
+          "test_email_subject_and_body_use_same_precedence",
+          "test_http_filtering_precedence_failure_success_start_default_fail",
+          "test_manual_resume_has_priority_over_filters",
+          "test_post_only_method_filter_ignores_get_before_keywords",
+          "test_copy_preserves_configuration_but_not_state_or_history",
+          "test_copy_transfer_reject_foreign_or_full_target",
+          "test_transfer_moves_same_uuid_and_history_between_tenants",
+          "test_oncalendar_multiline_uses_earliest_occurrence",
+          "test_switching_schedule_kind_does_not_heal_down_check",
+          "test_manual_resume_turns_lifecycle_pings_into_ignored_history",
+          "test_pause_is_idempotent_and_resume_resets_monitoring_state"
+        ],
+        "infrastructure_failure": false,
+        "pass_counts": {
+          "Core": 0,
+          "Error": 0,
+          "Functionality": 0,
+          "Regression": 30
+        },
+        "passed_policy": false,
+        "total_counts": {
+          "Core": 3,
+          "Error": 0,
+          "Functionality": 0,
+          "Regression": 38
+        }
+      },
+      {
+        "attempt": 2,
+        "duration": 20.612226247787476,
+        "failed_tests": [
+          "test_email_subject_and_body_use_same_precedence",
+          "test_http_filtering_precedence_failure_success_start_default_fail",
+          "test_manual_resume_has_priority_over_filters",
+          "test_post_only_method_filter_ignores_get_before_keywords",
+          "test_copy_preserves_configuration_but_not_state_or_history",
+          "test_copy_transfer_reject_foreign_or_full_target",
+          "test_transfer_moves_same_uuid_and_history_between_tenants",
+          "test_oncalendar_multiline_uses_earliest_occurrence",
+          "test_switching_schedule_kind_does_not_heal_down_check",
+          "test_manual_resume_turns_lifecycle_pings_into_ignored_history",
+          "test_pause_is_idempotent_and_resume_resets_monitoring_state"
+        ],
+        "infrastructure_failure": false,
+        "pass_counts": {
+          "Core": 0,
+          "Error": 0,
+          "Functionality": 0,
+          "Regression": 30
+        },
+        "passed_policy": false,
+        "total_counts": {
+          "Core": 3,
+          "Error": 0,
+          "Functionality": 0,
+          "Regression": 38
+        }
+      },
+      {
+        "attempt": 3,
+        "duration": 19.62318754196167,
+        "failed_tests": [
+          "test_email_subject_and_body_use_same_precedence",
+          "test_http_filtering_precedence_failure_success_start_default_fail",
+          "test_manual_resume_has_priority_over_filters",
+          "test_post_only_method_filter_ignores_get_before_keywords",
+          "test_copy_preserves_configuration_but_not_state_or_history",
+          "test_copy_transfer_reject_foreign_or_full_target",
+          "test_transfer_moves_same_uuid_and_history_between_tenants",
+          "test_oncalendar_multiline_uses_earliest_occurrence",
+          "test_switching_schedule_kind_does_not_heal_down_check",
+          "test_manual_resume_turns_lifecycle_pings_into_ignored_history",
+          "test_pause_is_idempotent_and_resume_resets_monitoring_state"
+        ],
+        "infrastructure_failure": false,
+        "pass_counts": {
+          "Core": 0,
+          "Error": 0,
+          "Functionality": 0,
+          "Regression": 30
+        },
+        "passed_policy": false,
+        "total_counts": {
+          "Core": 3,
+          "Error": 0,
+          "Functionality": 0,
+          "Regression": 38
+        }
+      }
+    ],
+    "attempts_total": 3,
+    "checkpoint": "checkpoint_12",
+    "date": "2026-08-21T16:01:19.459212+00:00",
+    "experiment_id": "hc-opencode-oxalpha-high",
+    "failed_tests": [
+      "test_email_subject_and_body_use_same_precedence",
+      "test_http_filtering_precedence_failure_success_start_default_fail",
+      "test_manual_resume_has_priority_over_filters",
+      "test_post_only_method_filter_ignores_get_before_keywords",
+      "test_copy_preserves_configuration_but_not_state_or_history",
+      "test_copy_transfer_reject_foreign_or_full_target",
+      "test_transfer_moves_same_uuid_and_history_between_tenants",
+      "test_oncalendar_multiline_uses_earliest_occurrence",
+      "test_switching_schedule_kind_does_not_heal_down_check",
+      "test_manual_resume_turns_lifecycle_pings_into_ignored_history",
+      "test_pause_is_idempotent_and_resume_resets_monitoring_state"
+    ],
+    "fix": "rework",
+    "fixed": false,
+    "harness": "baseline",
+    "infrastructure_failure": false,
+    "model": "x-preview-f-free",
+    "pass_counts": {
+      "Core": 0,
+      "Error": 0,
+      "Functionality": 0,
+      "Regression": 30
+    },
+    "paths": {
+      "checkpoint_dir": "/home/user/my/harness-benchmark/results/hc-opencode-oxalpha-high/baseline/run_2/scb/healthchecks/checkpoint_12",
+      "run_dir": "/home/user/my/harness-benchmark/results/hc-opencode-oxalpha-high/baseline/run_2",
+      "snapshot_dir": "/home/user/my/harness-benchmark/results/hc-opencode-oxalpha-high/baseline/run_2/scb/healthchecks/checkpoint_12/snapshot"
+    },
+    "post_fix_score": "30/41",
+    "problem": "healthchecks",
+    "provider": "opencode_auth",
+    "resumed": false,
+    "root_cause": null,
+    "run_index": 2,
+    "source": "rework",
+    "thinking": "high",
+    "total_counts": {
+      "Core": 3,
+      "Error": 0,
+      "Functionality": 0,
+      "Regression": 38
+    }
+  },
+  {
+    "agent": "opencode",
+    "agent_version": "1.14.33",
+    "arm": "baseline",
+    "attempts": [
+      {
+        "attempt": 1,
+        "duration": 21.711973905563354,
+        "failed_tests": [
+          "test_email_subject_and_body_use_same_precedence",
+          "test_http_filtering_precedence_failure_success_start_default_fail",
+          "test_manual_resume_has_priority_over_filters",
+          "test_post_only_method_filter_ignores_get_before_keywords",
+          "test_copy_preserves_configuration_but_not_state_or_history",
+          "test_copy_transfer_reject_foreign_or_full_target",
+          "test_transfer_moves_same_uuid_and_history_between_tenants",
+          "test_member_creation_rate_limit_is_deterministic",
+          "test_owner_not_member_duplicates_and_foreign_project_hidden",
+          "test_readonly_member_manager_permissions_are_distinct",
+          "test_oncalendar_multiline_uses_earliest_occurrence",
+          "test_switching_schedule_kind_does_not_heal_down_check",
+          "test_manual_resume_turns_lifecycle_pings_into_ignored_history",
+          "test_pause_is_idempotent_and_resume_resets_monitoring_state"
+        ],
+        "infrastructure_failure": false,
+        "pass_counts": {
+          "Core": 0,
+          "Error": 0,
+          "Functionality": 0,
+          "Regression": 30
+        },
+        "passed_policy": false,
+        "total_counts": {
+          "Core": 3,
+          "Error": 0,
+          "Functionality": 0,
+          "Regression": 41
+        }
+      },
+      {
+        "attempt": 2,
+        "duration": 23.011293649673462,
+        "failed_tests": [
+          "test_email_subject_and_body_use_same_precedence",
+          "test_http_filtering_precedence_failure_success_start_default_fail",
+          "test_manual_resume_has_priority_over_filters",
+          "test_post_only_method_filter_ignores_get_before_keywords",
+          "test_copy_preserves_configuration_but_not_state_or_history",
+          "test_copy_transfer_reject_foreign_or_full_target",
+          "test_transfer_moves_same_uuid_and_history_between_tenants",
+          "test_member_creation_rate_limit_is_deterministic",
+          "test_owner_not_member_duplicates_and_foreign_project_hidden",
+          "test_readonly_member_manager_permissions_are_distinct",
+          "test_oncalendar_multiline_uses_earliest_occurrence",
+          "test_switching_schedule_kind_does_not_heal_down_check",
+          "test_manual_resume_turns_lifecycle_pings_into_ignored_history",
+          "test_pause_is_idempotent_and_resume_resets_monitoring_state"
+        ],
+        "infrastructure_failure": false,
+        "pass_counts": {
+          "Core": 0,
+          "Error": 0,
+          "Functionality": 0,
+          "Regression": 30
+        },
+        "passed_policy": false,
+        "total_counts": {
+          "Core": 3,
+          "Error": 0,
+          "Functionality": 0,
+          "Regression": 41
+        }
+      },
+      {
+        "attempt": 3,
+        "duration": 21.269596815109253,
+        "failed_tests": [
+          "test_email_subject_and_body_use_same_precedence",
+          "test_http_filtering_precedence_failure_success_start_default_fail",
+          "test_manual_resume_has_priority_over_filters",
+          "test_post_only_method_filter_ignores_get_before_keywords",
+          "test_copy_preserves_configuration_but_not_state_or_history",
+          "test_copy_transfer_reject_foreign_or_full_target",
+          "test_transfer_moves_same_uuid_and_history_between_tenants",
+          "test_member_creation_rate_limit_is_deterministic",
+          "test_owner_not_member_duplicates_and_foreign_project_hidden",
+          "test_readonly_member_manager_permissions_are_distinct",
+          "test_oncalendar_multiline_uses_earliest_occurrence",
+          "test_switching_schedule_kind_does_not_heal_down_check",
+          "test_manual_resume_turns_lifecycle_pings_into_ignored_history",
+          "test_pause_is_idempotent_and_resume_resets_monitoring_state"
+        ],
+        "infrastructure_failure": false,
+        "pass_counts": {
+          "Core": 0,
+          "Error": 0,
+          "Functionality": 0,
+          "Regression": 30
+        },
+        "passed_policy": false,
+        "total_counts": {
+          "Core": 3,
+          "Error": 0,
+          "Functionality": 0,
+          "Regression": 41
+        }
+      }
+    ],
+    "attempts_total": 3,
+    "checkpoint": "checkpoint_13",
+    "date": "2026-08-21T16:01:19.459792+00:00",
+    "experiment_id": "hc-opencode-oxalpha-high",
+    "failed_tests": [
+      "test_email_subject_and_body_use_same_precedence",
+      "test_http_filtering_precedence_failure_success_start_default_fail",
+      "test_manual_resume_has_priority_over_filters",
+      "test_post_only_method_filter_ignores_get_before_keywords",
+      "test_copy_preserves_configuration_but_not_state_or_history",
+      "test_copy_transfer_reject_foreign_or_full_target",
+      "test_transfer_moves_same_uuid_and_history_between_tenants",
+      "test_member_creation_rate_limit_is_deterministic",
+      "test_owner_not_member_duplicates_and_foreign_project_hidden",
+      "test_readonly_member_manager_permissions_are_distinct",
+      "test_oncalendar_multiline_uses_earliest_occurrence",
+      "test_switching_schedule_kind_does_not_heal_down_check",
+      "test_manual_resume_turns_lifecycle_pings_into_ignored_history",
+      "test_pause_is_idempotent_and_resume_resets_monitoring_state"
+    ],
+    "fix": "rework",
+    "fixed": false,
+    "harness": "baseline",
+    "infrastructure_failure": false,
+    "model": "x-preview-f-free",
+    "pass_counts": {
+      "Core": 0,
+      "Error": 0,
+      "Functionality": 0,
+      "Regression": 30
+    },
+    "paths": {
+      "checkpoint_dir": "/home/user/my/harness-benchmark/results/hc-opencode-oxalpha-high/baseline/run_2/scb/healthchecks/checkpoint_13",
+      "run_dir": "/home/user/my/harness-benchmark/results/hc-opencode-oxalpha-high/baseline/run_2",
+      "snapshot_dir": "/home/user/my/harness-benchmark/results/hc-opencode-oxalpha-high/baseline/run_2/scb/healthchecks/checkpoint_13/snapshot"
+    },
+    "post_fix_score": "30/44",
+    "problem": "healthchecks",
+    "provider": "opencode_auth",
+    "resumed": false,
+    "root_cause": null,
+    "run_index": 2,
+    "source": "rework",
+    "thinking": "high",
+    "total_counts": {
+      "Core": 3,
+      "Error": 0,
+      "Functionality": 0,
+      "Regression": 41
+    }
+  },
+  {
+    "agent": "opencode",
+    "agent_version": "1.14.33",
+    "arm": "baseline",
+    "attempts": [
+      {
+        "attempt": 1,
+        "duration": 25.673627853393555,
+        "failed_tests": [
+          "test_email_subject_and_body_use_same_precedence",
+          "test_http_filtering_precedence_failure_success_start_default_fail",
+          "test_manual_resume_has_priority_over_filters",
+          "test_post_only_method_filter_ignores_get_before_keywords",
+          "test_copy_preserves_configuration_but_not_state_or_history",
+          "test_copy_transfer_reject_foreign_or_full_target",
+          "test_transfer_moves_same_uuid_and_history_between_tenants",
+          "test_member_creation_rate_limit_is_deterministic",
+          "test_owner_not_member_duplicates_and_foreign_project_hidden",
+          "test_readonly_member_manager_permissions_are_distinct",
+          "test_disabled_channel_and_test_delivery",
+          "test_permanent_http_error_disables_channel",
+          "test_webhook_transition_worker_renders_and_never_duplicates",
+          "test_oncalendar_multiline_uses_earliest_occurrence",
+          "test_switching_schedule_kind_does_not_heal_down_check",
+          "test_manual_resume_turns_lifecycle_pings_into_ignored_history",
+          "test_pause_is_idempotent_and_resume_resets_monitoring_state"
+        ],
+        "infrastructure_failure": false,
+        "pass_counts": {
+          "Core": 0,
+          "Error": 0,
+          "Functionality": 0,
+          "Regression": 30
+        },
+        "passed_policy": false,
+        "total_counts": {
+          "Core": 3,
+          "Error": 0,
+          "Functionality": 0,
+          "Regression": 44
+        }
+      },
+      {
+        "attempt": 2,
+        "duration": 36.65969133377075,
+        "failed_tests": [
+          "test_email_subject_and_body_use_same_precedence",
+          "test_http_filtering_precedence_failure_success_start_default_fail",
+          "test_manual_resume_has_priority_over_filters",
+          "test_post_only_method_filter_ignores_get_before_keywords",
+          "test_copy_preserves_configuration_but_not_state_or_history",
+          "test_copy_transfer_reject_foreign_or_full_target",
+          "test_transfer_moves_same_uuid_and_history_between_tenants",
+          "test_member_creation_rate_limit_is_deterministic",
+          "test_owner_not_member_duplicates_and_foreign_project_hidden",
+          "test_readonly_member_manager_permissions_are_distinct",
+          "test_disabled_channel_and_test_delivery",
+          "test_permanent_http_error_disables_channel",
+          "test_webhook_transition_worker_renders_and_never_duplicates",
+          "test_oncalendar_multiline_uses_earliest_occurrence",
+          "test_switching_schedule_kind_does_not_heal_down_check",
+          "test_manual_resume_turns_lifecycle_pings_into_ignored_history",
+          "test_pause_is_idempotent_and_resume_resets_monitoring_state"
+        ],
+        "infrastructure_failure": false,
+        "pass_counts": {
+          "Core": 0,
+          "Error": 0,
+          "Functionality": 0,
+          "Regression": 30
+        },
+        "passed_policy": false,
+        "total_counts": {
+          "Core": 3,
+          "Error": 0,
+          "Functionality": 0,
+          "Regression": 44
+        }
+      },
+      {
+        "attempt": 3,
+        "duration": 24.469483137130737,
+        "failed_tests": [
+          "test_email_subject_and_body_use_same_precedence",
+          "test_http_filtering_precedence_failure_success_start_default_fail",
+          "test_manual_resume_has_priority_over_filters",
+          "test_post_only_method_filter_ignores_get_before_keywords",
+          "test_copy_preserves_configuration_but_not_state_or_history",
+          "test_copy_transfer_reject_foreign_or_full_target",
+          "test_transfer_moves_same_uuid_and_history_between_tenants",
+          "test_member_creation_rate_limit_is_deterministic",
+          "test_owner_not_member_duplicates_and_foreign_project_hidden",
+          "test_readonly_member_manager_permissions_are_distinct",
+          "test_disabled_channel_and_test_delivery",
+          "test_permanent_http_error_disables_channel",
+          "test_webhook_transition_worker_renders_and_never_duplicates",
+          "test_oncalendar_multiline_uses_earliest_occurrence",
+          "test_switching_schedule_kind_does_not_heal_down_check",
+          "test_manual_resume_turns_lifecycle_pings_into_ignored_history",
+          "test_pause_is_idempotent_and_resume_resets_monitoring_state"
+        ],
+        "infrastructure_failure": false,
+        "pass_counts": {
+          "Core": 0,
+          "Error": 0,
+          "Functionality": 0,
+          "Regression": 30
+        },
+        "passed_policy": false,
+        "total_counts": {
+          "Core": 3,
+          "Error": 0,
+          "Functionality": 0,
+          "Regression": 44
+        }
+      }
+    ],
+    "attempts_total": 3,
+    "checkpoint": "checkpoint_14",
+    "date": "2026-08-21T16:01:19.460366+00:00",
+    "experiment_id": "hc-opencode-oxalpha-high",
+    "failed_tests": [
+      "test_email_subject_and_body_use_same_precedence",
+      "test_http_filtering_precedence_failure_success_start_default_fail",
+      "test_manual_resume_has_priority_over_filters",
+      "test_post_only_method_filter_ignores_get_before_keywords",
+      "test_copy_preserves_configuration_but_not_state_or_history",
+      "test_copy_transfer_reject_foreign_or_full_target",
+      "test_transfer_moves_same_uuid_and_history_between_tenants",
+      "test_member_creation_rate_limit_is_deterministic",
+      "test_owner_not_member_duplicates_and_foreign_project_hidden",
+      "test_readonly_member_manager_permissions_are_distinct",
+      "test_disabled_channel_and_test_delivery",
+      "test_permanent_http_error_disables_channel",
+      "test_webhook_transition_worker_renders_and_never_duplicates",
+      "test_oncalendar_multiline_uses_earliest_occurrence",
+      "test_switching_schedule_kind_does_not_heal_down_check",
+      "test_manual_resume_turns_lifecycle_pings_into_ignored_history",
+      "test_pause_is_idempotent_and_resume_resets_monitoring_state"
+    ],
+    "fix": "rework",
+    "fixed": false,
+    "harness": "baseline",
+    "infrastructure_failure": false,
+    "model": "x-preview-f-free",
+    "pass_counts": {
+      "Core": 0,
+      "Error": 0,
+      "Functionality": 0,
+      "Regression": 30
+    },
+    "paths": {
+      "checkpoint_dir": "/home/user/my/harness-benchmark/results/hc-opencode-oxalpha-high/baseline/run_2/scb/healthchecks/checkpoint_14",
+      "run_dir": "/home/user/my/harness-benchmark/results/hc-opencode-oxalpha-high/baseline/run_2",
+      "snapshot_dir": "/home/user/my/harness-benchmark/results/hc-opencode-oxalpha-high/baseline/run_2/scb/healthchecks/checkpoint_14/snapshot"
+    },
+    "post_fix_score": "30/47",
+    "problem": "healthchecks",
+    "provider": "opencode_auth",
+    "resumed": false,
+    "root_cause": null,
+    "run_index": 2,
+    "source": "rework",
+    "thinking": "high",
+    "total_counts": {
+      "Core": 3,
+      "Error": 0,
+      "Functionality": 0,
+      "Regression": 44
+    }
+  },
+  {
+    "agent": "opencode",
+    "agent_version": "1.14.33",
+    "arm": "baseline",
+    "attempts": [
+      {
+        "attempt": 1,
+        "duration": 23.033463954925537,
+        "failed_tests": [
+          "test_email_subject_and_body_use_same_precedence",
+          "test_http_filtering_precedence_failure_success_start_default_fail",
+          "test_manual_resume_has_priority_over_filters",
+          "test_post_only_method_filter_ignores_get_before_keywords",
+          "test_copy_preserves_configuration_but_not_state_or_history",
+          "test_copy_transfer_reject_foreign_or_full_target",
+          "test_transfer_moves_same_uuid_and_history_between_tenants",
+          "test_member_creation_rate_limit_is_deterministic",
+          "test_owner_not_member_duplicates_and_foreign_project_hidden",
+          "test_readonly_member_manager_permissions_are_distinct",
+          "test_disabled_channel_and_test_delivery",
+          "test_permanent_http_error_disables_channel",
+          "test_webhook_transition_worker_renders_and_never_duplicates",
+          "test_current_down_is_counted_until_now",
+          "test_downtime_counts_exact_interval_and_excludes_pause",
+          "test_flips_are_newest_first_with_reason_and_filter_window",
+          "test_oncalendar_multiline_uses_earliest_occurrence",
+          "test_switching_schedule_kind_does_not_heal_down_check",
+          "test_manual_resume_turns_lifecycle_pings_into_ignored_history",
+          "test_pause_is_idempotent_and_resume_resets_monitoring_state"
+        ],
+        "infrastructure_failure": false,
+        "pass_counts": {
+          "Core": 0,
+          "Error": 0,
+          "Functionality": 0,
+          "Regression": 33
+        },
+        "passed_policy": false,
+        "total_counts": {
+          "Core": 3,
+          "Error": 0,
+          "Functionality": 0,
+          "Regression": 50
+        }
+      },
+      {
+        "attempt": 2,
+        "duration": 21.98539924621582,
+        "failed_tests": [
+          "test_email_subject_and_body_use_same_precedence",
+          "test_http_filtering_precedence_failure_success_start_default_fail",
+          "test_manual_resume_has_priority_over_filters",
+          "test_post_only_method_filter_ignores_get_before_keywords",
+          "test_copy_preserves_configuration_but_not_state_or_history",
+          "test_copy_transfer_reject_foreign_or_full_target",
+          "test_transfer_moves_same_uuid_and_history_between_tenants",
+          "test_member_creation_rate_limit_is_deterministic",
+          "test_owner_not_member_duplicates_and_foreign_project_hidden",
+          "test_readonly_member_manager_permissions_are_distinct",
+          "test_disabled_channel_and_test_delivery",
+          "test_permanent_http_error_disables_channel",
+          "test_webhook_transition_worker_renders_and_never_duplicates",
+          "test_current_down_is_counted_until_now",
+          "test_downtime_counts_exact_interval_and_excludes_pause",
+          "test_flips_are_newest_first_with_reason_and_filter_window",
+          "test_oncalendar_multiline_uses_earliest_occurrence",
+          "test_switching_schedule_kind_does_not_heal_down_check",
+          "test_manual_resume_turns_lifecycle_pings_into_ignored_history",
+          "test_pause_is_idempotent_and_resume_resets_monitoring_state"
+        ],
+        "infrastructure_failure": false,
+        "pass_counts": {
+          "Core": 0,
+          "Error": 0,
+          "Functionality": 0,
+          "Regression": 33
+        },
+        "passed_policy": false,
+        "total_counts": {
+          "Core": 3,
+          "Error": 0,
+          "Functionality": 0,
+          "Regression": 50
+        }
+      },
+      {
+        "attempt": 3,
+        "duration": 24.422659397125244,
+        "failed_tests": [
+          "test_email_subject_and_body_use_same_precedence",
+          "test_http_filtering_precedence_failure_success_start_default_fail",
+          "test_manual_resume_has_priority_over_filters",
+          "test_post_only_method_filter_ignores_get_before_keywords",
+          "test_copy_preserves_configuration_but_not_state_or_history",
+          "test_copy_transfer_reject_foreign_or_full_target",
+          "test_transfer_moves_same_uuid_and_history_between_tenants",
+          "test_member_creation_rate_limit_is_deterministic",
+          "test_owner_not_member_duplicates_and_foreign_project_hidden",
+          "test_readonly_member_manager_permissions_are_distinct",
+          "test_disabled_channel_and_test_delivery",
+          "test_permanent_http_error_disables_channel",
+          "test_webhook_transition_worker_renders_and_never_duplicates",
+          "test_current_down_is_counted_until_now",
+          "test_downtime_counts_exact_interval_and_excludes_pause",
+          "test_flips_are_newest_first_with_reason_and_filter_window",
+          "test_oncalendar_multiline_uses_earliest_occurrence",
+          "test_switching_schedule_kind_does_not_heal_down_check",
+          "test_manual_resume_turns_lifecycle_pings_into_ignored_history",
+          "test_pause_is_idempotent_and_resume_resets_monitoring_state"
+        ],
+        "infrastructure_failure": false,
+        "pass_counts": {
+          "Core": 0,
+          "Error": 0,
+          "Functionality": 0,
+          "Regression": 33
+        },
+        "passed_policy": false,
+        "total_counts": {
+          "Core": 3,
+          "Error": 0,
+          "Functionality": 0,
+          "Regression": 50
+        }
+      }
+    ],
+    "attempts_total": 3,
+    "checkpoint": "checkpoint_16",
+    "date": "2026-08-21T16:01:19.460914+00:00",
+    "experiment_id": "hc-opencode-oxalpha-high",
+    "failed_tests": [
+      "test_email_subject_and_body_use_same_precedence",
+      "test_http_filtering_precedence_failure_success_start_default_fail",
+      "test_manual_resume_has_priority_over_filters",
+      "test_post_only_method_filter_ignores_get_before_keywords",
+      "test_copy_preserves_configuration_but_not_state_or_history",
+      "test_copy_transfer_reject_foreign_or_full_target",
+      "test_transfer_moves_same_uuid_and_history_between_tenants",
+      "test_member_creation_rate_limit_is_deterministic",
+      "test_owner_not_member_duplicates_and_foreign_project_hidden",
+      "test_readonly_member_manager_permissions_are_distinct",
+      "test_disabled_channel_and_test_delivery",
+      "test_permanent_http_error_disables_channel",
+      "test_webhook_transition_worker_renders_and_never_duplicates",
+      "test_current_down_is_counted_until_now",
+      "test_downtime_counts_exact_interval_and_excludes_pause",
+      "test_flips_are_newest_first_with_reason_and_filter_window",
+      "test_oncalendar_multiline_uses_earliest_occurrence",
+      "test_switching_schedule_kind_does_not_heal_down_check",
+      "test_manual_resume_turns_lifecycle_pings_into_ignored_history",
+      "test_pause_is_idempotent_and_resume_resets_monitoring_state"
+    ],
+    "fix": "rework",
+    "fixed": false,
+    "harness": "baseline",
+    "infrastructure_failure": false,
+    "model": "x-preview-f-free",
+    "pass_counts": {
+      "Core": 0,
+      "Error": 0,
+      "Functionality": 0,
+      "Regression": 33
+    },
+    "paths": {
+      "checkpoint_dir": "/home/user/my/harness-benchmark/results/hc-opencode-oxalpha-high/baseline/run_2/scb/healthchecks/checkpoint_16",
+      "run_dir": "/home/user/my/harness-benchmark/results/hc-opencode-oxalpha-high/baseline/run_2",
+      "snapshot_dir": "/home/user/my/harness-benchmark/results/hc-opencode-oxalpha-high/baseline/run_2/scb/healthchecks/checkpoint_16/snapshot"
+    },
+    "post_fix_score": "33/53",
+    "problem": "healthchecks",
+    "provider": "opencode_auth",
+    "resumed": false,
+    "root_cause": null,
+    "run_index": 2,
+    "source": "rework",
+    "thinking": "high",
+    "total_counts": {
+      "Core": 3,
+      "Error": 0,
+      "Functionality": 0,
+      "Regression": 50
+    }
+  },
+  {
+    "agent": "opencode",
+    "agent_version": "1.14.33",
+    "arm": "baseline",
+    "attempts": [
+      {
+        "attempt": 1,
+        "duration": 24.707948207855225,
+        "failed_tests": [
+          "test_email_subject_and_body_use_same_precedence",
+          "test_http_filtering_precedence_failure_success_start_default_fail",
+          "test_manual_resume_has_priority_over_filters",
+          "test_post_only_method_filter_ignores_get_before_keywords",
+          "test_copy_preserves_configuration_but_not_state_or_history",
+          "test_copy_transfer_reject_foreign_or_full_target",
+          "test_transfer_moves_same_uuid_and_history_between_tenants",
+          "test_member_creation_rate_limit_is_deterministic",
+          "test_owner_not_member_duplicates_and_foreign_project_hidden",
+          "test_readonly_member_manager_permissions_are_distinct",
+          "test_disabled_channel_and_test_delivery",
+          "test_permanent_http_error_disables_channel",
+          "test_webhook_transition_worker_renders_and_never_duplicates",
+          "test_current_down_is_counted_until_now",
+          "test_downtime_counts_exact_interval_and_excludes_pause",
+          "test_flips_are_newest_first_with_reason_and_filter_window",
+          "test_due_report_uses_mailer_once_and_advances_schedule",
+          "test_profile_schedules_report_at_deterministic_local_10am",
+          "test_signed_unsubscribe_disables_future_reports",
+          "test_oncalendar_multiline_uses_earliest_occurrence",
+          "test_switching_schedule_kind_does_not_heal_down_check",
+          "test_manual_resume_turns_lifecycle_pings_into_ignored_history",
+          "test_pause_is_idempotent_and_resume_resets_monitoring_state"
+        ],
+        "infrastructure_failure": false,
+        "pass_counts": {
+          "Core": 0,
+          "Error": 0,
+          "Functionality": 0,
+          "Regression": 33
+        },
+        "passed_policy": false,
+        "total_counts": {
+          "Core": 3,
+          "Error": 0,
+          "Functionality": 0,
+          "Regression": 53
+        }
+      },
+      {
+        "attempt": 2,
+        "duration": 27.06864881515503,
+        "failed_tests": [
+          "test_email_subject_and_body_use_same_precedence",
+          "test_http_filtering_precedence_failure_success_start_default_fail",
+          "test_manual_resume_has_priority_over_filters",
+          "test_post_only_method_filter_ignores_get_before_keywords",
+          "test_copy_preserves_configuration_but_not_state_or_history",
+          "test_copy_transfer_reject_foreign_or_full_target",
+          "test_transfer_moves_same_uuid_and_history_between_tenants",
+          "test_member_creation_rate_limit_is_deterministic",
+          "test_owner_not_member_duplicates_and_foreign_project_hidden",
+          "test_readonly_member_manager_permissions_are_distinct",
+          "test_disabled_channel_and_test_delivery",
+          "test_permanent_http_error_disables_channel",
+          "test_webhook_transition_worker_renders_and_never_duplicates",
+          "test_current_down_is_counted_until_now",
+          "test_downtime_counts_exact_interval_and_excludes_pause",
+          "test_flips_are_newest_first_with_reason_and_filter_window",
+          "test_due_report_uses_mailer_once_and_advances_schedule",
+          "test_profile_schedules_report_at_deterministic_local_10am",
+          "test_signed_unsubscribe_disables_future_reports",
+          "test_oncalendar_multiline_uses_earliest_occurrence",
+          "test_switching_schedule_kind_does_not_heal_down_check",
+          "test_manual_resume_turns_lifecycle_pings_into_ignored_history",
+          "test_pause_is_idempotent_and_resume_resets_monitoring_state"
+        ],
+        "infrastructure_failure": false,
+        "pass_counts": {
+          "Core": 0,
+          "Error": 0,
+          "Functionality": 0,
+          "Regression": 33
+        },
+        "passed_policy": false,
+        "total_counts": {
+          "Core": 3,
+          "Error": 0,
+          "Functionality": 0,
+          "Regression": 53
+        }
+      },
+      {
+        "attempt": 3,
+        "duration": 26.9892520904541,
+        "failed_tests": [
+          "test_email_subject_and_body_use_same_precedence",
+          "test_http_filtering_precedence_failure_success_start_default_fail",
+          "test_manual_resume_has_priority_over_filters",
+          "test_post_only_method_filter_ignores_get_before_keywords",
+          "test_copy_preserves_configuration_but_not_state_or_history",
+          "test_copy_transfer_reject_foreign_or_full_target",
+          "test_transfer_moves_same_uuid_and_history_between_tenants",
+          "test_member_creation_rate_limit_is_deterministic",
+          "test_owner_not_member_duplicates_and_foreign_project_hidden",
+          "test_readonly_member_manager_permissions_are_distinct",
+          "test_disabled_channel_and_test_delivery",
+          "test_permanent_http_error_disables_channel",
+          "test_webhook_transition_worker_renders_and_never_duplicates",
+          "test_current_down_is_counted_until_now",
+          "test_downtime_counts_exact_interval_and_excludes_pause",
+          "test_flips_are_newest_first_with_reason_and_filter_window",
+          "test_due_report_uses_mailer_once_and_advances_schedule",
+          "test_profile_schedules_report_at_deterministic_local_10am",
+          "test_signed_unsubscribe_disables_future_reports",
+          "test_oncalendar_multiline_uses_earliest_occurrence",
+          "test_switching_schedule_kind_does_not_heal_down_check",
+          "test_manual_resume_turns_lifecycle_pings_into_ignored_history",
+          "test_pause_is_idempotent_and_resume_resets_monitoring_state"
+        ],
+        "infrastructure_failure": false,
+        "pass_counts": {
+          "Core": 0,
+          "Error": 0,
+          "Functionality": 0,
+          "Regression": 33
+        },
+        "passed_policy": false,
+        "total_counts": {
+          "Core": 3,
+          "Error": 0,
+          "Functionality": 0,
+          "Regression": 53
+        }
+      }
+    ],
+    "attempts_total": 3,
+    "checkpoint": "checkpoint_17",
+    "date": "2026-08-21T16:01:19.461468+00:00",
+    "experiment_id": "hc-opencode-oxalpha-high",
+    "failed_tests": [
+      "test_email_subject_and_body_use_same_precedence",
+      "test_http_filtering_precedence_failure_success_start_default_fail",
+      "test_manual_resume_has_priority_over_filters",
+      "test_post_only_method_filter_ignores_get_before_keywords",
+      "test_copy_preserves_configuration_but_not_state_or_history",
+      "test_copy_transfer_reject_foreign_or_full_target",
+      "test_transfer_moves_same_uuid_and_history_between_tenants",
+      "test_member_creation_rate_limit_is_deterministic",
+      "test_owner_not_member_duplicates_and_foreign_project_hidden",
+      "test_readonly_member_manager_permissions_are_distinct",
+      "test_disabled_channel_and_test_delivery",
+      "test_permanent_http_error_disables_channel",
+      "test_webhook_transition_worker_renders_and_never_duplicates",
+      "test_current_down_is_counted_until_now",
+      "test_downtime_counts_exact_interval_and_excludes_pause",
+      "test_flips_are_newest_first_with_reason_and_filter_window",
+      "test_due_report_uses_mailer_once_and_advances_schedule",
+      "test_profile_schedules_report_at_deterministic_local_10am",
+      "test_signed_unsubscribe_disables_future_reports",
+      "test_oncalendar_multiline_uses_earliest_occurrence",
+      "test_switching_schedule_kind_does_not_heal_down_check",
+      "test_manual_resume_turns_lifecycle_pings_into_ignored_history",
+      "test_pause_is_idempotent_and_resume_resets_monitoring_state"
+    ],
+    "fix": "rework",
+    "fixed": false,
+    "harness": "baseline",
+    "infrastructure_failure": false,
+    "model": "x-preview-f-free",
+    "pass_counts": {
+      "Core": 0,
+      "Error": 0,
+      "Functionality": 0,
+      "Regression": 33
+    },
+    "paths": {
+      "checkpoint_dir": "/home/user/my/harness-benchmark/results/hc-opencode-oxalpha-high/baseline/run_2/scb/healthchecks/checkpoint_17",
+      "run_dir": "/home/user/my/harness-benchmark/results/hc-opencode-oxalpha-high/baseline/run_2",
+      "snapshot_dir": "/home/user/my/harness-benchmark/results/hc-opencode-oxalpha-high/baseline/run_2/scb/healthchecks/checkpoint_17/snapshot"
+    },
+    "post_fix_score": "33/56",
+    "problem": "healthchecks",
+    "provider": "opencode_auth",
+    "resumed": false,
+    "root_cause": null,
+    "run_index": 2,
+    "source": "rework",
+    "thinking": "high",
+    "total_counts": {
+      "Core": 3,
+      "Error": 0,
+      "Functionality": 0,
+      "Regression": 53
+    }
+  },
+  {
+    "agent": "opencode",
+    "agent_version": "1.14.33",
+    "arm": "baseline",
+    "attempts": [
+      {
+        "attempt": 1,
+        "duration": 29.9429292678833,
+        "failed_tests": [
+          "test_email_subject_and_body_use_same_precedence",
+          "test_http_filtering_precedence_failure_success_start_default_fail",
+          "test_manual_resume_has_priority_over_filters",
+          "test_post_only_method_filter_ignores_get_before_keywords",
+          "test_copy_preserves_configuration_but_not_state_or_history",
+          "test_copy_transfer_reject_foreign_or_full_target",
+          "test_transfer_moves_same_uuid_and_history_between_tenants",
+          "test_member_creation_rate_limit_is_deterministic",
+          "test_owner_not_member_duplicates_and_foreign_project_hidden",
+          "test_readonly_member_manager_permissions_are_distinct",
+          "test_disabled_channel_and_test_delivery",
+          "test_permanent_http_error_disables_channel",
+          "test_webhook_transition_worker_renders_and_never_duplicates",
+          "test_current_down_is_counted_until_now",
+          "test_downtime_counts_exact_interval_and_excludes_pause",
+          "test_flips_are_newest_first_with_reason_and_filter_window",
+          "test_due_report_uses_mailer_once_and_advances_schedule",
+          "test_profile_schedules_report_at_deterministic_local_10am",
+          "test_signed_unsubscribe_disables_future_reports",
+          "test_due_nag_is_cancelled_if_no_checks_down_at_claim_time",
+          "test_due_nag_sends_only_down_checks_once_and_advances_from_due",
+          "test_first_down_schedules_nag_and_recovery_or_pause_clears_last_down",
+          "test_oncalendar_multiline_uses_earliest_occurrence",
+          "test_switching_schedule_kind_does_not_heal_down_check",
+          "test_manual_resume_turns_lifecycle_pings_into_ignored_history",
+          "test_pause_is_idempotent_and_resume_resets_monitoring_state"
+        ],
+        "infrastructure_failure": false,
+        "pass_counts": {
+          "Core": 0,
+          "Error": 0,
+          "Functionality": 0,
+          "Regression": 33
+        },
+        "passed_policy": false,
+        "total_counts": {
+          "Core": 3,
+          "Error": 0,
+          "Functionality": 0,
+          "Regression": 56
+        }
+      },
+      {
+        "attempt": 2,
+        "duration": 33.35923194885254,
+        "failed_tests": [
+          "test_manual_resume_has_priority_over_filters",
+          "test_post_only_method_filter_ignores_get_before_keywords",
+          "test_copy_preserves_configuration_but_not_state_or_history",
+          "test_copy_transfer_reject_foreign_or_full_target",
+          "test_transfer_moves_same_uuid_and_history_between_tenants",
+          "test_member_creation_rate_limit_is_deterministic",
+          "test_owner_not_member_duplicates_and_foreign_project_hidden",
+          "test_readonly_member_manager_permissions_are_distinct",
+          "test_disabled_channel_and_test_delivery",
+          "test_permanent_http_error_disables_channel",
+          "test_webhook_transition_worker_renders_and_never_duplicates",
+          "test_current_down_is_counted_until_now",
+          "test_downtime_counts_exact_interval_and_excludes_pause",
+          "test_flips_are_newest_first_with_reason_and_filter_window",
+          "test_due_report_uses_mailer_once_and_advances_schedule",
+          "test_profile_schedules_report_at_deterministic_local_10am",
+          "test_signed_unsubscribe_disables_future_reports",
+          "test_due_nag_is_cancelled_if_no_checks_down_at_claim_time",
+          "test_due_nag_sends_only_down_checks_once_and_advances_from_due",
+          "test_manual_resume_turns_lifecycle_pings_into_ignored_history",
+          "test_pause_is_idempotent_and_resume_resets_monitoring_state"
+        ],
+        "infrastructure_failure": false,
+        "pass_counts": {
+          "Core": 1,
+          "Error": 0,
+          "Functionality": 0,
+          "Regression": 37
+        },
+        "passed_policy": false,
+        "total_counts": {
+          "Core": 3,
+          "Error": 0,
+          "Functionality": 0,
+          "Regression": 56
+        }
+      },
+      {
+        "attempt": 3,
+        "duration": 34.89219903945923,
+        "failed_tests": [
+          "test_manual_resume_has_priority_over_filters",
+          "test_post_only_method_filter_ignores_get_before_keywords",
+          "test_copy_preserves_configuration_but_not_state_or_history",
+          "test_copy_transfer_reject_foreign_or_full_target",
+          "test_transfer_moves_same_uuid_and_history_between_tenants",
+          "test_member_creation_rate_limit_is_deterministic",
+          "test_owner_not_member_duplicates_and_foreign_project_hidden",
+          "test_readonly_member_manager_permissions_are_distinct",
+          "test_disabled_channel_and_test_delivery",
+          "test_permanent_http_error_disables_channel",
+          "test_webhook_transition_worker_renders_and_never_duplicates",
+          "test_current_down_is_counted_until_now",
+          "test_downtime_counts_exact_interval_and_excludes_pause",
+          "test_flips_are_newest_first_with_reason_and_filter_window",
+          "test_due_report_uses_mailer_once_and_advances_schedule",
+          "test_profile_schedules_report_at_deterministic_local_10am",
+          "test_signed_unsubscribe_disables_future_reports",
+          "test_due_nag_is_cancelled_if_no_checks_down_at_claim_time",
+          "test_due_nag_sends_only_down_checks_once_and_advances_from_due",
+          "test_manual_resume_turns_lifecycle_pings_into_ignored_history",
+          "test_pause_is_idempotent_and_resume_resets_monitoring_state"
+        ],
+        "infrastructure_failure": false,
+        "pass_counts": {
+          "Core": 1,
+          "Error": 0,
+          "Functionality": 0,
+          "Regression": 37
+        },
+        "passed_policy": false,
+        "total_counts": {
+          "Core": 3,
+          "Error": 0,
+          "Functionality": 0,
+          "Regression": 56
+        }
+      }
+    ],
+    "attempts_total": 3,
+    "checkpoint": "checkpoint_18",
+    "date": "2026-08-21T16:01:19.462009+00:00",
+    "experiment_id": "hc-opencode-oxalpha-high",
+    "failed_tests": [
+      "test_manual_resume_has_priority_over_filters",
+      "test_post_only_method_filter_ignores_get_before_keywords",
+      "test_copy_preserves_configuration_but_not_state_or_history",
+      "test_copy_transfer_reject_foreign_or_full_target",
+      "test_transfer_moves_same_uuid_and_history_between_tenants",
+      "test_member_creation_rate_limit_is_deterministic",
+      "test_owner_not_member_duplicates_and_foreign_project_hidden",
+      "test_readonly_member_manager_permissions_are_distinct",
+      "test_disabled_channel_and_test_delivery",
+      "test_permanent_http_error_disables_channel",
+      "test_webhook_transition_worker_renders_and_never_duplicates",
+      "test_current_down_is_counted_until_now",
+      "test_downtime_counts_exact_interval_and_excludes_pause",
+      "test_flips_are_newest_first_with_reason_and_filter_window",
+      "test_due_report_uses_mailer_once_and_advances_schedule",
+      "test_profile_schedules_report_at_deterministic_local_10am",
+      "test_signed_unsubscribe_disables_future_reports",
+      "test_due_nag_is_cancelled_if_no_checks_down_at_claim_time",
+      "test_due_nag_sends_only_down_checks_once_and_advances_from_due",
+      "test_manual_resume_turns_lifecycle_pings_into_ignored_history",
+      "test_pause_is_idempotent_and_resume_resets_monitoring_state"
+    ],
+    "fix": "rework",
+    "fixed": false,
+    "harness": "baseline",
+    "infrastructure_failure": false,
+    "model": "x-preview-f-free",
+    "pass_counts": {
+      "Core": 1,
+      "Error": 0,
+      "Functionality": 0,
+      "Regression": 37
+    },
+    "paths": {
+      "checkpoint_dir": "/home/user/my/harness-benchmark/results/hc-opencode-oxalpha-high/baseline/run_2/scb/healthchecks/checkpoint_18",
+      "run_dir": "/home/user/my/harness-benchmark/results/hc-opencode-oxalpha-high/baseline/run_2",
+      "snapshot_dir": "/home/user/my/harness-benchmark/results/hc-opencode-oxalpha-high/baseline/run_2/scb/healthchecks/checkpoint_18/snapshot"
+    },
+    "post_fix_score": "38/59",
+    "problem": "healthchecks",
+    "provider": "opencode_auth",
+    "resumed": false,
+    "root_cause": null,
+    "run_index": 2,
+    "source": "rework",
+    "thinking": "high",
+    "total_counts": {
+      "Core": 3,
+      "Error": 0,
+      "Functionality": 0,
+      "Regression": 56
+    }
+  }
+]

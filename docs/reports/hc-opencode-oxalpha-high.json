@@ -1,0 +1,52 @@
+{
+  "agent": "opencode",
+  "agent_version": "1.14.33",
+  "arms": {},
+  "date": "2026-08-21T16:01:19.419445+00:00",
+  "deltas": {
+    "checkpoints_passed": null,
+    "checkpoints_total": null,
+    "complexity": null,
+    "dependencies_added": null,
+    "elapsed_time": null,
+    "loc_changed": null,
+    "loc_final": null,
+    "normalized_cost": null,
+    "regression_failures": null
+  },
+  "deltas_by_arm": {},
+  "excluded_ponytail_runs": 0,
+  "excluded_runs": {
+    "baseline": 0
+  },
+  "experiment_id": "hc-opencode-oxalpha-high",
+  "git_commits": {
+    "harness_benchmark": "74be22feaf0c5b3b747840ddec098219ed296280",
+    "scb_problems": "ef6a9dd13911566b6b01075ca121758c9f7b5c5f",
+    "slop_code_bench": "06b5c0687d4c05ee502e9696a4d0c22fc1eec5e0"
+  },
+  "incomplete_runs": {
+    "baseline": [
+      {
+        "agent": "opencode",
+        "fully_completed": false,
+        "interrupt_reason": "interrupted",
+        "model": "x-preview-f-free",
+        "phase": "incomplete",
+        "provider": "opencode_auth",
+        "rework_attempts": 2,
+        "run_index": 2,
+        "stopped_at_checkpoint": "checkpoint_18",
+        "thinking": "high"
+      }
+    ]
+  },
+  "model": "x-preview-f-free",
+  "n_baseline": 0,
+  "n_ponytail": 0,
+  "ponytail": null,
+  "pricing_version": "2026-08-12-openai-gpt-5.6-luna",
+  "problem": "healthchecks",
+  "provider": "opencode_auth",
+  "thinking": "high"
+}
