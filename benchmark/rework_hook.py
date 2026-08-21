@@ -220,7 +220,10 @@ def install_rework_hook(max_attempts: int) -> None:
             if feedback is None:
                 break
         log.write()
-        if log.fixed and first_prompt is not None:
+        # Restore unconditionally: feedback left in prompt.txt makes SCB's
+        # resume mark this and all later checkpoints SPEC_CHANGED-invalid,
+        # so finalize would classify the whole run incomplete.
+        if first_prompt is not None:
             current = prompt_path.read_text(encoding="utf-8") if prompt_path.exists() else None
             if current != first_prompt:
                 prompt_path.write_text(first_prompt, encoding="utf-8")

@@ -164,6 +164,8 @@ class InstallHookTests(unittest.TestCase):
 
             def fake_original(self, checkpoint, checkpoint_save_dir, is_first_checkpoint):
                 calls.append(checkpoint_save_dir)
+                body = "CANONICAL PROMPT" if len(calls) == 1 else f"CANONICAL PROMPT\n\n[REWORK ATTEMPT {len(calls) - 1}]"
+                (Path(checkpoint_save_dir) / "prompt.txt").write_text(body, encoding="utf-8")
                 _write_eval(Path(checkpoint_save_dir), failed=["test_x"])
                 return SimpleNamespace(passed_policy=False, had_error=False)
 
@@ -185,6 +187,10 @@ class InstallHookTests(unittest.TestCase):
             rework = json.loads((cp_dir / "rework.json").read_text(encoding="utf-8"))
             self.assertEqual(rework["attempts_total"], 3)
             self.assertFalse(rework["fixed"])
+            self.assertEqual(
+                (cp_dir / "prompt.txt").read_text(encoding="utf-8"),
+                "CANONICAL PROMPT",
+            )
 
     def test_no_rework_on_agent_error(self) -> None:
         with TemporaryDirectory() as td:
