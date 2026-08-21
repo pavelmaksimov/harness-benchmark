@@ -1,5 +1,8 @@
 # Agent notes (harness-benchmark)
 
+Ошибки, которые возникли в результате выполнения задачи, добавь инструкции по ним в AGENTS.md, 
+чтоб в дальнейшем не возникали или агент понимал ситуацию и знал как исправить.
+
 ## Cursor rules (обязательные к прочтению)
 
 Правила из `.cursor/rules/` — они применяются Cursor, но агенты вне Cursor должны читать их напрямую. Ключевые для работы с бенчмарком:
@@ -118,6 +121,97 @@ part of the run configuration so resume cannot silently change retry behavior.
 Fresh repetitions never delete an existing `run_N`; they append new slots only
 after validating the adapter/model/harness selection. Incomplete states remain
 visible in reports but are excluded from averages until the run is complete.
+
+## Запуск длинных прогонов из агентского shell (грабли 2026-08-21)
+
+Фоновый запуск `python -m benchmark run ...` из agent-shell имеет два режима отказа,
+которые внешне выглядят как «запуск не удался», но оставляют живые процессы.
+
+**1. Tool-timeout убивает процесс-группу, но не всё дерево.** Обёртка
+`uv run python -m benchmark run` погибает, а внутренние `benchmark.scb_main`
+воркеры выживают — их cmdline (`-m benchmark.scb_main run --config …`) **не**
+совпадает с grep-паттерном `benchmark run`, так что проверка «процесс умер» через
+`ps | grep "benchmark run"` даёт ложноотрицательный результат. Выжившее дерево
+успевает создать `results/<exp>/<arm>/run_1/` (state.json `phase=started`) и
+Docker-контейнер агента, который продолжает жечь квоту модели вхолостую
+(headless opencode, никто не читает его stdout).
+
+**2. Повторный запуск с тем же `--experiment-id` не падает громко.**
+Обёртка молча создаёт следующий свободный слот `run_2` («новые прогоны не
+удаляют старые run_N, а добавляют следующие индексы»). Признак двойного запуска:
+«фантомный» `run_1` без прогресса + реальный прогресс в `run_2`.
+
+Правила:
+
+- Запускайте так: сначала отдельной командой создать каталоги логов, затем
+  `setsid nohup uv run python -m benchmark run … > log 2>&1 < /dev/null & disown`.
+  После запуска проверять живость по **полному** дереву: `pgrep -af scb_main`.
+- Если запуск был прерван (timeout, Ctrl-C, kill) — перед повторным запуском с тем
+  же `--experiment-id` проверить и прибрать: `pgrep -af scb_main`,
+  `docker ps` (осиротевшие контейнеры агентов), свежие `results/<exp>/<arm>/run_N`.
+- Осиротевший контейнер → `docker stop <name>`; фантомный `run_N` без оценок —
+  убрать из `results/` (архивировать), иначе он попадёт в отчёты как incomplete.
+- Сопоставление контейнер→run: source mount `/workspace`
+  (`docker inspect <c> --format '{{range .Mounts}}{{if eq .Destination "/workspace"}}{{.Source}}{{end}}{{end}}'`)
+  должен совпадать с `working_dir=` из строки `Workspace prepared` в `infer.log` прогона.
+
+## Логи SCB буферизуются: истиной является диск, не tail
+
+structlog пишет в файлы с блочной буферизацией: `scb_run.log` / `infer.log` /
+`run_agent.log` могут отставать от реальности на десятки минут. «steps=0 в течение
+20 минут» в хвосте лога — ещё не зависание. Истинное состояние:
+
+- диск: наличие `scb/<problem>/checkpoint_N/` и `evaluation.json` в них;
+- `state.json` (`phase`, `stopped_at_checkpoint`);
+- живые процессы внутри контейнера: `docker top <container>` (активный `opencode …`
+  = агент работает; только `sleep infinity` + осиротевший `uvicorn` = поток мёртв).
+
+Прежде чем «чинить зависание», сверьте минимум два из трёх источников.
+
+## Новый OpenCode-модели нужен catalog overlay (+ variants для thinking)
+
+Чтобы запустить модель через `--agent opencode --provider opencode_auth --model X`:
+
+1. Добавьте `configs/models/X.yaml`: `internal_name`, `provider: opencode_auth`,
+   нулевой pricing для free-tier, `agent_specific.opencode.provider_name: opencode`.
+2. Для `--thinking high|max|low` SCB передаёт `--variant=<имя>`. Каталог models.dev
+   может объявлять `reasoning_options` (low/high/max), но **не иметь именованных
+   variants** (пример: `x-preview-f-free`, релиз 2026-08-21) — тогда варианта нет и
+   флаг бесполезен. Определите варианты прямо в overlay:
+
+```yaml
+agent_specific:
+  opencode:
+    provider_name: opencode
+    config:
+      provider:
+        opencode:
+          models:
+            X:
+              variants:
+                low:  { reasoningEffort: low }
+                high: { reasoningEffort: high }
+                max:  { reasoningEffort: max }
+```
+
+3. Перед долгим прогоном dry-проверьте цепочку (без Docker): загрузка каталога как в
+   `benchmark.scb_main` → `ModelCatalog.get("X")` → `OpenCodeAgent._from_config(...,
+   thinking_preset="high")` → `_get_variant_flag()` == `--variant=high` и содержимое
+   `_make_opencode_config()` с вариантами.
+4. Одна и та же модель может быть доступна на нескольких маршрутах провайдера
+   (`opencode/x-preview-f-free` и `opencode-go/ox-alpha-free` — один и тот же
+   «Ox Alpha Free»). Конвенция репозитория — маршрут `opencode`
+   (`provider_name: opencode`).
+
+## Free-tier: тихая обрезка первой попытки (reason=unknown, 0 токенов)
+
+Известный паттерн бесплатных маршрутов OpenCode Zen: первая попытка чекпоинта
+отдаёт один `reasoning`-шаг, затем `step_finish` c `reason="unknown"`, нулями во
+всех токенах и пустым снапшотом → все Core-тесты падают. Это флейк провайдера, а не
+приговор модели и не инфраструктура: rework-цикл пере-вызывает агента, и вторая
+попытка обычно проходит (пример: task_manager CP1 у x-preview-f-free, 2026-08-21 —
+после реворка 7p/0f). Диагностика: `checkpoint_N/agent/messages.jsonl` (1–3 события)
++ нули в `inference_result.json`. Не списывайте такой CP модели без учёта реворка.
 
 ## graphify
 
