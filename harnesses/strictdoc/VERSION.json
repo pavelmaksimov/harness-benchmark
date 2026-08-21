@@ -1,0 +1,12 @@
+{
+  "name": "strictdoc",
+  "skill_name": "strictdoc",
+  "version": "pinned-local",
+  "kind": "single",
+  "skill_sha256": "55809e14f3b8c3bee95542014aeefd3d4a13aaba2c2e138636206b5d33bb527f",
+  "tree_sha256": "915034ef5b3f2cadf57dce7e024324417dc9ac019fdfb0a8f4a50ff4b2487d63",
+  "skill_bytes": 4636,
+  "file_count": 2,
+  "pinned_at": "2026-08-21T14:24:40.567265+00:00",
+  "source": "/home/user/my/harness-benchmark/harnesses/strictdoc/skill"
+}

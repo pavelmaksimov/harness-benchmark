@@ -86,11 +86,22 @@ def require_smoke_validated(arms: Sequence[str], *, skip: bool = False) -> None:
     )
 
 
-def stage_cp1_only_problem(*, problem: str, dest_root: Path) -> Path:
-    """Copy problem catalog with only checkpoint_1 enabled (does not touch vendor/)."""
+def stage_cp1_only_problem(
+    *,
+    problem: str,
+    dest_root: Path,
+    checkpoint_count: int = 1,
+) -> Path:
+    """Copy problem catalog keeping only the first ``checkpoint_count`` checkpoints (no vendor/ touch).
+
+    ``checkpoint_count=1`` is the classic CP1-only smoke used for the SMOKE.json gate;
+    larger values validate a harness over several early checkpoints (e.g. CP1+CP2).
+    """
     src = PROBLEMS_DIR / problem
     if not src.is_dir():
         raise FileNotFoundError(f"Problem not found: {src}")
+    if checkpoint_count < 1:
+        raise ValueError("checkpoint_count must be >= 1")
     dest_root.mkdir(parents=True, exist_ok=True)
     dest = dest_root / problem
     if dest.exists():
@@ -104,7 +115,19 @@ def stage_cp1_only_problem(*, problem: str, dest_root: Path) -> Path:
     checkpoints = raw.get("checkpoints")
     if not isinstance(checkpoints, dict) or SMOKE_CHECKPOINT not in checkpoints:
         raise ValueError(f"{problem} has no {SMOKE_CHECKPOINT} in config.yaml")
-    raw["checkpoints"] = {SMOKE_CHECKPOINT: checkpoints[SMOKE_CHECKPOINT]}
+
+    def _order(item: tuple[str, Any]) -> tuple[Any, str]:
+        spec = item[1]
+        order = spec.get("order") if isinstance(spec, dict) else None
+        return (order if isinstance(order, int) else 10**9, item[0])
+
+    selected = sorted(checkpoints.items(), key=_order)[:checkpoint_count]
+    names = [name for name, _ in selected]
+    if SMOKE_CHECKPOINT not in names:
+        raise ValueError(
+            f"{problem}: staged set {names} must include {SMOKE_CHECKPOINT}"
+        )
+    raw["checkpoints"] = {name: checkpoints[name] for name in names}
     config_path.write_text(
         yaml.safe_dump(raw, sort_keys=False, allow_unicode=True),
         encoding="utf-8",

@@ -745,8 +745,9 @@ def run_smoke(
     agent: str = DEFAULT_AGENT,
     experiment_id: str | None = None,
     rework_attempts: int = 0,
+    checkpoint_count: int = 1,
 ) -> dict[str, Any]:
-    """Run a single-checkpoint (CP1) smoke for one harness arm and write SMOKE.json."""
+    """Run a reduced-checkpoint smoke (default CP1) for one harness arm and write SMOKE.json."""
     from benchmark.smoke import (
         analyze_smoke_snapshot,
         stage_cp1_only_problem,
@@ -760,7 +761,11 @@ def run_smoke(
     experiment_id = experiment_id or new_experiment_id(f"smoke-{arm}")
     out_dir = RESULTS_DIR / experiment_id / arm / "run_1"
     problems_root = RESULTS_DIR / experiment_id / "_smoke_problems"
-    staged = stage_cp1_only_problem(problem=problem, dest_root=problems_root)
+    staged = stage_cp1_only_problem(
+        problem=problem,
+        dest_root=problems_root,
+        checkpoint_count=checkpoint_count,
+    )
 
     collected = run_one(
         arm=arm,

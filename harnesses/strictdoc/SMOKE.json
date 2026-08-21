@@ -1,0 +1,45 @@
+{
+  "arm": "strictdoc",
+  "checkpoints": [
+    "checkpoint_1"
+  ],
+  "checkpoints_completed": [
+    1,
+    2
+  ],
+  "exclude_dir_names": [
+    ".git",
+    ".mypy_cache",
+    ".pytest_cache",
+    ".ruff_cache",
+    ".tox",
+    ".venv",
+    "__pycache__",
+    "build",
+    "dist",
+    "graphify-out",
+    "node_modules",
+    "venv"
+  ],
+  "experiment_id": "smoke-strictdoc-20260821T142516204366-1b83eeba",
+  "harness_activation_verified": false,
+  "harness_content_sha": "915034ef5b3f2cadf57dce7e024324417dc9ac019fdfb0a8f4a50ff4b2487d63",
+  "ok": false,
+  "problem": "file_backup",
+  "run_dir": "/home/user/my/harness-benchmark/results/smoke-strictdoc-20260821T142516204366-1b83eeba/strictdoc/run_1",
+  "snapshot": {
+    "already_excluded": [],
+    "needs_exclude_review": [
+      "strictdoc-docs"
+    ],
+    "top_level": [
+      "backup_scheduler.py",
+      "requirements.txt",
+      "strictdoc-docs"
+    ],
+    "top_level_dirs": [
+      "strictdoc-docs"
+    ]
+  },
+  "validated_at": "2026-08-21T14:37:14.593113+00:00"
+}

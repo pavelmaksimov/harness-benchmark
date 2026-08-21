@@ -6,113 +6,6 @@
     "attempts": [
       {
         "attempt": 1,
-        "duration": 11.704118490219116,
-        "failed_tests": [
-          "test_registration_validation_and_uniqueness"
-        ],
-        "infrastructure_failure": false,
-        "pass_counts": {
-          "Core": 1,
-          "Error": 0,
-          "Functionality": 0,
-          "Regression": 0
-        },
-        "passed_policy": false,
-        "total_counts": {
-          "Core": 2,
-          "Error": 0,
-          "Functionality": 0,
-          "Regression": 0
-        }
-      },
-      {
-        "attempt": 2,
-        "duration": 10.985665321350098,
-        "failed_tests": [
-          "test_registration_validation_and_uniqueness"
-        ],
-        "infrastructure_failure": false,
-        "pass_counts": {
-          "Core": 1,
-          "Error": 0,
-          "Functionality": 0,
-          "Regression": 0
-        },
-        "passed_policy": false,
-        "total_counts": {
-          "Core": 2,
-          "Error": 0,
-          "Functionality": 0,
-          "Regression": 0
-        }
-      },
-      {
-        "attempt": 3,
-        "duration": 11.435676574707031,
-        "failed_tests": [
-          "test_registration_validation_and_uniqueness"
-        ],
-        "infrastructure_failure": false,
-        "pass_counts": {
-          "Core": 1,
-          "Error": 0,
-          "Functionality": 0,
-          "Regression": 0
-        },
-        "passed_policy": false,
-        "total_counts": {
-          "Core": 2,
-          "Error": 0,
-          "Functionality": 0,
-          "Regression": 0
-        }
-      }
-    ],
-    "attempts_total": 3,
-    "checkpoint": "checkpoint_1",
-    "date": "2026-08-21T11:48:22.530671+00:00",
-    "experiment_id": "rw-opencode-oxalpha-high",
-    "failed_tests": [
-      "test_registration_validation_and_uniqueness"
-    ],
-    "fix": "rework",
-    "fixed": false,
-    "harness": "baseline",
-    "infrastructure_failure": false,
-    "model": "x-preview-f-free",
-    "pass_counts": {
-      "Core": 1,
-      "Error": 0,
-      "Functionality": 0,
-      "Regression": 0
-    },
-    "paths": {
-      "checkpoint_dir": "/home/user/my/harness-benchmark/results/rw-opencode-oxalpha-high/baseline/run_1/scb/realworld/checkpoint_1",
-      "run_dir": "/home/user/my/harness-benchmark/results/rw-opencode-oxalpha-high/baseline/run_1",
-      "snapshot_dir": "/home/user/my/harness-benchmark/results/rw-opencode-oxalpha-high/baseline/run_1/scb/realworld/checkpoint_1/snapshot"
-    },
-    "post_fix_score": "1/2",
-    "problem": "realworld",
-    "provider": "opencode_auth",
-    "resumed": false,
-    "root_cause": null,
-    "run_index": 1,
-    "source": "rework",
-    "thinking": "high",
-    "total_counts": {
-      "Core": 2,
-      "Error": 0,
-      "Functionality": 0,
-      "Regression": 0
-    }
-  },
-  {
-    "agent": "opencode",
-    "agent_version": "1.14.33",
-    "arm": "baseline",
-    "attempts": [
-      {
-        "attempt": 1,
         "duration": 12.115624189376831,
         "failed_tests": [
           "test_auth_errors"
@@ -195,114 +88,6 @@
     "attempts": [
       {
         "attempt": 1,
-        "duration": 11.545934915542603,
-        "failed_tests": [
-          "test_create_article_errors_and_duplicate_titles",
-          "test_create_article_full_contract_and_default_tags"
-        ],
-        "infrastructure_failure": false,
-        "pass_counts": {
-          "Core": 0,
-          "Error": 0,
-          "Functionality": 0,
-          "Regression": 0
-        },
-        "passed_policy": false,
-        "total_counts": {
-          "Core": 2,
-          "Error": 0,
-          "Functionality": 0,
-          "Regression": 0
-        }
-      },
-      {
-        "attempt": 2,
-        "duration": 11.94524884223938,
-        "failed_tests": [
-          "test_create_article_full_contract_and_default_tags"
-        ],
-        "infrastructure_failure": false,
-        "pass_counts": {
-          "Core": 1,
-          "Error": 0,
-          "Functionality": 0,
-          "Regression": 0
-        },
-        "passed_policy": false,
-        "total_counts": {
-          "Core": 2,
-          "Error": 0,
-          "Functionality": 0,
-          "Regression": 0
-        }
-      },
-      {
-        "attempt": 3,
-        "duration": 12.647227048873901,
-        "failed_tests": [
-          "test_create_article_full_contract_and_default_tags"
-        ],
-        "infrastructure_failure": false,
-        "pass_counts": {
-          "Core": 1,
-          "Error": 0,
-          "Functionality": 0,
-          "Regression": 0
-        },
-        "passed_policy": false,
-        "total_counts": {
-          "Core": 2,
-          "Error": 0,
-          "Functionality": 0,
-          "Regression": 0
-        }
-      }
-    ],
-    "attempts_total": 3,
-    "checkpoint": "checkpoint_5",
-    "date": "2026-08-21T11:48:22.531290+00:00",
-    "experiment_id": "rw-opencode-oxalpha-high",
-    "failed_tests": [
-      "test_create_article_full_contract_and_default_tags"
-    ],
-    "fix": "rework",
-    "fixed": false,
-    "harness": "baseline",
-    "infrastructure_failure": false,
-    "model": "x-preview-f-free",
-    "pass_counts": {
-      "Core": 1,
-      "Error": 0,
-      "Functionality": 0,
-      "Regression": 0
-    },
-    "paths": {
-      "checkpoint_dir": "/home/user/my/harness-benchmark/results/rw-opencode-oxalpha-high/baseline/run_1/scb/realworld/checkpoint_5",
-      "run_dir": "/home/user/my/harness-benchmark/results/rw-opencode-oxalpha-high/baseline/run_1",
-      "snapshot_dir": "/home/user/my/harness-benchmark/results/rw-opencode-oxalpha-high/baseline/run_1/scb/realworld/checkpoint_5/snapshot"
-    },
-    "post_fix_score": "1/2",
-    "problem": "realworld",
-    "provider": "opencode_auth",
-    "resumed": false,
-    "root_cause": null,
-    "run_index": 1,
-    "source": "rework",
-    "thinking": "high",
-    "total_counts": {
-      "Core": 2,
-      "Error": 0,
-      "Functionality": 0,
-      "Regression": 0
-    }
-  },
-  {
-    "agent": "opencode",
-    "agent_version": "1.14.33",
-    "arm": "baseline",
-    "attempts": [
-      {
-        "attempt": 1,
         "duration": 13.074917554855347,
         "failed_tests": [
           "test_get_single_article_without_and_with_auth_persists"
@@ -362,6 +147,253 @@
       "checkpoint_dir": "/home/user/my/harness-benchmark/results/rw-opencode-oxalpha-high/baseline/run_1/scb/realworld/checkpoint_6",
       "run_dir": "/home/user/my/harness-benchmark/results/rw-opencode-oxalpha-high/baseline/run_1",
       "snapshot_dir": "/home/user/my/harness-benchmark/results/rw-opencode-oxalpha-high/baseline/run_1/scb/realworld/checkpoint_6/snapshot"
+    },
+    "post_fix_score": "2/2",
+    "problem": "realworld",
+    "provider": "opencode_auth",
+    "resumed": false,
+    "root_cause": null,
+    "run_index": 1,
+    "source": "rework",
+    "thinking": "high",
+    "total_counts": {
+      "Core": 2,
+      "Error": 0,
+      "Functionality": 0,
+      "Regression": 0
+    }
+  },
+  {
+    "agent": "opencode",
+    "agent_version": "1.14.33",
+    "arm": "baseline",
+    "attempts": [
+      {
+        "attempt": 1,
+        "duration": 18.29145336151123,
+        "failed_tests": [
+          "test_registration_validation_and_uniqueness"
+        ],
+        "infrastructure_failure": false,
+        "pass_counts": {
+          "Core": 1,
+          "Error": 0,
+          "Functionality": 0,
+          "Regression": 0
+        },
+        "passed_policy": false,
+        "total_counts": {
+          "Core": 2,
+          "Error": 0,
+          "Functionality": 0,
+          "Regression": 0
+        }
+      },
+      {
+        "attempt": 2,
+        "duration": 11.445522546768188,
+        "failed_tests": [],
+        "infrastructure_failure": false,
+        "pass_counts": {
+          "Core": 2,
+          "Error": 0,
+          "Functionality": 0,
+          "Regression": 0
+        },
+        "passed_policy": true,
+        "total_counts": {
+          "Core": 2,
+          "Error": 0,
+          "Functionality": 0,
+          "Regression": 0
+        }
+      }
+    ],
+    "attempts_total": 2,
+    "checkpoint": "checkpoint_1",
+    "date": "2026-08-21T13:11:26.149813+00:00",
+    "experiment_id": "rw-opencode-oxalpha-high",
+    "failed_tests": [],
+    "fix": "rework",
+    "fixed": true,
+    "harness": "baseline",
+    "infrastructure_failure": false,
+    "model": "x-preview-f-free",
+    "pass_counts": {
+      "Core": 2,
+      "Error": 0,
+      "Functionality": 0,
+      "Regression": 0
+    },
+    "paths": {
+      "checkpoint_dir": "/home/user/my/harness-benchmark/results/rw-opencode-oxalpha-high/baseline/run_1/scb/realworld/checkpoint_1",
+      "run_dir": "/home/user/my/harness-benchmark/results/rw-opencode-oxalpha-high/baseline/run_1",
+      "snapshot_dir": "/home/user/my/harness-benchmark/results/rw-opencode-oxalpha-high/baseline/run_1/scb/realworld/checkpoint_1/snapshot"
+    },
+    "post_fix_score": "2/2",
+    "problem": "realworld",
+    "provider": "opencode_auth",
+    "resumed": false,
+    "root_cause": null,
+    "run_index": 1,
+    "source": "rework",
+    "thinking": "high",
+    "total_counts": {
+      "Core": 2,
+      "Error": 0,
+      "Functionality": 0,
+      "Regression": 0
+    }
+  },
+  {
+    "agent": "opencode",
+    "agent_version": "1.14.33",
+    "arm": "baseline",
+    "attempts": [
+      {
+        "attempt": 1,
+        "duration": 12.459786891937256,
+        "failed_tests": [
+          "test_update_rejects_invalid_identity_and_requires_auth"
+        ],
+        "infrastructure_failure": false,
+        "pass_counts": {
+          "Core": 2,
+          "Error": 0,
+          "Functionality": 0,
+          "Regression": 0
+        },
+        "passed_policy": false,
+        "total_counts": {
+          "Core": 3,
+          "Error": 0,
+          "Functionality": 0,
+          "Regression": 0
+        }
+      },
+      {
+        "attempt": 2,
+        "duration": 14.687578678131104,
+        "failed_tests": [],
+        "infrastructure_failure": false,
+        "pass_counts": {
+          "Core": 3,
+          "Error": 0,
+          "Functionality": 0,
+          "Regression": 0
+        },
+        "passed_policy": true,
+        "total_counts": {
+          "Core": 3,
+          "Error": 0,
+          "Functionality": 0,
+          "Regression": 0
+        }
+      }
+    ],
+    "attempts_total": 2,
+    "checkpoint": "checkpoint_3",
+    "date": "2026-08-21T13:11:26.150136+00:00",
+    "experiment_id": "rw-opencode-oxalpha-high",
+    "failed_tests": [],
+    "fix": "rework",
+    "fixed": true,
+    "harness": "baseline",
+    "infrastructure_failure": false,
+    "model": "x-preview-f-free",
+    "pass_counts": {
+      "Core": 3,
+      "Error": 0,
+      "Functionality": 0,
+      "Regression": 0
+    },
+    "paths": {
+      "checkpoint_dir": "/home/user/my/harness-benchmark/results/rw-opencode-oxalpha-high/baseline/run_1/scb/realworld/checkpoint_3",
+      "run_dir": "/home/user/my/harness-benchmark/results/rw-opencode-oxalpha-high/baseline/run_1",
+      "snapshot_dir": "/home/user/my/harness-benchmark/results/rw-opencode-oxalpha-high/baseline/run_1/scb/realworld/checkpoint_3/snapshot"
+    },
+    "post_fix_score": "3/3",
+    "problem": "realworld",
+    "provider": "opencode_auth",
+    "resumed": false,
+    "root_cause": null,
+    "run_index": 1,
+    "source": "rework",
+    "thinking": "high",
+    "total_counts": {
+      "Core": 3,
+      "Error": 0,
+      "Functionality": 0,
+      "Regression": 0
+    }
+  },
+  {
+    "agent": "opencode",
+    "agent_version": "1.14.33",
+    "arm": "baseline",
+    "attempts": [
+      {
+        "attempt": 1,
+        "duration": 14.687335968017578,
+        "failed_tests": [
+          "test_create_article_errors_and_duplicate_titles",
+          "test_create_article_full_contract_and_default_tags"
+        ],
+        "infrastructure_failure": false,
+        "pass_counts": {
+          "Core": 0,
+          "Error": 0,
+          "Functionality": 0,
+          "Regression": 0
+        },
+        "passed_policy": false,
+        "total_counts": {
+          "Core": 2,
+          "Error": 0,
+          "Functionality": 0,
+          "Regression": 0
+        }
+      },
+      {
+        "attempt": 2,
+        "duration": 12.946628093719482,
+        "failed_tests": [],
+        "infrastructure_failure": false,
+        "pass_counts": {
+          "Core": 2,
+          "Error": 0,
+          "Functionality": 0,
+          "Regression": 0
+        },
+        "passed_policy": true,
+        "total_counts": {
+          "Core": 2,
+          "Error": 0,
+          "Functionality": 0,
+          "Regression": 0
+        }
+      }
+    ],
+    "attempts_total": 2,
+    "checkpoint": "checkpoint_5",
+    "date": "2026-08-21T13:11:26.150397+00:00",
+    "experiment_id": "rw-opencode-oxalpha-high",
+    "failed_tests": [],
+    "fix": "rework",
+    "fixed": true,
+    "harness": "baseline",
+    "infrastructure_failure": false,
+    "model": "x-preview-f-free",
+    "pass_counts": {
+      "Core": 2,
+      "Error": 0,
+      "Functionality": 0,
+      "Regression": 0
+    },
+    "paths": {
+      "checkpoint_dir": "/home/user/my/harness-benchmark/results/rw-opencode-oxalpha-high/baseline/run_1/scb/realworld/checkpoint_5",
+      "run_dir": "/home/user/my/harness-benchmark/results/rw-opencode-oxalpha-high/baseline/run_1",
+      "snapshot_dir": "/home/user/my/harness-benchmark/results/rw-opencode-oxalpha-high/baseline/run_1/scb/realworld/checkpoint_5/snapshot"
     },
     "post_fix_score": "2/2",
     "problem": "realworld",

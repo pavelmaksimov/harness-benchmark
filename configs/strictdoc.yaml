@@ -1,0 +1,13 @@
+# strictdoc arm: requirements-management harness (StrictDoc / SDoc).
+agent: configs/agent_codex.yaml
+environment: docker-python3.12-uv
+prompt: configs/prompts/strictdoc-solve.jinja
+model:
+  provider: codex_auth
+  name: gpt-5.6-luna
+thinking: xhigh
+pass_policy: all-core-cases
+problems:
+  - file_backup
+save_dir: results/raw
+save_template: ${model.name}/strictdoc_${prompt}_${thinking}_${now:%Y%m%dT%H%M%S}
