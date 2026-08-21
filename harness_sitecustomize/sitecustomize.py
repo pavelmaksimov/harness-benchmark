@@ -61,7 +61,17 @@ def _maybe_install_rework_hook() -> None:
         print(f"[hb] rework hook install failed: {exc}", file=sys.stderr)
 
 
+def _install_continue_hook() -> None:
+    try:
+        from benchmark.continue_hook import install_continue_after_test_failure
+
+        install_continue_after_test_failure()
+    except Exception as exc:  # noqa: BLE001
+        print(f"[hb] continue hook install failed: {exc}", file=sys.stderr)
+
+
 _install_eval_deps_hook()
 _load_hb_models()
 _maybe_install_skill_hook()
 _maybe_install_rework_hook()
+_install_continue_hook()

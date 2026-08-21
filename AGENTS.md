@@ -105,6 +105,20 @@ Two sources of packages:
   `infrastructure_failure` внутри реворка не считается моделью — см.
   `benchmark-failure-triage.mdc`.
 
+## Resume invariants
+
+`benchmark/resume_state.py` is a thin adapter over SCB's native
+`detect_resume_point()`. It persists only run identity, lifecycle, checkpoint
+statuses, completion, and the native stop point. Native SCB owns checkpoint
+ordering and validity; red evaluations do not invalidate an agent-finished
+checkpoint. The outer wrapper still requires explicit `--experiment-id`,
+rejects legacy runs without `state.json`, and skips only completed runs with
+readable `metrics/run.json`. The effective `rework_attempts` is persisted as
+part of the run configuration so resume cannot silently change retry behavior.
+Fresh repetitions never delete an existing `run_N`; they append new slots only
+after validating the adapter/model/harness selection. Incomplete states remain
+visible in reports but are excluded from averages until the run is complete.
+
 ## graphify
 
 This project has a knowledge graph at graphify-out/ with god nodes, community structure, and cross-file relationships.

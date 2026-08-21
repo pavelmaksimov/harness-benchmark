@@ -186,6 +186,13 @@ def install_rework_hook(max_attempts: int) -> None:
 
         checkpoint_dir = Path(checkpoint_save_dir)
         log = ReworkLog(checkpoint_dir, max_attempts)
+        # SCB resumes by comparing the *saved* prompt against what the current
+        # config would render (SPEC_CHANGED invalidation). A rework-solved
+        # checkpoint stores the feedback-laden prompt, so restore the first
+        # attempt's prompt once the trajectory stays green, or every later
+        # resume would re-run an already-passing checkpoint.
+        prompt_path = checkpoint_dir / "prompt.txt"
+        first_prompt = prompt_path.read_text(encoding="utf-8") if prompt_path.exists() else None
         log.record(1, summary.passed_policy, checkpoint_dir)
         feedback = build_feedback(checkpoint_dir, attempt=1)
         if feedback is None:
@@ -213,6 +220,10 @@ def install_rework_hook(max_attempts: int) -> None:
             if feedback is None:
                 break
         log.write()
+        if log.fixed and first_prompt is not None:
+            current = prompt_path.read_text(encoding="utf-8") if prompt_path.exists() else None
+            if current != first_prompt:
+                prompt_path.write_text(first_prompt, encoding="utf-8")
         return summary
 
     AgentRunner._run_checkpoint = _run_checkpoint_with_rework

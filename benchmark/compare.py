@@ -6,6 +6,7 @@ from pathlib import Path
 from typing import Any
 
 from benchmark.arms import DEFAULT_EXPERIMENT_ARMS
+from benchmark.resume_state import load_state
 
 
 Number = int | float
@@ -115,6 +116,32 @@ def _run_totals(run: dict[str, Any]) -> dict[str, Any]:
     }
 
 
+def _is_complete_run(run: dict[str, Any]) -> bool:
+    """Only state-confirmed complete runs contribute to aggregate metrics."""
+    if run.get("_has_metrics") is False:
+        return False
+    state = run.get("_state")
+    return state is None or (
+        state.get("phase") in (None, "completed") and bool(state.get("fully_completed"))
+    )
+
+
+def _state_summary(run: dict[str, Any]) -> dict[str, Any]:
+    state = run.get("_state") or {}
+    return {
+        "run_index": state.get("run_index"),
+        "phase": state.get("phase"),
+        "fully_completed": bool(state.get("fully_completed")),
+        "interrupt_reason": state.get("interrupt_reason"),
+        "stopped_at_checkpoint": state.get("stopped_at_checkpoint"),
+        "agent": state.get("agent"),
+        "provider": state.get("provider"),
+        "model": state.get("model"),
+        "thinking": state.get("thinking"),
+        "rework_attempts": state.get("rework_attempts"),
+    }
+
+
 def load_experiment_runs(experiment_dir: Path) -> dict[str, list[dict[str, Any]]]:
     by_arm: dict[str, list[dict[str, Any]]] = {}
     if not experiment_dir.exists():
@@ -124,17 +151,39 @@ def load_experiment_runs(experiment_dir: Path) -> dict[str, list[dict[str, Any]]
         runs: list[dict[str, Any]] = []
         for run_dir in sorted(arm_dir.glob("run_*")):
             run_json = run_dir / "metrics" / "run.json"
-            if not run_json.exists():
+            state = load_state(run_dir)
+            run: dict[str, Any] | None = None
+            if run_json.exists():
+                try:
+                    loaded = json.loads(run_json.read_text(encoding="utf-8"))
+                except (OSError, json.JSONDecodeError):
+                    loaded = None
+                if isinstance(loaded, dict):
+                    run = loaded
+            if run is None and state is None:
                 continue
-            runs.append(json.loads(run_json.read_text(encoding="utf-8")))
+            has_metrics = run is not None
+            run = run or {"arm": arm, "checkpoints": []}
+            run["_has_metrics"] = has_metrics
+            if state is not None:
+                run["_state"] = state
+            runs.append(run)
         if runs:
             by_arm[arm] = runs
     return by_arm
 
 
 def compare_arms(by_arm: dict[str, list[dict[str, Any]]]) -> dict[str, Any]:
+    incomplete = {
+        arm: [_state_summary(run) for run in runs if not _is_complete_run(run)]
+        for arm, runs in by_arm.items()
+    }
     usable = {
-        arm: [r for r in runs if not r.get("excluded_from_comparison")]
+        arm: [
+            r
+            for r in runs
+            if _is_complete_run(r) and not r.get("excluded_from_comparison")
+        ]
         for arm, runs in by_arm.items()
     }
     totals = {arm: [_run_totals(r) for r in runs] for arm, runs in usable.items()}
@@ -212,6 +261,7 @@ def compare_arms(by_arm: dict[str, list[dict[str, Any]]]) -> dict[str, Any]:
             arm: sum(1 for r in runs if r.get("excluded_from_comparison"))
             for arm, runs in by_arm.items()
         },
+        "incomplete_runs": {arm: states for arm, states in incomplete.items() if states},
     }
     for arm in set(DEFAULT_EXPERIMENT_ARMS) | set(by_arm):
         out[f"n_{arm}"] = len(usable.get(arm, []))
@@ -232,6 +282,10 @@ def format_comparison_report(comparison: dict[str, Any], problem: str = "file_ba
     excluded_bits = [f"{arm}={n}" for arm, n in excluded.items() if n]
     if excluded_bits:
         lines.append("Excluded (activation unverified): " + ", ".join(excluded_bits))
+    incomplete = comparison.get("incomplete_runs") or {}
+    incomplete_bits = [f"{arm}={len(states)}" for arm, states in incomplete.items() if states]
+    if incomplete_bits:
+        lines.append("Incomplete (excluded from averages): " + ", ".join(incomplete_bits))
     lines.append("")
 
     labels = {

@@ -33,7 +33,31 @@ SHORT_LABELS = {
 
 def _load_manifest(experiment_dir: Path) -> dict[str, Any]:
     for path in sorted(experiment_dir.glob("*/run_*/manifest.json")):
-        return json.loads(path.read_text(encoding="utf-8"))
+        try:
+            manifest = json.loads(path.read_text(encoding="utf-8"))
+        except (OSError, json.JSONDecodeError):
+            continue
+        if isinstance(manifest, dict):
+            return manifest
+    for path in sorted(experiment_dir.glob("*/run_*/state.json")):
+        try:
+            state = json.loads(path.read_text(encoding="utf-8"))
+        except (OSError, json.JSONDecodeError):
+            continue
+        if not isinstance(state, dict):
+            continue
+        return {
+            "date": state.get("updated_at") or "",
+            "experiment_id": state.get("experiment_id"),
+            "problem": state.get("problem"),
+            "arm": state.get("arm"),
+            "agent": state.get("agent"),
+            "model": state.get("model"),
+            "model_settings": {
+                "provider": state.get("provider"),
+                "thinking": state.get("thinking"),
+            },
+        }
     return {}
 
 
@@ -131,6 +155,7 @@ def build_publish_payload(experiment_dir: Path, comparison: dict[str, Any]) -> d
         "model": manifest.get("model") or "unknown",
         "thinking": (manifest.get("model_settings") or {}).get("thinking"),
         "agent": manifest.get("agent"),
+        "provider": (manifest.get("model_settings") or {}).get("provider"),
         "agent_version": manifest.get("agent_version"),
         "arms": arms,
         "deltas_by_arm": deltas,
@@ -140,6 +165,7 @@ def build_publish_payload(experiment_dir: Path, comparison: dict[str, Any]) -> d
         "pricing_version": manifest.get("pricing_version"),
         "excluded_runs": comparison.get("excluded_runs") or {},
         "excluded_ponytail_runs": comparison.get("excluded_ponytail_runs", 0),
+        "incomplete_runs": comparison.get("incomplete_runs") or {},
     }
     if rework:
         payload["rework"] = rework
@@ -186,6 +212,7 @@ def format_short_report(payload: dict[str, Any]) -> str:
     eid = payload["experiment_id"]
     thinking = payload.get("thinking") or "-"
     agent = payload.get("agent") or "-"
+    provider = payload.get("provider") or "-"
     agent_version = payload.get("agent_version") or "-"
     arms = payload.get("arms") or {}
     arm_names = list(arms.keys()) or ["baseline"]
@@ -197,7 +224,7 @@ def format_short_report(payload: dict[str, Any]) -> str:
         "|---|---|",
         f"| Problem | `{payload.get('problem')}` |",
         f"| Model | `{payload.get('model')}` · thinking `{thinking}` |",
-        f"| Agent | {agent} `{agent_version}` |",
+        f"| Agent | {agent} · provider `{provider}` · `{agent_version}` |",
         f"| N | {n_bits} |",
         "| Pins | SCB / problems / harness pins — see published JSON / local manifest |",
         "",
@@ -246,6 +273,10 @@ def format_short_report(payload: dict[str, Any]) -> str:
     excluded_bits = [f"{arm}={n}" for arm, n in excluded.items() if n]
     if excluded_bits:
         lines.append(f"- Excluded (activation unverified): {', '.join(excluded_bits)}.")
+    incomplete = payload.get("incomplete_runs") or {}
+    incomplete_bits = [f"{arm}={len(states)}" for arm, states in incomplete.items() if states]
+    if incomplete_bits:
+        lines.append(f"- Incomplete runs excluded from averages: {', '.join(incomplete_bits)}.")
     lines.extend(
         [
             "",
@@ -272,14 +303,16 @@ def load_published_reports(docs_reports_dir: Path | None = None) -> list[dict[st
 
 
 def _latest_cells(payloads: list[dict[str, Any]]) -> list[dict[str, Any]]:
-    """Flatten arm rows; keep newest experiment per (problem, model, harness)."""
+    """Flatten arm rows; keep newest experiment per full adapter/model cell."""
     cells: list[dict[str, Any]] = []
-    seen: set[tuple[str, str, str]] = set()
+    seen: set[tuple[str, str, str, str, str]] = set()
     for payload in payloads:  # already newest-first
         problem = payload.get("problem") or "unknown"
+        agent = payload.get("agent") or "unknown"
+        provider = payload.get("provider") or "unknown"
         model = payload.get("model") or "unknown"
         for harness, metrics in (payload.get("arms") or {}).items():
-            key = (problem, model, harness)
+            key = (problem, agent, provider, model, harness)
             if key in seen:
                 continue
             seen.add(key)
@@ -288,6 +321,8 @@ def _latest_cells(payloads: list[dict[str, Any]]) -> list[dict[str, Any]]:
                     "date": payload.get("date") or "",
                     "experiment_id": payload.get("experiment_id"),
                     "problem": problem,
+                    "agent": agent,
+                    "provider": provider,
                     "model": model,
                     "harness": harness,
                     "n": payload.get(f"n_{harness}", 0),
@@ -330,7 +365,7 @@ def format_leaderboard(payloads: list[dict[str, Any]]) -> str:
         "# Leaderboard",
         "",
         "No single score. Absolute metrics only. Δ vs baseline is only in short reports",
-        "for the same `(problem, model)` cell.",
+        "for the same `(problem, adapter, provider, model)` cell.",
         "",
         "Published from `docs/reports/*.json`. Rebuilt by `python -m benchmark report`.",
         "Newer experiments appear first.",
@@ -347,13 +382,14 @@ def format_leaderboard(payloads: list[dict[str, Any]]) -> str:
         lines.append(f"### `{problem}`")
         lines.append("")
         lines.append(
-            "| Model | Harness | N | CP | Reg | Cost | Time | LOC | ΔLOC | Deps | Cx |"
+            "| Agent | Provider | Model | Harness | N | CP | Reg | Cost | Time | LOC | ΔLOC | Deps | Cx |"
         )
-        lines.append("|-------|---------|--:|--:|----:|-----:|-----:|----:|-----:|-----:|---:|")
+        lines.append("|-------|----------|-------|---------|--:|--:|----:|-----:|-----:|----:|-----:|-----:|---:|")
         rows = _sort_table_rows([c for c in cells if c["problem"] == problem], "model")
         for row in rows:
             lines.append(
-                f"| {row['model']} | {row['harness']} | {row['n']} | {_metric_cells(row['metrics'])} |"
+                f"| {row['agent']} | {row['provider']} | {row['model']} | {row['harness']} | "
+                f"{row['n']} | {_metric_cells(row['metrics'])} |"
             )
         lines.append("")
 
@@ -366,13 +402,14 @@ def format_leaderboard(payloads: list[dict[str, Any]]) -> str:
         lines.append(f"### `{model}`")
         lines.append("")
         lines.append(
-            "| Problem | Harness | N | CP | Reg | Cost | Time | LOC | ΔLOC | Deps | Cx |"
+            "| Problem | Agent | Provider | Harness | N | CP | Reg | Cost | Time | LOC | ΔLOC | Deps | Cx |"
         )
-        lines.append("|---------|---------|--:|--:|----:|-----:|-----:|----:|-----:|-----:|---:|")
+        lines.append("|---------|-------|----------|---------|--:|--:|----:|-----:|-----:|----:|-----:|-----:|---:|")
         rows = _sort_table_rows([c for c in cells if c["model"] == model], "problem")
         for row in rows:
             lines.append(
-                f"| {row['problem']} | {row['harness']} | {row['n']} | {_metric_cells(row['metrics'])} |"
+                f"| {row['problem']} | {row['agent']} | {row['provider']} | {row['harness']} | "
+                f"{row['n']} | {_metric_cells(row['metrics'])} |"
             )
         lines.append("")
 
@@ -380,8 +417,8 @@ def format_leaderboard(payloads: list[dict[str, Any]]) -> str:
         [
             "## Experiments",
             "",
-            "| Experiment | Date | Problem | Model | N | Report |",
-            "|------------|------|---------|-------|---|--------|",
+            "| Experiment | Date | Problem | Agent | Provider | Model | N | Report |",
+            "|------------|------|---------|-------|----------|-------|---|--------|",
         ]
     )
     for payload in payloads:
@@ -393,7 +430,8 @@ def format_leaderboard(payloads: list[dict[str, Any]]) -> str:
         else:
             n = f"{payload.get('n_baseline', 0)}+{payload.get('n_ponytail', 0)}"
         lines.append(
-            f"| {eid} | {date} | {payload.get('problem')} | {payload.get('model')} | {n} | "
+            f"| {eid} | {date} | {payload.get('problem')} | {payload.get('agent')} | "
+            f"{payload.get('provider')} | {payload.get('model')} | {n} | "
             f"[short](reports/{eid}.md) |"
         )
     lines.append("")

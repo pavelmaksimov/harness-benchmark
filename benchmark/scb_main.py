@@ -23,6 +23,9 @@ def main() -> None:
         install_skill_hook()
 
     from benchmark.rework_hook import HB_REWORK_ATTEMPTS, install_rework_hook
+    from benchmark.continue_hook import install_continue_after_test_failure
+
+    install_continue_after_test_failure()
     try:
         rework_attempts = int(os.environ.get(HB_REWORK_ATTEMPTS, "0") or "0")
     except ValueError:
