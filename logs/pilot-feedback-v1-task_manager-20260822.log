@@ -1,0 +1,191 @@
+=== run-all × 3 jobs=3 agent=opencode provider=opencode_auth 
+model=x-preview-f-free thinking=high transient_retries=0 feedback_strategy=v1 
+arms=baseline experiment_id=pilot-feedback-v1-task_manager-20260822 ===
+1/3 run(s) failed: baseline/run_3: cannot append to 
+/home/user/my/harness-benchmark/results/pilot-feedback-v1-task_manager-20260822:
+/home/user/my/harness-benchmark/results/pilot-feedback-v1-task_manager-20260822/
+baseline/run_1 has no state.json or manifest.json; use a new --experiment-id
+TASK_MANAGER — multi-harness
+
+N baseline=2
+Failed checkpoints includes checkpoints repaired by rework.
+Rework tokens are All tokens minus Creation tokens when per-attempt usage is 
+unavailable.
+Transient retries are separate from semantic rework and require high-confidence 
+truncation signals.
+
+Metric                     baseline
+-----------------------------------
+CP passed/total               15/15
+Failed checkpoints              0.5
+Regressions                     0.5
+Creation input tokens       900,910
+Creation output tokens      202,798
+Rework input tokens          10,562
+Rework output tokens          2,472
+Transient input tokens            0
+Transient output tokens            0
+All input tokens            911,472
+All output tokens           205,270
+Reasoning tokens             30,083
+Normalized cost               $0.00
+Elapsed time                 275.3m
+Final LOC                    5263.5
+Changed LOC                  6646.5
+Files touched                  25.5
+Dependencies                      5
+Complexity                      984
+Semantic rework attempts          0.5
+Repeated attempts               0.5
+Rework fixed                    0.5
+Rework unresolved                 0
+Transient retries                 0
+Provider truncations              0
+Transient recoveries              0
+Truncations unresolved            0
+
+Δ vs baseline (mean):
+Metric                
+CP passed/total       
+Failed checkpoints    
+Regressions           
+Creation input tokens 
+Creation output tokens
+Rework input tokens   
+Rework output tokens  
+Transient input tokens
+Transient output tokens
+All input tokens      
+All output tokens     
+Reasoning tokens      
+Normalized cost       
+Elapsed time          
+Final LOC             
+Changed LOC           
+Files touched         
+Dependencies          
+Complexity            
+Semantic rework attempts
+Repeated attempts     
+Rework fixed          
+Rework unresolved     
+Transient retries     
+Provider truncations  
+Transient recoveries  
+Truncations unresolved
+
+Per-checkpoint (raw):
+CP   Arm                                  Pass   Create In Create Out  Rework In
+Rework Out Transient In Transient Out     All In    All Out     Cost     Time   
+LOCΔ   FilesΔ   Reg Repeat
+1    baseline                             True      67,262     16,503     21,123
+4,944            0             0     88,385     21,447        -     3067       
+17        1     0      1
+2    baseline                             True      22,136      9,728          0
+0            0             0     22,136      9,728        -     1028      219   
+1     0      0
+3    baseline                             True      53,797     12,983          0
+0            0             0     53,797     12,983        -      750      536   
+3     0      0
+4    baseline                             True      37,301     12,432          0
+0            0             0     37,301     12,432        -      924      569   
+2     0      0
+5    baseline                             True      44,623      9,560          0
+0            0             0     44,623      9,560        -      425      472   
+2     0      0
+6    baseline                             True      34,026     10,833          0
+0            0             0     34,026     10,833        -      976      378   
+2     0      0
+7    baseline                             True      57,229     13,838          0
+0            0             0     57,229     13,838        -     1014      339   
+6     0      0
+8    baseline                             True      52,344     15,893          0
+0            0             0     52,344     15,893        -     1712      416   
+2     0      0
+9    baseline                             True      41,504      8,839          0
+0            0             0     41,504      8,839        -      726      450   
+2     0      0
+10   baseline                             True      47,074     14,092          0
+0            0             0     47,074     14,092        -      534      546   
+2     0      0
+11   baseline                             True      35,913      4,724          0
+0            0             0     35,913      4,724        -      249      295   
+2     0      0
+12   baseline                             True      57,401     17,392          0
+0            0             0     57,401     17,392        -     1359      921   
+3     0      0
+13   baseline                             True      56,859     12,663          0
+0            0             0     56,859     12,663        -     1279      616   
+2     0      0
+14   baseline                             True      41,513     10,758          0
+0            0             0     41,513     10,758        -     1175      678   
+2     0      0
+15   baseline                             True      93,655     26,101          0
+0            0             0     93,655     26,101        -     2499     1061   
+2     0      0
+1    baseline                             True      66,584     12,470          0
+0            0             0     66,584     12,470        -      990      690   
+2     0      0
+2    baseline                             True      84,982      8,216          0
+0            0             0     84,982      8,216        -      622      275   
+1     0      0
+3    baseline                             True      72,164     12,296          0
+0            0             0     72,164     12,296        -     1496      339   
+2     0      0
+4    baseline                             True      38,730     20,290          0
+0            0             0     38,730     20,290        -     1704      375   
+1     0      0
+5    baseline                             True      47,231      9,211          0
+0            0             0     47,231      9,211        -      484      286   
+1     0      0
+6    baseline                             True      45,251     12,676          0
+0            0             0     45,251     12,676        -      649      178   
+1     0      0
+7    baseline                             True      38,390      5,439          0
+0            0             0     38,390      5,439        -      308       28   
+1     0      0
+8    baseline                             True      92,336     14,970          0
+0            0             0     92,336     14,970        -      862      237   
+1     0      0
+9    baseline                             True      53,623     14,318          0
+0            0             0     53,623     14,318        -      779      199   
+1     0      0
+10   baseline                             True      43,087     13,790          0
+0            0             0     43,087     13,790        -      915      332   
+1     0      0
+11   baseline                             True      46,923      5,394          0
+0            0             0     46,923      5,394        -      221      165   
+1     0      0
+12   baseline                             True     114,165     23,178          0
+0            0             0    114,165     23,178        -     2017      640   
+1     0      0
+13   baseline                             True     160,999     21,927          0
+0            0             0    160,999     21,927        -     1212      349   
+1     0      0
+14   baseline                             True      57,183      8,865          0
+0            0             0     57,183      8,865        -     1005      911   
+1     0      0
+15   baseline                             True      97,535     26,217          0
+0            0             0     97,535     26,217        -     2058      776   
+1     1      0
+
+Rework attempts (raw):
+CP   Arm                                  Stage      #  Core p/f/t         In   
+Out     Time     Cost Failed
+1    baseline                             creation   1       5/2/7     67,262   
+16,503     1857     0.00      3
+1    baseline                             rework     2       7/0/7     21,123   
+4,944     1210     0.00      0
+
+Stats per metric include mean/median/min/max/stddev in the JSON report.
+
+Wrote 
+/home/user/my/harness-benchmark/reports/pilot-feedback-v1-task_manager-20260822/
+comparison.txt and 
+/home/user/my/harness-benchmark/reports/pilot-feedback-v1-task_manager-20260822/
+comparison.json
+Published 
+/home/user/my/harness-benchmark/docs/reports/pilot-feedback-v1-task_manager-2026
+0822.md, 
+/home/user/my/harness-benchmark/docs/reports/pilot-feedback-v1-task_manager-2026
+0822.json, /home/user/my/harness-benchmark/docs/LEADERBOARD.md

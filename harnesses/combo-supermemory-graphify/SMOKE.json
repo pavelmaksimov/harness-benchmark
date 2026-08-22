@@ -1,0 +1,45 @@
+{
+  "arm": "combo-supermemory-graphify",
+  "checkpoints": [
+    "checkpoint_1"
+  ],
+  "checkpoints_completed": [
+    1
+  ],
+  "exclude_dir_names": [
+    ".git",
+    ".mypy_cache",
+    ".pytest_cache",
+    ".ruff_cache",
+    ".tox",
+    ".venv",
+    "__pycache__",
+    "build",
+    "dist",
+    "doorstop-docs",
+    "graphify-out",
+    "node_modules",
+    "strictdoc-docs",
+    "venv"
+  ],
+  "experiment_id": "smoke-combo-full-realworld-20260822",
+  "harness_activation_verified": true,
+  "harness_content_sha": "2e60d7203d108022fa2d8ed2e20041b0a5da1455d008515d82fa48bbbdd7ce78",
+  "ok": true,
+  "problem": "realworld",
+  "run_dir": "/home/user/my/harness-benchmark/results/smoke-combo-full-realworld-20260822/combo-supermemory-graphify/run_1",
+  "snapshot": {
+    "already_excluded": [],
+    "needs_exclude_review": [],
+    "top_level": [
+      "realworld_app",
+      "requirements.txt",
+      "tests"
+    ],
+    "top_level_dirs": [
+      "realworld_app",
+      "tests"
+    ]
+  },
+  "validated_at": "2026-08-22T10:18:46.440292+00:00"
+}

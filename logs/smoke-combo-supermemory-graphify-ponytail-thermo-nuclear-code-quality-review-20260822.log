@@ -1,0 +1,10 @@
+=== smoke CP1 
+arm=combo-supermemory-graphify-ponytail-thermo-nuclear-code-quality-review 
+agent=opencode provider=opencode_auth model=x-preview-f-free thinking=high ===
+smoke_ok=True 
+marker=/home/user/my/harness-benchmark/harnesses/combo-supermemory-graphify-pony
+tail-thermo-nuclear-code-quality-review/SMOKE.json
+activation_verified=True
+snapshot top-level dirs: ['realworld_app']
+No obvious new artifact dirs flagged for exclusion review.
+Smoke passed. Commit harnesses/<arm>/SMOKE.json after updating exclusions.
