@@ -409,5 +409,1320 @@
       "Functionality": 0,
       "Regression": 0
     }
+  },
+  {
+    "agent": "opencode",
+    "agent_version": "1.14.33",
+    "arm": "doorstop",
+    "attempts": [
+      {
+        "attempt": 1,
+        "duration": 17.942877054214478,
+        "failed_tests": [
+          "test_delete_article_and_permissions_without_side_effects"
+        ],
+        "infrastructure_failure": false,
+        "pass_counts": {
+          "Core": 0,
+          "Error": 0,
+          "Functionality": 0,
+          "Regression": 0
+        },
+        "passed_policy": false,
+        "total_counts": {
+          "Core": 1,
+          "Error": 0,
+          "Functionality": 0,
+          "Regression": 0
+        }
+      },
+      {
+        "attempt": 2,
+        "duration": 16.10767149925232,
+        "failed_tests": [
+          "test_delete_article_and_permissions_without_side_effects"
+        ],
+        "infrastructure_failure": false,
+        "pass_counts": {
+          "Core": 0,
+          "Error": 0,
+          "Functionality": 0,
+          "Regression": 0
+        },
+        "passed_policy": false,
+        "total_counts": {
+          "Core": 1,
+          "Error": 0,
+          "Functionality": 0,
+          "Regression": 0
+        }
+      },
+      {
+        "attempt": 3,
+        "duration": 21.27986192703247,
+        "failed_tests": [],
+        "infrastructure_failure": false,
+        "pass_counts": {
+          "Core": 1,
+          "Error": 0,
+          "Functionality": 0,
+          "Regression": 0
+        },
+        "passed_policy": true,
+        "total_counts": {
+          "Core": 1,
+          "Error": 0,
+          "Functionality": 0,
+          "Regression": 0
+        }
+      }
+    ],
+    "attempts_total": 3,
+    "checkpoint": "checkpoint_8",
+    "date": "2026-08-21T18:02:44.995973+00:00",
+    "experiment_id": "realworld-opencode-x-preview-f-free-high-20260821-1928",
+    "failed_tests": [],
+    "fix": "rework",
+    "fixed": true,
+    "harness": "doorstop",
+    "infrastructure_failure": false,
+    "model": "x-preview-f-free",
+    "pass_counts": {
+      "Core": 1,
+      "Error": 0,
+      "Functionality": 0,
+      "Regression": 0
+    },
+    "paths": {
+      "checkpoint_dir": "/home/user/my/harness-benchmark/results/realworld-opencode-x-preview-f-free-high-20260821-1928/doorstop/run_1/scb/realworld/checkpoint_8",
+      "run_dir": "/home/user/my/harness-benchmark/results/realworld-opencode-x-preview-f-free-high-20260821-1928/doorstop/run_1",
+      "snapshot_dir": "/home/user/my/harness-benchmark/results/realworld-opencode-x-preview-f-free-high-20260821-1928/doorstop/run_1/scb/realworld/checkpoint_8/snapshot"
+    },
+    "post_fix_score": "1/1",
+    "problem": "realworld",
+    "provider": "opencode_auth",
+    "resumed": false,
+    "root_cause": null,
+    "run_index": 1,
+    "source": "rework",
+    "thinking": "high",
+    "total_counts": {
+      "Core": 1,
+      "Error": 0,
+      "Functionality": 0,
+      "Regression": 0
+    }
+  },
+  {
+    "agent": "opencode",
+    "agent_version": "1.14.33",
+    "arm": "thermo-nuclear-code-quality-review",
+    "attempts": [
+      {
+        "attempt": 1,
+        "duration": 21.589593648910522,
+        "failed_tests": [
+          "test_registration_validation_and_uniqueness"
+        ],
+        "infrastructure_failure": false,
+        "pass_counts": {
+          "Core": 1,
+          "Error": 0,
+          "Functionality": 0,
+          "Regression": 0
+        },
+        "passed_policy": false,
+        "total_counts": {
+          "Core": 2,
+          "Error": 0,
+          "Functionality": 0,
+          "Regression": 0
+        }
+      },
+      {
+        "attempt": 2,
+        "duration": 13.707664966583252,
+        "failed_tests": [
+          "test_registration_validation_and_uniqueness"
+        ],
+        "infrastructure_failure": false,
+        "pass_counts": {
+          "Core": 1,
+          "Error": 0,
+          "Functionality": 0,
+          "Regression": 0
+        },
+        "passed_policy": false,
+        "total_counts": {
+          "Core": 2,
+          "Error": 0,
+          "Functionality": 0,
+          "Regression": 0
+        }
+      },
+      {
+        "attempt": 3,
+        "duration": 16.730185747146606,
+        "failed_tests": [
+          "test_registration_validation_and_uniqueness"
+        ],
+        "infrastructure_failure": false,
+        "pass_counts": {
+          "Core": 1,
+          "Error": 0,
+          "Functionality": 0,
+          "Regression": 0
+        },
+        "passed_policy": false,
+        "total_counts": {
+          "Core": 2,
+          "Error": 0,
+          "Functionality": 0,
+          "Regression": 0
+        }
+      },
+      {
+        "attempt": 4,
+        "duration": 14.538976907730103,
+        "failed_tests": [
+          "test_registration_validation_and_uniqueness"
+        ],
+        "infrastructure_failure": false,
+        "pass_counts": {
+          "Core": 1,
+          "Error": 0,
+          "Functionality": 0,
+          "Regression": 0
+        },
+        "passed_policy": false,
+        "total_counts": {
+          "Core": 2,
+          "Error": 0,
+          "Functionality": 0,
+          "Regression": 0
+        }
+      }
+    ],
+    "attempts_total": 4,
+    "checkpoint": "checkpoint_1",
+    "date": "2026-08-21T21:21:46.750384+00:00",
+    "experiment_id": "realworld-opencode-x-preview-f-free-high-20260821-1928",
+    "failed_tests": [
+      "test_registration_validation_and_uniqueness"
+    ],
+    "fix": "rework",
+    "fixed": false,
+    "harness": "thermo-nuclear-code-quality-review",
+    "infrastructure_failure": false,
+    "model": "x-preview-f-free",
+    "pass_counts": {
+      "Core": 1,
+      "Error": 0,
+      "Functionality": 0,
+      "Regression": 0
+    },
+    "paths": {
+      "checkpoint_dir": "/home/user/my/harness-benchmark/results/realworld-opencode-x-preview-f-free-high-20260821-1928/thermo-nuclear-code-quality-review/run_1/scb/realworld/checkpoint_1",
+      "run_dir": "/home/user/my/harness-benchmark/results/realworld-opencode-x-preview-f-free-high-20260821-1928/thermo-nuclear-code-quality-review/run_1",
+      "snapshot_dir": "/home/user/my/harness-benchmark/results/realworld-opencode-x-preview-f-free-high-20260821-1928/thermo-nuclear-code-quality-review/run_1/scb/realworld/checkpoint_1/snapshot"
+    },
+    "post_fix_score": "1/2",
+    "problem": "realworld",
+    "provider": "opencode_auth",
+    "resumed": false,
+    "root_cause": null,
+    "run_index": 1,
+    "source": "rework",
+    "thinking": "high",
+    "total_counts": {
+      "Core": 2,
+      "Error": 0,
+      "Functionality": 0,
+      "Regression": 0
+    }
+  },
+  {
+    "agent": "opencode",
+    "agent_version": "1.14.33",
+    "arm": "thermo-nuclear-code-quality-review",
+    "attempts": [
+      {
+        "attempt": 1,
+        "duration": 15.15618371963501,
+        "failed_tests": [
+          "test_auth_errors"
+        ],
+        "infrastructure_failure": false,
+        "pass_counts": {
+          "Core": 1,
+          "Error": 0,
+          "Functionality": 0,
+          "Regression": 0
+        },
+        "passed_policy": false,
+        "total_counts": {
+          "Core": 2,
+          "Error": 0,
+          "Functionality": 0,
+          "Regression": 0
+        }
+      },
+      {
+        "attempt": 2,
+        "duration": 16.71639895439148,
+        "failed_tests": [
+          "test_auth_errors"
+        ],
+        "infrastructure_failure": false,
+        "pass_counts": {
+          "Core": 1,
+          "Error": 0,
+          "Functionality": 0,
+          "Regression": 0
+        },
+        "passed_policy": false,
+        "total_counts": {
+          "Core": 2,
+          "Error": 0,
+          "Functionality": 0,
+          "Regression": 0
+        }
+      },
+      {
+        "attempt": 3,
+        "duration": 17.062588930130005,
+        "failed_tests": [
+          "test_auth_errors"
+        ],
+        "infrastructure_failure": false,
+        "pass_counts": {
+          "Core": 1,
+          "Error": 0,
+          "Functionality": 0,
+          "Regression": 0
+        },
+        "passed_policy": false,
+        "total_counts": {
+          "Core": 2,
+          "Error": 0,
+          "Functionality": 0,
+          "Regression": 0
+        }
+      },
+      {
+        "attempt": 4,
+        "duration": 15.85040020942688,
+        "failed_tests": [
+          "test_auth_errors"
+        ],
+        "infrastructure_failure": false,
+        "pass_counts": {
+          "Core": 1,
+          "Error": 0,
+          "Functionality": 0,
+          "Regression": 0
+        },
+        "passed_policy": false,
+        "total_counts": {
+          "Core": 2,
+          "Error": 0,
+          "Functionality": 0,
+          "Regression": 0
+        }
+      }
+    ],
+    "attempts_total": 4,
+    "checkpoint": "checkpoint_2",
+    "date": "2026-08-21T21:21:46.750856+00:00",
+    "experiment_id": "realworld-opencode-x-preview-f-free-high-20260821-1928",
+    "failed_tests": [
+      "test_auth_errors"
+    ],
+    "fix": "rework",
+    "fixed": false,
+    "harness": "thermo-nuclear-code-quality-review",
+    "infrastructure_failure": false,
+    "model": "x-preview-f-free",
+    "pass_counts": {
+      "Core": 1,
+      "Error": 0,
+      "Functionality": 0,
+      "Regression": 0
+    },
+    "paths": {
+      "checkpoint_dir": "/home/user/my/harness-benchmark/results/realworld-opencode-x-preview-f-free-high-20260821-1928/thermo-nuclear-code-quality-review/run_1/scb/realworld/checkpoint_2",
+      "run_dir": "/home/user/my/harness-benchmark/results/realworld-opencode-x-preview-f-free-high-20260821-1928/thermo-nuclear-code-quality-review/run_1",
+      "snapshot_dir": "/home/user/my/harness-benchmark/results/realworld-opencode-x-preview-f-free-high-20260821-1928/thermo-nuclear-code-quality-review/run_1/scb/realworld/checkpoint_2/snapshot"
+    },
+    "post_fix_score": "1/2",
+    "problem": "realworld",
+    "provider": "opencode_auth",
+    "resumed": false,
+    "root_cause": null,
+    "run_index": 1,
+    "source": "rework",
+    "thinking": "high",
+    "total_counts": {
+      "Core": 2,
+      "Error": 0,
+      "Functionality": 0,
+      "Regression": 0
+    }
+  },
+  {
+    "agent": "opencode",
+    "agent_version": "1.14.33",
+    "arm": "thermo-nuclear-code-quality-review",
+    "attempts": [
+      {
+        "attempt": 1,
+        "duration": 15.309516906738281,
+        "failed_tests": [
+          "test_update_identity_and_password",
+          "test_update_profile_fields_normalization_and_persistence",
+          "test_update_rejects_invalid_identity_and_requires_auth"
+        ],
+        "infrastructure_failure": false,
+        "pass_counts": {
+          "Core": 0,
+          "Error": 0,
+          "Functionality": 0,
+          "Regression": 0
+        },
+        "passed_policy": false,
+        "total_counts": {
+          "Core": 3,
+          "Error": 0,
+          "Functionality": 0,
+          "Regression": 0
+        }
+      },
+      {
+        "attempt": 2,
+        "duration": 14.846219062805176,
+        "failed_tests": [],
+        "infrastructure_failure": false,
+        "pass_counts": {
+          "Core": 3,
+          "Error": 0,
+          "Functionality": 0,
+          "Regression": 0
+        },
+        "passed_policy": true,
+        "total_counts": {
+          "Core": 3,
+          "Error": 0,
+          "Functionality": 0,
+          "Regression": 0
+        }
+      }
+    ],
+    "attempts_total": 2,
+    "checkpoint": "checkpoint_3",
+    "date": "2026-08-21T21:21:46.751242+00:00",
+    "experiment_id": "realworld-opencode-x-preview-f-free-high-20260821-1928",
+    "failed_tests": [],
+    "fix": "rework",
+    "fixed": true,
+    "harness": "thermo-nuclear-code-quality-review",
+    "infrastructure_failure": false,
+    "model": "x-preview-f-free",
+    "pass_counts": {
+      "Core": 3,
+      "Error": 0,
+      "Functionality": 0,
+      "Regression": 0
+    },
+    "paths": {
+      "checkpoint_dir": "/home/user/my/harness-benchmark/results/realworld-opencode-x-preview-f-free-high-20260821-1928/thermo-nuclear-code-quality-review/run_1/scb/realworld/checkpoint_3",
+      "run_dir": "/home/user/my/harness-benchmark/results/realworld-opencode-x-preview-f-free-high-20260821-1928/thermo-nuclear-code-quality-review/run_1",
+      "snapshot_dir": "/home/user/my/harness-benchmark/results/realworld-opencode-x-preview-f-free-high-20260821-1928/thermo-nuclear-code-quality-review/run_1/scb/realworld/checkpoint_3/snapshot"
+    },
+    "post_fix_score": "3/3",
+    "problem": "realworld",
+    "provider": "opencode_auth",
+    "resumed": false,
+    "root_cause": null,
+    "run_index": 1,
+    "source": "rework",
+    "thinking": "high",
+    "total_counts": {
+      "Core": 3,
+      "Error": 0,
+      "Functionality": 0,
+      "Regression": 0
+    }
+  },
+  {
+    "agent": "opencode",
+    "agent_version": "1.14.33",
+    "arm": "thermo-nuclear-code-quality-review",
+    "attempts": [
+      {
+        "attempt": 1,
+        "duration": 11.83609676361084,
+        "failed_tests": [
+          "test_create_article_errors_and_duplicate_titles",
+          "test_create_article_full_contract_and_default_tags"
+        ],
+        "infrastructure_failure": false,
+        "pass_counts": {
+          "Core": 0,
+          "Error": 0,
+          "Functionality": 0,
+          "Regression": 0
+        },
+        "passed_policy": false,
+        "total_counts": {
+          "Core": 2,
+          "Error": 0,
+          "Functionality": 0,
+          "Regression": 0
+        }
+      },
+      {
+        "attempt": 2,
+        "duration": 12.533332109451294,
+        "failed_tests": [
+          "test_create_article_errors_and_duplicate_titles"
+        ],
+        "infrastructure_failure": false,
+        "pass_counts": {
+          "Core": 1,
+          "Error": 0,
+          "Functionality": 0,
+          "Regression": 0
+        },
+        "passed_policy": false,
+        "total_counts": {
+          "Core": 2,
+          "Error": 0,
+          "Functionality": 0,
+          "Regression": 0
+        }
+      },
+      {
+        "attempt": 3,
+        "duration": 11.748660326004028,
+        "failed_tests": [],
+        "infrastructure_failure": false,
+        "pass_counts": {
+          "Core": 2,
+          "Error": 0,
+          "Functionality": 0,
+          "Regression": 0
+        },
+        "passed_policy": true,
+        "total_counts": {
+          "Core": 2,
+          "Error": 0,
+          "Functionality": 0,
+          "Regression": 0
+        }
+      }
+    ],
+    "attempts_total": 3,
+    "checkpoint": "checkpoint_5",
+    "date": "2026-08-21T21:21:46.751672+00:00",
+    "experiment_id": "realworld-opencode-x-preview-f-free-high-20260821-1928",
+    "failed_tests": [],
+    "fix": "rework",
+    "fixed": true,
+    "harness": "thermo-nuclear-code-quality-review",
+    "infrastructure_failure": false,
+    "model": "x-preview-f-free",
+    "pass_counts": {
+      "Core": 2,
+      "Error": 0,
+      "Functionality": 0,
+      "Regression": 0
+    },
+    "paths": {
+      "checkpoint_dir": "/home/user/my/harness-benchmark/results/realworld-opencode-x-preview-f-free-high-20260821-1928/thermo-nuclear-code-quality-review/run_1/scb/realworld/checkpoint_5",
+      "run_dir": "/home/user/my/harness-benchmark/results/realworld-opencode-x-preview-f-free-high-20260821-1928/thermo-nuclear-code-quality-review/run_1",
+      "snapshot_dir": "/home/user/my/harness-benchmark/results/realworld-opencode-x-preview-f-free-high-20260821-1928/thermo-nuclear-code-quality-review/run_1/scb/realworld/checkpoint_5/snapshot"
+    },
+    "post_fix_score": "2/2",
+    "problem": "realworld",
+    "provider": "opencode_auth",
+    "resumed": false,
+    "root_cause": null,
+    "run_index": 1,
+    "source": "rework",
+    "thinking": "high",
+    "total_counts": {
+      "Core": 2,
+      "Error": 0,
+      "Functionality": 0,
+      "Regression": 0
+    }
+  },
+  {
+    "agent": "opencode",
+    "agent_version": "1.14.33",
+    "arm": "thermo-nuclear-code-quality-review",
+    "attempts": [
+      {
+        "attempt": 1,
+        "duration": 12.292202949523926,
+        "failed_tests": [
+          "test_get_single_article_without_and_with_auth_persists"
+        ],
+        "infrastructure_failure": false,
+        "pass_counts": {
+          "Core": 1,
+          "Error": 0,
+          "Functionality": 0,
+          "Regression": 0
+        },
+        "passed_policy": false,
+        "total_counts": {
+          "Core": 2,
+          "Error": 0,
+          "Functionality": 0,
+          "Regression": 0
+        }
+      },
+      {
+        "attempt": 2,
+        "duration": 11.598069190979004,
+        "failed_tests": [
+          "test_get_single_article_without_and_with_auth_persists"
+        ],
+        "infrastructure_failure": false,
+        "pass_counts": {
+          "Core": 1,
+          "Error": 0,
+          "Functionality": 0,
+          "Regression": 0
+        },
+        "passed_policy": false,
+        "total_counts": {
+          "Core": 2,
+          "Error": 0,
+          "Functionality": 0,
+          "Regression": 0
+        }
+      },
+      {
+        "attempt": 3,
+        "duration": 12.538065433502197,
+        "failed_tests": [
+          "test_get_single_article_without_and_with_auth_persists"
+        ],
+        "infrastructure_failure": false,
+        "pass_counts": {
+          "Core": 1,
+          "Error": 0,
+          "Functionality": 0,
+          "Regression": 0
+        },
+        "passed_policy": false,
+        "total_counts": {
+          "Core": 2,
+          "Error": 0,
+          "Functionality": 0,
+          "Regression": 0
+        }
+      },
+      {
+        "attempt": 4,
+        "duration": 11.510233640670776,
+        "failed_tests": [
+          "test_get_single_article_without_and_with_auth_persists"
+        ],
+        "infrastructure_failure": false,
+        "pass_counts": {
+          "Core": 1,
+          "Error": 0,
+          "Functionality": 0,
+          "Regression": 0
+        },
+        "passed_policy": false,
+        "total_counts": {
+          "Core": 2,
+          "Error": 0,
+          "Functionality": 0,
+          "Regression": 0
+        }
+      }
+    ],
+    "attempts_total": 4,
+    "checkpoint": "checkpoint_6",
+    "date": "2026-08-21T21:21:46.752046+00:00",
+    "experiment_id": "realworld-opencode-x-preview-f-free-high-20260821-1928",
+    "failed_tests": [
+      "test_get_single_article_without_and_with_auth_persists"
+    ],
+    "fix": "rework",
+    "fixed": false,
+    "harness": "thermo-nuclear-code-quality-review",
+    "infrastructure_failure": false,
+    "model": "x-preview-f-free",
+    "pass_counts": {
+      "Core": 1,
+      "Error": 0,
+      "Functionality": 0,
+      "Regression": 0
+    },
+    "paths": {
+      "checkpoint_dir": "/home/user/my/harness-benchmark/results/realworld-opencode-x-preview-f-free-high-20260821-1928/thermo-nuclear-code-quality-review/run_1/scb/realworld/checkpoint_6",
+      "run_dir": "/home/user/my/harness-benchmark/results/realworld-opencode-x-preview-f-free-high-20260821-1928/thermo-nuclear-code-quality-review/run_1",
+      "snapshot_dir": "/home/user/my/harness-benchmark/results/realworld-opencode-x-preview-f-free-high-20260821-1928/thermo-nuclear-code-quality-review/run_1/scb/realworld/checkpoint_6/snapshot"
+    },
+    "post_fix_score": "1/2",
+    "problem": "realworld",
+    "provider": "opencode_auth",
+    "resumed": false,
+    "root_cause": null,
+    "run_index": 1,
+    "source": "rework",
+    "thinking": "high",
+    "total_counts": {
+      "Core": 2,
+      "Error": 0,
+      "Functionality": 0,
+      "Regression": 0
+    }
+  },
+  {
+    "agent": "opencode",
+    "agent_version": "1.14.33",
+    "arm": "thermo-nuclear-code-quality-review",
+    "attempts": [
+      {
+        "attempt": 1,
+        "duration": 13.080443143844604,
+        "failed_tests": [
+          "test_update_article_fields_timestamps_tags_and_persistence"
+        ],
+        "infrastructure_failure": false,
+        "pass_counts": {
+          "Core": 1,
+          "Error": 0,
+          "Functionality": 0,
+          "Regression": 0
+        },
+        "passed_policy": false,
+        "total_counts": {
+          "Core": 2,
+          "Error": 0,
+          "Functionality": 0,
+          "Regression": 0
+        }
+      },
+      {
+        "attempt": 2,
+        "duration": 12.356755256652832,
+        "failed_tests": [
+          "test_update_article_fields_timestamps_tags_and_persistence"
+        ],
+        "infrastructure_failure": false,
+        "pass_counts": {
+          "Core": 1,
+          "Error": 0,
+          "Functionality": 0,
+          "Regression": 0
+        },
+        "passed_policy": false,
+        "total_counts": {
+          "Core": 2,
+          "Error": 0,
+          "Functionality": 0,
+          "Regression": 0
+        }
+      },
+      {
+        "attempt": 3,
+        "duration": 12.847591876983643,
+        "failed_tests": [
+          "test_update_article_fields_timestamps_tags_and_persistence"
+        ],
+        "infrastructure_failure": false,
+        "pass_counts": {
+          "Core": 1,
+          "Error": 0,
+          "Functionality": 0,
+          "Regression": 0
+        },
+        "passed_policy": false,
+        "total_counts": {
+          "Core": 2,
+          "Error": 0,
+          "Functionality": 0,
+          "Regression": 0
+        }
+      },
+      {
+        "attempt": 4,
+        "duration": 11.388962745666504,
+        "failed_tests": [
+          "test_update_article_fields_timestamps_tags_and_persistence"
+        ],
+        "infrastructure_failure": false,
+        "pass_counts": {
+          "Core": 1,
+          "Error": 0,
+          "Functionality": 0,
+          "Regression": 0
+        },
+        "passed_policy": false,
+        "total_counts": {
+          "Core": 2,
+          "Error": 0,
+          "Functionality": 0,
+          "Regression": 0
+        }
+      }
+    ],
+    "attempts_total": 4,
+    "checkpoint": "checkpoint_7",
+    "date": "2026-08-21T21:21:46.758357+00:00",
+    "experiment_id": "realworld-opencode-x-preview-f-free-high-20260821-1928",
+    "failed_tests": [
+      "test_update_article_fields_timestamps_tags_and_persistence"
+    ],
+    "fix": "rework",
+    "fixed": false,
+    "harness": "thermo-nuclear-code-quality-review",
+    "infrastructure_failure": false,
+    "model": "x-preview-f-free",
+    "pass_counts": {
+      "Core": 1,
+      "Error": 0,
+      "Functionality": 0,
+      "Regression": 0
+    },
+    "paths": {
+      "checkpoint_dir": "/home/user/my/harness-benchmark/results/realworld-opencode-x-preview-f-free-high-20260821-1928/thermo-nuclear-code-quality-review/run_1/scb/realworld/checkpoint_7",
+      "run_dir": "/home/user/my/harness-benchmark/results/realworld-opencode-x-preview-f-free-high-20260821-1928/thermo-nuclear-code-quality-review/run_1",
+      "snapshot_dir": "/home/user/my/harness-benchmark/results/realworld-opencode-x-preview-f-free-high-20260821-1928/thermo-nuclear-code-quality-review/run_1/scb/realworld/checkpoint_7/snapshot"
+    },
+    "post_fix_score": "1/2",
+    "problem": "realworld",
+    "provider": "opencode_auth",
+    "resumed": false,
+    "root_cause": null,
+    "run_index": 1,
+    "source": "rework",
+    "thinking": "high",
+    "total_counts": {
+      "Core": 2,
+      "Error": 0,
+      "Functionality": 0,
+      "Regression": 0
+    }
+  },
+  {
+    "agent": "opencode",
+    "agent_version": "1.14.33",
+    "arm": "thermo-nuclear-code-quality-review",
+    "attempts": [
+      {
+        "attempt": 1,
+        "duration": 11.814408302307129,
+        "failed_tests": [
+          "test_favorite_unfavorite_uniqueness_isolation_and_persistence"
+        ],
+        "infrastructure_failure": false,
+        "pass_counts": {
+          "Core": 1,
+          "Error": 0,
+          "Functionality": 0,
+          "Regression": 0
+        },
+        "passed_policy": false,
+        "total_counts": {
+          "Core": 2,
+          "Error": 0,
+          "Functionality": 0,
+          "Regression": 0
+        }
+      },
+      {
+        "attempt": 2,
+        "duration": 12.045538663864136,
+        "failed_tests": [
+          "test_favorite_unfavorite_uniqueness_isolation_and_persistence"
+        ],
+        "infrastructure_failure": false,
+        "pass_counts": {
+          "Core": 1,
+          "Error": 0,
+          "Functionality": 0,
+          "Regression": 0
+        },
+        "passed_policy": false,
+        "total_counts": {
+          "Core": 2,
+          "Error": 0,
+          "Functionality": 0,
+          "Regression": 0
+        }
+      },
+      {
+        "attempt": 3,
+        "duration": 11.69286298751831,
+        "failed_tests": [
+          "test_favorite_unfavorite_uniqueness_isolation_and_persistence"
+        ],
+        "infrastructure_failure": false,
+        "pass_counts": {
+          "Core": 1,
+          "Error": 0,
+          "Functionality": 0,
+          "Regression": 0
+        },
+        "passed_policy": false,
+        "total_counts": {
+          "Core": 2,
+          "Error": 0,
+          "Functionality": 0,
+          "Regression": 0
+        }
+      },
+      {
+        "attempt": 4,
+        "duration": 14.479016780853271,
+        "failed_tests": [
+          "test_favorite_unfavorite_uniqueness_isolation_and_persistence"
+        ],
+        "infrastructure_failure": false,
+        "pass_counts": {
+          "Core": 1,
+          "Error": 0,
+          "Functionality": 0,
+          "Regression": 0
+        },
+        "passed_policy": false,
+        "total_counts": {
+          "Core": 2,
+          "Error": 0,
+          "Functionality": 0,
+          "Regression": 0
+        }
+      }
+    ],
+    "attempts_total": 4,
+    "checkpoint": "checkpoint_9",
+    "date": "2026-08-21T21:21:46.758798+00:00",
+    "experiment_id": "realworld-opencode-x-preview-f-free-high-20260821-1928",
+    "failed_tests": [
+      "test_favorite_unfavorite_uniqueness_isolation_and_persistence"
+    ],
+    "fix": "rework",
+    "fixed": false,
+    "harness": "thermo-nuclear-code-quality-review",
+    "infrastructure_failure": false,
+    "model": "x-preview-f-free",
+    "pass_counts": {
+      "Core": 1,
+      "Error": 0,
+      "Functionality": 0,
+      "Regression": 0
+    },
+    "paths": {
+      "checkpoint_dir": "/home/user/my/harness-benchmark/results/realworld-opencode-x-preview-f-free-high-20260821-1928/thermo-nuclear-code-quality-review/run_1/scb/realworld/checkpoint_9",
+      "run_dir": "/home/user/my/harness-benchmark/results/realworld-opencode-x-preview-f-free-high-20260821-1928/thermo-nuclear-code-quality-review/run_1",
+      "snapshot_dir": "/home/user/my/harness-benchmark/results/realworld-opencode-x-preview-f-free-high-20260821-1928/thermo-nuclear-code-quality-review/run_1/scb/realworld/checkpoint_9/snapshot"
+    },
+    "post_fix_score": "1/2",
+    "problem": "realworld",
+    "provider": "opencode_auth",
+    "resumed": false,
+    "root_cause": null,
+    "run_index": 1,
+    "source": "rework",
+    "thinking": "high",
+    "total_counts": {
+      "Core": 2,
+      "Error": 0,
+      "Functionality": 0,
+      "Regression": 0
+    }
+  },
+  {
+    "agent": "opencode",
+    "agent_version": "1.14.33",
+    "arm": "thermo-nuclear-code-quality-review",
+    "attempts": [
+      {
+        "attempt": 1,
+        "duration": 13.013792276382446,
+        "failed_tests": [
+          "test_article_catalog_filters_pagination_projection_and_defaults"
+        ],
+        "infrastructure_failure": false,
+        "pass_counts": {
+          "Core": 0,
+          "Error": 0,
+          "Functionality": 0,
+          "Regression": 0
+        },
+        "passed_policy": false,
+        "total_counts": {
+          "Core": 1,
+          "Error": 0,
+          "Functionality": 0,
+          "Regression": 0
+        }
+      },
+      {
+        "attempt": 2,
+        "duration": 14.996900081634521,
+        "failed_tests": [
+          "test_article_catalog_filters_pagination_projection_and_defaults"
+        ],
+        "infrastructure_failure": false,
+        "pass_counts": {
+          "Core": 0,
+          "Error": 0,
+          "Functionality": 0,
+          "Regression": 0
+        },
+        "passed_policy": false,
+        "total_counts": {
+          "Core": 1,
+          "Error": 0,
+          "Functionality": 0,
+          "Regression": 0
+        }
+      },
+      {
+        "attempt": 3,
+        "duration": 13.893352508544922,
+        "failed_tests": [
+          "test_article_catalog_filters_pagination_projection_and_defaults"
+        ],
+        "infrastructure_failure": false,
+        "pass_counts": {
+          "Core": 0,
+          "Error": 0,
+          "Functionality": 0,
+          "Regression": 0
+        },
+        "passed_policy": false,
+        "total_counts": {
+          "Core": 1,
+          "Error": 0,
+          "Functionality": 0,
+          "Regression": 0
+        }
+      },
+      {
+        "attempt": 4,
+        "duration": 13.502020597457886,
+        "failed_tests": [
+          "test_article_catalog_filters_pagination_projection_and_defaults"
+        ],
+        "infrastructure_failure": false,
+        "pass_counts": {
+          "Core": 0,
+          "Error": 0,
+          "Functionality": 0,
+          "Regression": 0
+        },
+        "passed_policy": false,
+        "total_counts": {
+          "Core": 1,
+          "Error": 0,
+          "Functionality": 0,
+          "Regression": 0
+        }
+      }
+    ],
+    "attempts_total": 4,
+    "checkpoint": "checkpoint_10",
+    "date": "2026-08-21T21:21:46.759220+00:00",
+    "experiment_id": "realworld-opencode-x-preview-f-free-high-20260821-1928",
+    "failed_tests": [
+      "test_article_catalog_filters_pagination_projection_and_defaults"
+    ],
+    "fix": "rework",
+    "fixed": false,
+    "harness": "thermo-nuclear-code-quality-review",
+    "infrastructure_failure": false,
+    "model": "x-preview-f-free",
+    "pass_counts": {
+      "Core": 0,
+      "Error": 0,
+      "Functionality": 0,
+      "Regression": 0
+    },
+    "paths": {
+      "checkpoint_dir": "/home/user/my/harness-benchmark/results/realworld-opencode-x-preview-f-free-high-20260821-1928/thermo-nuclear-code-quality-review/run_1/scb/realworld/checkpoint_10",
+      "run_dir": "/home/user/my/harness-benchmark/results/realworld-opencode-x-preview-f-free-high-20260821-1928/thermo-nuclear-code-quality-review/run_1",
+      "snapshot_dir": "/home/user/my/harness-benchmark/results/realworld-opencode-x-preview-f-free-high-20260821-1928/thermo-nuclear-code-quality-review/run_1/scb/realworld/checkpoint_10/snapshot"
+    },
+    "post_fix_score": "0/1",
+    "problem": "realworld",
+    "provider": "opencode_auth",
+    "resumed": false,
+    "root_cause": null,
+    "run_index": 1,
+    "source": "rework",
+    "thinking": "high",
+    "total_counts": {
+      "Core": 1,
+      "Error": 0,
+      "Functionality": 0,
+      "Regression": 0
+    }
+  },
+  {
+    "agent": "opencode",
+    "agent_version": "1.14.33",
+    "arm": "thermo-nuclear-code-quality-review",
+    "attempts": [
+      {
+        "attempt": 1,
+        "duration": 13.881701946258545,
+        "failed_tests": [
+          "test_personalized_feed_membership_projection_pagination_and_metadata"
+        ],
+        "infrastructure_failure": false,
+        "pass_counts": {
+          "Core": 1,
+          "Error": 0,
+          "Functionality": 0,
+          "Regression": 0
+        },
+        "passed_policy": false,
+        "total_counts": {
+          "Core": 2,
+          "Error": 0,
+          "Functionality": 0,
+          "Regression": 0
+        }
+      },
+      {
+        "attempt": 2,
+        "duration": 15.487081289291382,
+        "failed_tests": [
+          "test_personalized_feed_membership_projection_pagination_and_metadata"
+        ],
+        "infrastructure_failure": false,
+        "pass_counts": {
+          "Core": 1,
+          "Error": 0,
+          "Functionality": 0,
+          "Regression": 0
+        },
+        "passed_policy": false,
+        "total_counts": {
+          "Core": 2,
+          "Error": 0,
+          "Functionality": 0,
+          "Regression": 0
+        }
+      },
+      {
+        "attempt": 3,
+        "duration": 14.385915994644165,
+        "failed_tests": [
+          "test_personalized_feed_membership_projection_pagination_and_metadata"
+        ],
+        "infrastructure_failure": false,
+        "pass_counts": {
+          "Core": 1,
+          "Error": 0,
+          "Functionality": 0,
+          "Regression": 0
+        },
+        "passed_policy": false,
+        "total_counts": {
+          "Core": 2,
+          "Error": 0,
+          "Functionality": 0,
+          "Regression": 0
+        }
+      },
+      {
+        "attempt": 4,
+        "duration": 11.845554828643799,
+        "failed_tests": [
+          "test_personalized_feed_membership_projection_pagination_and_metadata"
+        ],
+        "infrastructure_failure": false,
+        "pass_counts": {
+          "Core": 1,
+          "Error": 0,
+          "Functionality": 0,
+          "Regression": 0
+        },
+        "passed_policy": false,
+        "total_counts": {
+          "Core": 2,
+          "Error": 0,
+          "Functionality": 0,
+          "Regression": 0
+        }
+      }
+    ],
+    "attempts_total": 4,
+    "checkpoint": "checkpoint_12",
+    "date": "2026-08-21T21:21:46.759672+00:00",
+    "experiment_id": "realworld-opencode-x-preview-f-free-high-20260821-1928",
+    "failed_tests": [
+      "test_personalized_feed_membership_projection_pagination_and_metadata"
+    ],
+    "fix": "rework",
+    "fixed": false,
+    "harness": "thermo-nuclear-code-quality-review",
+    "infrastructure_failure": false,
+    "model": "x-preview-f-free",
+    "pass_counts": {
+      "Core": 1,
+      "Error": 0,
+      "Functionality": 0,
+      "Regression": 0
+    },
+    "paths": {
+      "checkpoint_dir": "/home/user/my/harness-benchmark/results/realworld-opencode-x-preview-f-free-high-20260821-1928/thermo-nuclear-code-quality-review/run_1/scb/realworld/checkpoint_12",
+      "run_dir": "/home/user/my/harness-benchmark/results/realworld-opencode-x-preview-f-free-high-20260821-1928/thermo-nuclear-code-quality-review/run_1",
+      "snapshot_dir": "/home/user/my/harness-benchmark/results/realworld-opencode-x-preview-f-free-high-20260821-1928/thermo-nuclear-code-quality-review/run_1/scb/realworld/checkpoint_12/snapshot"
+    },
+    "post_fix_score": "1/2",
+    "problem": "realworld",
+    "provider": "opencode_auth",
+    "resumed": false,
+    "root_cause": null,
+    "run_index": 1,
+    "source": "rework",
+    "thinking": "high",
+    "total_counts": {
+      "Core": 2,
+      "Error": 0,
+      "Functionality": 0,
+      "Regression": 0
+    }
+  },
+  {
+    "agent": "opencode",
+    "agent_version": "1.14.33",
+    "arm": "thermo-nuclear-code-quality-review",
+    "attempts": [
+      {
+        "attempt": 1,
+        "duration": 12.202929496765137,
+        "failed_tests": [
+          "test_comments_lifecycle_selective_delete_and_persistence"
+        ],
+        "infrastructure_failure": false,
+        "pass_counts": {
+          "Core": 1,
+          "Error": 0,
+          "Functionality": 0,
+          "Regression": 0
+        },
+        "passed_policy": false,
+        "total_counts": {
+          "Core": 2,
+          "Error": 0,
+          "Functionality": 0,
+          "Regression": 0
+        }
+      },
+      {
+        "attempt": 2,
+        "duration": 11.572307348251343,
+        "failed_tests": [
+          "test_comments_lifecycle_selective_delete_and_persistence"
+        ],
+        "infrastructure_failure": false,
+        "pass_counts": {
+          "Core": 1,
+          "Error": 0,
+          "Functionality": 0,
+          "Regression": 0
+        },
+        "passed_policy": false,
+        "total_counts": {
+          "Core": 2,
+          "Error": 0,
+          "Functionality": 0,
+          "Regression": 0
+        }
+      },
+      {
+        "attempt": 3,
+        "duration": 11.886622667312622,
+        "failed_tests": [
+          "test_comments_lifecycle_selective_delete_and_persistence"
+        ],
+        "infrastructure_failure": false,
+        "pass_counts": {
+          "Core": 1,
+          "Error": 0,
+          "Functionality": 0,
+          "Regression": 0
+        },
+        "passed_policy": false,
+        "total_counts": {
+          "Core": 2,
+          "Error": 0,
+          "Functionality": 0,
+          "Regression": 0
+        }
+      },
+      {
+        "attempt": 4,
+        "duration": 11.200703620910645,
+        "failed_tests": [
+          "test_comments_lifecycle_selective_delete_and_persistence"
+        ],
+        "infrastructure_failure": false,
+        "pass_counts": {
+          "Core": 1,
+          "Error": 0,
+          "Functionality": 0,
+          "Regression": 0
+        },
+        "passed_policy": false,
+        "total_counts": {
+          "Core": 2,
+          "Error": 0,
+          "Functionality": 0,
+          "Regression": 0
+        }
+      }
+    ],
+    "attempts_total": 4,
+    "checkpoint": "checkpoint_13",
+    "date": "2026-08-21T21:21:46.760144+00:00",
+    "experiment_id": "realworld-opencode-x-preview-f-free-high-20260821-1928",
+    "failed_tests": [
+      "test_comments_lifecycle_selective_delete_and_persistence"
+    ],
+    "fix": "rework",
+    "fixed": false,
+    "harness": "thermo-nuclear-code-quality-review",
+    "infrastructure_failure": false,
+    "model": "x-preview-f-free",
+    "pass_counts": {
+      "Core": 1,
+      "Error": 0,
+      "Functionality": 0,
+      "Regression": 0
+    },
+    "paths": {
+      "checkpoint_dir": "/home/user/my/harness-benchmark/results/realworld-opencode-x-preview-f-free-high-20260821-1928/thermo-nuclear-code-quality-review/run_1/scb/realworld/checkpoint_13",
+      "run_dir": "/home/user/my/harness-benchmark/results/realworld-opencode-x-preview-f-free-high-20260821-1928/thermo-nuclear-code-quality-review/run_1",
+      "snapshot_dir": "/home/user/my/harness-benchmark/results/realworld-opencode-x-preview-f-free-high-20260821-1928/thermo-nuclear-code-quality-review/run_1/scb/realworld/checkpoint_13/snapshot"
+    },
+    "post_fix_score": "1/2",
+    "problem": "realworld",
+    "provider": "opencode_auth",
+    "resumed": false,
+    "root_cause": null,
+    "run_index": 1,
+    "source": "rework",
+    "thinking": "high",
+    "total_counts": {
+      "Core": 2,
+      "Error": 0,
+      "Functionality": 0,
+      "Regression": 0
+    }
   }
 ]

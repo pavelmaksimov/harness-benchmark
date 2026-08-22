@@ -2,7 +2,7 @@
   "agent": "opencode",
   "agent_version": "1.14.33",
   "arms": {},
-  "date": "2026-08-21T16:01:19.419445+00:00",
+  "date": "2026-08-21T16:57:21.471708+00:00",
   "deltas": {
     "checkpoints_passed": null,
     "checkpoints_total": null,
@@ -21,7 +21,7 @@
   },
   "experiment_id": "hc-opencode-oxalpha-high",
   "git_commits": {
-    "harness_benchmark": "74be22feaf0c5b3b747840ddec098219ed296280",
+    "harness_benchmark": "c12cb67e6e73cb601dc9002a8c9d6f206792f997",
     "scb_problems": "ef6a9dd13911566b6b01075ca121758c9f7b5c5f",
     "slop_code_bench": "06b5c0687d4c05ee502e9696a4d0c22fc1eec5e0"
   },

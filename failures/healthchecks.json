@@ -76,7 +76,7 @@
     ],
     "attempts_total": 3,
     "checkpoint": "checkpoint_5",
-    "date": "2026-08-21T16:01:19.457400+00:00",
+    "date": "2026-08-21T16:57:21.544173+00:00",
     "experiment_id": "hc-opencode-oxalpha-high",
     "failed_tests": [
       "test_exhausted_one_shot_oncalendar_stays_up",
@@ -197,7 +197,7 @@
     ],
     "attempts_total": 3,
     "checkpoint": "checkpoint_6",
-    "date": "2026-08-21T16:01:19.458075+00:00",
+    "date": "2026-08-21T16:57:21.564691+00:00",
     "experiment_id": "hc-opencode-oxalpha-high",
     "failed_tests": [
       "test_exhausted_one_shot_oncalendar_stays_up",
@@ -330,7 +330,7 @@
     ],
     "attempts_total": 3,
     "checkpoint": "checkpoint_10",
-    "date": "2026-08-21T16:01:19.458653+00:00",
+    "date": "2026-08-21T16:57:21.565806+00:00",
     "experiment_id": "hc-opencode-oxalpha-high",
     "failed_tests": [
       "test_email_subject_and_body_use_same_precedence",
@@ -474,7 +474,7 @@
     ],
     "attempts_total": 3,
     "checkpoint": "checkpoint_12",
-    "date": "2026-08-21T16:01:19.459212+00:00",
+    "date": "2026-08-21T16:57:21.566347+00:00",
     "experiment_id": "hc-opencode-oxalpha-high",
     "failed_tests": [
       "test_email_subject_and_body_use_same_precedence",
@@ -630,7 +630,7 @@
     ],
     "attempts_total": 3,
     "checkpoint": "checkpoint_13",
-    "date": "2026-08-21T16:01:19.459792+00:00",
+    "date": "2026-08-21T16:57:21.566820+00:00",
     "experiment_id": "hc-opencode-oxalpha-high",
     "failed_tests": [
       "test_email_subject_and_body_use_same_precedence",
@@ -798,7 +798,7 @@
     ],
     "attempts_total": 3,
     "checkpoint": "checkpoint_14",
-    "date": "2026-08-21T16:01:19.460366+00:00",
+    "date": "2026-08-21T16:57:21.567276+00:00",
     "experiment_id": "hc-opencode-oxalpha-high",
     "failed_tests": [
       "test_email_subject_and_body_use_same_precedence",
@@ -978,7 +978,7 @@
     ],
     "attempts_total": 3,
     "checkpoint": "checkpoint_16",
-    "date": "2026-08-21T16:01:19.460914+00:00",
+    "date": "2026-08-21T16:57:21.567741+00:00",
     "experiment_id": "hc-opencode-oxalpha-high",
     "failed_tests": [
       "test_email_subject_and_body_use_same_precedence",
@@ -1170,7 +1170,7 @@
     ],
     "attempts_total": 3,
     "checkpoint": "checkpoint_17",
-    "date": "2026-08-21T16:01:19.461468+00:00",
+    "date": "2026-08-21T16:57:21.568200+00:00",
     "experiment_id": "hc-opencode-oxalpha-high",
     "failed_tests": [
       "test_email_subject_and_body_use_same_precedence",
@@ -1235,7 +1235,7 @@
     "attempts": [
       {
         "attempt": 1,
-        "duration": 29.9429292678833,
+        "duration": 28.025283813476562,
         "failed_tests": [
           "test_email_subject_and_body_use_same_precedence",
           "test_http_filtering_precedence_failure_success_start_default_fail",
@@ -1281,8 +1281,10 @@
       },
       {
         "attempt": 2,
-        "duration": 33.35923194885254,
+        "duration": 27.816616773605347,
         "failed_tests": [
+          "test_email_subject_and_body_use_same_precedence",
+          "test_http_filtering_precedence_failure_success_start_default_fail",
           "test_manual_resume_has_priority_over_filters",
           "test_post_only_method_filter_ignores_get_before_keywords",
           "test_copy_preserves_configuration_but_not_state_or_history",
@@ -1302,15 +1304,18 @@
           "test_signed_unsubscribe_disables_future_reports",
           "test_due_nag_is_cancelled_if_no_checks_down_at_claim_time",
           "test_due_nag_sends_only_down_checks_once_and_advances_from_due",
+          "test_first_down_schedules_nag_and_recovery_or_pause_clears_last_down",
+          "test_oncalendar_multiline_uses_earliest_occurrence",
+          "test_switching_schedule_kind_does_not_heal_down_check",
           "test_manual_resume_turns_lifecycle_pings_into_ignored_history",
           "test_pause_is_idempotent_and_resume_resets_monitoring_state"
         ],
         "infrastructure_failure": false,
         "pass_counts": {
-          "Core": 1,
+          "Core": 0,
           "Error": 0,
           "Functionality": 0,
-          "Regression": 37
+          "Regression": 33
         },
         "passed_policy": false,
         "total_counts": {
@@ -1322,8 +1327,10 @@
       },
       {
         "attempt": 3,
-        "duration": 34.89219903945923,
+        "duration": 27.592693567276,
         "failed_tests": [
+          "test_email_subject_and_body_use_same_precedence",
+          "test_http_filtering_precedence_failure_success_start_default_fail",
           "test_manual_resume_has_priority_over_filters",
           "test_post_only_method_filter_ignores_get_before_keywords",
           "test_copy_preserves_configuration_but_not_state_or_history",
@@ -1343,15 +1350,18 @@
           "test_signed_unsubscribe_disables_future_reports",
           "test_due_nag_is_cancelled_if_no_checks_down_at_claim_time",
           "test_due_nag_sends_only_down_checks_once_and_advances_from_due",
+          "test_first_down_schedules_nag_and_recovery_or_pause_clears_last_down",
+          "test_oncalendar_multiline_uses_earliest_occurrence",
+          "test_switching_schedule_kind_does_not_heal_down_check",
           "test_manual_resume_turns_lifecycle_pings_into_ignored_history",
           "test_pause_is_idempotent_and_resume_resets_monitoring_state"
         ],
         "infrastructure_failure": false,
         "pass_counts": {
-          "Core": 1,
+          "Core": 0,
           "Error": 0,
           "Functionality": 0,
-          "Regression": 37
+          "Regression": 33
         },
         "passed_policy": false,
         "total_counts": {
@@ -1364,9 +1374,11 @@
     ],
     "attempts_total": 3,
     "checkpoint": "checkpoint_18",
-    "date": "2026-08-21T16:01:19.462009+00:00",
+    "date": "2026-08-21T16:57:21.568753+00:00",
     "experiment_id": "hc-opencode-oxalpha-high",
     "failed_tests": [
+      "test_email_subject_and_body_use_same_precedence",
+      "test_http_filtering_precedence_failure_success_start_default_fail",
       "test_manual_resume_has_priority_over_filters",
       "test_post_only_method_filter_ignores_get_before_keywords",
       "test_copy_preserves_configuration_but_not_state_or_history",
@@ -1386,6 +1398,9 @@
       "test_signed_unsubscribe_disables_future_reports",
       "test_due_nag_is_cancelled_if_no_checks_down_at_claim_time",
       "test_due_nag_sends_only_down_checks_once_and_advances_from_due",
+      "test_first_down_schedules_nag_and_recovery_or_pause_clears_last_down",
+      "test_oncalendar_multiline_uses_earliest_occurrence",
+      "test_switching_schedule_kind_does_not_heal_down_check",
       "test_manual_resume_turns_lifecycle_pings_into_ignored_history",
       "test_pause_is_idempotent_and_resume_resets_monitoring_state"
     ],
@@ -1395,17 +1410,17 @@
     "infrastructure_failure": false,
     "model": "x-preview-f-free",
     "pass_counts": {
-      "Core": 1,
+      "Core": 0,
       "Error": 0,
       "Functionality": 0,
-      "Regression": 37
+      "Regression": 33
     },
     "paths": {
       "checkpoint_dir": "/home/user/my/harness-benchmark/results/hc-opencode-oxalpha-high/baseline/run_2/scb/healthchecks/checkpoint_18",
       "run_dir": "/home/user/my/harness-benchmark/results/hc-opencode-oxalpha-high/baseline/run_2",
       "snapshot_dir": "/home/user/my/harness-benchmark/results/hc-opencode-oxalpha-high/baseline/run_2/scb/healthchecks/checkpoint_18/snapshot"
     },
-    "post_fix_score": "38/59",
+    "post_fix_score": "33/59",
     "problem": "healthchecks",
     "provider": "opencode_auth",
     "resumed": false,

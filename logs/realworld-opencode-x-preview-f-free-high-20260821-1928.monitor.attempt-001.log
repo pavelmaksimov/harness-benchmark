@@ -1,0 +1,327 @@
+=== run-all × 1 jobs=5 agent=opencode provider=opencode_auth 
+model=x-preview-f-free thinking=high 
+arms=strictdoc,doorstop,ponytail,graphify,supermemory,tdd,thermo-nuclear-code-qu
+ality-review 
+experiment_id=realworld-opencode-x-preview-f-free-high-20260821-1928 ===
+REALWORLD — multi-harness
+
+N doorstop=1  graphify=1  ponytail=1  strictdoc=1  supermemory=1  tdd=1  
+thermo-nuclear-code-quality-review=1
+
+Metric                                           doorstop                       
+graphify                           ponytail                          strictdoc  
+supermemory                                tdd 
+thermo-nuclear-code-quality-review
+--------------------------------------------------------------------------------
+--------------------------------------------------------------------------------
+--------------------------------------------------------------------------------
+---------------------------
+CP passed/total                                     14/14                       
+14/14                              13/14                              14/14     
+14/14                              14/14                               6/14
+Regressions                                             0                       
+0                                  0                                  0         
+0                                  0                                  0
+Input tokens                                       383992                       
+591912                             294683                             431917    
+473208                             302511                             389073
+Output tokens                                       53534                       
+45805                              25333                              59943     
+48053                              40629                              69573
+Reasoning tokens                                     5622                       
+3624                               2042                               5821      
+5297                               3936                              23615
+Normalized cost                                     $0.00                       
+$0.00                              $0.00                              $0.00     
+$0.00                              $0.00                              $0.00
+Elapsed time                                        49.5m                       
+40.0m                              27.9m                              57.3m     
+33.2m                              31.6m                              71.0m
+Final LOC                                             727                       
+997                                495                                857       
+1032                               2613                                640
+Changed LOC                                           975                       
+1380                                484                               1102      
+1138                               2862                                287
+Files touched                                          26                       
+43                                 14                                 39        
+28                                 28                                 17
+Dependencies                                            5                       
+5                                  5                                  5         
+22                                  7                                  6
+Complexity                                            185                       
+178                                118                                192       
+211                                821                                101
+Rework attempts                                         5                       
+2                                  6                                 13         
+3                                  5                                 37
+Rework fixed                                            2                       
+1                                  1                                  5         
+1                                  2                                  2
+Rework unresolved                                       0                       
+0                                  1                                  0         
+0                                  0                                  8
+
+Δ vs baseline (mean):
+Metric                                           doorstop                       
+graphify                           ponytail                          strictdoc  
+supermemory                                tdd 
+thermo-nuclear-code-quality-review
+CP passed/total                                         -                       
+-                                  -                                  -         
+-                                  -                                  -
+Regressions                                             -                       
+-                                  -                                  -         
+-                                  -                                  -
+Input tokens                                            -                       
+-                                  -                                  -         
+-                                  -                                  -
+Output tokens                                           -                       
+-                                  -                                  -         
+-                                  -                                  -
+Reasoning tokens                                        -                       
+-                                  -                                  -         
+-                                  -                                  -
+Normalized cost                                         -                       
+-                                  -                                  -         
+-                                  -                                  -
+Elapsed time                                            -                       
+-                                  -                                  -         
+-                                  -                                  -
+Final LOC                                               -                       
+-                                  -                                  -         
+-                                  -                                  -
+Changed LOC                                             -                       
+-                                  -                                  -         
+-                                  -                                  -
+Files touched                                           -                       
+-                                  -                                  -         
+-                                  -                                  -
+Dependencies                                            -                       
+-                                  -                                  -         
+-                                  -                                  -
+Complexity                                              -                       
+-                                  -                                  -         
+-                                  -                                  -
+Rework attempts                                         -                       
+-                                  -                                  -         
+-                                  -                                  -
+Rework fixed                                            -                       
+-                                  -                                  -         
+-                                  -                                  -
+Rework unresolved                                       -                       
+-                                  -                                  -         
+-                                  -                                  -
+
+Per-checkpoint (raw):
+CP   Arm                                  Pass      Cost   Tokens     Time     
+LOCΔ   FilesΔ   Reg
+1    doorstop                             True         -    23159      246      
+139        6     0
+2    doorstop                             True         -    62966      135      
+126        3     0
+3    doorstop                             True         -    24137      352      
+58        1     0
+4    doorstop                             True         -    25670      144      
+61        3     0
+5    doorstop                             True         -    44260      138      
+118        2     0
+6    doorstop                             True         -    26062      440      
+16        1     0
+7    doorstop                             True         -    39066      280      
+72        1     0
+8    doorstop                             True         -    21008      274      
+4        1     0
+9    doorstop                             True         -    21727       92      
+92        2     0
+10   doorstop                             True         -    31870      128      
+66        1     0
+11   doorstop                             True         -    38811      238      
+65        1     0
+12   doorstop                             True         -    18415      119      
+39        1     0
+13   doorstop                             True         -    30850      258      
+106        2     0
+14   doorstop                             True         -    29525      129      
+13        1     0
+1    graphify                             True         -    34440      429      
+278       10     0
+2    graphify                             True         -    51277      509      
+99        6     0
+3    graphify                             True         -    14748       56      
+2        1     0
+4    graphify                             True         -    64110       92      
+124        6     0
+5    graphify                             True         -    78905      479      
+171        4     0
+6    graphify                             True         -    82779       53      
+35        1     0
+7    graphify                             True         -    78387       85      
+101        2     0
+8    graphify                             True         -    33923       84      
+24        1     0
+9    graphify                             True         -    35304      125      
+157        2     0
+10   graphify                             True         -    35361      106      
+109        2     0
+11   graphify                             True         -    61237      135      
+80        2     0
+12   graphify                             True         -     9013       47      
+26        1     0
+13   graphify                             True         -    28507      111      
+163        4     0
+14   graphify                             True         -    29726       89      
+11        1     0
+1    ponytail                             False        -    16718       45      
+0        0     0
+2    ponytail                             True         -    27777      398      
+13        1     0
+3    ponytail                             True         -    12576      113      
+49        1     0
+4    ponytail                             True         -     4671       54      
+20        1     0
+5    ponytail                             True         -    41131      258      
+89        1     0
+6    ponytail                             True         -    34602       24      
+9        1     0
+7    ponytail                             True         -    10285       81      
+33        2     0
+8    ponytail                             True         -    42984       41      
+15        1     0
+9    ponytail                             True         -    17558       88      
+56        1     0
+10   ponytail                             True         -    39603       61      
+42        1     0
+11   ponytail                             True         -    26930      375      
+50        1     0
+12   ponytail                             True         -    17865       51      
+27        1     0
+13   ponytail                             True         -    17050       58      
+74        1     0
+14   ponytail                             True         -    10266       28      
+7        1     0
+1    strictdoc                            True         -    28704      581      
+228        9     0
+2    strictdoc                            True         -    28445      226      
+124        7     0
+3    strictdoc                            True         -    30177      216      
+13        1     0
+4    strictdoc                            True         -    23016      186      
+73        4     0
+5    strictdoc                            True         -   101266      247      
+171        4     0
+6    strictdoc                            True         -    20281       75      
+14        1     0
+7    strictdoc                            True         -    30105      264      
+85        2     0
+8    strictdoc                            True         -    29640       73      
+18        1     0
+9    strictdoc                            True         -    30022      213      
+82        2     0
+10   strictdoc                            True         -    30323      328      
+87        1     0
+11   strictdoc                            True         -    35541      199      
+45        2     0
+12   strictdoc                            True         -    35336      274      
+33        1     0
+13   strictdoc                            True         -    34492      184      
+123        3     0
+14   strictdoc                            True         -    34512      375      
+6        1     0
+1    supermemory                          True         -    57034      247      
+17        3     0
+2    supermemory                          True         -    36755      283      
+113        3     0
+3    supermemory                          True         -    50596      117      
+110        2     0
+4    supermemory                          True         -    39340       85      
+76        3     0
+5    supermemory                          True         -    56805      223      
+182        3     0
+6    supermemory                          True         -    21149      103      
+60        1     0
+7    supermemory                          True         -    86802      249      
+96        1     0
+8    supermemory                          True         -    22477       97      
+23        1     0
+9    supermemory                          True         -    26707      110      
+102        2     0
+10   supermemory                          True         -    20441       74      
+94        2     0
+11   supermemory                          True         -    33662       91      
+80        1     0
+12   supermemory                          True         -    15111       58      
+27        1     0
+13   supermemory                          True         -    37938      206      
+142        3     0
+14   supermemory                          True         -    16444       51      
+16        2     0
+1    tdd                                  True         -    33062      235      
+195        2     0
+2    tdd                                  True         -    22961      106      
+307        2     0
+3    tdd                                  True         -    22909      112      
+324        2     0
+4    tdd                                  True         -    19741      132      
+130        2     0
+5    tdd                                  True         -    23062      186      
+93        2     0
+6    tdd                                  True         -    18892       68      
+116        2     0
+7    tdd                                  True         -    22496      109      
+271        2     0
+8    tdd                                  True         -    20067      101      
+107        2     0
+9    tdd                                  True         -    24410      145      
+272        2     0
+10   tdd                                  True         -    31727      151      
+244        2     0
+11   tdd                                  True         -    21464      118      
+205        2     0
+12   tdd                                  True         -    24031      174      
+194        2     0
+13   tdd                                  True         -    34329      154      
+318        2     0
+14   tdd                                  True         -    23989      107      
+86        2     0
+1    thermo-nuclear-code-quality-review   False        -    23441      171      
+13        2     0
+2    thermo-nuclear-code-quality-review   False        -    37365      560      
+15        1     0
+3    thermo-nuclear-code-quality-review   True         -    26293      202      
+64        2     0
+4    thermo-nuclear-code-quality-review   True         -    39319      129      
+48        3     0
+5    thermo-nuclear-code-quality-review   True         -    50140      480      
+16        3     0
+6    thermo-nuclear-code-quality-review   False        -    20427      404      
+0        0     0
+7    thermo-nuclear-code-quality-review   False        -     9600       83      
+0        0     0
+8    thermo-nuclear-code-quality-review   True         -    26411      192      
+33        1     0
+9    thermo-nuclear-code-quality-review   False        -    34567      514      
+0        0     0
+10   thermo-nuclear-code-quality-review   False        -    47764      506      
+13        1     0
+11   thermo-nuclear-code-quality-review   True         -    35327      237      
+74        2     0
+12   thermo-nuclear-code-quality-review   False        -    59035      533      
+0        0     0
+13   thermo-nuclear-code-quality-review   False        -    28655      199      
+0        0     0
+14   thermo-nuclear-code-quality-review   True         -    20302       47      
+11        2     0
+
+Stats per metric include mean/median/min/max/stddev in the JSON report.
+
+Wrote 
+/home/user/my/harness-benchmark/reports/realworld-opencode-x-preview-f-free-high
+-20260821-1928/comparison.txt and 
+/home/user/my/harness-benchmark/reports/realworld-opencode-x-preview-f-free-high
+-20260821-1928/comparison.json
+Published 
+/home/user/my/harness-benchmark/docs/reports/realworld-opencode-x-preview-f-free
+-high-20260821-1928.md, 
+/home/user/my/harness-benchmark/docs/reports/realworld-opencode-x-preview-f-free
+-high-20260821-1928.json, /home/user/my/harness-benchmark/docs/LEADERBOARD.md
