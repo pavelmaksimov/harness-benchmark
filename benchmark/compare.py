@@ -60,6 +60,19 @@ def _checkpoint_stage_token(
     value = usage.get(stage_key)
     if value is not None:
         return int(value)
+    if stage_key.startswith("transient_"):
+        if not checkpoint.get("rework"):
+            return 0
+        token_key = stage_key.replace("transient_", "", 1)
+        values = []
+        for attempt in (checkpoint.get("rework") or {}).get("attempts") or []:
+            if not isinstance(attempt, dict) or attempt.get("stage") != "transient_retry":
+                continue
+            usage = attempt.get("usage") or {}
+            attempt_value = usage.get(token_key)
+            if attempt_value is not None:
+                values.append(int(attempt_value))
+        return sum(values) if values else 0
     if stage_key.startswith("creation_") and not checkpoint.get("rework"):
         value = usage.get(total_key)
         return int(value) if value is not None else None
@@ -72,6 +85,30 @@ def _checkpoint_stage_token(
         if not checkpoint.get("rework"):
             return 0
     return None
+
+
+def _semantic_attempt_count(rework: dict[str, Any]) -> int:
+    attempts = [
+        attempt
+        for attempt in (rework.get("attempts") or [])
+        if isinstance(attempt, dict)
+    ]
+    if rework.get("semantic_attempts_total") is not None:
+        return int(rework.get("semantic_attempts_total") or 0)
+    if any(isinstance(attempt.get("stage"), str) for attempt in attempts):
+        return sum(1 for attempt in attempts if attempt.get("stage") != "transient_retry")
+    return int(rework.get("attempts_total") or len(attempts))
+
+
+def _transient_attempt_count(rework: dict[str, Any]) -> int:
+    attempts = [
+        attempt
+        for attempt in (rework.get("attempts") or [])
+        if isinstance(attempt, dict)
+    ]
+    if rework.get("transient_retries_total") is not None:
+        return int(rework.get("transient_retries_total") or 0)
+    return sum(1 for attempt in attempts if attempt.get("stage") == "transient_retry")
 
 
 def _sum_stage_tokens(
@@ -146,9 +183,51 @@ def _run_totals(run: dict[str, Any]) -> dict[str, Any]:
     rework_fixed = sum(1 for cp in reworked if cp["rework"].get("fixed"))
     rework_unresolved = len(reworked) - rework_fixed
     repeated_attempts = sum(
-        max(int((cp["rework"] or {}).get("attempts_total") or 0) - 1, 0)
+        max(_semantic_attempt_count(cp["rework"]) - 1, 0)
         for cp in reworked
     )
+    semantic_attempts_total = sum(
+        _semantic_attempt_count(cp["rework"])
+        for cp in reworked
+    )
+    transient_retries = sum(
+        _transient_attempt_count(cp["rework"])
+        for cp in reworked
+    )
+    provider_truncations = 0
+    transient_recoveries = 0
+    provider_truncation_unresolved = 0
+    for cp in reworked:
+        rework = cp["rework"] or {}
+        diagnostics = cp.get("attempt_diagnostics") or {}
+        recorded_truncations = rework.get("provider_truncation_attempts")
+        provider_truncations += (
+            int(recorded_truncations)
+            if recorded_truncations is not None
+            else int(diagnostics.get("provider_truncations") or 0)
+        )
+        recorded_recovered = rework.get("provider_truncation_recovered")
+        transient_recoveries += int(
+            bool(recorded_recovered)
+            if recorded_recovered is not None
+            else bool(diagnostics.get("transient_recovered"))
+        )
+        recorded_unresolved = rework.get("provider_truncation_unresolved")
+        provider_truncation_unresolved += int(
+            bool(recorded_unresolved)
+            if recorded_unresolved is not None
+            else bool(diagnostics.get("provider_truncation_unresolved"))
+        )
+    for cp in cps:
+        if cp.get("rework"):
+            continue
+        diagnostics = cp.get("attempt_diagnostics") or {}
+        provider_truncations += int(diagnostics.get("provider_truncations") or 0)
+        transient_retries += int(diagnostics.get("transient_retries") or 0)
+        transient_recoveries += int(bool(diagnostics.get("transient_recovered")))
+        provider_truncation_unresolved += int(
+            bool(diagnostics.get("provider_truncation_unresolved"))
+        )
     core_passed = _sum_known(cps, "correctness", "core_passed")
     core_failed = _sum_known(cps, "correctness", "core_failed")
     core_total = _sum_core_total(cps)
@@ -156,6 +235,8 @@ def _run_totals(run: dict[str, Any]) -> dict[str, Any]:
     creation_output_tokens = _sum_stage_tokens(cps, "creation_output_tokens", "output_tokens")
     rework_input_tokens = _sum_stage_tokens(cps, "rework_input_tokens", "input_tokens")
     rework_output_tokens = _sum_stage_tokens(cps, "rework_output_tokens", "output_tokens")
+    transient_input_tokens = _sum_stage_tokens(cps, "transient_input_tokens", "input_tokens")
+    transient_output_tokens = _sum_stage_tokens(cps, "transient_output_tokens", "output_tokens")
     input_tokens = _sum_known(cps, "usage", "input_tokens")
     output_tokens = _sum_known(cps, "usage", "output_tokens")
     reasoning = _sum_known(cps, "usage", "reasoning_tokens")
@@ -172,6 +253,8 @@ def _run_totals(run: dict[str, Any]) -> dict[str, Any]:
         "creation_output_tokens": creation_output_tokens,
         "rework_input_tokens": rework_input_tokens,
         "rework_output_tokens": rework_output_tokens,
+        "transient_input_tokens": transient_input_tokens,
+        "transient_output_tokens": transient_output_tokens,
         "total_input_tokens": input_tokens,
         "total_output_tokens": output_tokens,
         "reasoning_tokens": reasoning,
@@ -183,9 +266,15 @@ def _run_totals(run: dict[str, Any]) -> dict[str, Any]:
         "dependencies_added": deps_added,
         "complexity": (final.get("code") or {}).get("cyclomatic_complexity_total"),
         "rework_attempts": rework_attempts,
+        "semantic_attempts_total": semantic_attempts_total,
+        "semantic_rework_attempts": max(semantic_attempts_total - len(reworked), 0),
         "repeated_attempts": repeated_attempts,
         "rework_fixed": rework_fixed,
         "rework_unresolved": rework_unresolved,
+        "transient_retries": transient_retries,
+        "provider_truncations": provider_truncations,
+        "transient_recoveries": transient_recoveries,
+        "provider_truncation_unresolved": provider_truncation_unresolved,
         "excluded_from_comparison": bool(run.get("excluded_from_comparison")),
     }
 
@@ -213,6 +302,8 @@ def _state_summary(run: dict[str, Any]) -> dict[str, Any]:
         "model": state.get("model"),
         "thinking": state.get("thinking"),
         "rework_attempts": state.get("rework_attempts"),
+        "transient_retries": state.get("transient_retries"),
+        "feedback_strategy": state.get("feedback_strategy"),
     }
 
 
@@ -275,6 +366,8 @@ def compare_arms(by_arm: dict[str, list[dict[str, Any]]]) -> dict[str, Any]:
         "creation_output_tokens",
         "rework_input_tokens",
         "rework_output_tokens",
+        "transient_input_tokens",
+        "transient_output_tokens",
         "total_input_tokens",
         "total_output_tokens",
         "reasoning_tokens",
@@ -286,9 +379,15 @@ def compare_arms(by_arm: dict[str, list[dict[str, Any]]]) -> dict[str, Any]:
         "dependencies_added",
         "complexity",
         "rework_attempts",
+        "semantic_attempts_total",
+        "semantic_rework_attempts",
         "repeated_attempts",
         "rework_fixed",
         "rework_unresolved",
+        "transient_retries",
+        "provider_truncations",
+        "transient_recoveries",
+        "provider_truncation_unresolved",
     ]
 
     baseline_totals = totals.get("baseline", [])
@@ -342,6 +441,12 @@ def compare_arms(by_arm: dict[str, list[dict[str, Any]]]) -> dict[str, Any]:
                         "rework_output_tokens": _checkpoint_stage_token(
                             cp, "rework_output_tokens", "output_tokens"
                         ),
+                        "transient_input_tokens": _checkpoint_stage_token(
+                            cp, "transient_input_tokens", "input_tokens"
+                        ),
+                        "transient_output_tokens": _checkpoint_stage_token(
+                            cp, "transient_output_tokens", "output_tokens"
+                        ),
                         "input_tokens": cp.get("usage", {}).get("input_tokens"),
                         "output_tokens": cp.get("usage", {}).get("output_tokens"),
                         "cache_read_tokens": cp.get("usage", {}).get("cache_read_tokens"),
@@ -361,6 +466,7 @@ def compare_arms(by_arm: dict[str, list[dict[str, Any]]]) -> dict[str, Any]:
                         "files_delta": cp.get("change", {}).get("files_touched"),
                         "regressions": cp.get("correctness", {}).get("regression_failed"),
                         "rework": cp.get("rework"),
+                        "attempt_diagnostics": cp.get("attempt_diagnostics"),
                     }
                 )
 
@@ -392,6 +498,7 @@ def format_comparison_report(comparison: dict[str, Any], problem: str = "file_ba
     lines.append("N " + "  ".join(n_parts))
     lines.append("Failed checkpoints includes checkpoints repaired by rework.")
     lines.append("Rework tokens are All tokens minus Creation tokens when per-attempt usage is unavailable.")
+    lines.append("Transient retries are separate from semantic rework and require high-confidence truncation signals.")
     excluded = comparison.get("excluded_runs") or {}
     excluded_bits = [f"{arm}={n}" for arm, n in excluded.items() if n]
     if excluded_bits:
@@ -410,6 +517,8 @@ def format_comparison_report(comparison: dict[str, Any], problem: str = "file_ba
         "creation_output_tokens": "Creation output tokens",
         "rework_input_tokens": "Rework input tokens",
         "rework_output_tokens": "Rework output tokens",
+        "transient_input_tokens": "Transient input tokens",
+        "transient_output_tokens": "Transient output tokens",
         "total_input_tokens": "All input tokens",
         "total_output_tokens": "All output tokens",
         "reasoning_tokens": "Reasoning tokens",
@@ -420,9 +529,14 @@ def format_comparison_report(comparison: dict[str, Any], problem: str = "file_ba
         "files_touched": "Files touched",
         "dependencies_added": "Dependencies",
         "complexity": "Complexity",
+        "semantic_rework_attempts": "Semantic rework attempts",
         "repeated_attempts": "Repeated attempts",
         "rework_fixed": "Rework fixed",
         "rework_unresolved": "Rework unresolved",
+        "transient_retries": "Transient retries",
+        "provider_truncations": "Provider truncations",
+        "transient_recoveries": "Transient recoveries",
+        "provider_truncation_unresolved": "Truncations unresolved",
     }
 
     col_w = max(12, max((len(a) for a in arms), default=12))
@@ -442,6 +556,8 @@ def format_comparison_report(comparison: dict[str, Any], problem: str = "file_ba
             "creation_output_tokens",
             "rework_input_tokens",
             "rework_output_tokens",
+            "transient_input_tokens",
+            "transient_output_tokens",
             "total_input_tokens",
             "total_output_tokens",
             "reasoning_tokens",
@@ -481,16 +597,20 @@ def format_comparison_report(comparison: dict[str, Any], problem: str = "file_ba
     lines.append("Per-checkpoint (raw):")
     lines.append(
         f"{'CP':<4} {'Arm':<36} {'Pass':<5} {'Create In':>10} {'Create Out':>10} "
-        f"{'Rework In':>10} {'Rework Out':>10} {'All In':>10} {'All Out':>10} "
+        f"{'Rework In':>10} {'Rework Out':>10} {'Transient In':>10} {'Transient Out':>10} "
+        f"{'All In':>10} {'All Out':>10} "
         f"{'Cost':>8} {'Time':>8} {'LOCΔ':>8} {'FilesΔ':>8} {'Reg':>5} {'Repeat':>6}"
     )
     for row in comparison["per_checkpoint"]:
         rework = row.get("rework") or {}
-        repeated_attempts = max(int(rework.get("attempts_total") or 0) - 1, 0) if rework else 0
+        semantic_attempts = _semantic_attempt_count(rework) if rework else 0
+        repeated_attempts = max(semantic_attempts - 1, 0) if rework else 0
         creation_input = row.get("creation_input_tokens")
         creation_output = row.get("creation_output_tokens")
         rework_input = row.get("rework_input_tokens")
         rework_output = row.get("rework_output_tokens")
+        transient_input = row.get("transient_input_tokens")
+        transient_output = row.get("transient_output_tokens")
         all_input = row.get("input_tokens")
         all_output = row.get("output_tokens")
         cost = row.get("cost")
@@ -499,6 +619,8 @@ def format_comparison_report(comparison: dict[str, Any], problem: str = "file_ba
         creation_output_text = "-" if creation_output is None else f"{int(creation_output):,}"
         rework_input_text = "-" if rework_input is None else f"{int(rework_input):,}"
         rework_output_text = "-" if rework_output is None else f"{int(rework_output):,}"
+        transient_input_text = "-" if transient_input is None else f"{int(transient_input):,}"
+        transient_output_text = "-" if transient_output is None else f"{int(transient_output):,}"
         all_input_text = "-" if all_input is None else f"{int(all_input):,}"
         all_output_text = "-" if all_output is None else f"{int(all_output):,}"
         cost_text = "-" if cost is None else f"{float(cost):.2f}"
@@ -509,6 +631,8 @@ def format_comparison_report(comparison: dict[str, Any], problem: str = "file_ba
             f"{creation_output_text:>10} "
             f"{rework_input_text:>10} "
             f"{rework_output_text:>10} "
+            f"{transient_input_text:>12} "
+            f"{transient_output_text:>13} "
             f"{all_input_text:>10} "
             f"{all_output_text:>10} "
             f"{cost_text:>8} "

@@ -50,13 +50,22 @@ def _maybe_install_rework_hook() -> None:
     try:
         attempts = int(raw)
     except ValueError:
-        return
-    if attempts <= 0:
+        attempts = 0
+    transient_raw = os.environ.get("HB_TRANSIENT_RETRIES", "0") or "0"
+    try:
+        transient_retries = int(transient_raw)
+    except ValueError:
+        transient_retries = 0
+    if attempts <= 0 and transient_retries <= 0:
         return
     try:
         from benchmark.rework_hook import install_rework_hook
 
-        install_rework_hook(attempts)
+        install_rework_hook(
+            attempts,
+            transient_retries=transient_retries,
+            feedback_strategy=os.environ.get("HB_REWORK_FEEDBACK"),
+        )
     except Exception as exc:  # noqa: BLE001
         print(f"[hb] rework hook install failed: {exc}", file=sys.stderr)
 

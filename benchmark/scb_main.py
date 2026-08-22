@@ -22,7 +22,13 @@ def main() -> None:
 
         install_skill_hook()
 
-    from benchmark.rework_hook import HB_REWORK_ATTEMPTS, install_rework_hook
+    from benchmark.rework_hook import (
+        DEFAULT_FEEDBACK_STRATEGY,
+        HB_REWORK_ATTEMPTS,
+        HB_REWORK_FEEDBACK,
+        HB_TRANSIENT_RETRIES,
+        install_rework_hook,
+    )
     from benchmark.continue_hook import install_continue_after_test_failure
 
     install_continue_after_test_failure()
@@ -30,8 +36,17 @@ def main() -> None:
         rework_attempts = int(os.environ.get(HB_REWORK_ATTEMPTS, "0") or "0")
     except ValueError:
         rework_attempts = 0
-    if rework_attempts > 0:
-        install_rework_hook(rework_attempts)
+    try:
+        transient_retries = int(os.environ.get(HB_TRANSIENT_RETRIES, "0") or "0")
+    except ValueError:
+        transient_retries = 0
+    feedback_strategy = os.environ.get(HB_REWORK_FEEDBACK, DEFAULT_FEEDBACK_STRATEGY)
+    if rework_attempts > 0 or transient_retries > 0:
+        install_rework_hook(
+            rework_attempts,
+            transient_retries=transient_retries,
+            feedback_strategy=feedback_strategy,
+        )
 
     # Ensure agent registrations load.
     import slop_code.agent_runner.agents  # noqa: F401

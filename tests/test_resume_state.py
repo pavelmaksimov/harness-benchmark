@@ -281,6 +281,13 @@ def test_verify_selection_reports_mismatch():
     assert mismatches == ["model: run='gpt-x' requested='other'"]
 
 
+def test_feedback_v1_normalizes_to_legacy_strategy():
+    assert (
+        scb_run._resolve_feedback_strategy("v1", None)
+        == scb_run.LEGACY_FEEDBACK_STRATEGY
+    )
+
+
 def test_run_dirs_uses_run_suffixes(tmp_path):
     (tmp_path / "baseline" / "run_10").mkdir(parents=True)
     (tmp_path / "baseline" / "run_2").mkdir()
@@ -491,6 +498,27 @@ def test_resume_restores_rework_attempts(results, fake):
     assert fake.environments[-1]["HB_REWORK_ATTEMPTS"] == "0"
 
 
+def test_resume_restores_transient_and_feedback_settings(results, fake):
+    fake.plan = [_crash_step]
+    exp = "exp-transient-settings"
+    with pytest.raises(RuntimeError, match="slop-code run failed"):
+        scb_run.run_one(
+            arm="baseline",
+            problem=PROBLEM,
+            experiment_id=exp,
+            rework_attempts=0,
+            transient_retries=1,
+            feedback_strategy="all-failures",
+        )
+    state = resume_state.load_state(results / exp / "baseline" / "run_1")
+    assert state["transient_retries"] == 1
+    assert state["feedback_strategy"] == "all-failures"
+
+    fake.plan = [_finish_step]
+    scb_run.run_one(arm="baseline", problem=PROBLEM, experiment_id=exp, resume=True)
+    assert fake.environments[-1]["HB_TRANSIENT_RETRIES"] == "1"
+
+
 def test_resume_rejects_explicit_rework_change(results, fake):
     fake.plan = [_crash_step]
     exp = "exp-rework-mismatch"
@@ -508,6 +536,27 @@ def test_resume_rejects_explicit_rework_change(results, fake):
             experiment_id=exp,
             resume=True,
             rework_attempts=1,
+        )
+
+
+def test_resume_rejects_explicit_transient_change(results, fake):
+    fake.plan = [_crash_step]
+    exp = "exp-transient-mismatch"
+    with pytest.raises(RuntimeError, match="slop-code run failed"):
+        scb_run.run_one(
+            arm="baseline",
+            problem=PROBLEM,
+            experiment_id=exp,
+            rework_attempts=0,
+            transient_retries=1,
+        )
+    with pytest.raises(ValueError, match="transient_retries"):
+        scb_run.run_one(
+            arm="baseline",
+            problem=PROBLEM,
+            experiment_id=exp,
+            resume=True,
+            transient_retries=2,
         )
 
 

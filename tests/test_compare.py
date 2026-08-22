@@ -78,6 +78,60 @@ def test_compare_exposes_stage_tokens_and_raw_core_details() -> None:
     assert checkpoint["output_tokens"] == 37
 
 
+def test_compare_separates_transient_dimensions() -> None:
+    run = {
+        "run_id": "run-1",
+        "arm": "baseline",
+        "checkpoints": [
+            {
+                "checkpoint": 1,
+                "correctness": {
+                    "checkpoint_success": True,
+                    "core_passed": 1,
+                    "core_failed": 0,
+                    "core_total": 1,
+                },
+                "usage": {
+                    "input_tokens": 101,
+                    "output_tokens": 33,
+                    "creation_input_tokens": 70,
+                    "creation_output_tokens": 20,
+                    "rework_input_tokens": 20,
+                    "rework_output_tokens": 8,
+                    "transient_input_tokens": 11,
+                    "transient_output_tokens": 5,
+                    "normalized_cost_usd": 0.15,
+                    "elapsed_seconds": 7.0,
+                },
+                "change": {"lines_changed": 0, "files_touched": 0},
+                "code": {"dependencies_added": 0},
+                "rework": {
+                    "attempts_total": 3,
+                    "semantic_attempts_total": 2,
+                    "transient_retries_total": 1,
+                    "provider_truncation_attempts": 1,
+                    "provider_truncation_recovered": True,
+                    "provider_truncation_unresolved": False,
+                    "fixed": True,
+                    "attempts": [],
+                },
+            }
+        ],
+    }
+
+    comparison = compare_arms({"baseline": [run]})
+    totals = comparison["raw_totals"]["baseline"][0]
+    text = format_comparison_report(comparison)
+
+    assert totals["transient_retries"] == 1
+    assert totals["provider_truncations"] == 1
+    assert totals["transient_recoveries"] == 1
+    assert totals["provider_truncation_unresolved"] == 0
+    assert "Transient retries" in text
+    assert "Provider truncations" in text
+    assert "Transient input tokens" in text
+
+
 def test_comparison_report_renders_rework_attempt_metrics() -> None:
     run = {
         "run_id": "run-1",
@@ -218,6 +272,8 @@ def test_incomplete_state_is_reported_but_not_averaged(tmp_path: Path) -> None:
             "model": None,
             "thinking": None,
             "rework_attempts": None,
+            "transient_retries": None,
+            "feedback_strategy": None,
         },
         {
             "run_index": 3,
@@ -230,5 +286,7 @@ def test_incomplete_state_is_reported_but_not_averaged(tmp_path: Path) -> None:
             "model": None,
             "thinking": None,
             "rework_attempts": None,
+            "transient_retries": None,
+            "feedback_strategy": None,
         },
     ]
