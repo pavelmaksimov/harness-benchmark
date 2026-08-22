@@ -1,0 +1,43 @@
+{
+  "arm": "combo-supermemory-graphify-ponytail-thermo-nuclear-code-quality-review",
+  "checkpoints": [
+    "checkpoint_1"
+  ],
+  "checkpoints_completed": [
+    1
+  ],
+  "exclude_dir_names": [
+    ".git",
+    ".mypy_cache",
+    ".pytest_cache",
+    ".ruff_cache",
+    ".tox",
+    ".venv",
+    "__pycache__",
+    "build",
+    "dist",
+    "doorstop-docs",
+    "graphify-out",
+    "node_modules",
+    "strictdoc-docs",
+    "venv"
+  ],
+  "experiment_id": "smoke-combo-full-realworld-20260822",
+  "harness_activation_verified": true,
+  "harness_content_sha": "f0ccc1af109ef9ff91f33e71a195b0d3d8ae3132d8b66ea56c473d3ec4e547a9",
+  "ok": true,
+  "problem": "realworld",
+  "run_dir": "/home/user/my/harness-benchmark/results/smoke-combo-full-realworld-20260822/combo-supermemory-graphify-ponytail-thermo-nuclear-code-quality-review/run_1",
+  "snapshot": {
+    "already_excluded": [],
+    "needs_exclude_review": [],
+    "top_level": [
+      "realworld_app",
+      "requirements.txt"
+    ],
+    "top_level_dirs": [
+      "realworld_app"
+    ]
+  },
+  "validated_at": "2026-08-22T10:03:43.414403+00:00"
+}

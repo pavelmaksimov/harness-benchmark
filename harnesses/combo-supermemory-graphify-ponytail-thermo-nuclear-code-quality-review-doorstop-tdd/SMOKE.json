@@ -1,0 +1,52 @@
+{
+  "arm": "combo-supermemory-graphify-ponytail-thermo-nuclear-code-quality-review-doorstop-tdd",
+  "checkpoints": [
+    "checkpoint_1"
+  ],
+  "checkpoints_completed": [
+    1
+  ],
+  "exclude_dir_names": [
+    ".git",
+    ".mypy_cache",
+    ".pytest_cache",
+    ".ruff_cache",
+    ".tox",
+    ".venv",
+    "__pycache__",
+    "build",
+    "dist",
+    "doorstop-docs",
+    "graphify-out",
+    "node_modules",
+    "strictdoc-docs",
+    "venv"
+  ],
+  "experiment_id": "smoke-combo-full-realworld-20260822",
+  "harness_activation_verified": true,
+  "harness_content_sha": "8b31b6cdd352a2de1c5cafdd2f0e2b0c199cc64a1f5f51b40137661b58c76829",
+  "ok": true,
+  "problem": "realworld",
+  "run_dir": "/home/user/my/harness-benchmark/results/smoke-combo-full-realworld-20260822/combo-supermemory-graphify-ponytail-thermo-nuclear-code-quality-review-doorstop-tdd/run_1",
+  "snapshot": {
+    "already_excluded": [
+      ".git",
+      "doorstop-docs"
+    ],
+    "needs_exclude_review": [],
+    "top_level": [
+      ".git",
+      "doorstop-docs",
+      "realworld_app",
+      "requirements.txt",
+      "tests"
+    ],
+    "top_level_dirs": [
+      ".git",
+      "doorstop-docs",
+      "realworld_app",
+      "tests"
+    ]
+  },
+  "validated_at": "2026-08-22T09:44:00.252988+00:00"
+}

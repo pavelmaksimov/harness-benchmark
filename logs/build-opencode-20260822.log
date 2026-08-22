@@ -1,0 +1,24 @@
+Starting Slop Code CLI
+	Seed: 42
+	Verbose: 0
+--------------------------------
+[2m2026-08-22 09:22:37[0m [[32m[1minfo     [0m] [1mBuilding base image for environment 'python3.12' base_image='ghcr.io/astral-sh/uv:python3.12-trixie-slim' image_name='slop-code:python3.12'[0m
+[2m2026-08-22 09:22:37[0m [[32m[1minfo     [0m] [1mChecking if image exists image_name='slop-code:python3.12'[0m
+[2m2026-08-22 09:22:37[0m [[32m[1minfo     [0m] [1mImage does not exist image_name='slop-code:python3.12'[0m
+[2m2026-08-22 09:22:37[0m [[32m[1minfo     [0m] [1mBuilding image image_name='slop-code:python3.12'[0m
+[2m2026-08-22 09:29:32[0m [[32m[1minfo     [0m] [1mFinished building image image_id='sha256:e7b83b19ca1cc74632d1be9aa58308021fb3b06d925634656e34ec223ad685f5' image_name='slop-code:python3.12'[0m
+Starting Slop Code CLI
+	Seed: 42
+	Verbose: 0
+--------------------------------
+[2m2026-08-22 09:29:33[0m [[32m[1minfo     [0m] [1mBuilding base image for environment 'python3.12' base_image='ghcr.io/astral-sh/uv:python3.12-trixie-slim' image_name='slop-code:python3.12'[0m
+[2m2026-08-22 09:29:33[0m [[32m[1minfo     [0m] [1mChecking if image exists image_name='slop-code:python3.12'[0m
+[2m2026-08-22 09:29:33[0m [[32m[1minfo     [0m] [1mFound current image and not forcing build[0m
+[2m2026-08-22 09:29:33[0m [[32m[1minfo     [0m] [1mChecking if image exists image_name='slop-code:opencode-1.14.33-python3.12'[0m
+[2m2026-08-22 09:29:33[0m [[32m[1minfo     [0m] [1mImage does not exist image_name='slop-code:opencode-1.14.33-python3.12'[0m
+[2m2026-08-22 09:29:33[0m [[32m[1minfo     [0m] [1mBuilding image image_name='slop-code:opencode-1.14.33-python3.12'[0m
+[2m2026-08-22 09:30:23[0m [[32m[1minfo     [0m] [1mFinished building image image_id='sha256:25646d68e99012ad629aec71d1e3b4e029e187948eebf0cc37609417342e2d08' image_name='slop-code:opencode-1.14.33-python3.12'[0m
+IMAGE                                         ID             DISK USAGE   CONTENT SIZE   EXTRA
+ghcr.io/astral-sh/uv:python3.12-trixie-slim   1c3b1ce7b376        176MB             0B        
+slop-code:opencode-1.14.33-python3.12         25646d68e990       5.11GB             0B        
+slop-code:python3.12                          e7b83b19ca1c       4.39GB             0B        

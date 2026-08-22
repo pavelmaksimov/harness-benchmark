@@ -1,0 +1,40 @@
+=== smoke CP1 arm=combo-supermemory-graphify agent=opencode 
+provider=opencode_auth model=x-preview-f-free thinking=high ===
+╭───────────────────── Traceback (most recent call last) ──────────────────────╮
+│ /home/user/my/harness-benchmark/benchmark/cli.py:126 in smoke_cmd            │
+│                                                                              │
+│   123 │   │   f"=== smoke CP{checkpoints} arm={arm} agent={agent}            │
+│       provider={provider} "                                                  │
+│   124 │   │   f"model={model} thinking={thinking} ==="                       │
+│   125 │   )                                                                  │
+│ ❱ 126 │   collected = run_smoke(                                             │
+│   127 │   │   arm=arm,                                                       │
+│   128 │   │   problem=problem,                                               │
+│   129 │   │   agent=agent,                                                   │
+│                                                                              │
+│ /home/user/my/harness-benchmark/benchmark/scb_run.py:883 in run_smoke        │
+│                                                                              │
+│    880 │   │   checkpoint_count=checkpoint_count,                            │
+│    881 │   )                                                                 │
+│    882 │                                                                     │
+│ ❱  883 │   collected = run_one(                                              │
+│    884 │   │   arm=arm,                                                      │
+│    885 │   │   problem=problem,                                              │
+│    886 │   │   thinking=thinking,                                            │
+│                                                                              │
+│ /home/user/my/harness-benchmark/benchmark/scb_run.py:718 in run_one          │
+│                                                                              │
+│    715 │   │   │   "(this run never started, or pass a different             │
+│        --experiment-id)"                                                     │
+│    716 │   │   )                                                             │
+│    717 │   if not resume and out_dir.exists():                               │
+│ ❱  718 │   │   raise ValueError(                                             │
+│    719 │   │   │   f"refusing to overwrite existing run {out_dir}; use       │
+│        --resume to continue "                                                │
+│    720 │   │   │   "it or choose a new --experiment-id/run index"            │
+│    721 │   │   )                                                             │
+╰──────────────────────────────────────────────────────────────────────────────╯
+ValueError: refusing to overwrite existing run 
+/home/user/my/harness-benchmark/results/smoke-combo-full-realworld-20260822/comb
+o-supermemory-graphify/run_1; use --resume to continue it or choose a new 
+--experiment-id/run index

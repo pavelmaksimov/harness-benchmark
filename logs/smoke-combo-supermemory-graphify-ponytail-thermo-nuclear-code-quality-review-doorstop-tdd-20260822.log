@@ -1,0 +1,11 @@
+=== smoke CP1 
+arm=combo-supermemory-graphify-ponytail-thermo-nuclear-code-quality-review-doors
+top-tdd agent=opencode provider=opencode_auth model=x-preview-f-free 
+thinking=high ===
+smoke_ok=True 
+marker=/home/user/my/harness-benchmark/harnesses/combo-supermemory-graphify-pony
+tail-thermo-nuclear-code-quality-review-doorstop-tdd/SMOKE.json
+activation_verified=True
+snapshot top-level dirs: ['.git', 'doorstop-docs', 'realworld_app', 'tests']
+No obvious new artifact dirs flagged for exclusion review.
+Smoke passed. Commit harnesses/<arm>/SMOKE.json after updating exclusions.
