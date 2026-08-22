@@ -5,6 +5,7 @@ import re
 from pathlib import Path
 from typing import Any
 
+from benchmark.attempt_diagnostics import diagnose_attempt
 from benchmark.cost import load_pricing, normalized_cost_usd
 from benchmark.arms import arm_includes
 from benchmark.dependencies import collect_dependencies, dependency_delta
@@ -72,6 +73,41 @@ def _sum_attempt_tokens(attempts: list[dict[str, Any]], *keys: str) -> int | Non
     return sum(values) if values else None
 
 
+def _attempt_stage(attempt: dict[str, Any], index: int | None = None) -> str:
+    stage = attempt.get("stage")
+    if isinstance(stage, str) and stage:
+        return stage
+    return "creation" if attempt.get("attempt") == 1 or index == 0 else "rework"
+
+
+def _attempt_metric(attempt: dict[str, Any], key: str) -> int | float | None:
+    usage = _attempt_usage(attempt)
+    if key == "reported_cost_usd":
+        value = usage.get("reported_cost_usd")
+        if value is None:
+            value = usage.get("cost")
+    else:
+        value = usage.get(key)
+    if value is None:
+        return None
+    try:
+        return float(value) if key in {"reported_cost_usd", "elapsed_seconds"} else int(value)
+    except (TypeError, ValueError):
+        return None
+
+
+def _complete_attempt_metric(
+    attempts: list[dict[str, Any]],
+    key: str,
+) -> int | float | None:
+    if not attempts:
+        return None
+    values = [_attempt_metric(attempt, key) for attempt in attempts]
+    if any(value is None for value in values):
+        return None
+    return sum(value for value in values if value is not None)
+
+
 def _stage_token_usage(
     rework: dict[str, Any] | None,
     checkpoint_usage: dict[str, int | None],
@@ -83,28 +119,39 @@ def _stage_token_usage(
             "creation_output_tokens": checkpoint_usage.get("output_tokens"),
             "rework_input_tokens": 0,
             "rework_output_tokens": 0,
+            "transient_input_tokens": 0,
+            "transient_output_tokens": 0,
         }
 
     attempts = [attempt for attempt in (rework.get("attempts") or []) if isinstance(attempt, dict)]
-    initial = attempts[:1]
-    additional = attempts[1:]
+    staged_attempts = [
+        (attempt, _attempt_stage(attempt, index))
+        for index, attempt in enumerate(attempts)
+    ]
+    initial = [attempt for attempt, stage in staged_attempts if stage == "creation"]
+    additional = [attempt for attempt, stage in staged_attempts if stage == "rework"]
+    transient = [attempt for attempt, stage in staged_attempts if stage == "transient_retry"]
     creation_input = _sum_attempt_tokens(initial, "input_tokens", "input")
     creation_output = _sum_attempt_tokens(initial, "output_tokens", "output")
     rework_input = _sum_attempt_tokens(additional, "input_tokens", "input")
     rework_output = _sum_attempt_tokens(additional, "output_tokens", "output")
+    transient_input = _sum_attempt_tokens(transient, "input_tokens", "input")
+    transient_output = _sum_attempt_tokens(transient, "output_tokens", "output")
     if rework_input is None and creation_input is not None:
         total = checkpoint_usage.get("input_tokens")
         if total is not None and total >= creation_input:
-            rework_input = total - creation_input
+            rework_input = total - creation_input - (transient_input or 0)
     if rework_output is None and creation_output is not None:
         total = checkpoint_usage.get("output_tokens")
         if total is not None and total >= creation_output:
-            rework_output = total - creation_output
+            rework_output = total - creation_output - (transient_output or 0)
     return {
         "creation_input_tokens": creation_input,
         "creation_output_tokens": creation_output,
         "rework_input_tokens": rework_input,
         "rework_output_tokens": rework_output,
+        "transient_input_tokens": transient_input,
+        "transient_output_tokens": transient_output,
     }
 
 
@@ -227,15 +274,77 @@ def collect_checkpoint_record(
     inference = _read_json(checkpoint_dir / "inference_result.json") or {}
     evaluation = _read_json(checkpoint_dir / "evaluation.json")
     diff = _read_json(checkpoint_dir / "diff.json")
+    rework = _read_json(checkpoint_dir / "rework.json")
     usage_raw = inference.get("usage") or {}
 
-    input_tokens = _token_field(usage_raw, "input_tokens", "input")
-    output_tokens = _token_field(usage_raw, "output_tokens", "output")
-    cache_read = _token_field(usage_raw, "cache_read_tokens", "cache_read")
-    cache_write = _token_field(usage_raw, "cache_write_tokens", "cache_write")
-    reasoning = _token_field(usage_raw, "reasoning_tokens", "reasoning")
-    steps = usage_raw.get("steps")
-    reported_cost = usage_raw.get("cost")
+    raw_usage = {
+        "input_tokens": _token_field(usage_raw, "input_tokens", "input"),
+        "output_tokens": _token_field(usage_raw, "output_tokens", "output"),
+        "cache_read_tokens": _token_field(usage_raw, "cache_read_tokens", "cache_read"),
+        "cache_write_tokens": _token_field(usage_raw, "cache_write_tokens", "cache_write"),
+        "reasoning_tokens": _token_field(usage_raw, "reasoning_tokens", "reasoning"),
+        "steps": usage_raw.get("steps"),
+        "elapsed_seconds": inference.get("elapsed"),
+        "reported_cost_usd": usage_raw.get("cost"),
+    }
+    attempts = [
+        attempt
+        for attempt in (rework or {}).get("attempts", [])
+        if isinstance(attempt, dict)
+    ]
+    attempt_usage = {
+        key: _complete_attempt_metric(attempts, key)
+        for key in (
+            "input_tokens",
+            "output_tokens",
+            "cache_read_tokens",
+            "cache_write_tokens",
+            "reasoning_tokens",
+            "steps",
+            "elapsed_seconds",
+            "reported_cost_usd",
+        )
+    }
+    input_tokens = (
+        attempt_usage["input_tokens"]
+        if attempt_usage["input_tokens"] is not None
+        else raw_usage["input_tokens"]
+    )
+    output_tokens = (
+        attempt_usage["output_tokens"]
+        if attempt_usage["output_tokens"] is not None
+        else raw_usage["output_tokens"]
+    )
+    cache_read = (
+        attempt_usage["cache_read_tokens"]
+        if attempt_usage["cache_read_tokens"] is not None
+        else raw_usage["cache_read_tokens"]
+    )
+    cache_write = (
+        attempt_usage["cache_write_tokens"]
+        if attempt_usage["cache_write_tokens"] is not None
+        else raw_usage["cache_write_tokens"]
+    )
+    reasoning = (
+        attempt_usage["reasoning_tokens"]
+        if attempt_usage["reasoning_tokens"] is not None
+        else raw_usage["reasoning_tokens"]
+    )
+    steps = (
+        attempt_usage["steps"]
+        if attempt_usage["steps"] is not None
+        else raw_usage["steps"]
+    )
+    elapsed_seconds = (
+        attempt_usage["elapsed_seconds"]
+        if attempt_usage["elapsed_seconds"] is not None
+        else raw_usage["elapsed_seconds"]
+    )
+    reported_cost = (
+        attempt_usage["reported_cost_usd"]
+        if attempt_usage["reported_cost_usd"] is not None
+        else raw_usage["reported_cost_usd"]
+    )
     if reported_cost is not None:
         reported_cost = float(reported_cost)
 
@@ -279,7 +388,11 @@ def collect_checkpoint_record(
     dep_metrics = dependency_delta(prev_deps, deps)
     change = _diff_metrics(diff)
     activation = _activation_status(arm, checkpoint_dir)
-    rework = _read_json(checkpoint_dir / "rework.json")
+    final_diagnostics = diagnose_attempt(
+        checkpoint_dir,
+        inference=inference,
+        evaluation=evaluation or {},
+    )
     stage_tokens = _stage_token_usage(
         rework,
         {"input_tokens": input_tokens, "output_tokens": output_tokens},
@@ -299,7 +412,7 @@ def collect_checkpoint_record(
             "cache_write_tokens": cache_write,
             "reasoning_tokens": reasoning,
             "steps": int(steps) if steps is not None else None,
-            "elapsed_seconds": inference.get("elapsed"),
+            "elapsed_seconds": elapsed_seconds,
             "reported_cost_usd": reported_cost,
             "normalized_cost_usd": norm_cost,
             **stage_tokens,
@@ -339,9 +452,44 @@ def collect_checkpoint_record(
             "checkpoint_dir": str(checkpoint_dir),
             "snapshot_dir": str(snapshot_dir),
         },
+        "attempt_diagnostics": {
+            "provider_truncations": int(final_diagnostics.get("detected", False)),
+            "transient_retries": 0,
+            "transient_recovered": False,
+            "provider_truncation_unresolved": bool(
+                final_diagnostics.get("detected", False)
+            ),
+            "final": final_diagnostics,
+        },
     }
     if rework is not None:
+        recorded_truncations = rework.get("provider_truncation_attempts")
+        provider_truncations = (
+            int(recorded_truncations)
+            if recorded_truncations is not None
+            else int(final_diagnostics.get("detected", False))
+        )
+        recorded_recovered = rework.get("provider_truncation_recovered")
+        transient_recovered = (
+            bool(recorded_recovered)
+            if recorded_recovered is not None
+            else False
+        )
+        recorded_unresolved = rework.get("provider_truncation_unresolved")
+        truncation_unresolved = (
+            bool(recorded_unresolved)
+            if recorded_unresolved is not None
+            else bool(final_diagnostics.get("detected", False))
+        )
         record["rework"] = rework
+        record["attempt_diagnostics"] = {
+            "provider_truncations": provider_truncations,
+            "transient_retries": int(rework.get("transient_retries_total") or 0),
+            "transient_recovered": transient_recovered,
+            "provider_truncation_unresolved": truncation_unresolved,
+            "feedback_strategy": rework.get("feedback_strategy"),
+            "final": final_diagnostics,
+        }
     return record, deps
 
 
@@ -396,6 +544,8 @@ def _cumulative_metrics(records: list[dict[str, Any]]) -> dict[str, Any]:
         "creation_output_tokens": 0,
         "rework_input_tokens": 0,
         "rework_output_tokens": 0,
+        "transient_input_tokens": 0,
+        "transient_output_tokens": 0,
         "cache_read_tokens": 0,
         "cache_write_tokens": 0,
         "reasoning_tokens": 0,
@@ -410,6 +560,12 @@ def _cumulative_metrics(records: list[dict[str, Any]]) -> dict[str, Any]:
         "checkpoints_failed": 0,
         "checkpoints_total": 0,
         "repeated_attempts": 0,
+        "semantic_attempts_total": 0,
+        "semantic_rework_attempts": 0,
+        "transient_retries": 0,
+        "provider_truncations": 0,
+        "transient_recoveries": 0,
+        "provider_truncation_unresolved": 0,
         "core_passed": 0,
         "core_failed": 0,
         "core_total": 0,
@@ -443,9 +599,87 @@ def _cumulative_metrics(records: list[dict[str, Any]]) -> dict[str, Any]:
             seen.add("checkpoints_failed")
         if checkpoint_success is not None:
             seen.update(("checkpoints_total", "checkpoints_passed"))
-        attempts_total = int(rework.get("attempts_total") or 0)
-        acc["repeated_attempts"] += max(attempts_total - 1, 0)
+        attempts = [
+            attempt
+            for attempt in (rework.get("attempts") or [])
+            if isinstance(attempt, dict)
+        ]
+        semantic_attempts = int(rework.get("semantic_attempts_total") or 0)
+        has_explicit_stages = any(
+            isinstance(attempt.get("stage"), str) for attempt in attempts
+        )
+        if not semantic_attempts and attempts:
+            semantic_attempts = (
+                sum(
+                    1
+                    for index, attempt in enumerate(attempts)
+                    if _attempt_stage(attempt, index) != "transient_retry"
+                )
+                if has_explicit_stages
+                else int(rework.get("attempts_total") or len(attempts))
+            )
+        transient_retries = int(rework.get("transient_retries_total") or 0)
+        if not rework:
+            transient_retries = int(
+                (record.get("attempt_diagnostics") or {}).get("transient_retries") or 0
+            )
+        elif not transient_retries and attempts:
+            transient_retries = sum(
+                1
+                for index, attempt in enumerate(attempts)
+                if _attempt_stage(attempt, index) == "transient_retry"
+            )
+        if rework:
+            diagnostic_summary = record.get("attempt_diagnostics") or {}
+            recorded_truncations = rework.get("provider_truncation_attempts")
+            provider_truncations = (
+                int(recorded_truncations)
+                if recorded_truncations is not None
+                else int(diagnostic_summary.get("provider_truncations") or 0)
+            )
+            recorded_recovered = rework.get("provider_truncation_recovered")
+            transient_recoveries = int(
+                bool(recorded_recovered)
+                if recorded_recovered is not None
+                else bool(diagnostic_summary.get("transient_recovered"))
+            )
+            recorded_unresolved = rework.get("provider_truncation_unresolved")
+            truncation_unresolved = int(
+                bool(recorded_unresolved)
+                if recorded_unresolved is not None
+                else bool(
+                    diagnostic_summary.get("provider_truncation_unresolved")
+                )
+            )
+        else:
+            diagnostic_summary = record.get("attempt_diagnostics") or {}
+            provider_truncations = int(
+                diagnostic_summary.get("provider_truncations") or 0
+            )
+            transient_recoveries = int(
+                bool(diagnostic_summary.get("transient_recovered"))
+            )
+            truncation_unresolved = int(
+                bool(diagnostic_summary.get("provider_truncation_unresolved"))
+            )
+        acc["semantic_attempts_total"] += semantic_attempts
+        acc["semantic_rework_attempts"] += max(semantic_attempts - 1, 0)
+        acc["transient_retries"] += transient_retries
+        acc["provider_truncations"] += provider_truncations
+        acc["transient_recoveries"] += transient_recoveries
+        acc["provider_truncation_unresolved"] += truncation_unresolved
+        acc["repeated_attempts"] += max(semantic_attempts - 1, 0)
         seen.add("repeated_attempts")
+        for key in (
+            "semantic_attempts_total",
+            "semantic_rework_attempts",
+            "transient_retries",
+            "provider_truncations",
+            "transient_recoveries",
+            "provider_truncation_unresolved",
+        ):
+            if rework or provider_truncations or transient_retries:
+                seen.add(key)
         for key in (
             "input_tokens",
             "output_tokens",
@@ -453,6 +687,8 @@ def _cumulative_metrics(records: list[dict[str, Any]]) -> dict[str, Any]:
             "creation_output_tokens",
             "rework_input_tokens",
             "rework_output_tokens",
+            "transient_input_tokens",
+            "transient_output_tokens",
             "cache_read_tokens",
             "cache_write_tokens",
             "reasoning_tokens",
@@ -505,6 +741,8 @@ def _cumulative_metrics(records: list[dict[str, Any]]) -> dict[str, Any]:
             "creation_output_tokens": optional_metric("creation_output_tokens"),
             "rework_input_tokens": optional_metric("rework_input_tokens"),
             "rework_output_tokens": optional_metric("rework_output_tokens"),
+            "transient_input_tokens": optional_metric("transient_input_tokens"),
+            "transient_output_tokens": optional_metric("transient_output_tokens"),
             "cache_read_tokens": optional_metric("cache_read_tokens"),
             "cache_write_tokens": optional_metric("cache_write_tokens"),
             "reasoning_tokens": optional_metric("reasoning_tokens"),
@@ -523,6 +761,14 @@ def _cumulative_metrics(records: list[dict[str, Any]]) -> dict[str, Any]:
             "checkpoints_failed": optional_metric("checkpoints_failed"),
             "checkpoints_total": optional_metric("checkpoints_total"),
             "repeated_attempts": optional_metric("repeated_attempts"),
+            "semantic_attempts_total": optional_metric("semantic_attempts_total"),
+            "semantic_rework_attempts": optional_metric("semantic_rework_attempts"),
+            "transient_retries": optional_metric("transient_retries"),
+            "provider_truncations": optional_metric("provider_truncations"),
+            "transient_recoveries": optional_metric("transient_recoveries"),
+            "provider_truncation_unresolved": optional_metric(
+                "provider_truncation_unresolved"
+            ),
             "core_passed": optional_metric("core_passed"),
             "core_failed": optional_metric("core_failed"),
             "core_total": optional_metric("core_total"),

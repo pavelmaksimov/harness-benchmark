@@ -38,6 +38,11 @@ from benchmark.resume_state import (
     write_state,
 )
 from benchmark.rework import record_rework_events
+from benchmark.rework_hook import (
+    DEFAULT_FEEDBACK_STRATEGY,
+    FEEDBACK_STRATEGIES,
+    LEGACY_FEEDBACK_STRATEGY,
+)
 from benchmark.versions import load_arm_meta, load_pins
 
 # SCB ResolvedRunConfig accepts only none/disabled/low/medium/high/xhigh.
@@ -46,6 +51,7 @@ _SCB_THINKING_ALIASES = {
     "max": "xhigh",
 }
 DEFAULT_REWORK_ATTEMPTS = 2
+DEFAULT_TRANSIENT_RETRIES = 0
 
 
 def _scb_thinking(thinking: str) -> str:
@@ -156,6 +162,8 @@ class RunContext:
     provider: str
     thinking: str
     rework_attempts: int
+    transient_retries: int
+    feedback_strategy: str
     problems_path: Path | None
     pins: dict[str, Any]
 
@@ -179,6 +187,8 @@ class RunContext:
             selection=self.selection,
             problems_path=self.problems_path,
             rework_attempts=self.rework_attempts,
+            transient_retries=self.transient_retries,
+            feedback_strategy=self.feedback_strategy,
             exit_code=exit_code,
             phase=phase,
         )
@@ -204,6 +214,55 @@ def _resolve_rework_attempts(
     return requested if requested is not None else DEFAULT_REWORK_ATTEMPTS
 
 
+def _resolve_transient_retries(
+    requested: int | None,
+    saved_state: dict[str, Any] | None,
+) -> int:
+    saved = saved_state.get("transient_retries") if saved_state else None
+    if saved is not None:
+        try:
+            saved = int(saved)
+        except (TypeError, ValueError) as exc:
+            raise ValueError("resume refused — invalid transient_retries in state.json") from exc
+        if requested is None:
+            return saved
+        if requested != saved:
+            raise ValueError(
+                "resume refused — requested transient_retries differs from the recorded run: "
+                f"run={saved!r} requested={requested!r}"
+            )
+    value = requested if requested is not None else DEFAULT_TRANSIENT_RETRIES
+    if value < 0:
+        raise ValueError("transient_retries must be >= 0")
+    return value
+
+
+def _resolve_feedback_strategy(
+    requested: str | None,
+    saved_state: dict[str, Any] | None,
+) -> str:
+    saved = saved_state.get("feedback_strategy") if saved_state else None
+    if saved == "v1":
+        saved = LEGACY_FEEDBACK_STRATEGY
+    if requested == "v1":
+        requested = LEGACY_FEEDBACK_STRATEGY
+    if saved is not None:
+        if saved not in FEEDBACK_STRATEGIES:
+            raise ValueError("resume refused — invalid feedback_strategy in state.json")
+        if requested is None:
+            return saved
+        if requested != saved:
+            raise ValueError(
+                "resume refused — requested feedback_strategy differs from the recorded run: "
+                f"run={saved!r} requested={requested!r}"
+            )
+    value = requested if requested is not None else DEFAULT_FEEDBACK_STRATEGY
+    if value not in FEEDBACK_STRATEGIES:
+        choices = ", ".join(sorted(FEEDBACK_STRATEGIES))
+        raise ValueError(f"feedback_strategy must be one of: {choices}")
+    return value
+
+
 def _resume_defaults(
     experiment_id: str | None,
     arm: str,
@@ -226,12 +285,15 @@ def _recorded_run_selection(run_dir: Path) -> dict[str, Any] | None:
             "model": state.get("model"),
             "thinking": state.get("thinking"),
             "rework_attempts": state.get("rework_attempts"),
+            "transient_retries": state.get("transient_retries"),
+            "feedback_strategy": state.get("feedback_strategy"),
         }
 
     manifest = read_json_dict(Path(run_dir) / "manifest.json")
     if manifest is None:
         return None
     settings = manifest.get("model_settings") or {}
+    extra = manifest.get("extra") or {}
     return {
         "arm": manifest.get("arm"),
         "problem": manifest.get("problem"),
@@ -239,7 +301,9 @@ def _recorded_run_selection(run_dir: Path) -> dict[str, Any] | None:
         "provider": settings.get("provider"),
         "model": manifest.get("model"),
         "thinking": settings.get("thinking"),
-        "rework_attempts": None,
+        "rework_attempts": extra.get("rework_attempts"),
+        "transient_retries": extra.get("transient_retries"),
+        "feedback_strategy": extra.get("feedback_strategy"),
     }
 
 
@@ -250,6 +314,8 @@ def _validate_existing_experiment(
     problem: str,
     selection_by_arm: dict[str, tuple[str, str, str, str]],
     rework_attempts: int,
+    transient_retries: int,
+    feedback_strategy: str,
 ) -> None:
     """Prevent a fresh run from mixing or overwriting an experiment."""
     for arm in arms:
@@ -262,6 +328,8 @@ def _validate_existing_experiment(
             "model": model,
             "thinking": thinking,
             "rework_attempts": rework_attempts,
+            "transient_retries": transient_retries,
+            "feedback_strategy": feedback_strategy,
         }
         for run_dir in run_dirs(experiment_dir, arm):
             recorded = _recorded_run_selection(run_dir)
@@ -306,6 +374,8 @@ def _resume_reference(
     model: str | None,
     thinking: str | None,
     rework_attempts: int | None,
+    transient_retries: int | None,
+    feedback_strategy: str | None,
 ) -> dict[str, Any]:
     """Validate one experiment's saved selection and return shared defaults."""
     records: list[tuple[Path, dict[str, Any]]] = []
@@ -317,7 +387,16 @@ def _resume_reference(
     if not records:
         return {}
 
-    fields = ("problem", "agent", "provider", "model", "thinking", "rework_attempts")
+    fields = (
+        "problem",
+        "agent",
+        "provider",
+        "model",
+        "thinking",
+        "rework_attempts",
+        "transient_retries",
+        "feedback_strategy",
+    )
     reference_path, reference = records[0]
     for path, recorded in records[1:]:
         mismatches = [
@@ -340,6 +419,8 @@ def _resume_reference(
         "model": model,
         "thinking": thinking,
         "rework_attempts": rework_attempts,
+        "transient_retries": transient_retries,
+        "feedback_strategy": feedback_strategy,
     }
     mismatches = [
         f"{field}: run={reference.get(field)!r} requested={value!r}"
@@ -363,6 +444,8 @@ def _build_scb_env(
     *,
     problems_path: Path | None = None,
     rework_attempts: int = 2,
+    transient_retries: int = 0,
+    feedback_strategy: str = DEFAULT_FEEDBACK_STRATEGY,
 ) -> dict[str, str]:
     """Build the per-run environment used by SCB."""
     spec = get_arm(arm)
@@ -373,6 +456,8 @@ def _build_scb_env(
     env["HB_ARM"] = arm
     env["HB_RUN_OUTPUT"] = str(output_dir)
     env["HB_REWORK_ATTEMPTS"] = str(rework_attempts)
+    env["HB_TRANSIENT_RETRIES"] = str(transient_retries)
+    env["HB_REWORK_FEEDBACK"] = feedback_strategy
     # supermemory container tag per problem: memory of one task must not leak
     # into another task's run (see versions.SUPERMEMORY_BENCHMARK_CONTAINER_TAG).
     if arm_includes(arm, "supermemory"):
@@ -419,6 +504,8 @@ def run_slop_code(
     dry_run: bool = False,
     problems_path: Path | None = None,
     rework_attempts: int = 2,
+    transient_retries: int = 0,
+    feedback_strategy: str = DEFAULT_FEEDBACK_STRATEGY,
     resume: bool = False,
 ) -> Path:
     """Invoke SlopCodeBench run for one arm into output_dir.
@@ -441,6 +528,8 @@ def run_slop_code(
         problem,
         problems_path=problems_path,
         rework_attempts=rework_attempts,
+        transient_retries=transient_retries,
+        feedback_strategy=feedback_strategy,
     )
     scb_thinking = _scb_thinking(thinking)
     cmd = [
@@ -512,6 +601,9 @@ def _finalize_run(ctx: RunContext) -> dict[str, Any]:
         "provider": ctx.provider,
         "model": ctx.model,
         "thinking": ctx.thinking,
+        "rework_attempts": ctx.rework_attempts,
+        "transient_retries": ctx.transient_retries,
+        "feedback_strategy": ctx.feedback_strategy,
         "slop_code_commit": ctx.pins.get("slop-code-bench"),
         "problems_commit": ctx.pins.get("scb-problems"),
         "harness_meta": load_arm_meta(ctx.arm),
@@ -571,7 +663,13 @@ def _finalize_run(ctx: RunContext) -> dict[str, Any]:
         runs=1,
         docker_image=environment["docker_image"],
         pricing_path=CONFIGS_DIR / "pricing.yaml",
-        extra={"run_id": ctx.run_id, "run_index": ctx.run_index},
+        extra={
+            "run_id": ctx.run_id,
+            "run_index": ctx.run_index,
+            "rework_attempts": ctx.rework_attempts,
+            "transient_retries": ctx.transient_retries,
+            "feedback_strategy": ctx.feedback_strategy,
+        },
     )
     write_manifest(ctx.output_dir / "manifest.json", manifest)
     collected["manifest"] = manifest
@@ -602,6 +700,8 @@ def run_one(
     experiment_id: str | None = None,
     problems_path: Path | None = None,
     rework_attempts: int | None = None,
+    transient_retries: int | None = None,
+    feedback_strategy: str | None = None,
     resume: bool = False,
 ) -> dict[str, Any]:
     experiment_id = experiment_id or new_experiment_id()
@@ -626,6 +726,8 @@ def run_one(
         thinking = thinking if thinking is not None else saved_state.get("thinking")
 
     rework_attempts = _resolve_rework_attempts(rework_attempts, saved_state)
+    transient_retries = _resolve_transient_retries(transient_retries, saved_state)
+    feedback_strategy = _resolve_feedback_strategy(feedback_strategy, saved_state)
     agent, provider, model, thinking = resolve_run_selection(
         agent=agent,
         arm=arm,
@@ -643,6 +745,8 @@ def run_one(
                 problem=problem,
                 selection_by_arm={arm: (agent, provider, model, thinking)},
                 rework_attempts=rework_attempts,
+                transient_retries=transient_retries,
+                feedback_strategy=feedback_strategy,
             )
 
     if resume and out_dir.exists():
@@ -656,6 +760,9 @@ def run_one(
             provider=provider,
             model=model,
             thinking=thinking,
+            rework_attempts=rework_attempts,
+            transient_retries=transient_retries,
+            feedback_strategy=feedback_strategy,
         )
         if mismatches:
             raise ValueError(
@@ -700,6 +807,8 @@ def run_one(
         provider=provider,
         thinking=thinking,
         rework_attempts=rework_attempts,
+        transient_retries=transient_retries,
+        feedback_strategy=feedback_strategy,
         problems_path=problems_path,
         pins=pins,
     )
@@ -719,6 +828,8 @@ def run_one(
             output_dir=ctx.output_dir,
             problems_path=ctx.problems_path,
             rework_attempts=ctx.rework_attempts,
+            transient_retries=ctx.transient_retries,
+            feedback_strategy=ctx.feedback_strategy,
             resume=use_native_resume,
         )
         return _finalize_run(ctx)
@@ -745,6 +856,8 @@ def run_smoke(
     agent: str = DEFAULT_AGENT,
     experiment_id: str | None = None,
     rework_attempts: int = 0,
+    transient_retries: int = 0,
+    feedback_strategy: str = DEFAULT_FEEDBACK_STRATEGY,
     checkpoint_count: int = 1,
 ) -> dict[str, Any]:
     """Run a reduced-checkpoint smoke (default CP1) for one harness arm and write SMOKE.json."""
@@ -778,6 +891,8 @@ def run_smoke(
         experiment_id=experiment_id,
         problems_path=staged,
         rework_attempts=rework_attempts,
+        transient_retries=transient_retries,
+        feedback_strategy=feedback_strategy,
     )
 
     cps = collected.get("checkpoints") or []
@@ -826,6 +941,8 @@ def run_matrix(
     jobs: int = 1,
     skip_smoke_check: bool = False,
     rework_attempts: int | None = None,
+    transient_retries: int | None = None,
+    feedback_strategy: str | None = None,
     resume: bool = False,
 ) -> list[dict[str, Any]]:
     """Run arm×run matrix. jobs=1 is serial; jobs>1 overlaps independent run_one calls.
@@ -844,6 +961,15 @@ def run_matrix(
 
     if jobs < 1:
         raise ValueError("jobs must be >= 1")
+    normalized_feedback_strategy = (
+        _resolve_feedback_strategy(feedback_strategy, None)
+        if not resume
+        else (
+            LEGACY_FEEDBACK_STRATEGY
+            if feedback_strategy == "v1"
+            else feedback_strategy
+        )
+    )
     resolved_by_arm: dict[str, tuple[str, str, str, str]] = {}
     for arm in arms:
         get_arm(arm)
@@ -885,6 +1011,16 @@ def run_matrix(
                     if rework_attempts is not None
                     else DEFAULT_REWORK_ATTEMPTS
                 ),
+                transient_retries=(
+                    transient_retries
+                    if transient_retries is not None
+                    else DEFAULT_TRANSIENT_RETRIES
+                ),
+                feedback_strategy=(
+                    normalized_feedback_strategy
+                    if normalized_feedback_strategy is not None
+                    else DEFAULT_FEEDBACK_STRATEGY
+                ),
             )
     resume_defaults: dict[str, dict[str, Any]] = {}
     if resume and experiment_id:
@@ -897,6 +1033,8 @@ def run_matrix(
             model=model,
             thinking=thinking,
             rework_attempts=rework_attempts,
+            transient_retries=transient_retries,
+            feedback_strategy=normalized_feedback_strategy,
         )
         recorded_by_arm = {
             arm: max(
@@ -958,6 +1096,16 @@ def run_matrix(
                 if rework_attempts is not None
                 else saved.get("rework_attempts")
             ),
+            transient_retries=(
+                transient_retries
+                if transient_retries is not None
+                else saved.get("transient_retries")
+            ),
+            feedback_strategy=(
+                normalized_feedback_strategy
+                if normalized_feedback_strategy is not None
+                else saved.get("feedback_strategy")
+            ),
             resume=resume,
         )
 
@@ -992,6 +1140,8 @@ def run_arm_repeats(
     jobs: int = 1,
     skip_smoke_check: bool = False,
     rework_attempts: int | None = None,
+    transient_retries: int | None = None,
+    feedback_strategy: str | None = None,
     resume: bool = False,
 ) -> list[dict[str, Any]]:
     return run_matrix(
@@ -1006,6 +1156,8 @@ def run_arm_repeats(
         jobs=jobs,
         skip_smoke_check=skip_smoke_check,
         rework_attempts=rework_attempts,
+        transient_retries=transient_retries,
+        feedback_strategy=feedback_strategy,
         resume=resume,
     )
 

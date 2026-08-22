@@ -85,10 +85,17 @@ class ReworkStatsTests(unittest.TestCase):
             rework.rework_stats([]),
             {
                 "rework_attempts_total": 0,
+                "semantic_attempts_total": 0,
+                "semantic_rework_attempts": 0,
+                "transient_retries": 0,
                 "repeated_attempts": 0,
                 "rework_fixed": 0,
                 "rework_unresolved": 0,
                 "reworked_checkpoints": 0,
+                "provider_truncations": 0,
+                "provider_truncation_checkpoints": 0,
+                "transient_recoveries": 0,
+                "provider_truncation_unresolved": 0,
             },
         )
 
@@ -102,10 +109,17 @@ class ReworkStatsTests(unittest.TestCase):
             rework.rework_stats(records),
             {
                 "rework_attempts_total": 5,
+                "semantic_attempts_total": 5,
+                "semantic_rework_attempts": 3,
+                "transient_retries": 0,
                 "repeated_attempts": 3,
                 "rework_fixed": 1,
                 "rework_unresolved": 1,
                 "reworked_checkpoints": 2,
+                "provider_truncations": 0,
+                "provider_truncation_checkpoints": 0,
+                "transient_recoveries": 0,
+                "provider_truncation_unresolved": 0,
             },
         )
 

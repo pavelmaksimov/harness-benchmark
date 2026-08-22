@@ -97,6 +97,118 @@ class EscapeAndFeedbackTests(unittest.TestCase):
             self.assertIn("pass_counts={", feedback)
             self.assertIn("Core: passed=2 failed=1 total=3", feedback)
 
+    def test_current_first_orders_new_failures_before_persistent_regressions(self) -> None:
+        with TemporaryDirectory() as td:
+            root = Path(td)
+            previous = root / "checkpoint_1"
+            current = root / "checkpoint_2"
+            previous.mkdir()
+            current.mkdir()
+            (previous / "evaluation.json").write_text(
+                json.dumps(
+                    {
+                        "tests": {
+                            "checkpoint_1-Regression": {
+                                "failed": ["persistent_regression"]
+                            }
+                        }
+                    }
+                ),
+                encoding="utf-8",
+            )
+            (current / "evaluation.json").write_text(
+                json.dumps(
+                    {
+                        "pass_counts": {"Core": 1, "Functionality": 0, "Regression": 0},
+                        "total_counts": {"Core": 2, "Functionality": 1, "Regression": 2},
+                        "tests": {
+                            "checkpoint_2-Core": {"failed": ["policy_failure"]},
+                            "checkpoint_2-Functionality": {
+                                "failed": ["current_other"]
+                            },
+                            "checkpoint_2-Regression": {
+                                "failed": [
+                                    "new_regression",
+                                    "persistent_regression",
+                                ]
+                            },
+                        },
+                    }
+                ),
+                encoding="utf-8",
+            )
+
+            feedback = build_feedback(current, attempt=1)
+
+            assert feedback is not None
+            policy = feedback.index("policy_failure")
+            other = feedback.index("current_other")
+            new = feedback.index("new_regression")
+            persistent = feedback.index("persistent_regression")
+            self.assertLess(policy, other)
+            self.assertLess(other, new)
+            self.assertLess(new, persistent)
+            self.assertNotIn("Failing tests by group:", feedback)
+
+    def test_current_first_limits_regression_tail_and_keeps_full_audit(self) -> None:
+        with TemporaryDirectory() as td:
+            cp_dir = Path(td) / "checkpoint_2"
+            cp_dir.mkdir()
+            names = [f"regression_{index}" for index in range(7)]
+            (cp_dir / "evaluation.json").write_text(
+                json.dumps(
+                    {
+                        "tests": {
+                            "checkpoint_2-Core": {"failed": ["policy"]},
+                            "checkpoint_2-Regression": {"failed": names},
+                        }
+                    }
+                ),
+                encoding="utf-8",
+            )
+            feedback = build_feedback(cp_dir, attempt=1)
+            assert feedback is not None
+            self.assertIn("and 2 more omitted from feedback", feedback)
+            self.assertIn("regression_0", feedback)
+            self.assertNotIn("regression_6", feedback)
+
+            log = ReworkLog(cp_dir, max_attempts=1)
+            log.record(1, False, cp_dir)
+            data = json.loads(log.write().read_text(encoding="utf-8"))
+            context = data["attempts"][0]["feedback_context"]
+            self.assertEqual(
+                context["failed_tests_by_bucket"]["checkpoint_2-Regression"],
+                names,
+            )
+            self.assertEqual(
+                data["attempts"][0]["feedback_metadata"]["omitted_counts"][
+                    "regression_persistent_failures"
+                ],
+                2,
+            )
+
+    def test_legacy_bucket_names_fall_back_to_current_policy(self) -> None:
+        with TemporaryDirectory() as td:
+            cp_dir = Path(td) / "checkpoint_2"
+            cp_dir.mkdir()
+            (cp_dir / "evaluation.json").write_text(
+                json.dumps(
+                    {
+                        "tests": {
+                            "Core": {"failed": ["legacy_policy"]},
+                            "Regression": {"failed": ["legacy_regression"]},
+                        }
+                    }
+                ),
+                encoding="utf-8",
+            )
+            feedback = build_feedback(cp_dir, attempt=1)
+
+            assert feedback is not None
+            self.assertIn("legacy_policy", feedback)
+            self.assertIn("legacy_regression", feedback)
+            self.assertIn("prior comparison unavailable", feedback)
+
 
 class ReworkLogTests(unittest.TestCase):
     def test_record_persists_group_and_usage_metrics(self) -> None:
@@ -161,10 +273,21 @@ class InstallHookTests(unittest.TestCase):
         module.AgentStateEnum = FakeState
         return module
 
-    def _install(self, fake_runner_class: type, max_attempts: int) -> None:
+    def _install(
+        self,
+        fake_runner_class: type,
+        max_attempts: int,
+        *,
+        transient_retries: int = 0,
+        feedback_strategy: str | None = None,
+    ) -> None:
         rework_hook._INSTALLED = False
         with mock.patch.dict(sys.modules, {"slop_code.agent_runner.runner": self._fake_module(fake_runner_class)}):
-            install_rework_hook(max_attempts)
+            install_rework_hook(
+                max_attempts,
+                transient_retries=transient_retries,
+                feedback_strategy=feedback_strategy,
+            )
 
     def test_loop_retries_with_feedback_and_writes_rework_json(self) -> None:
         with TemporaryDirectory() as td:
@@ -207,6 +330,102 @@ class InstallHookTests(unittest.TestCase):
             self.assertTrue(rework["fixed"])
             self.assertEqual(rework["attempts"][0]["stage"], "creation")
             self.assertEqual(rework["attempts"][1]["stage"], "rework")
+
+    def test_transient_retry_is_separate_from_semantic_rework(self) -> None:
+        with TemporaryDirectory() as td:
+            cp_dir = Path(td) / "checkpoint_1"
+            cp_dir.mkdir()
+            calls: list[tuple[str, str]] = []
+
+            def fake_original(self, checkpoint, checkpoint_save_dir, is_first_checkpoint):
+                checkpoint_path = Path(checkpoint_save_dir)
+                calls.append(
+                    (
+                        self.run_spec.template,
+                        "first" if is_first_checkpoint else "retry",
+                    )
+                )
+                _write_inference(checkpoint_path)
+                if len(calls) == 1:
+                    (checkpoint_path / "messages.jsonl").write_text(
+                        '{"type":"reasoning"}\n'
+                        '{"type":"step_finish","reason":"unknown"}\n',
+                        encoding="utf-8",
+                    )
+                    _write_eval(checkpoint_path, failed=["test_x"])
+                    return SimpleNamespace(passed_policy=False, had_error=False)
+                _write_eval(checkpoint_path, failed=[])
+                (checkpoint_path / "messages.jsonl").write_text(
+                    '{"type":"reasoning"}\n'
+                    '{"type":"step_finish","reason":"stop"}\n',
+                    encoding="utf-8",
+                )
+                return SimpleNamespace(passed_policy=True, had_error=False)
+
+            class FakeRunner:
+                pass
+
+            FakeRunner._run_checkpoint = fake_original
+            runner = FakeRunner()
+            runner.run_spec = SimpleNamespace(
+                template="ORIGINAL", skip_evaluation=False, concurrent_evaluation=False
+            )
+            runner.metrics_tracker = SimpleNamespace(state="evaluating")
+
+            self._install(FakeRunner, 0, transient_retries=1)
+            summary = FakeRunner._run_checkpoint(runner, "checkpoint_1", str(cp_dir), True)
+
+            self.assertTrue(summary.passed_policy)
+            self.assertEqual(len(calls), 2)
+            self.assertIn("[TRANSIENT RETRY 1]", calls[1][0])
+            self.assertNotIn("[REWORK ATTEMPT", calls[1][0])
+            data = json.loads((cp_dir / "rework.json").read_text(encoding="utf-8"))
+            self.assertEqual(
+                [attempt["stage"] for attempt in data["attempts"]],
+                ["creation", "transient_retry"],
+            )
+            self.assertEqual(data["transient_retries_total"], 1)
+            self.assertEqual(data["semantic_attempts_total"], 1)
+            self.assertEqual(data["provider_truncation_attempts"], 1)
+            self.assertTrue(data["provider_truncation_recovered"])
+
+    def test_repeated_truncation_stops_at_transient_budget(self) -> None:
+        with TemporaryDirectory() as td:
+            cp_dir = Path(td) / "checkpoint_1"
+            cp_dir.mkdir()
+            calls: list[str] = []
+
+            def fake_original(self, checkpoint, checkpoint_save_dir, is_first_checkpoint):
+                path = Path(checkpoint_save_dir)
+                calls.append(self.run_spec.template)
+                _write_inference(path)
+                _write_eval(path, failed=["test_x"])
+                (path / "messages.jsonl").write_text(
+                    '{"type":"reasoning"}\n'
+                    '{"type":"step_finish","reason":"unknown"}\n',
+                    encoding="utf-8",
+                )
+                return SimpleNamespace(passed_policy=False, had_error=False)
+
+            class FakeRunner:
+                pass
+
+            FakeRunner._run_checkpoint = fake_original
+            runner = FakeRunner()
+            runner.run_spec = SimpleNamespace(
+                template="ORIGINAL", skip_evaluation=False, concurrent_evaluation=False
+            )
+            runner.metrics_tracker = SimpleNamespace(state="evaluating")
+
+            self._install(FakeRunner, 0, transient_retries=2)
+            summary = FakeRunner._run_checkpoint(runner, "checkpoint_1", str(cp_dir), True)
+
+            self.assertFalse(summary.passed_policy)
+            self.assertEqual(len(calls), 3)
+            data = json.loads((cp_dir / "rework.json").read_text(encoding="utf-8"))
+            self.assertEqual(data["transient_retries_total"], 2)
+            self.assertTrue(data["provider_truncation_unresolved"])
+            self.assertEqual(data["attempts"][-1]["failure_class"], "provider_truncation")
 
     def test_stops_when_attempts_exhausted(self) -> None:
         with TemporaryDirectory() as td:

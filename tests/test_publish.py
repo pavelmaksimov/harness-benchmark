@@ -79,7 +79,8 @@ def test_leaderboard_shows_stage_tokens_without_provider_or_core_fail_column() -
 
     assert (
         "| Agent | Model | Harness | N | CP | Failed CP | Repeated | Reg | Create in | "
-        "Create out | Rework in | Rework out | All in | All out | Cost | Time | LOC | "
+        "Create out | Rework in | Rework out | Transient in | Transient out | Trunc | "
+        "Tr. retry | Recovery | Unresolved | All in | All out | Cost | Time | LOC | "
         "ΔLOC | Deps | Cx |"
     ) in text
     assert "| Experiment | Date | Problem | Agent | Model | N | Report |" in text
@@ -127,6 +128,33 @@ def test_short_report_shows_stage_tokens_without_core_failures() -> None:
     assert "| Rework input tokens | 12 |" in text
     assert "| Rework output tokens | 6 |" in text
     assert "Core failed" not in text
+
+
+def test_short_report_shows_transient_dimensions() -> None:
+    payload = {
+        "experiment_id": "exp-transient",
+        "problem": "file_backup",
+        "model": "model-x",
+        "agent": "opencode",
+        "provider": "opencode_auth",
+        "arms": {
+            "baseline": {
+                "checkpoints_passed": 1,
+                "checkpoints_total": 1,
+                "transient_retries": 1,
+                "provider_truncations": 1,
+                "transient_recoveries": 1,
+                "provider_truncation_unresolved": 0,
+            }
+        },
+        "n_baseline": 1,
+    }
+
+    text = format_short_report(payload)
+
+    assert "| Transient retries | 1 |" in text
+    assert "| Provider truncations | 1 |" in text
+    assert "| Transient recoveries | 1 |" in text
 
 
 def test_published_payload_keeps_rework_attempt_details() -> None:

@@ -212,6 +212,8 @@ def build_state(
     selection: dict[str, Any],
     problems_path: Path | None = None,
     rework_attempts: int | None = None,
+    transient_retries: int | None = None,
+    feedback_strategy: str | None = None,
     exit_code: int | None = None,
     phase: str = "started",
 ) -> dict[str, Any]:
@@ -247,6 +249,10 @@ def build_state(
     }
     if rework_attempts is not None:
         state["rework_attempts"] = rework_attempts
+    if transient_retries is not None:
+        state["transient_retries"] = transient_retries
+    if feedback_strategy is not None:
+        state["feedback_strategy"] = feedback_strategy
     return state
 
 
@@ -260,6 +266,8 @@ def write_state(
     selection: dict[str, Any],
     problems_path: Path | None = None,
     rework_attempts: int | None = None,
+    transient_retries: int | None = None,
+    feedback_strategy: str | None = None,
     exit_code: int | None = None,
     phase: str = "started",
 ) -> Path:
@@ -273,6 +281,8 @@ def write_state(
         selection=selection,
         problems_path=problems_path,
         rework_attempts=rework_attempts,
+        transient_retries=transient_retries,
+        feedback_strategy=feedback_strategy,
         exit_code=exit_code,
         phase=phase,
     )
@@ -296,6 +306,9 @@ def verify_selection_against_state(
     model: str | None,
     thinking: str | None,
     problem: str,
+    rework_attempts: int | None = None,
+    transient_retries: int | None = None,
+    feedback_strategy: str | None = None,
 ) -> list[str]:
     """Return mismatches between recorded run identity and requested values."""
     requested = {
@@ -318,6 +331,14 @@ def verify_selection_against_state(
         current = requested[field]
         saved = state.get(field)
         if current is not None and saved != current:
+            mismatches.append(f"{field}: run={saved!r} requested={current!r}")
+    for field, current in {
+        "rework_attempts": rework_attempts,
+        "transient_retries": transient_retries,
+        "feedback_strategy": feedback_strategy,
+    }.items():
+        saved = state.get(field)
+        if current is not None and saved is not None and saved != current:
             mismatches.append(f"{field}: run={saved!r} requested={current!r}")
     return mismatches
 

@@ -19,6 +19,8 @@ METRIC_KEYS = (
     "creation_output_tokens",
     "rework_input_tokens",
     "rework_output_tokens",
+    "transient_input_tokens",
+    "transient_output_tokens",
     "total_input_tokens",
     "total_output_tokens",
     "normalized_cost",
@@ -27,7 +29,12 @@ METRIC_KEYS = (
     "loc_changed",
     "dependencies_added",
     "complexity",
+    "semantic_rework_attempts",
     "repeated_attempts",
+    "transient_retries",
+    "provider_truncations",
+    "transient_recoveries",
+    "provider_truncation_unresolved",
 )
 
 SHORT_LABELS = {
@@ -39,6 +46,13 @@ SHORT_LABELS = {
     "creation_output_tokens": "Creation output tokens",
     "rework_input_tokens": "Rework input tokens",
     "rework_output_tokens": "Rework output tokens",
+    "transient_input_tokens": "Transient input tokens",
+    "transient_output_tokens": "Transient output tokens",
+    "semantic_rework_attempts": "Semantic rework attempts",
+    "transient_retries": "Transient retries",
+    "provider_truncations": "Provider truncations",
+    "transient_recoveries": "Transient recoveries",
+    "provider_truncation_unresolved": "Truncations unresolved",
     "total_input_tokens": "All input tokens",
     "total_output_tokens": "All output tokens",
     "normalized_cost": "Normalized cost",
@@ -76,6 +90,11 @@ def _load_manifest(experiment_dir: Path) -> dict[str, Any]:
                 "provider": state.get("provider"),
                 "thinking": state.get("thinking"),
             },
+            "extra": {
+                "rework_attempts": state.get("rework_attempts"),
+                "transient_retries": state.get("transient_retries"),
+                "feedback_strategy": state.get("feedback_strategy"),
+            },
         }
     return {}
 
@@ -102,6 +121,8 @@ def _fmt_metric(key: str, value: float | None) -> str:
         "creation_output_tokens",
         "rework_input_tokens",
         "rework_output_tokens",
+        "transient_input_tokens",
+        "transient_output_tokens",
         "total_input_tokens",
         "total_output_tokens",
     }:
@@ -132,6 +153,8 @@ def _fmt_delta(key: str, value: float | None) -> str:
         "creation_output_tokens",
         "rework_input_tokens",
         "rework_output_tokens",
+        "transient_input_tokens",
+        "transient_output_tokens",
         "total_input_tokens",
         "total_output_tokens",
     }:
@@ -176,13 +199,27 @@ def build_publish_payload(experiment_dir: Path, comparison: dict[str, Any]) -> d
     for arm, totals in raw_totals.items():
         attempts = sum(int(t.get("rework_attempts") or 0) for t in totals)
         repeated_attempts = sum(int(t.get("repeated_attempts") or 0) for t in totals)
-        if attempts <= 0:
+        transient_retries = sum(int(t.get("transient_retries") or 0) for t in totals)
+        provider_truncations = sum(
+            int(t.get("provider_truncations") or 0) for t in totals
+        )
+        transient_recoveries = sum(
+            int(t.get("transient_recoveries") or 0) for t in totals
+        )
+        truncation_unresolved = sum(
+            int(t.get("provider_truncation_unresolved") or 0) for t in totals
+        )
+        if attempts <= 0 and transient_retries <= 0 and provider_truncations <= 0:
             continue
         rework[arm] = {
             "attempts": attempts,
             "repeated_attempts": repeated_attempts,
             "fixed": sum(int(t.get("rework_fixed") or 0) for t in totals),
             "unresolved": sum(int(t.get("rework_unresolved") or 0) for t in totals),
+            "transient_retries": transient_retries,
+            "provider_truncations": provider_truncations,
+            "transient_recoveries": transient_recoveries,
+            "provider_truncation_unresolved": truncation_unresolved,
         }
     # Back-compat single delta map for ponytail-era reports.
     legacy_deltas = {
@@ -202,6 +239,9 @@ def build_publish_payload(experiment_dir: Path, comparison: dict[str, Any]) -> d
         "agent": manifest.get("agent"),
         "provider": (manifest.get("model_settings") or {}).get("provider"),
         "agent_version": manifest.get("agent_version"),
+        "rework_attempts": (manifest.get("extra") or {}).get("rework_attempts"),
+        "transient_retries": (manifest.get("extra") or {}).get("transient_retries"),
+        "feedback_strategy": (manifest.get("extra") or {}).get("feedback_strategy"),
         "arms": arms,
         "deltas_by_arm": deltas,
         "deltas": legacy_deltas,
@@ -316,10 +356,19 @@ def format_short_report(payload: dict[str, Any]) -> str:
     if rework:
         for arm, rw in rework.items():
             lines.append(
-                f"- Rework {arm}: {rw.get('repeated_attempts', rw['attempts'])} repeated attempts "
-                f"({rw['attempts']} total attempts), "
+                f"- Rework {arm}: {rw.get('repeated_attempts', rw['attempts'])} semantic "
+                f"retries ({rw['attempts']} total attempts), "
                 f"{rw['fixed']} fixed, {rw['unresolved']} unresolved."
             )
+            transient_retries = rw.get("transient_retries", 0)
+            truncations = rw.get("provider_truncations", 0)
+            if transient_retries or truncations:
+                lines.append(
+                    f"- Transient {arm}: {truncations} provider truncations, "
+                    f"{transient_retries} retries, "
+                    f"{rw.get('transient_recoveries', 0)} recoveries, "
+                    f"{rw.get('provider_truncation_unresolved', 0)} unresolved."
+                )
     excluded = payload.get("excluded_runs") or {}
     excluded_bits = [f"{arm}={n}" for arm, n in excluded.items() if n]
     if excluded_bits:
@@ -397,6 +446,15 @@ def _metric_cells(metrics: dict[str, Any]) -> str:
         _fmt_metric("creation_output_tokens", metrics.get("creation_output_tokens")),
         _fmt_metric("rework_input_tokens", metrics.get("rework_input_tokens")),
         _fmt_metric("rework_output_tokens", metrics.get("rework_output_tokens")),
+        _fmt_metric("transient_input_tokens", metrics.get("transient_input_tokens")),
+        _fmt_metric("transient_output_tokens", metrics.get("transient_output_tokens")),
+        _fmt_metric("provider_truncations", metrics.get("provider_truncations")),
+        _fmt_metric("transient_retries", metrics.get("transient_retries")),
+        _fmt_metric("transient_recoveries", metrics.get("transient_recoveries")),
+        _fmt_metric(
+            "provider_truncation_unresolved",
+            metrics.get("provider_truncation_unresolved"),
+        ),
         _fmt_metric("total_input_tokens", metrics.get("total_input_tokens")),
         _fmt_metric("total_output_tokens", metrics.get("total_output_tokens")),
         _fmt_metric("normalized_cost", metrics.get("normalized_cost")),
@@ -445,9 +503,9 @@ def format_leaderboard(payloads: list[dict[str, Any]]) -> str:
         lines.append(f"### `{problem}`")
         lines.append("")
         lines.append(
-            "| Agent | Model | Harness | N | CP | Failed CP | Repeated | Reg | Create in | Create out | Rework in | Rework out | All in | All out | Cost | Time | LOC | ΔLOC | Deps | Cx |"
+            "| Agent | Model | Harness | N | CP | Failed CP | Repeated | Reg | Create in | Create out | Rework in | Rework out | Transient in | Transient out | Trunc | Tr. retry | Recovery | Unresolved | All in | All out | Cost | Time | LOC | ΔLOC | Deps | Cx |"
         )
-        lines.append("|-------|-------|---------|--:|--:|----------:|----------:|----:|----------:|-----------:|----------:|-----------:|--------:|---------:|-----:|-----:|----:|-----:|-----:|---:|")
+        lines.append("|-------|-------|---------|--:|--:|----------:|----------:|----:|----------:|-----------:|----------:|-----------:|------------:|-------------:|-----:|----------:|---------:|----------:|--------:|---------:|-----:|-----:|----:|-----:|-----:|---:|")
         rows = _sort_table_rows([c for c in cells if c["problem"] == problem], "model")
         for row in rows:
             lines.append(
@@ -465,9 +523,9 @@ def format_leaderboard(payloads: list[dict[str, Any]]) -> str:
         lines.append(f"### `{model}`")
         lines.append("")
         lines.append(
-            "| Problem | Agent | Harness | N | CP | Failed CP | Repeated | Reg | Create in | Create out | Rework in | Rework out | All in | All out | Cost | Time | LOC | ΔLOC | Deps | Cx |"
+            "| Problem | Agent | Harness | N | CP | Failed CP | Repeated | Reg | Create in | Create out | Rework in | Rework out | Transient in | Transient out | Trunc | Tr. retry | Recovery | Unresolved | All in | All out | Cost | Time | LOC | ΔLOC | Deps | Cx |"
         )
-        lines.append("|---------|-------|---------|--:|--:|----------:|----------:|----:|----------:|-----------:|----------:|-----------:|--------:|---------:|-----:|-----:|----:|-----:|-----:|---:|")
+        lines.append("|---------|-------|---------|--:|--:|----------:|----------:|----:|----------:|-----------:|----------:|-----------:|------------:|-------------:|-----:|----------:|---------:|----------:|--------:|---------:|-----:|-----:|----:|-----:|-----:|---:|")
         rows = _sort_table_rows([c for c in cells if c["model"] == model], "problem")
         for row in rows:
             lines.append(

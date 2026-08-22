@@ -21,6 +21,7 @@ from benchmark.paths import (
     SUPPORTED_AGENTS,
 )
 from benchmark.scb_run import (
+    DEFAULT_FEEDBACK_STRATEGY,
     new_experiment_id,
     resolve_run_selection,
     run_arm_repeats,
@@ -207,6 +208,17 @@ def run_cmd(
         min=0,
         help="Extra agent attempts per checkpoint when tests fail (0 disables)",
     ),
+    transient_retries: Optional[int] = typer.Option(
+        None,
+        "--transient-retries",
+        min=0,
+        help="Extra retries for high-confidence provider truncation (0 disables)",
+    ),
+    feedback_strategy: Optional[str] = typer.Option(
+        None,
+        "--feedback-strategy",
+        help=f"Rework feedback strategy (default: {DEFAULT_FEEDBACK_STRATEGY})",
+    ),
     resume: bool = typer.Option(
         False,
         "--resume",
@@ -231,7 +243,9 @@ def run_cmd(
     console.print(
         f"experiment_id={experiment_id} arm={arm} runs={runs} jobs={jobs} "
         f"agent={agent or '(state.json)'} provider={provider or '(state.json)'} "
-        f"model={model or '(state.json)'} thinking={thinking or '(state.json)'}"
+        f"model={model or '(state.json)'} thinking={thinking or '(state.json)'} "
+        f"transient_retries={transient_retries if transient_retries is not None else '(state.json)'} "
+        f"feedback_strategy={feedback_strategy or '(state.json)'}"
     )
     try:
         results = run_arm_repeats(
@@ -246,6 +260,8 @@ def run_cmd(
             jobs=jobs,
             skip_smoke_check=skip_smoke_check,
             rework_attempts=rework_attempts,
+            transient_retries=transient_retries,
+            feedback_strategy=feedback_strategy,
             resume=resume,
         )
     except (RuntimeError, ValueError) as exc:
@@ -292,6 +308,17 @@ def run_all_cmd(
         min=0,
         help="Extra agent attempts per checkpoint when tests fail (0 disables)",
     ),
+    transient_retries: Optional[int] = typer.Option(
+        None,
+        "--transient-retries",
+        min=0,
+        help="Extra retries for high-confidence provider truncation (0 disables)",
+    ),
+    feedback_strategy: Optional[str] = typer.Option(
+        None,
+        "--feedback-strategy",
+        help=f"Rework feedback strategy (default: {DEFAULT_FEEDBACK_STRATEGY})",
+    ),
     resume: bool = typer.Option(
         False,
         "--resume",
@@ -320,6 +347,8 @@ def run_all_cmd(
         f"=== run-all × {runs} jobs={jobs} agent={agent or '(state.json)'} "
         f"provider={provider or '(state.json)'} model={model or '(state.json)'} "
         f"thinking={thinking or '(state.json)'} "
+        f"transient_retries={transient_retries if transient_retries is not None else '(state.json)'} "
+        f"feedback_strategy={feedback_strategy or '(state.json)'} "
         f"arms={','.join(selected)} experiment_id={experiment_id} ==="
     )
     try:
@@ -335,6 +364,8 @@ def run_all_cmd(
             jobs=jobs,
             skip_smoke_check=skip_smoke_check,
             rework_attempts=rework_attempts,
+            transient_retries=transient_retries,
+            feedback_strategy=feedback_strategy,
             resume=resume,
         )
     except (RuntimeError, ValueError) as exc:

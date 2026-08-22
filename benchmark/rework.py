@@ -30,15 +30,94 @@ def score_from_counts(
     return f"{passed}/{total}" if total else "0/0"
 
 
+def _semantic_attempt_count(rework: dict[str, Any]) -> int:
+    attempts = [
+        attempt
+        for attempt in (rework.get("attempts") or [])
+        if isinstance(attempt, dict)
+    ]
+    if rework.get("semantic_attempts_total") is not None:
+        return int(rework.get("semantic_attempts_total") or 0)
+    if any(isinstance(attempt.get("stage"), str) for attempt in attempts):
+        return int(
+            sum(1 for attempt in attempts if attempt.get("stage") != "transient_retry")
+        )
+    return int(rework.get("attempts_total") or len(attempts))
+
+
+def _transient_attempt_count(rework: dict[str, Any]) -> int:
+    if rework.get("transient_retries_total") is not None:
+        return int(rework.get("transient_retries_total") or 0)
+    return sum(
+        1
+        for attempt in (rework.get("attempts") or [])
+        if isinstance(attempt, dict) and attempt.get("stage") == "transient_retry"
+    )
+
+
+def _provider_truncation_count(
+    checkpoint: dict[str, Any],
+    rework: dict[str, Any],
+) -> int:
+    recorded = rework.get("provider_truncation_attempts")
+    if recorded is not None:
+        return int(recorded or 0)
+    return int(
+        (checkpoint.get("attempt_diagnostics") or {}).get("provider_truncations")
+        or 0
+    )
+
+
+def _truncation_recovered(
+    checkpoint: dict[str, Any],
+    rework: dict[str, Any],
+) -> bool:
+    recorded = rework.get("provider_truncation_recovered")
+    if recorded is not None:
+        return bool(recorded)
+    return bool((checkpoint.get("attempt_diagnostics") or {}).get("transient_recovered"))
+
+
+def _truncation_unresolved(
+    checkpoint: dict[str, Any],
+    rework: dict[str, Any],
+) -> bool:
+    recorded = rework.get("provider_truncation_unresolved")
+    if recorded is not None:
+        return bool(recorded)
+    return bool(
+        (checkpoint.get("attempt_diagnostics") or {}).get(
+            "provider_truncation_unresolved"
+        )
+    )
+
+
 def rework_stats(records: list[dict[str, Any]]) -> dict[str, int]:
     """Aggregate rework events across a run's checkpoint records."""
     reworked = [cp for cp in records if cp.get("rework")]
+    truncation_checkpoints = [
+        cp
+        for cp in reworked
+        if _provider_truncation_count(cp, cp["rework"]) > 0
+    ]
     return {
         "rework_attempts_total": sum(
             int((cp["rework"] or {}).get("attempts_total") or 0) for cp in reworked
         ),
+        "semantic_attempts_total": sum(
+            _semantic_attempt_count(cp["rework"]) for cp in reworked
+        ),
+        "semantic_rework_attempts": sum(
+            max(_semantic_attempt_count(cp["rework"]) - 1, 0) for cp in reworked
+        ),
+        "transient_retries": sum(
+            _transient_attempt_count(cp["rework"]) for cp in reworked
+        ),
         "repeated_attempts": sum(
-            max(int((cp["rework"] or {}).get("attempts_total") or 0) - 1, 0)
+            max(
+                _semantic_attempt_count(cp["rework"]) - 1,
+                0,
+            )
             for cp in reworked
         ),
         "rework_fixed": sum(1 for cp in reworked if cp["rework"].get("fixed")),
@@ -46,6 +125,22 @@ def rework_stats(records: list[dict[str, Any]]) -> dict[str, int]:
             1 for cp in reworked if not cp["rework"].get("fixed")
         ),
         "reworked_checkpoints": len(reworked),
+        "provider_truncations": sum(
+            _provider_truncation_count(cp, cp["rework"])
+            for cp in reworked
+        ),
+        "provider_truncation_checkpoints": len(truncation_checkpoints),
+        "transient_recoveries": sum(
+            1
+            for cp in truncation_checkpoints
+            if _truncation_recovered(cp, cp["rework"]) or cp["rework"].get("fixed")
+        ),
+        "provider_truncation_unresolved": sum(
+            1
+            for cp in truncation_checkpoints
+            if _truncation_unresolved(cp, cp["rework"])
+            or (not _truncation_recovered(cp, cp["rework"]) and not cp["rework"].get("fixed"))
+        ),
     }
 
 
@@ -61,6 +156,11 @@ def build_rework_entry(
     model_settings = manifest.get("model_settings") or {}
     extra = manifest.get("extra") or {}
     checkpoint_usage = cp_record.get("usage") or {}
+    semantic_attempts = _semantic_attempt_count(rework)
+    transient_retries = _transient_attempt_count(rework)
+    provider_truncations = _provider_truncation_count(cp_record, rework)
+    truncation_recovered = _truncation_recovered(cp_record, rework)
+    truncation_unresolved = _truncation_unresolved(cp_record, rework)
     return {
         "date": datetime.now(UTC).isoformat(),
         "experiment_id": manifest.get("experiment_id"),
@@ -76,6 +176,12 @@ def build_rework_entry(
         "run_index": extra.get("run_index"),
         "source": "rework",
         "attempts_total": int(rework.get("attempts_total") or 0),
+        "semantic_attempts_total": semantic_attempts,
+        "transient_retries": transient_retries,
+        "provider_truncations": provider_truncations,
+        "provider_truncation_recovered": truncation_recovered,
+        "provider_truncation_unresolved": truncation_unresolved,
+        "feedback_strategy": rework.get("feedback_strategy"),
         "fixed": bool(rework.get("fixed")),
         "attempts": rework.get("attempts") or [],
         "post_fix_score": score_from_counts(
@@ -86,6 +192,13 @@ def build_rework_entry(
         "failed_tests": final_attempt.get("failed_tests") or [],
         "failed_tests_by_group": final_attempt.get("failed_tests_by_group"),
         "groups": final_attempt.get("groups"),
+        "failure_class": (
+            "provider_truncation"
+            if truncation_unresolved
+            else final_attempt.get("failure_class")
+        ),
+        "diagnostics": final_attempt.get("diagnostics"),
+        "feedback_context": final_attempt.get("feedback_context"),
         "core": final_attempt.get("core"),
         "usage": final_attempt.get("usage"),
         "creation_input_tokens": checkpoint_usage.get("creation_input_tokens"),
@@ -93,8 +206,16 @@ def build_rework_entry(
         "rework_input_tokens": checkpoint_usage.get("rework_input_tokens"),
         "rework_output_tokens": checkpoint_usage.get("rework_output_tokens"),
         "infrastructure_failure": bool(final_attempt.get("infrastructure_failure")),
-        "root_cause": None,
-        "fix": "rework",
+        "root_cause": (
+            "provider_truncation"
+            if truncation_unresolved
+            else None
+        ),
+        "fix": (
+            "transient-retry"
+            if truncation_unresolved
+            else "rework"
+        ),
         "resumed": False,
         "paths": {
             "run_dir": str(run_dir),
