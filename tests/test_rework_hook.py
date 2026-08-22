@@ -32,6 +32,24 @@ def _write_eval(cp_dir: Path, *, failed: list[str] | None = None, infra: bool = 
     (cp_dir / "evaluation.json").write_text(json.dumps(data), encoding="utf-8")
 
 
+def _write_inference(cp_dir: Path) -> None:
+    data = {
+        "elapsed": 4.5,
+        "usage": {
+            "net_tokens": {
+                "input": 101,
+                "output": 37,
+                "cache_read": 11,
+                "cache_write": 3,
+                "reasoning": 19,
+            },
+            "steps": 6,
+            "cost": 0.12,
+        },
+    }
+    (cp_dir / "inference_result.json").write_text(json.dumps(data), encoding="utf-8")
+
+
 class EscapeAndFeedbackTests(unittest.TestCase):
     def test_escape_jinja_neutralizes_delimiters(self) -> None:
         text = "{{danger}} {%if x%} {%endif%} done"
@@ -77,9 +95,41 @@ class EscapeAndFeedbackTests(unittest.TestCase):
             self.assertIn("test_a", feedback)
             self.assertIn("test_b", feedback)
             self.assertIn("pass_counts={", feedback)
+            self.assertIn("Core: passed=2 failed=1 total=3", feedback)
 
 
 class ReworkLogTests(unittest.TestCase):
+    def test_record_persists_group_and_usage_metrics(self) -> None:
+        with TemporaryDirectory() as td:
+            cp_dir = Path(td) / "checkpoint_1"
+            cp_dir.mkdir()
+            _write_eval(cp_dir, failed=["test_x"])
+            _write_inference(cp_dir)
+
+            log = ReworkLog(cp_dir, max_attempts=2)
+            log.record(1, False, cp_dir)
+            data = json.loads(log.write().read_text(encoding="utf-8"))
+            attempt = data["attempts"][0]
+
+            self.assertEqual(
+                attempt["core"],
+                {"passed": 2, "failed": 1, "total": 3, "failed_tests": ["test_x"]},
+            )
+            self.assertEqual(attempt["groups"]["Functionality"]["total"], 1)
+            self.assertEqual(attempt["failed_tests_by_group"], {"Core": ["test_x"]})
+            self.assertEqual(attempt["usage"]["input_tokens"], 101)
+            self.assertEqual(attempt["usage"]["output_tokens"], 37)
+            self.assertEqual(attempt["usage"]["cache_read_tokens"], 11)
+            self.assertEqual(attempt["usage"]["cache_write_tokens"], 3)
+            self.assertEqual(attempt["usage"]["reasoning_tokens"], 19)
+            self.assertEqual(attempt["usage"]["steps"], 6)
+            self.assertEqual(attempt["usage"]["elapsed_seconds"], 4.5)
+            self.assertEqual(attempt["usage"]["reported_cost_usd"], 0.12)
+            self.assertEqual(attempt["input_tokens"], 101)
+            self.assertEqual(attempt["output_tokens"], 37)
+            self.assertEqual(attempt["steps"], 6)
+            self.assertEqual(attempt["elapsed_seconds"], 4.5)
+
     def test_write_persists_attempts_and_fixed(self) -> None:
         with TemporaryDirectory() as td:
             cp_dir = Path(td) / "checkpoint_1"
@@ -155,6 +205,8 @@ class InstallHookTests(unittest.TestCase):
             rework = json.loads((cp_dir / "rework.json").read_text(encoding="utf-8"))
             self.assertEqual(rework["attempts_total"], 2)
             self.assertTrue(rework["fixed"])
+            self.assertEqual(rework["attempts"][0]["stage"], "creation")
+            self.assertEqual(rework["attempts"][1]["stage"], "rework")
 
     def test_stops_when_attempts_exhausted(self) -> None:
         with TemporaryDirectory() as td:

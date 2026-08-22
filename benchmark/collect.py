@@ -57,6 +57,56 @@ def _group_counts(evaluation: dict[str, Any] | None, group: str) -> tuple[int | 
     return passed_i, failed_i
 
 
+def _attempt_usage(attempt: dict[str, Any]) -> dict[str, Any]:
+    usage = attempt.get("usage")
+    return usage if isinstance(usage, dict) else attempt
+
+
+def _sum_attempt_tokens(attempts: list[dict[str, Any]], *keys: str) -> int | None:
+    values: list[int] = []
+    for attempt in attempts:
+        value = _token_field(_attempt_usage(attempt), *keys)
+        if value is not None:
+            values.append(value)
+    return sum(values) if values else None
+
+
+def _stage_token_usage(
+    rework: dict[str, Any] | None,
+    checkpoint_usage: dict[str, int | None],
+) -> dict[str, int | None]:
+    """Split input/output tokens between the initial solve and rework calls."""
+    if not rework:
+        return {
+            "creation_input_tokens": checkpoint_usage.get("input_tokens"),
+            "creation_output_tokens": checkpoint_usage.get("output_tokens"),
+            "rework_input_tokens": 0,
+            "rework_output_tokens": 0,
+        }
+
+    attempts = [attempt for attempt in (rework.get("attempts") or []) if isinstance(attempt, dict)]
+    initial = attempts[:1]
+    additional = attempts[1:]
+    creation_input = _sum_attempt_tokens(initial, "input_tokens", "input")
+    creation_output = _sum_attempt_tokens(initial, "output_tokens", "output")
+    rework_input = _sum_attempt_tokens(additional, "input_tokens", "input")
+    rework_output = _sum_attempt_tokens(additional, "output_tokens", "output")
+    if rework_input is None and creation_input is not None:
+        total = checkpoint_usage.get("input_tokens")
+        if total is not None and total >= creation_input:
+            rework_input = total - creation_input
+    if rework_output is None and creation_output is not None:
+        total = checkpoint_usage.get("output_tokens")
+        if total is not None and total >= creation_output:
+            rework_output = total - creation_output
+    return {
+        "creation_input_tokens": creation_input,
+        "creation_output_tokens": creation_output,
+        "rework_input_tokens": rework_input,
+        "rework_output_tokens": rework_output,
+    }
+
+
 def _diff_metrics(diff: dict[str, Any] | None) -> dict[str, Any]:
     empty = {
         "files_added": None,
@@ -203,6 +253,10 @@ def collect_checkpoint_record(
     func_p, func_f = _group_counts(evaluation, "Functionality")
     err_p, err_f = _group_counts(evaluation, "Error")
     reg_p, reg_f = _group_counts(evaluation, "Regression")
+    core_total = core_p + core_f if core_p is not None and core_f is not None else None
+    func_total = func_p + func_f if func_p is not None and func_f is not None else None
+    err_total = err_p + err_f if err_p is not None and err_f is not None else None
+    reg_total = reg_p + reg_f if reg_p is not None and reg_f is not None else None
 
     tests_passed = None
     tests_failed = None
@@ -225,6 +279,10 @@ def collect_checkpoint_record(
     change = _diff_metrics(diff)
     activation = _activation_status(arm, checkpoint_dir)
     rework = _read_json(checkpoint_dir / "rework.json")
+    stage_tokens = _stage_token_usage(
+        rework,
+        {"input_tokens": input_tokens, "output_tokens": output_tokens},
+    )
 
     record = {
         "run_id": run_id,
@@ -243,6 +301,7 @@ def collect_checkpoint_record(
             "elapsed_seconds": inference.get("elapsed"),
             "reported_cost_usd": reported_cost,
             "normalized_cost_usd": norm_cost,
+            **stage_tokens,
         },
         "correctness": {
             "checkpoint_success": checkpoint_success,
@@ -251,12 +310,16 @@ def collect_checkpoint_record(
             "tests_failed": tests_failed,
             "core_passed": core_p,
             "core_failed": core_f,
+            "core_total": core_total,
             "functionality_passed": func_p,
             "functionality_failed": func_f,
+            "functionality_total": func_total,
             "error_passed": err_p,
             "error_failed": err_f,
+            "error_total": err_total,
             "regression_passed": reg_p,
             "regression_failed": reg_f,
+            "regression_total": reg_total,
             "had_error": inference.get("had_error"),
             "error_message": inference.get("error_message"),
         },
@@ -324,30 +387,110 @@ def collect_run(
 
 def _cumulative_metrics(records: list[dict[str, Any]]) -> dict[str, Any]:
     out: dict[str, Any] = {}
+    seen: set[str] = set()
     acc = {
         "input_tokens": 0,
         "output_tokens": 0,
+        "creation_input_tokens": 0,
+        "creation_output_tokens": 0,
+        "rework_input_tokens": 0,
+        "rework_output_tokens": 0,
+        "cache_read_tokens": 0,
+        "cache_write_tokens": 0,
         "reasoning_tokens": 0,
         "total_tokens": 0,
         "normalized_cost_usd": 0.0,
+        "reported_cost_usd": 0.0,
         "elapsed_seconds": 0.0,
+        "tests_passed": 0,
+        "tests_failed": 0,
+        "tests_total": 0,
+        "checkpoints_passed": 0,
+        "checkpoints_failed": 0,
+        "checkpoints_total": 0,
+        "repeated_attempts": 0,
+        "core_passed": 0,
+        "core_failed": 0,
+        "core_total": 0,
+        "functionality_passed": 0,
+        "functionality_failed": 0,
+        "functionality_total": 0,
+        "error_passed": 0,
+        "error_failed": 0,
+        "error_total": 0,
+        "regression_passed": 0,
+        "regression_failed": 0,
+        "regression_total": 0,
         "regression_failures": 0,
         "lines_changed": 0,
     }
+
+    def optional_metric(key: str) -> int | None:
+        return acc[key] if key in seen else None
+
     for record in records:
         usage = record["usage"]
         correctness = record["correctness"]
         change = record["change"]
-        for key in ("input_tokens", "output_tokens", "reasoning_tokens"):
+        checkpoint_success = correctness.get("checkpoint_success")
+        if checkpoint_success is not None:
+            acc["checkpoints_total"] += 1
+            acc["checkpoints_passed"] += int(checkpoint_success)
+        rework = record.get("rework") or {}
+        if checkpoint_success is not None or rework:
+            acc["checkpoints_failed"] += int(checkpoint_success is False or bool(rework))
+            seen.add("checkpoints_failed")
+        if checkpoint_success is not None:
+            seen.update(("checkpoints_total", "checkpoints_passed"))
+        attempts_total = int(rework.get("attempts_total") or 0)
+        acc["repeated_attempts"] += max(attempts_total - 1, 0)
+        seen.add("repeated_attempts")
+        for key in (
+            "input_tokens",
+            "output_tokens",
+            "creation_input_tokens",
+            "creation_output_tokens",
+            "rework_input_tokens",
+            "rework_output_tokens",
+            "cache_read_tokens",
+            "cache_write_tokens",
+            "reasoning_tokens",
+        ):
             val = usage.get(key)
             if val is not None:
                 acc[key] += int(val)
+                seen.add(key)
         if usage.get("input_tokens") is not None and usage.get("output_tokens") is not None:
             acc["total_tokens"] += int(usage["input_tokens"]) + int(usage["output_tokens"])
+            seen.add("total_tokens")
         if usage.get("normalized_cost_usd") is not None:
             acc["normalized_cost_usd"] += float(usage["normalized_cost_usd"])
+        if usage.get("reported_cost_usd") is not None:
+            acc["reported_cost_usd"] += float(usage["reported_cost_usd"])
+            seen.add("reported_cost_usd")
         if usage.get("elapsed_seconds") is not None:
             acc["elapsed_seconds"] += float(usage["elapsed_seconds"])
+        for key in (
+            "tests_passed",
+            "tests_failed",
+            "tests_total",
+            "core_passed",
+            "core_failed",
+            "core_total",
+            "functionality_passed",
+            "functionality_failed",
+            "functionality_total",
+            "error_passed",
+            "error_failed",
+            "error_total",
+            "regression_passed",
+            "regression_failed",
+            "regression_total",
+        ):
+            val = correctness.get(key)
+            if val is not None:
+                acc[key] += int(val)
+                seen.add(key)
         if correctness.get("regression_failed") is not None:
             acc["regression_failures"] += int(correctness["regression_failed"])
         if change.get("lines_changed") is not None:
@@ -355,12 +498,42 @@ def _cumulative_metrics(records: list[dict[str, Any]]) -> dict[str, Any]:
 
         cp = record["checkpoint"]
         out[f"through_cp{cp}"] = {
-            "input_tokens": acc["input_tokens"],
-            "output_tokens": acc["output_tokens"],
-            "reasoning_tokens": acc["reasoning_tokens"],
-            "total_tokens": acc["total_tokens"],
+            "input_tokens": optional_metric("input_tokens"),
+            "output_tokens": optional_metric("output_tokens"),
+            "creation_input_tokens": optional_metric("creation_input_tokens"),
+            "creation_output_tokens": optional_metric("creation_output_tokens"),
+            "rework_input_tokens": optional_metric("rework_input_tokens"),
+            "rework_output_tokens": optional_metric("rework_output_tokens"),
+            "cache_read_tokens": optional_metric("cache_read_tokens"),
+            "cache_write_tokens": optional_metric("cache_write_tokens"),
+            "reasoning_tokens": optional_metric("reasoning_tokens"),
+            "total_tokens": optional_metric("total_tokens"),
             "cumulative_normalized_cost_usd": round(acc["normalized_cost_usd"], 6),
+            "cumulative_reported_cost_usd": (
+                round(acc["reported_cost_usd"], 6)
+                if "reported_cost_usd" in seen
+                else None
+            ),
             "cumulative_elapsed_seconds": round(acc["elapsed_seconds"], 3),
+            "tests_passed": optional_metric("tests_passed"),
+            "tests_failed": optional_metric("tests_failed"),
+            "tests_total": optional_metric("tests_total"),
+            "checkpoints_passed": optional_metric("checkpoints_passed"),
+            "checkpoints_failed": optional_metric("checkpoints_failed"),
+            "checkpoints_total": optional_metric("checkpoints_total"),
+            "repeated_attempts": optional_metric("repeated_attempts"),
+            "core_passed": optional_metric("core_passed"),
+            "core_failed": optional_metric("core_failed"),
+            "core_total": optional_metric("core_total"),
+            "functionality_passed": optional_metric("functionality_passed"),
+            "functionality_failed": optional_metric("functionality_failed"),
+            "functionality_total": optional_metric("functionality_total"),
+            "error_passed": optional_metric("error_passed"),
+            "error_failed": optional_metric("error_failed"),
+            "error_total": optional_metric("error_total"),
+            "regression_passed": optional_metric("regression_passed"),
+            "regression_failed": optional_metric("regression_failed"),
+            "regression_total": optional_metric("regression_total"),
             "regression_failures": acc["regression_failures"],
             "lines_changed": acc["lines_changed"],
         }

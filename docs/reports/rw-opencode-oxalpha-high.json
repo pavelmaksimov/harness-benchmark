@@ -3,28 +3,50 @@
   "agent_version": "1.14.33",
   "arms": {
     "baseline": {
+      "checkpoints_failed": 3.0,
       "checkpoints_passed": 14.0,
       "checkpoints_total": 14.0,
       "complexity": 197.0,
+      "core_failed": 0.0,
+      "core_passed": 26.0,
+      "core_total": 26.0,
+      "creation_input_tokens": null,
+      "creation_output_tokens": null,
       "dependencies_added": 5.0,
       "elapsed_time": 2251.535949,
       "loc_changed": 1053.0,
       "loc_final": 976.0,
       "normalized_cost": 0.0,
-      "regression_failures": 0.0
+      "regression_failures": 0.0,
+      "repeated_attempts": 3.0,
+      "rework_input_tokens": null,
+      "rework_output_tokens": null,
+      "total_input_tokens": 250689.0,
+      "total_output_tokens": 42406.0
     }
   },
   "date": "2026-08-21T13:11:26.108751+00:00",
   "deltas": {
+    "checkpoints_failed": null,
     "checkpoints_passed": null,
     "checkpoints_total": null,
     "complexity": null,
+    "core_failed": null,
+    "core_passed": null,
+    "core_total": null,
+    "creation_input_tokens": null,
+    "creation_output_tokens": null,
     "dependencies_added": null,
     "elapsed_time": null,
     "loc_changed": null,
     "loc_final": null,
     "normalized_cost": null,
-    "regression_failures": null
+    "regression_failures": null,
+    "repeated_attempts": null,
+    "rework_input_tokens": null,
+    "rework_output_tokens": null,
+    "total_input_tokens": null,
+    "total_output_tokens": null
   },
   "deltas_by_arm": {},
   "excluded_ponytail_runs": 0,
@@ -49,8 +71,234 @@
     "baseline": {
       "attempts": 6,
       "fixed": 3,
+      "repeated_attempts": 3,
       "unresolved": 0
     }
   },
+  "rework_details": [
+    {
+      "arm": "baseline",
+      "cache_read_tokens": 107456,
+      "cache_write_tokens": 0,
+      "core_failed": 0,
+      "core_passed": 2,
+      "core_total": 2,
+      "cost": null,
+      "cp": 1,
+      "creation_input_tokens": null,
+      "creation_output_tokens": null,
+      "files_delta": 1,
+      "input_tokens": 7207,
+      "loc_delta": 22,
+      "output_tokens": 2770,
+      "pass": true,
+      "reasoning_tokens": 769,
+      "regressions": 0,
+      "reported_cost_usd": 0.0,
+      "rework": {
+        "attempts": [
+          {
+            "attempt": 1,
+            "duration": 18.29145336151123,
+            "failed_tests": [
+              "test_registration_validation_and_uniqueness"
+            ],
+            "infrastructure_failure": false,
+            "pass_counts": {
+              "Core": 1,
+              "Error": 0,
+              "Functionality": 0,
+              "Regression": 0
+            },
+            "passed_policy": false,
+            "total_counts": {
+              "Core": 2,
+              "Error": 0,
+              "Functionality": 0,
+              "Regression": 0
+            }
+          },
+          {
+            "attempt": 2,
+            "duration": 11.445522546768188,
+            "failed_tests": [],
+            "infrastructure_failure": false,
+            "pass_counts": {
+              "Core": 2,
+              "Error": 0,
+              "Functionality": 0,
+              "Regression": 0
+            },
+            "passed_policy": true,
+            "total_counts": {
+              "Core": 2,
+              "Error": 0,
+              "Functionality": 0,
+              "Regression": 0
+            }
+          }
+        ],
+        "attempts_total": 2,
+        "checkpoint": "checkpoint_1",
+        "fixed": true,
+        "max_additional_attempts": 2
+      },
+      "rework_input_tokens": null,
+      "rework_output_tokens": null,
+      "run_id": "rw-opencode-oxalpha-high-baseline-r1-2b4a8335",
+      "steps": 10,
+      "time": 114.001954,
+      "tokens": 9977
+    },
+    {
+      "arm": "baseline",
+      "cache_read_tokens": 85632,
+      "cache_write_tokens": 0,
+      "core_failed": 0,
+      "core_passed": 3,
+      "core_total": 3,
+      "cost": null,
+      "cp": 3,
+      "creation_input_tokens": null,
+      "creation_output_tokens": null,
+      "files_delta": 1,
+      "input_tokens": 14984,
+      "loc_delta": 27,
+      "output_tokens": 2084,
+      "pass": true,
+      "reasoning_tokens": 272,
+      "regressions": 0,
+      "reported_cost_usd": 0.0,
+      "rework": {
+        "attempts": [
+          {
+            "attempt": 1,
+            "duration": 12.459786891937256,
+            "failed_tests": [
+              "test_update_rejects_invalid_identity_and_requires_auth"
+            ],
+            "infrastructure_failure": false,
+            "pass_counts": {
+              "Core": 2,
+              "Error": 0,
+              "Functionality": 0,
+              "Regression": 0
+            },
+            "passed_policy": false,
+            "total_counts": {
+              "Core": 3,
+              "Error": 0,
+              "Functionality": 0,
+              "Regression": 0
+            }
+          },
+          {
+            "attempt": 2,
+            "duration": 14.687578678131104,
+            "failed_tests": [],
+            "infrastructure_failure": false,
+            "pass_counts": {
+              "Core": 3,
+              "Error": 0,
+              "Functionality": 0,
+              "Regression": 0
+            },
+            "passed_policy": true,
+            "total_counts": {
+              "Core": 3,
+              "Error": 0,
+              "Functionality": 0,
+              "Regression": 0
+            }
+          }
+        ],
+        "attempts_total": 2,
+        "checkpoint": "checkpoint_3",
+        "fixed": true,
+        "max_additional_attempts": 2
+      },
+      "rework_input_tokens": null,
+      "rework_output_tokens": null,
+      "run_id": "rw-opencode-oxalpha-high-baseline-r1-2b4a8335",
+      "steps": 9,
+      "time": 68.759045,
+      "tokens": 17068
+    },
+    {
+      "arm": "baseline",
+      "cache_read_tokens": 365952,
+      "cache_write_tokens": 0,
+      "core_failed": 0,
+      "core_passed": 2,
+      "core_total": 2,
+      "cost": null,
+      "cp": 5,
+      "creation_input_tokens": null,
+      "creation_output_tokens": null,
+      "files_delta": 3,
+      "input_tokens": 16825,
+      "loc_delta": 224,
+      "output_tokens": 6176,
+      "pass": true,
+      "reasoning_tokens": 872,
+      "regressions": 0,
+      "reported_cost_usd": 0.0,
+      "rework": {
+        "attempts": [
+          {
+            "attempt": 1,
+            "duration": 14.687335968017578,
+            "failed_tests": [
+              "test_create_article_errors_and_duplicate_titles",
+              "test_create_article_full_contract_and_default_tags"
+            ],
+            "infrastructure_failure": false,
+            "pass_counts": {
+              "Core": 0,
+              "Error": 0,
+              "Functionality": 0,
+              "Regression": 0
+            },
+            "passed_policy": false,
+            "total_counts": {
+              "Core": 2,
+              "Error": 0,
+              "Functionality": 0,
+              "Regression": 0
+            }
+          },
+          {
+            "attempt": 2,
+            "duration": 12.946628093719482,
+            "failed_tests": [],
+            "infrastructure_failure": false,
+            "pass_counts": {
+              "Core": 2,
+              "Error": 0,
+              "Functionality": 0,
+              "Regression": 0
+            },
+            "passed_policy": true,
+            "total_counts": {
+              "Core": 2,
+              "Error": 0,
+              "Functionality": 0,
+              "Regression": 0
+            }
+          }
+        ],
+        "attempts_total": 2,
+        "checkpoint": "checkpoint_5",
+        "fixed": true,
+        "max_additional_attempts": 2
+      },
+      "rework_input_tokens": null,
+      "rework_output_tokens": null,
+      "run_id": "rw-opencode-oxalpha-high-baseline-r1-2b4a8335",
+      "steps": 24,
+      "time": 252.778616,
+      "tokens": 23001
+    }
+  ],
   "thinking": "high"
 }
