@@ -1,0 +1,242 @@
+{
+  "agent": "opencode",
+  "agent_version": "1.14.33",
+  "arms": {
+    "doorstop": {
+      "checkpoints_passed": 14.0,
+      "checkpoints_total": 14.0,
+      "complexity": 185.0,
+      "dependencies_added": 5.0,
+      "elapsed_time": 2972.923247,
+      "loc_changed": 975.0,
+      "loc_final": 727.0,
+      "normalized_cost": 0.0,
+      "regression_failures": 0.0
+    },
+    "graphify": {
+      "checkpoints_passed": 14.0,
+      "checkpoints_total": 14.0,
+      "complexity": 178.0,
+      "dependencies_added": 5.0,
+      "elapsed_time": 2400.137689,
+      "loc_changed": 1380.0,
+      "loc_final": 997.0,
+      "normalized_cost": 0.0,
+      "regression_failures": 0.0
+    },
+    "ponytail": {
+      "checkpoints_passed": 13.0,
+      "checkpoints_total": 14.0,
+      "complexity": 118.0,
+      "dependencies_added": 5.0,
+      "elapsed_time": 1674.627612,
+      "loc_changed": 484.0,
+      "loc_final": 495.0,
+      "normalized_cost": 0.0,
+      "regression_failures": 0.0
+    },
+    "strictdoc": {
+      "checkpoints_passed": 14.0,
+      "checkpoints_total": 14.0,
+      "complexity": 192.0,
+      "dependencies_added": 5.0,
+      "elapsed_time": 3439.913321,
+      "loc_changed": 1102.0,
+      "loc_final": 857.0,
+      "normalized_cost": 0.0,
+      "regression_failures": 0.0
+    },
+    "supermemory": {
+      "checkpoints_passed": 14.0,
+      "checkpoints_total": 14.0,
+      "complexity": 211.0,
+      "dependencies_added": 22.0,
+      "elapsed_time": 1994.596407,
+      "loc_changed": 1138.0,
+      "loc_final": 1032.0,
+      "normalized_cost": 0.0,
+      "regression_failures": 0.0
+    },
+    "tdd": {
+      "checkpoints_passed": 14.0,
+      "checkpoints_total": 14.0,
+      "complexity": 821.0,
+      "dependencies_added": 7.0,
+      "elapsed_time": 1897.95224,
+      "loc_changed": 2862.0,
+      "loc_final": 2613.0,
+      "normalized_cost": 0.0,
+      "regression_failures": 0.0
+    },
+    "thermo-nuclear-code-quality-review": {
+      "checkpoints_passed": 6.0,
+      "checkpoints_total": 14.0,
+      "complexity": 101.0,
+      "dependencies_added": 6.0,
+      "elapsed_time": 4258.293989,
+      "loc_changed": 287.0,
+      "loc_final": 640.0,
+      "normalized_cost": 0.0,
+      "regression_failures": 0.0
+    }
+  },
+  "date": "2026-08-21T18:02:44.957910+00:00",
+  "deltas": {
+    "checkpoints_passed": null,
+    "checkpoints_total": null,
+    "complexity": null,
+    "dependencies_added": null,
+    "elapsed_time": null,
+    "loc_changed": null,
+    "loc_final": null,
+    "normalized_cost": null,
+    "regression_failures": null
+  },
+  "deltas_by_arm": {
+    "doorstop": {
+      "checkpoints_passed": null,
+      "checkpoints_total": null,
+      "complexity": null,
+      "dependencies_added": null,
+      "elapsed_time": null,
+      "loc_changed": null,
+      "loc_final": null,
+      "normalized_cost": null,
+      "regression_failures": null
+    },
+    "graphify": {
+      "checkpoints_passed": null,
+      "checkpoints_total": null,
+      "complexity": null,
+      "dependencies_added": null,
+      "elapsed_time": null,
+      "loc_changed": null,
+      "loc_final": null,
+      "normalized_cost": null,
+      "regression_failures": null
+    },
+    "ponytail": {
+      "checkpoints_passed": null,
+      "checkpoints_total": null,
+      "complexity": null,
+      "dependencies_added": null,
+      "elapsed_time": null,
+      "loc_changed": null,
+      "loc_final": null,
+      "normalized_cost": null,
+      "regression_failures": null
+    },
+    "strictdoc": {
+      "checkpoints_passed": null,
+      "checkpoints_total": null,
+      "complexity": null,
+      "dependencies_added": null,
+      "elapsed_time": null,
+      "loc_changed": null,
+      "loc_final": null,
+      "normalized_cost": null,
+      "regression_failures": null
+    },
+    "supermemory": {
+      "checkpoints_passed": null,
+      "checkpoints_total": null,
+      "complexity": null,
+      "dependencies_added": null,
+      "elapsed_time": null,
+      "loc_changed": null,
+      "loc_final": null,
+      "normalized_cost": null,
+      "regression_failures": null
+    },
+    "tdd": {
+      "checkpoints_passed": null,
+      "checkpoints_total": null,
+      "complexity": null,
+      "dependencies_added": null,
+      "elapsed_time": null,
+      "loc_changed": null,
+      "loc_final": null,
+      "normalized_cost": null,
+      "regression_failures": null
+    },
+    "thermo-nuclear-code-quality-review": {
+      "checkpoints_passed": null,
+      "checkpoints_total": null,
+      "complexity": null,
+      "dependencies_added": null,
+      "elapsed_time": null,
+      "loc_changed": null,
+      "loc_final": null,
+      "normalized_cost": null,
+      "regression_failures": null
+    }
+  },
+  "excluded_ponytail_runs": 0,
+  "excluded_runs": {
+    "doorstop": 0,
+    "graphify": 0,
+    "ponytail": 0,
+    "strictdoc": 0,
+    "supermemory": 0,
+    "tdd": 0,
+    "thermo-nuclear-code-quality-review": 0
+  },
+  "experiment_id": "realworld-opencode-x-preview-f-free-high-20260821-1928",
+  "git_commits": {
+    "harness_benchmark": "c12cb67e6e73cb601dc9002a8c9d6f206792f997",
+    "scb_problems": "ef6a9dd13911566b6b01075ca121758c9f7b5c5f",
+    "slop_code_bench": "06b5c0687d4c05ee502e9696a4d0c22fc1eec5e0"
+  },
+  "incomplete_runs": {},
+  "model": "x-preview-f-free",
+  "n_baseline": 0,
+  "n_doorstop": 1,
+  "n_graphify": 1,
+  "n_ponytail": 1,
+  "n_strictdoc": 1,
+  "n_supermemory": 1,
+  "n_tdd": 1,
+  "n_thermo-nuclear-code-quality-review": 1,
+  "ponytail": null,
+  "pricing_version": "2026-08-12-openai-gpt-5.6-luna",
+  "problem": "realworld",
+  "provider": "opencode_auth",
+  "rework": {
+    "doorstop": {
+      "attempts": 5,
+      "fixed": 2,
+      "unresolved": 0
+    },
+    "graphify": {
+      "attempts": 2,
+      "fixed": 1,
+      "unresolved": 0
+    },
+    "ponytail": {
+      "attempts": 6,
+      "fixed": 1,
+      "unresolved": 1
+    },
+    "strictdoc": {
+      "attempts": 13,
+      "fixed": 5,
+      "unresolved": 0
+    },
+    "supermemory": {
+      "attempts": 3,
+      "fixed": 1,
+      "unresolved": 0
+    },
+    "tdd": {
+      "attempts": 5,
+      "fixed": 2,
+      "unresolved": 0
+    },
+    "thermo-nuclear-code-quality-review": {
+      "attempts": 37,
+      "fixed": 2,
+      "unresolved": 8
+    }
+  },
+  "thinking": "high"
+}
