@@ -5,6 +5,7 @@ from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any
 
+from benchmark.arms import arm_includes
 from benchmark.paths import CONFIGS_DIR, DEFAULT_AGENT, DEFAULT_PROVIDER, REPO_ROOT
 from benchmark.versions import (
     capture_codex_version,
@@ -38,7 +39,7 @@ def build_manifest(
 
     pricing = yaml.safe_load(pricing_text)
     harness_meta = load_arm_meta(arm)
-    ponytail = load_ponytail_meta() if arm == "ponytail" else None
+    ponytail = load_ponytail_meta() if arm_includes(arm, "ponytail") else None
 
     if agent == "opencode":
         agent_version = pins.get("opencode_cli_version")

@@ -25,6 +25,12 @@ configs/prompts/<name>-solve.jinja        # промпт = activation phrase + �
 benchmark/arms.py                         # ArmSpec + DEFAULT_EXPERIMENT_ARMS
 ```
 
+Для комбинации существующих arm'ов используется `kind=bundle`: в
+`harnesses/<name>/skills/` лежат скопированные payload'ы отдельных скиллов, а
+`home/` содержит дополнительные файлы домашнего каталога (например, runtime
+Supermemory). Поле `component_arms` в `VERSION.json` фиксирует состав набора;
+после пересборки payload нужно снова выполнить `pin_harness.py` и smoke.
+
 Инжект скиллов делает `benchmark/skill_hook.py`: для Codex копирует пин в
 `~/.codex/skills/<name>/`, для **OpenCode — в `~/.config/opencode/skills/<name>/`**
 (README-утверждение «skill-arm'ы с OpenCode не поддерживаются» устарело). Верификация активации —
@@ -39,9 +45,10 @@ benchmark/arms.py                         # ArmSpec + DEFAULT_EXPERIMENT_ARMS
 2. **Напиши SKILL.md**: non-negotiable rules сверху («solution first», где живут артефакты,
    что нельзя класть в `requirements.txt`), затем one-time setup точными командами,
    per-checkpoint loop, UID-конвенции, anti-patterns. Детали — в `references/workflow.md`.
-3. **Заведи арм** в `benchmark/arms.py` (kind=single) + добавь в `DEFAULT_EXPERIMENT_ARMS`,
-   создай `configs/<name>.yaml` и `configs/prompts/<name>-solve.jinja`
-   (за образец — graphify/tdd).
+3. **Заведи арм** в `benchmark/arms.py` (kind=single или bundle) + добавь в
+   `DEFAULT_EXPERIMENT_ARMS`, создай `configs/<name>.yaml` и
+   `configs/prompts/<name>-solve.jinja` (для bundle сначала собери payload в
+   `harnesses/<name>/skills/` и `home/`).
 4. **Запинь**: `uv run python scripts/pin_harness.py <name>` (считает sha256, пишет VERSION.json;
    схему tree_sha256 менять нельзя — инвалидишь чужие SMOKE.json).
 5. **Смоук**: CP1 обязателен гейтом; для проверки «устанавливается и реально работает» удобен

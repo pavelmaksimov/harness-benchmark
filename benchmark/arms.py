@@ -26,6 +26,7 @@ class ArmSpec:
     config_name: str | None = None
     activation_phrase: str | None = None
     intensity_hint: str | None = None
+    component_arms: tuple[str, ...] = ()
 
     @property
     def config_path(self) -> Path:
@@ -61,6 +62,48 @@ PONYTAIL = ArmSpec(
     activation_phrase="Activate and follow the installed Codex skill `ponytail`",
     intensity_hint="full",
 )
+
+
+def _combo_phrase(components: tuple[str, ...]) -> str:
+    names = ", ".join(f"`{component}`" for component in components)
+    return f"Activate and follow the installed Codex skills {names}"
+
+
+COMBO_SUPERMEMORY_GRAPHIFY_PONYTAIL_THERMO_DOORSTOP_TDD = (
+    "combo-supermemory-graphify-ponytail-thermo-nuclear-code-quality-review-doorstop-tdd"
+)
+COMBO_SUPERMEMORY_GRAPHIFY_PONYTAIL_THERMO_TDD = (
+    "combo-supermemory-graphify-ponytail-thermo-nuclear-code-quality-review-tdd"
+)
+COMBO_SUPERMEMORY_GRAPHIFY_PONYTAIL_THERMO = (
+    "combo-supermemory-graphify-ponytail-thermo-nuclear-code-quality-review"
+)
+COMBO_SUPERMEMORY_GRAPHIFY = "combo-supermemory-graphify"
+
+COMBINATION_ARMS: dict[str, tuple[str, ...]] = {
+    COMBO_SUPERMEMORY_GRAPHIFY_PONYTAIL_THERMO_DOORSTOP_TDD: (
+        "supermemory",
+        "graphify",
+        "ponytail",
+        "thermo-nuclear-code-quality-review",
+        "doorstop",
+        "tdd",
+    ),
+    COMBO_SUPERMEMORY_GRAPHIFY_PONYTAIL_THERMO_TDD: (
+        "supermemory",
+        "graphify",
+        "ponytail",
+        "thermo-nuclear-code-quality-review",
+        "tdd",
+    ),
+    COMBO_SUPERMEMORY_GRAPHIFY_PONYTAIL_THERMO: (
+        "supermemory",
+        "graphify",
+        "ponytail",
+        "thermo-nuclear-code-quality-review",
+    ),
+    COMBO_SUPERMEMORY_GRAPHIFY: ("supermemory", "graphify"),
+}
 
 ARMS: dict[str, ArmSpec] = {
     "baseline": BASELINE,
@@ -121,6 +164,17 @@ ARMS: dict[str, ArmSpec] = {
         activation_phrase="Activate and follow the installed Codex skill `doorstop`",
     ),
 }
+ARMS.update(
+    {
+        name: ArmSpec(
+            name=name,
+            kind="bundle",
+            activation_phrase=_combo_phrase(components),
+            component_arms=components,
+        )
+        for name, components in COMBINATION_ARMS.items()
+    }
+)
 
 DEFAULT_EXPERIMENT_ARMS: tuple[str, ...] = (
     "baseline",
@@ -133,6 +187,7 @@ DEFAULT_EXPERIMENT_ARMS: tuple[str, ...] = (
     "review-agent",
     "strictdoc",
     "doorstop",
+    *COMBINATION_ARMS,
 )
 
 SKILL_ARMS: tuple[str, ...] = tuple(a for a in DEFAULT_EXPERIMENT_ARMS if a != "baseline")
@@ -148,3 +203,9 @@ def get_arm(name: str) -> ArmSpec:
 
 def known_arm_names() -> list[str]:
     return sorted(ARMS)
+
+
+def arm_includes(arm: str | ArmSpec, component: str) -> bool:
+    """Return whether an arm installs a component harness."""
+    spec = get_arm(arm) if isinstance(arm, str) else arm
+    return spec.name == component or component in spec.component_arms

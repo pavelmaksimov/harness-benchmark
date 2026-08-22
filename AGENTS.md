@@ -86,6 +86,11 @@ ground truth → SKILL.md с non-interactive командами → arms.py + co
    `-j .` (дефолтный корень `/tmp!`), `git init`, дочерний документ `-p PARENT`, `EDITOR=true`.
    Полные таблицы и рабочие последовательности команд — §3.3/3.4 онбординг-дока.
 
+8. **Пин комбинированного bundle-arm.** У bundle нет единственного `skill_sha256`: `pin_harness.py`
+   хеширует payload из `skills/` и `home/`, поэтому вывод скрипта должен обращаться к этому полю
+   через `meta.get(...)`, а не через `meta["skill_sha256"]`. Иначе VERSION.json успевает записаться,
+   но сам скрипт завершается с `KeyError`.
+
 ## `task_manager`: workspace must be on `sys.path` for eval
 
 SCB runs pytest via `uvx` with cwd `/workspace`. That directory is **not** always on Python’s `sys.path`, so `import task_manager` fails in TestClient fixtures even when the agent’s package is present under `/workspace/task_manager/`.

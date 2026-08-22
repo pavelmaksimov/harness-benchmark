@@ -1,0 +1,23 @@
+{
+  "name": "combo-supermemory-graphify",
+  "skill_names": [
+    "graphify",
+    "supermemory-add",
+    "supermemory-forget",
+    "supermemory-profile",
+    "supermemory-save",
+    "supermemory-search",
+    "supermemory-status"
+  ],
+  "version": "pinned-local",
+  "kind": "bundle",
+  "tree_sha256": "2e60d7203d108022fa2d8ed2e20041b0a5da1455d008515d82fa48bbbdd7ce78",
+  "skill_bytes": 939480,
+  "file_count": 27,
+  "pinned_at": "2026-08-22T09:10:31.171857+00:00",
+  "source": "/home/user/my/harness-benchmark/harnesses/combo-supermemory-graphify/skills + /home/user/my/harness-benchmark/harnesses/combo-supermemory-graphify/home",
+  "component_arms": [
+    "supermemory",
+    "graphify"
+  ]
+}
