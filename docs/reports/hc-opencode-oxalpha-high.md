@@ -10,10 +10,21 @@
 
 ## Metrics (mean)
 
+Creation/Rework token metrics use per-attempt usage; `-` means unavailable.
+Failed checkpoints include checkpoints repaired by rework; Rework = All - Create when possible.
+
 | Metric | baseline |
 |--------|---------:|
 | CP passed/total | -/- |
+| Failed checkpoints | - |
+| Repeated attempts | - |
 | Regressions | - |
+| Creation input tokens | - |
+| Creation output tokens | - |
+| Rework input tokens | - |
+| Rework output tokens | - |
+| All input tokens | - |
+| All output tokens | - |
 | Normalized cost | - |
 | Elapsed | - |
 | Final LOC | - |

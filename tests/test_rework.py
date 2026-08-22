@@ -28,6 +28,29 @@ def _rework(attempts_total: int = 2, fixed: bool = True) -> dict:
                 "pass_counts": {"Core": 3} if fixed else {"Core": 1},
                 "total_counts": {"Core": 3},
                 "failed_tests": [] if fixed else ["test_a", "test_b"],
+                "failed_tests_by_group": {} if fixed else {"Core": ["test_a", "test_b"]},
+                "groups": {
+                    "Core": {
+                        "passed": 3 if fixed else 1,
+                        "failed": 0 if fixed else 2,
+                        "total": 3,
+                        "failed_tests": [] if fixed else ["test_a", "test_b"],
+                    }
+                },
+                "core": {
+                    "passed": 3 if fixed else 1,
+                    "failed": 0 if fixed else 2,
+                    "total": 3,
+                    "failed_tests": [] if fixed else ["test_a", "test_b"],
+                },
+                "usage": {
+                    "input_tokens": 20,
+                    "output_tokens": 8,
+                    "reasoning_tokens": 3,
+                    "steps": 2,
+                    "elapsed_seconds": 5.0,
+                    "reported_cost_usd": 0.02,
+                },
                 "infrastructure_failure": False,
                 "duration": 5.0,
             },
@@ -42,6 +65,12 @@ def _record(checkpoint_name: str = "checkpoint_1", rework: dict | None = None) -
         "problem": "task_manager",
         "checkpoint": 1,
         "checkpoint_name": checkpoint_name,
+        "usage": {
+            "creation_input_tokens": 10,
+            "creation_output_tokens": 4,
+            "rework_input_tokens": 6,
+            "rework_output_tokens": 2,
+        },
         "paths": {
             "checkpoint_dir": f"/tmp/x/{checkpoint_name}",
             "snapshot_dir": f"/tmp/x/{checkpoint_name}/snapshot",
@@ -56,6 +85,7 @@ class ReworkStatsTests(unittest.TestCase):
             rework.rework_stats([]),
             {
                 "rework_attempts_total": 0,
+                "repeated_attempts": 0,
                 "rework_fixed": 0,
                 "rework_unresolved": 0,
                 "reworked_checkpoints": 0,
@@ -72,6 +102,7 @@ class ReworkStatsTests(unittest.TestCase):
             rework.rework_stats(records),
             {
                 "rework_attempts_total": 5,
+                "repeated_attempts": 3,
                 "rework_fixed": 1,
                 "rework_unresolved": 1,
                 "reworked_checkpoints": 2,
@@ -113,6 +144,11 @@ class BuildEntryTests(unittest.TestCase):
         self.assertFalse(entry["fixed"])
         self.assertEqual(entry["post_fix_score"], "1/3")
         self.assertEqual(entry["failed_tests"], ["test_a", "test_b"])
+        self.assertEqual(entry["core"]["failed"], 2)
+        self.assertEqual(entry["groups"]["Core"]["total"], 3)
+        self.assertEqual(entry["usage"]["input_tokens"], 20)
+        self.assertEqual(entry["creation_input_tokens"], 10)
+        self.assertEqual(entry["rework_output_tokens"], 2)
         self.assertEqual(len(entry["attempts"]), 2)
         self.assertEqual(entry["paths"]["run_dir"], "/tmp/run_2")
 

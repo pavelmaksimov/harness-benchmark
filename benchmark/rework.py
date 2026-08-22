@@ -37,6 +37,10 @@ def rework_stats(records: list[dict[str, Any]]) -> dict[str, int]:
         "rework_attempts_total": sum(
             int((cp["rework"] or {}).get("attempts_total") or 0) for cp in reworked
         ),
+        "repeated_attempts": sum(
+            max(int((cp["rework"] or {}).get("attempts_total") or 0) - 1, 0)
+            for cp in reworked
+        ),
         "rework_fixed": sum(1 for cp in reworked if cp["rework"].get("fixed")),
         "rework_unresolved": sum(
             1 for cp in reworked if not cp["rework"].get("fixed")
@@ -56,6 +60,7 @@ def build_rework_entry(
     final_attempt = (rework.get("attempts") or [{}])[-1]
     model_settings = manifest.get("model_settings") or {}
     extra = manifest.get("extra") or {}
+    checkpoint_usage = cp_record.get("usage") or {}
     return {
         "date": datetime.now(UTC).isoformat(),
         "experiment_id": manifest.get("experiment_id"),
@@ -79,6 +84,14 @@ def build_rework_entry(
         "pass_counts": final_attempt.get("pass_counts"),
         "total_counts": final_attempt.get("total_counts"),
         "failed_tests": final_attempt.get("failed_tests") or [],
+        "failed_tests_by_group": final_attempt.get("failed_tests_by_group"),
+        "groups": final_attempt.get("groups"),
+        "core": final_attempt.get("core"),
+        "usage": final_attempt.get("usage"),
+        "creation_input_tokens": checkpoint_usage.get("creation_input_tokens"),
+        "creation_output_tokens": checkpoint_usage.get("creation_output_tokens"),
+        "rework_input_tokens": checkpoint_usage.get("rework_input_tokens"),
+        "rework_output_tokens": checkpoint_usage.get("rework_output_tokens"),
         "infrastructure_failure": bool(final_attempt.get("infrastructure_failure")),
         "root_cause": None,
         "fix": "rework",

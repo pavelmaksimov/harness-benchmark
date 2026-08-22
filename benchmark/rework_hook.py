@@ -37,6 +37,7 @@ logger = logging.getLogger("hb.rework")
 
 REWORK_FILENAME = "rework.json"
 HB_REWORK_ATTEMPTS = "HB_REWORK_ATTEMPTS"
+_KNOWN_GROUPS = ("Core", "Functionality", "Error", "Regression")
 
 _INSTALLED = False
 
@@ -47,12 +48,108 @@ def _read_json(path: Path) -> dict[str, Any] | None:
     return json.loads(path.read_text(encoding="utf-8"))
 
 
+def _token_field(usage: dict[str, Any], *keys: str) -> int | None:
+    """Read token counts from both flat and nested adapter usage shapes."""
+    for key in keys:
+        if key in usage and usage[key] is not None:
+            return int(usage[key])
+    tokens = usage.get("net_tokens") or usage.get("current_tokens") or {}
+    if isinstance(tokens, dict):
+        aliases = {
+            "input_tokens": "input",
+            "output_tokens": "output",
+            "cache_read_tokens": "cache_read",
+            "cache_write_tokens": "cache_write",
+            "reasoning_tokens": "reasoning",
+        }
+        for key in keys:
+            if key in tokens and tokens[key] is not None:
+                return int(tokens[key])
+            alias = aliases.get(key)
+            if alias and alias in tokens and tokens[alias] is not None:
+                return int(tokens[alias])
+    return None
+
+
+def _count(value: Any) -> int | None:
+    return None if value is None else int(value)
+
+
+def _number(value: Any) -> float | None:
+    return None if value is None else float(value)
+
+
+def _group_name(bucket_name: Any) -> str:
+    name = str(bucket_name)
+    for group in _KNOWN_GROUPS:
+        if name == group or name.endswith(f"-{group}") or name.endswith(f"_{group}"):
+            return group
+    return name
+
+
+def _failed_tests_by_group(evaluation: dict[str, Any]) -> dict[str, list[str]]:
+    tests = evaluation.get("tests") or {}
+    grouped: dict[str, list[str]] = {}
+    for bucket_name, bucket in tests.items():
+        if not isinstance(bucket, dict):
+            continue
+        failed = bucket.get("failed") or []
+        if failed:
+            grouped.setdefault(_group_name(bucket_name), []).extend(str(name) for name in failed)
+    return grouped
+
+
+def _group_results(evaluation: dict[str, Any]) -> dict[str, dict[str, Any]]:
+    pass_counts = evaluation.get("pass_counts") or {}
+    total_counts = evaluation.get("total_counts") or {}
+    failed_by_group = _failed_tests_by_group(evaluation)
+    names = list(_KNOWN_GROUPS)
+    for group in (*pass_counts.keys(), *total_counts.keys(), *failed_by_group.keys()):
+        group = str(group)
+        if group not in names:
+            names.append(group)
+
+    results: dict[str, dict[str, Any]] = {}
+    for group in names:
+        passed = _count(pass_counts.get(group))
+        total = _count(total_counts.get(group))
+        failed_tests = failed_by_group.get(group, [])
+        failed = total - passed if passed is not None and total is not None else None
+        if failed is None and failed_tests:
+            failed = len(failed_tests)
+        if passed is None and total is None and not failed_tests:
+            continue
+        results[group] = {
+            "passed": passed,
+            "failed": failed,
+            "total": total,
+            "failed_tests": failed_tests,
+        }
+    return results
+
+
+def _usage_record(inference: dict[str, Any]) -> dict[str, Any]:
+    usage = inference.get("usage") or {}
+    if not isinstance(usage, dict):
+        usage = {}
+    reported_cost = usage.get("cost")
+    return {
+        "input_tokens": _token_field(usage, "input_tokens", "input"),
+        "output_tokens": _token_field(usage, "output_tokens", "output"),
+        "cache_read_tokens": _token_field(usage, "cache_read_tokens", "cache_read"),
+        "cache_write_tokens": _token_field(usage, "cache_write_tokens", "cache_write"),
+        "reasoning_tokens": _token_field(usage, "reasoning_tokens", "reasoning"),
+        "steps": _count(usage.get("steps")),
+        "elapsed_seconds": _number(inference.get("elapsed")),
+        "reported_cost_usd": _number(reported_cost),
+    }
+
+
 def failed_test_names(evaluation: dict[str, Any]) -> list[str]:
     """Collect failed test node names from the per-bucket tests dict."""
-    tests = evaluation.get("tests") or {}
     failed: list[str] = []
-    for bucket in tests.values():
-        failed.extend(bucket.get("failed") or [])
+    for names in _failed_tests_by_group(evaluation).values():
+        failed.extend(names)
     return failed
 
 
@@ -99,19 +196,47 @@ def build_feedback(checkpoint_dir: Path, attempt: int) -> str | None:
         ),
         "Failing tests:",
         *(f"- {name}" for name in failed),
+        "Group metrics:",
     ]
+    for group, result in _group_results(evaluation).items():
+        lines.append(
+            f"- {group}: passed={result['passed']} failed={result['failed']} "
+            f"total={result['total']}"
+        )
+    lines.append("Failing tests by group:")
+    for group, names in _failed_tests_by_group(evaluation).items():
+        lines.append(f"- {group}:")
+        lines.extend(f"  - {name}" for name in names)
     return "\n".join(lines)
 
 
 def _attempt_record(attempt: int, passed_policy: bool | None, checkpoint_dir: Path) -> dict[str, Any]:
     """Snapshot one attempt's outcome from the checkpoint artifacts."""
     evaluation = _read_json(checkpoint_dir / "evaluation.json") or {}
+    inference = _read_json(checkpoint_dir / "inference_result.json") or {}
+    groups = _group_results(evaluation)
+    usage = _usage_record(inference)
     return {
         "attempt": attempt,
+        "stage": "creation" if attempt == 1 else "rework",
         "passed_policy": passed_policy,
         "pass_counts": evaluation.get("pass_counts"),
         "total_counts": evaluation.get("total_counts"),
         "failed_tests": failed_test_names(evaluation),
+        "failed_tests_by_group": {
+            group: result["failed_tests"] for group, result in groups.items() if result["failed_tests"]
+        },
+        "groups": groups,
+        "core": groups.get("Core"),
+        "usage": usage,
+        "input_tokens": usage["input_tokens"],
+        "output_tokens": usage["output_tokens"],
+        "cache_read_tokens": usage["cache_read_tokens"],
+        "cache_write_tokens": usage["cache_write_tokens"],
+        "reasoning_tokens": usage["reasoning_tokens"],
+        "steps": usage["steps"],
+        "elapsed_seconds": usage["elapsed_seconds"],
+        "reported_cost_usd": usage["reported_cost_usd"],
         "infrastructure_failure": bool(evaluation.get("infrastructure_failure")),
         "duration": evaluation.get("duration"),
     }

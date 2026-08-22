@@ -3,172 +3,337 @@
   "agent_version": "1.14.33",
   "arms": {
     "doorstop": {
+      "checkpoints_failed": 2.0,
       "checkpoints_passed": 14.0,
       "checkpoints_total": 14.0,
       "complexity": 185.0,
+      "core_failed": 0.0,
+      "core_passed": 26.0,
+      "core_total": 26.0,
+      "creation_input_tokens": null,
+      "creation_output_tokens": null,
       "dependencies_added": 5.0,
       "elapsed_time": 2972.923247,
       "loc_changed": 975.0,
       "loc_final": 727.0,
       "normalized_cost": 0.0,
-      "regression_failures": 0.0
+      "regression_failures": 0.0,
+      "repeated_attempts": 3.0,
+      "rework_input_tokens": null,
+      "rework_output_tokens": null,
+      "total_input_tokens": 383992.0,
+      "total_output_tokens": 53534.0
     },
     "graphify": {
+      "checkpoints_failed": 1.0,
       "checkpoints_passed": 14.0,
       "checkpoints_total": 14.0,
       "complexity": 178.0,
+      "core_failed": 0.0,
+      "core_passed": 26.0,
+      "core_total": 26.0,
+      "creation_input_tokens": null,
+      "creation_output_tokens": null,
       "dependencies_added": 5.0,
       "elapsed_time": 2400.137689,
       "loc_changed": 1380.0,
       "loc_final": 997.0,
       "normalized_cost": 0.0,
-      "regression_failures": 0.0
+      "regression_failures": 0.0,
+      "repeated_attempts": 1.0,
+      "rework_input_tokens": null,
+      "rework_output_tokens": null,
+      "total_input_tokens": 591912.0,
+      "total_output_tokens": 45805.0
     },
     "ponytail": {
+      "checkpoints_failed": 2.0,
       "checkpoints_passed": 13.0,
       "checkpoints_total": 14.0,
       "complexity": 118.0,
+      "core_failed": 1.0,
+      "core_passed": 25.0,
+      "core_total": 26.0,
+      "creation_input_tokens": null,
+      "creation_output_tokens": null,
       "dependencies_added": 5.0,
       "elapsed_time": 1674.627612,
       "loc_changed": 484.0,
       "loc_final": 495.0,
       "normalized_cost": 0.0,
-      "regression_failures": 0.0
+      "regression_failures": 0.0,
+      "repeated_attempts": 4.0,
+      "rework_input_tokens": null,
+      "rework_output_tokens": null,
+      "total_input_tokens": 294683.0,
+      "total_output_tokens": 25333.0
     },
     "strictdoc": {
+      "checkpoints_failed": 5.0,
       "checkpoints_passed": 14.0,
       "checkpoints_total": 14.0,
       "complexity": 192.0,
+      "core_failed": 0.0,
+      "core_passed": 26.0,
+      "core_total": 26.0,
+      "creation_input_tokens": null,
+      "creation_output_tokens": null,
       "dependencies_added": 5.0,
       "elapsed_time": 3439.913321,
       "loc_changed": 1102.0,
       "loc_final": 857.0,
       "normalized_cost": 0.0,
-      "regression_failures": 0.0
+      "regression_failures": 0.0,
+      "repeated_attempts": 8.0,
+      "rework_input_tokens": null,
+      "rework_output_tokens": null,
+      "total_input_tokens": 431917.0,
+      "total_output_tokens": 59943.0
     },
     "supermemory": {
+      "checkpoints_failed": 1.0,
       "checkpoints_passed": 14.0,
       "checkpoints_total": 14.0,
       "complexity": 211.0,
+      "core_failed": 0.0,
+      "core_passed": 26.0,
+      "core_total": 26.0,
+      "creation_input_tokens": null,
+      "creation_output_tokens": null,
       "dependencies_added": 22.0,
       "elapsed_time": 1994.596407,
       "loc_changed": 1138.0,
       "loc_final": 1032.0,
       "normalized_cost": 0.0,
-      "regression_failures": 0.0
+      "regression_failures": 0.0,
+      "repeated_attempts": 2.0,
+      "rework_input_tokens": null,
+      "rework_output_tokens": null,
+      "total_input_tokens": 473208.0,
+      "total_output_tokens": 48053.0
     },
     "tdd": {
+      "checkpoints_failed": 2.0,
       "checkpoints_passed": 14.0,
       "checkpoints_total": 14.0,
       "complexity": 821.0,
+      "core_failed": 0.0,
+      "core_passed": 26.0,
+      "core_total": 26.0,
+      "creation_input_tokens": null,
+      "creation_output_tokens": null,
       "dependencies_added": 7.0,
       "elapsed_time": 1897.95224,
       "loc_changed": 2862.0,
       "loc_final": 2613.0,
       "normalized_cost": 0.0,
-      "regression_failures": 0.0
+      "regression_failures": 0.0,
+      "repeated_attempts": 3.0,
+      "rework_input_tokens": null,
+      "rework_output_tokens": null,
+      "total_input_tokens": 302511.0,
+      "total_output_tokens": 40629.0
     },
     "thermo-nuclear-code-quality-review": {
+      "checkpoints_failed": 10.0,
       "checkpoints_passed": 6.0,
       "checkpoints_total": 14.0,
       "complexity": 101.0,
+      "core_failed": 8.0,
+      "core_passed": 18.0,
+      "core_total": 26.0,
+      "creation_input_tokens": null,
+      "creation_output_tokens": null,
       "dependencies_added": 6.0,
       "elapsed_time": 4258.293989,
       "loc_changed": 287.0,
       "loc_final": 640.0,
       "normalized_cost": 0.0,
-      "regression_failures": 0.0
+      "regression_failures": 0.0,
+      "repeated_attempts": 27.0,
+      "rework_input_tokens": null,
+      "rework_output_tokens": null,
+      "total_input_tokens": 389073.0,
+      "total_output_tokens": 69573.0
     }
   },
   "date": "2026-08-21T18:02:44.957910+00:00",
   "deltas": {
+    "checkpoints_failed": null,
     "checkpoints_passed": null,
     "checkpoints_total": null,
     "complexity": null,
+    "core_failed": null,
+    "core_passed": null,
+    "core_total": null,
+    "creation_input_tokens": null,
+    "creation_output_tokens": null,
     "dependencies_added": null,
     "elapsed_time": null,
     "loc_changed": null,
     "loc_final": null,
     "normalized_cost": null,
-    "regression_failures": null
+    "regression_failures": null,
+    "repeated_attempts": null,
+    "rework_input_tokens": null,
+    "rework_output_tokens": null,
+    "total_input_tokens": null,
+    "total_output_tokens": null
   },
   "deltas_by_arm": {
     "doorstop": {
+      "checkpoints_failed": null,
       "checkpoints_passed": null,
       "checkpoints_total": null,
       "complexity": null,
+      "core_failed": null,
+      "core_passed": null,
+      "core_total": null,
+      "creation_input_tokens": null,
+      "creation_output_tokens": null,
       "dependencies_added": null,
       "elapsed_time": null,
       "loc_changed": null,
       "loc_final": null,
       "normalized_cost": null,
-      "regression_failures": null
+      "regression_failures": null,
+      "repeated_attempts": null,
+      "rework_input_tokens": null,
+      "rework_output_tokens": null,
+      "total_input_tokens": null,
+      "total_output_tokens": null
     },
     "graphify": {
+      "checkpoints_failed": null,
       "checkpoints_passed": null,
       "checkpoints_total": null,
       "complexity": null,
+      "core_failed": null,
+      "core_passed": null,
+      "core_total": null,
+      "creation_input_tokens": null,
+      "creation_output_tokens": null,
       "dependencies_added": null,
       "elapsed_time": null,
       "loc_changed": null,
       "loc_final": null,
       "normalized_cost": null,
-      "regression_failures": null
+      "regression_failures": null,
+      "repeated_attempts": null,
+      "rework_input_tokens": null,
+      "rework_output_tokens": null,
+      "total_input_tokens": null,
+      "total_output_tokens": null
     },
     "ponytail": {
+      "checkpoints_failed": null,
       "checkpoints_passed": null,
       "checkpoints_total": null,
       "complexity": null,
+      "core_failed": null,
+      "core_passed": null,
+      "core_total": null,
+      "creation_input_tokens": null,
+      "creation_output_tokens": null,
       "dependencies_added": null,
       "elapsed_time": null,
       "loc_changed": null,
       "loc_final": null,
       "normalized_cost": null,
-      "regression_failures": null
+      "regression_failures": null,
+      "repeated_attempts": null,
+      "rework_input_tokens": null,
+      "rework_output_tokens": null,
+      "total_input_tokens": null,
+      "total_output_tokens": null
     },
     "strictdoc": {
+      "checkpoints_failed": null,
       "checkpoints_passed": null,
       "checkpoints_total": null,
       "complexity": null,
+      "core_failed": null,
+      "core_passed": null,
+      "core_total": null,
+      "creation_input_tokens": null,
+      "creation_output_tokens": null,
       "dependencies_added": null,
       "elapsed_time": null,
       "loc_changed": null,
       "loc_final": null,
       "normalized_cost": null,
-      "regression_failures": null
+      "regression_failures": null,
+      "repeated_attempts": null,
+      "rework_input_tokens": null,
+      "rework_output_tokens": null,
+      "total_input_tokens": null,
+      "total_output_tokens": null
     },
     "supermemory": {
+      "checkpoints_failed": null,
       "checkpoints_passed": null,
       "checkpoints_total": null,
       "complexity": null,
+      "core_failed": null,
+      "core_passed": null,
+      "core_total": null,
+      "creation_input_tokens": null,
+      "creation_output_tokens": null,
       "dependencies_added": null,
       "elapsed_time": null,
       "loc_changed": null,
       "loc_final": null,
       "normalized_cost": null,
-      "regression_failures": null
+      "regression_failures": null,
+      "repeated_attempts": null,
+      "rework_input_tokens": null,
+      "rework_output_tokens": null,
+      "total_input_tokens": null,
+      "total_output_tokens": null
     },
     "tdd": {
+      "checkpoints_failed": null,
       "checkpoints_passed": null,
       "checkpoints_total": null,
       "complexity": null,
+      "core_failed": null,
+      "core_passed": null,
+      "core_total": null,
+      "creation_input_tokens": null,
+      "creation_output_tokens": null,
       "dependencies_added": null,
       "elapsed_time": null,
       "loc_changed": null,
       "loc_final": null,
       "normalized_cost": null,
-      "regression_failures": null
+      "regression_failures": null,
+      "repeated_attempts": null,
+      "rework_input_tokens": null,
+      "rework_output_tokens": null,
+      "total_input_tokens": null,
+      "total_output_tokens": null
     },
     "thermo-nuclear-code-quality-review": {
+      "checkpoints_failed": null,
       "checkpoints_passed": null,
       "checkpoints_total": null,
       "complexity": null,
+      "core_failed": null,
+      "core_passed": null,
+      "core_total": null,
+      "creation_input_tokens": null,
+      "creation_output_tokens": null,
       "dependencies_added": null,
       "elapsed_time": null,
       "loc_changed": null,
       "loc_final": null,
       "normalized_cost": null,
-      "regression_failures": null
+      "regression_failures": null,
+      "repeated_attempts": null,
+      "rework_input_tokens": null,
+      "rework_output_tokens": null,
+      "total_input_tokens": null,
+      "total_output_tokens": null
     }
   },
   "excluded_ponytail_runs": 0,
@@ -205,38 +370,2304 @@
     "doorstop": {
       "attempts": 5,
       "fixed": 2,
+      "repeated_attempts": 3,
       "unresolved": 0
     },
     "graphify": {
       "attempts": 2,
       "fixed": 1,
+      "repeated_attempts": 1,
       "unresolved": 0
     },
     "ponytail": {
       "attempts": 6,
       "fixed": 1,
+      "repeated_attempts": 4,
       "unresolved": 1
     },
     "strictdoc": {
       "attempts": 13,
       "fixed": 5,
+      "repeated_attempts": 8,
       "unresolved": 0
     },
     "supermemory": {
       "attempts": 3,
       "fixed": 1,
+      "repeated_attempts": 2,
       "unresolved": 0
     },
     "tdd": {
       "attempts": 5,
       "fixed": 2,
+      "repeated_attempts": 3,
       "unresolved": 0
     },
     "thermo-nuclear-code-quality-review": {
       "attempts": 37,
       "fixed": 2,
+      "repeated_attempts": 27,
       "unresolved": 8
     }
   },
+  "rework_details": [
+    {
+      "arm": "doorstop",
+      "cache_read_tokens": 214528,
+      "cache_write_tokens": 0,
+      "core_failed": 0,
+      "core_passed": 2,
+      "core_total": 2,
+      "cost": null,
+      "cp": 5,
+      "creation_input_tokens": null,
+      "creation_output_tokens": null,
+      "files_delta": 2,
+      "input_tokens": 39642,
+      "loc_delta": 118,
+      "output_tokens": 4618,
+      "pass": true,
+      "reasoning_tokens": 469,
+      "regressions": 0,
+      "reported_cost_usd": 0.0,
+      "rework": {
+        "attempts": [
+          {
+            "attempt": 1,
+            "duration": 18.898298025131226,
+            "failed_tests": [
+              "test_create_article_errors_and_duplicate_titles",
+              "test_create_article_full_contract_and_default_tags"
+            ],
+            "infrastructure_failure": false,
+            "pass_counts": {
+              "Core": 0,
+              "Error": 0,
+              "Functionality": 0,
+              "Regression": 0
+            },
+            "passed_policy": false,
+            "total_counts": {
+              "Core": 2,
+              "Error": 0,
+              "Functionality": 0,
+              "Regression": 0
+            }
+          },
+          {
+            "attempt": 2,
+            "duration": 13.495609998703003,
+            "failed_tests": [],
+            "infrastructure_failure": false,
+            "pass_counts": {
+              "Core": 2,
+              "Error": 0,
+              "Functionality": 0,
+              "Regression": 0
+            },
+            "passed_policy": true,
+            "total_counts": {
+              "Core": 2,
+              "Error": 0,
+              "Functionality": 0,
+              "Regression": 0
+            }
+          }
+        ],
+        "attempts_total": 2,
+        "checkpoint": "checkpoint_5",
+        "fixed": true,
+        "max_additional_attempts": 3
+      },
+      "rework_input_tokens": null,
+      "rework_output_tokens": null,
+      "run_id": "realworld-opencode-x-preview-f-free-high-20260821-1928-doorstop-r1-091ea3a6",
+      "steps": 17,
+      "time": 138.111866,
+      "tokens": 44260
+    },
+    {
+      "arm": "doorstop",
+      "cache_read_tokens": 156736,
+      "cache_write_tokens": 0,
+      "core_failed": 0,
+      "core_passed": 1,
+      "core_total": 1,
+      "cost": null,
+      "cp": 8,
+      "creation_input_tokens": null,
+      "creation_output_tokens": null,
+      "files_delta": 1,
+      "input_tokens": 19272,
+      "loc_delta": 4,
+      "output_tokens": 1736,
+      "pass": true,
+      "reasoning_tokens": 370,
+      "regressions": 0,
+      "reported_cost_usd": 0.0,
+      "rework": {
+        "attempts": [
+          {
+            "attempt": 1,
+            "duration": 17.942877054214478,
+            "failed_tests": [
+              "test_delete_article_and_permissions_without_side_effects"
+            ],
+            "infrastructure_failure": false,
+            "pass_counts": {
+              "Core": 0,
+              "Error": 0,
+              "Functionality": 0,
+              "Regression": 0
+            },
+            "passed_policy": false,
+            "total_counts": {
+              "Core": 1,
+              "Error": 0,
+              "Functionality": 0,
+              "Regression": 0
+            }
+          },
+          {
+            "attempt": 2,
+            "duration": 16.10767149925232,
+            "failed_tests": [
+              "test_delete_article_and_permissions_without_side_effects"
+            ],
+            "infrastructure_failure": false,
+            "pass_counts": {
+              "Core": 0,
+              "Error": 0,
+              "Functionality": 0,
+              "Regression": 0
+            },
+            "passed_policy": false,
+            "total_counts": {
+              "Core": 1,
+              "Error": 0,
+              "Functionality": 0,
+              "Regression": 0
+            }
+          },
+          {
+            "attempt": 3,
+            "duration": 21.27986192703247,
+            "failed_tests": [],
+            "infrastructure_failure": false,
+            "pass_counts": {
+              "Core": 1,
+              "Error": 0,
+              "Functionality": 0,
+              "Regression": 0
+            },
+            "passed_policy": true,
+            "total_counts": {
+              "Core": 1,
+              "Error": 0,
+              "Functionality": 0,
+              "Regression": 0
+            }
+          }
+        ],
+        "attempts_total": 3,
+        "checkpoint": "checkpoint_8",
+        "fixed": true,
+        "max_additional_attempts": 3
+      },
+      "rework_input_tokens": null,
+      "rework_output_tokens": null,
+      "run_id": "realworld-opencode-x-preview-f-free-high-20260821-1928-doorstop-r1-091ea3a6",
+      "steps": 13,
+      "time": 274.369182,
+      "tokens": 21008
+    },
+    {
+      "arm": "graphify",
+      "cache_read_tokens": 51776,
+      "cache_write_tokens": 0,
+      "core_failed": 0,
+      "core_passed": 3,
+      "core_total": 3,
+      "cost": null,
+      "cp": 3,
+      "creation_input_tokens": null,
+      "creation_output_tokens": null,
+      "files_delta": 1,
+      "input_tokens": 13393,
+      "loc_delta": 2,
+      "output_tokens": 1355,
+      "pass": true,
+      "reasoning_tokens": 116,
+      "regressions": 0,
+      "reported_cost_usd": 0.0,
+      "rework": {
+        "attempts": [
+          {
+            "attempt": 1,
+            "duration": 22.188079118728638,
+            "failed_tests": [
+              "test_update_identity_and_password"
+            ],
+            "infrastructure_failure": false,
+            "pass_counts": {
+              "Core": 2,
+              "Error": 0,
+              "Functionality": 0,
+              "Regression": 0
+            },
+            "passed_policy": false,
+            "total_counts": {
+              "Core": 3,
+              "Error": 0,
+              "Functionality": 0,
+              "Regression": 0
+            }
+          },
+          {
+            "attempt": 2,
+            "duration": 14.484158277511597,
+            "failed_tests": [],
+            "infrastructure_failure": false,
+            "pass_counts": {
+              "Core": 3,
+              "Error": 0,
+              "Functionality": 0,
+              "Regression": 0
+            },
+            "passed_policy": true,
+            "total_counts": {
+              "Core": 3,
+              "Error": 0,
+              "Functionality": 0,
+              "Regression": 0
+            }
+          }
+        ],
+        "attempts_total": 2,
+        "checkpoint": "checkpoint_3",
+        "fixed": true,
+        "max_additional_attempts": 3
+      },
+      "rework_input_tokens": null,
+      "rework_output_tokens": null,
+      "run_id": "realworld-opencode-x-preview-f-free-high-20260821-1928-graphify-r1-83b8803c",
+      "steps": 6,
+      "time": 55.916872,
+      "tokens": 14748
+    },
+    {
+      "arm": "ponytail",
+      "cache_read_tokens": 64,
+      "cache_write_tokens": 0,
+      "core_failed": 1,
+      "core_passed": 1,
+      "core_total": 2,
+      "cost": null,
+      "cp": 1,
+      "creation_input_tokens": null,
+      "creation_output_tokens": null,
+      "files_delta": 0,
+      "input_tokens": 16654,
+      "loc_delta": 0,
+      "output_tokens": 64,
+      "pass": false,
+      "reasoning_tokens": 4,
+      "regressions": 0,
+      "reported_cost_usd": 0.0,
+      "rework": {
+        "attempts": [
+          {
+            "attempt": 1,
+            "duration": 21.692113161087036,
+            "failed_tests": [
+              "test_registration_validation_and_uniqueness"
+            ],
+            "infrastructure_failure": false,
+            "pass_counts": {
+              "Core": 1,
+              "Error": 0,
+              "Functionality": 0,
+              "Regression": 0
+            },
+            "passed_policy": false,
+            "total_counts": {
+              "Core": 2,
+              "Error": 0,
+              "Functionality": 0,
+              "Regression": 0
+            }
+          },
+          {
+            "attempt": 2,
+            "duration": 18.608055353164673,
+            "failed_tests": [
+              "test_registration_validation_and_uniqueness"
+            ],
+            "infrastructure_failure": false,
+            "pass_counts": {
+              "Core": 1,
+              "Error": 0,
+              "Functionality": 0,
+              "Regression": 0
+            },
+            "passed_policy": false,
+            "total_counts": {
+              "Core": 2,
+              "Error": 0,
+              "Functionality": 0,
+              "Regression": 0
+            }
+          },
+          {
+            "attempt": 3,
+            "duration": 19.214849710464478,
+            "failed_tests": [
+              "test_registration_validation_and_uniqueness"
+            ],
+            "infrastructure_failure": false,
+            "pass_counts": {
+              "Core": 1,
+              "Error": 0,
+              "Functionality": 0,
+              "Regression": 0
+            },
+            "passed_policy": false,
+            "total_counts": {
+              "Core": 2,
+              "Error": 0,
+              "Functionality": 0,
+              "Regression": 0
+            }
+          },
+          {
+            "attempt": 4,
+            "duration": 15.223586559295654,
+            "failed_tests": [
+              "test_registration_validation_and_uniqueness"
+            ],
+            "infrastructure_failure": false,
+            "pass_counts": {
+              "Core": 1,
+              "Error": 0,
+              "Functionality": 0,
+              "Regression": 0
+            },
+            "passed_policy": false,
+            "total_counts": {
+              "Core": 2,
+              "Error": 0,
+              "Functionality": 0,
+              "Regression": 0
+            }
+          }
+        ],
+        "attempts_total": 4,
+        "checkpoint": "checkpoint_1",
+        "fixed": false,
+        "max_additional_attempts": 3
+      },
+      "rework_input_tokens": null,
+      "rework_output_tokens": null,
+      "run_id": "realworld-opencode-x-preview-f-free-high-20260821-1928-ponytail-r1-1b27ccbb",
+      "steps": 3,
+      "time": 44.992626,
+      "tokens": 16718
+    },
+    {
+      "arm": "ponytail",
+      "cache_read_tokens": 171776,
+      "cache_write_tokens": 0,
+      "core_failed": 0,
+      "core_passed": 2,
+      "core_total": 2,
+      "cost": null,
+      "cp": 2,
+      "creation_input_tokens": null,
+      "creation_output_tokens": null,
+      "files_delta": 1,
+      "input_tokens": 23665,
+      "loc_delta": 13,
+      "output_tokens": 4112,
+      "pass": true,
+      "reasoning_tokens": 795,
+      "regressions": 0,
+      "reported_cost_usd": 0.0,
+      "rework": {
+        "attempts": [
+          {
+            "attempt": 1,
+            "duration": 19.236979484558105,
+            "failed_tests": [
+              "test_auth_errors"
+            ],
+            "infrastructure_failure": false,
+            "pass_counts": {
+              "Core": 1,
+              "Error": 0,
+              "Functionality": 0,
+              "Regression": 0
+            },
+            "passed_policy": false,
+            "total_counts": {
+              "Core": 2,
+              "Error": 0,
+              "Functionality": 0,
+              "Regression": 0
+            }
+          },
+          {
+            "attempt": 2,
+            "duration": 24.66607117652893,
+            "failed_tests": [],
+            "infrastructure_failure": false,
+            "pass_counts": {
+              "Core": 2,
+              "Error": 0,
+              "Functionality": 0,
+              "Regression": 0
+            },
+            "passed_policy": true,
+            "total_counts": {
+              "Core": 2,
+              "Error": 0,
+              "Functionality": 0,
+              "Regression": 0
+            }
+          }
+        ],
+        "attempts_total": 2,
+        "checkpoint": "checkpoint_2",
+        "fixed": true,
+        "max_additional_attempts": 3
+      },
+      "rework_input_tokens": null,
+      "rework_output_tokens": null,
+      "run_id": "realworld-opencode-x-preview-f-free-high-20260821-1928-ponytail-r1-1b27ccbb",
+      "steps": 16,
+      "time": 397.52034,
+      "tokens": 27777
+    },
+    {
+      "arm": "strictdoc",
+      "cache_read_tokens": 353792,
+      "cache_write_tokens": 0,
+      "core_failed": 0,
+      "core_passed": 2,
+      "core_total": 2,
+      "cost": null,
+      "cp": 2,
+      "creation_input_tokens": null,
+      "creation_output_tokens": null,
+      "files_delta": 7,
+      "input_tokens": 22445,
+      "loc_delta": 124,
+      "output_tokens": 6000,
+      "pass": true,
+      "reasoning_tokens": 577,
+      "regressions": 0,
+      "reported_cost_usd": 0.0,
+      "rework": {
+        "attempts": [
+          {
+            "attempt": 1,
+            "duration": 27.808746099472046,
+            "failed_tests": [
+              "test_auth_errors",
+              "test_login_current_user_token_isolation_and_restart"
+            ],
+            "infrastructure_failure": false,
+            "pass_counts": {
+              "Core": 0,
+              "Error": 0,
+              "Functionality": 0,
+              "Regression": 0
+            },
+            "passed_policy": false,
+            "total_counts": {
+              "Core": 2,
+              "Error": 0,
+              "Functionality": 0,
+              "Regression": 0
+            }
+          },
+          {
+            "attempt": 2,
+            "duration": 19.33660078048706,
+            "failed_tests": [],
+            "infrastructure_failure": false,
+            "pass_counts": {
+              "Core": 2,
+              "Error": 0,
+              "Functionality": 0,
+              "Regression": 0
+            },
+            "passed_policy": true,
+            "total_counts": {
+              "Core": 2,
+              "Error": 0,
+              "Functionality": 0,
+              "Regression": 0
+            }
+          }
+        ],
+        "attempts_total": 2,
+        "checkpoint": "checkpoint_2",
+        "fixed": true,
+        "max_additional_attempts": 3
+      },
+      "rework_input_tokens": null,
+      "rework_output_tokens": null,
+      "run_id": "realworld-opencode-x-preview-f-free-high-20260821-1928-strictdoc-r1-4d45fec7",
+      "steps": 26,
+      "time": 225.729523,
+      "tokens": 28445
+    },
+    {
+      "arm": "strictdoc",
+      "cache_read_tokens": 397120,
+      "cache_write_tokens": 0,
+      "core_failed": 0,
+      "core_passed": 3,
+      "core_total": 3,
+      "cost": null,
+      "cp": 3,
+      "creation_input_tokens": null,
+      "creation_output_tokens": null,
+      "files_delta": 1,
+      "input_tokens": 27284,
+      "loc_delta": 13,
+      "output_tokens": 2893,
+      "pass": true,
+      "reasoning_tokens": 473,
+      "regressions": 0,
+      "reported_cost_usd": 0.0,
+      "rework": {
+        "attempts": [
+          {
+            "attempt": 1,
+            "duration": 14.321714401245117,
+            "failed_tests": [
+              "test_update_identity_and_password",
+              "test_update_profile_fields_normalization_and_persistence",
+              "test_update_rejects_invalid_identity_and_requires_auth"
+            ],
+            "infrastructure_failure": false,
+            "pass_counts": {
+              "Core": 0,
+              "Error": 0,
+              "Functionality": 0,
+              "Regression": 0
+            },
+            "passed_policy": false,
+            "total_counts": {
+              "Core": 3,
+              "Error": 0,
+              "Functionality": 0,
+              "Regression": 0
+            }
+          },
+          {
+            "attempt": 2,
+            "duration": 16.399473905563354,
+            "failed_tests": [
+              "test_update_identity_and_password"
+            ],
+            "infrastructure_failure": false,
+            "pass_counts": {
+              "Core": 2,
+              "Error": 0,
+              "Functionality": 0,
+              "Regression": 0
+            },
+            "passed_policy": false,
+            "total_counts": {
+              "Core": 3,
+              "Error": 0,
+              "Functionality": 0,
+              "Regression": 0
+            }
+          },
+          {
+            "attempt": 3,
+            "duration": 16.059714555740356,
+            "failed_tests": [],
+            "infrastructure_failure": false,
+            "pass_counts": {
+              "Core": 3,
+              "Error": 0,
+              "Functionality": 0,
+              "Regression": 0
+            },
+            "passed_policy": true,
+            "total_counts": {
+              "Core": 3,
+              "Error": 0,
+              "Functionality": 0,
+              "Regression": 0
+            }
+          }
+        ],
+        "attempts_total": 3,
+        "checkpoint": "checkpoint_3",
+        "fixed": true,
+        "max_additional_attempts": 3
+      },
+      "rework_input_tokens": null,
+      "rework_output_tokens": null,
+      "run_id": "realworld-opencode-x-preview-f-free-high-20260821-1928-strictdoc-r1-4d45fec7",
+      "steps": 20,
+      "time": 215.900057,
+      "tokens": 30177
+    },
+    {
+      "arm": "strictdoc",
+      "cache_read_tokens": 1177152,
+      "cache_write_tokens": 0,
+      "core_failed": 0,
+      "core_passed": 2,
+      "core_total": 2,
+      "cost": null,
+      "cp": 5,
+      "creation_input_tokens": null,
+      "creation_output_tokens": null,
+      "files_delta": 4,
+      "input_tokens": 94118,
+      "loc_delta": 171,
+      "output_tokens": 7148,
+      "pass": true,
+      "reasoning_tokens": 635,
+      "regressions": 0,
+      "reported_cost_usd": 0.0,
+      "rework": {
+        "attempts": [
+          {
+            "attempt": 1,
+            "duration": 11.462613821029663,
+            "failed_tests": [
+              "test_create_article_errors_and_duplicate_titles",
+              "test_create_article_full_contract_and_default_tags"
+            ],
+            "infrastructure_failure": false,
+            "pass_counts": {
+              "Core": 0,
+              "Error": 0,
+              "Functionality": 0,
+              "Regression": 0
+            },
+            "passed_policy": false,
+            "total_counts": {
+              "Core": 2,
+              "Error": 0,
+              "Functionality": 0,
+              "Regression": 0
+            }
+          },
+          {
+            "attempt": 2,
+            "duration": 11.448593378067017,
+            "failed_tests": [
+              "test_create_article_errors_and_duplicate_titles",
+              "test_create_article_full_contract_and_default_tags"
+            ],
+            "infrastructure_failure": false,
+            "pass_counts": {
+              "Core": 0,
+              "Error": 0,
+              "Functionality": 0,
+              "Regression": 0
+            },
+            "passed_policy": false,
+            "total_counts": {
+              "Core": 2,
+              "Error": 0,
+              "Functionality": 0,
+              "Regression": 0
+            }
+          },
+          {
+            "attempt": 3,
+            "duration": 14.74907398223877,
+            "failed_tests": [],
+            "infrastructure_failure": false,
+            "pass_counts": {
+              "Core": 2,
+              "Error": 0,
+              "Functionality": 0,
+              "Regression": 0
+            },
+            "passed_policy": true,
+            "total_counts": {
+              "Core": 2,
+              "Error": 0,
+              "Functionality": 0,
+              "Regression": 0
+            }
+          }
+        ],
+        "attempts_total": 3,
+        "checkpoint": "checkpoint_5",
+        "fixed": true,
+        "max_additional_attempts": 3
+      },
+      "rework_input_tokens": null,
+      "rework_output_tokens": null,
+      "run_id": "realworld-opencode-x-preview-f-free-high-20260821-1928-strictdoc-r1-4d45fec7",
+      "steps": 30,
+      "time": 246.790873,
+      "tokens": 101266
+    },
+    {
+      "arm": "strictdoc",
+      "cache_read_tokens": 382016,
+      "cache_write_tokens": 0,
+      "core_failed": 0,
+      "core_passed": 2,
+      "core_total": 2,
+      "cost": null,
+      "cp": 7,
+      "creation_input_tokens": null,
+      "creation_output_tokens": null,
+      "files_delta": 2,
+      "input_tokens": 24935,
+      "loc_delta": 85,
+      "output_tokens": 5170,
+      "pass": true,
+      "reasoning_tokens": 702,
+      "regressions": 0,
+      "reported_cost_usd": 0.0,
+      "rework": {
+        "attempts": [
+          {
+            "attempt": 1,
+            "duration": 15.3652982711792,
+            "failed_tests": [
+              "test_only_author_can_update_without_side_effects",
+              "test_update_article_fields_timestamps_tags_and_persistence"
+            ],
+            "infrastructure_failure": false,
+            "pass_counts": {
+              "Core": 0,
+              "Error": 0,
+              "Functionality": 0,
+              "Regression": 0
+            },
+            "passed_policy": false,
+            "total_counts": {
+              "Core": 2,
+              "Error": 0,
+              "Functionality": 0,
+              "Regression": 0
+            }
+          },
+          {
+            "attempt": 2,
+            "duration": 14.641235828399658,
+            "failed_tests": [
+              "test_only_author_can_update_without_side_effects",
+              "test_update_article_fields_timestamps_tags_and_persistence"
+            ],
+            "infrastructure_failure": false,
+            "pass_counts": {
+              "Core": 0,
+              "Error": 0,
+              "Functionality": 0,
+              "Regression": 0
+            },
+            "passed_policy": false,
+            "total_counts": {
+              "Core": 2,
+              "Error": 0,
+              "Functionality": 0,
+              "Regression": 0
+            }
+          },
+          {
+            "attempt": 3,
+            "duration": 13.640790462493896,
+            "failed_tests": [],
+            "infrastructure_failure": false,
+            "pass_counts": {
+              "Core": 2,
+              "Error": 0,
+              "Functionality": 0,
+              "Regression": 0
+            },
+            "passed_policy": true,
+            "total_counts": {
+              "Core": 2,
+              "Error": 0,
+              "Functionality": 0,
+              "Regression": 0
+            }
+          }
+        ],
+        "attempts_total": 3,
+        "checkpoint": "checkpoint_7",
+        "fixed": true,
+        "max_additional_attempts": 3
+      },
+      "rework_input_tokens": null,
+      "rework_output_tokens": null,
+      "run_id": "realworld-opencode-x-preview-f-free-high-20260821-1928-strictdoc-r1-4d45fec7",
+      "steps": 22,
+      "time": 264.227343,
+      "tokens": 30105
+    },
+    {
+      "arm": "strictdoc",
+      "cache_read_tokens": 615936,
+      "cache_write_tokens": 0,
+      "core_failed": 0,
+      "core_passed": 2,
+      "core_total": 2,
+      "cost": null,
+      "cp": 13,
+      "creation_input_tokens": null,
+      "creation_output_tokens": null,
+      "files_delta": 3,
+      "input_tokens": 29917,
+      "loc_delta": 123,
+      "output_tokens": 4575,
+      "pass": true,
+      "reasoning_tokens": 359,
+      "regressions": 0,
+      "reported_cost_usd": 0.0,
+      "rework": {
+        "attempts": [
+          {
+            "attempt": 1,
+            "duration": 15.025306701660156,
+            "failed_tests": [
+              "test_comment_permissions_and_errors_without_side_effects",
+              "test_comments_lifecycle_selective_delete_and_persistence"
+            ],
+            "infrastructure_failure": false,
+            "pass_counts": {
+              "Core": 0,
+              "Error": 0,
+              "Functionality": 0,
+              "Regression": 0
+            },
+            "passed_policy": false,
+            "total_counts": {
+              "Core": 2,
+              "Error": 0,
+              "Functionality": 0,
+              "Regression": 0
+            }
+          },
+          {
+            "attempt": 2,
+            "duration": 16.974412202835083,
+            "failed_tests": [],
+            "infrastructure_failure": false,
+            "pass_counts": {
+              "Core": 2,
+              "Error": 0,
+              "Functionality": 0,
+              "Regression": 0
+            },
+            "passed_policy": true,
+            "total_counts": {
+              "Core": 2,
+              "Error": 0,
+              "Functionality": 0,
+              "Regression": 0
+            }
+          }
+        ],
+        "attempts_total": 2,
+        "checkpoint": "checkpoint_13",
+        "fixed": true,
+        "max_additional_attempts": 3
+      },
+      "rework_input_tokens": null,
+      "rework_output_tokens": null,
+      "run_id": "realworld-opencode-x-preview-f-free-high-20260821-1928-strictdoc-r1-4d45fec7",
+      "steps": 28,
+      "time": 183.531863,
+      "tokens": 34492
+    },
+    {
+      "arm": "supermemory",
+      "cache_read_tokens": 68096,
+      "cache_write_tokens": 0,
+      "core_failed": 0,
+      "core_passed": 2,
+      "core_total": 2,
+      "cost": null,
+      "cp": 1,
+      "creation_input_tokens": null,
+      "creation_output_tokens": null,
+      "files_delta": 3,
+      "input_tokens": 51721,
+      "loc_delta": 17,
+      "output_tokens": 5313,
+      "pass": true,
+      "reasoning_tokens": 1972,
+      "regressions": 0,
+      "reported_cost_usd": 0.0,
+      "rework": {
+        "attempts": [
+          {
+            "attempt": 1,
+            "duration": 12.844282627105713,
+            "failed_tests": [
+              "test_registration_validation_and_uniqueness"
+            ],
+            "infrastructure_failure": false,
+            "pass_counts": {
+              "Core": 1,
+              "Error": 0,
+              "Functionality": 0,
+              "Regression": 0
+            },
+            "passed_policy": false,
+            "total_counts": {
+              "Core": 2,
+              "Error": 0,
+              "Functionality": 0,
+              "Regression": 0
+            }
+          },
+          {
+            "attempt": 2,
+            "duration": 20.72934603691101,
+            "failed_tests": [
+              "test_registration_validation_and_uniqueness"
+            ],
+            "infrastructure_failure": false,
+            "pass_counts": {
+              "Core": 1,
+              "Error": 0,
+              "Functionality": 0,
+              "Regression": 0
+            },
+            "passed_policy": false,
+            "total_counts": {
+              "Core": 2,
+              "Error": 0,
+              "Functionality": 0,
+              "Regression": 0
+            }
+          },
+          {
+            "attempt": 3,
+            "duration": 22.999254941940308,
+            "failed_tests": [],
+            "infrastructure_failure": false,
+            "pass_counts": {
+              "Core": 2,
+              "Error": 0,
+              "Functionality": 0,
+              "Regression": 0
+            },
+            "passed_policy": true,
+            "total_counts": {
+              "Core": 2,
+              "Error": 0,
+              "Functionality": 0,
+              "Regression": 0
+            }
+          }
+        ],
+        "attempts_total": 3,
+        "checkpoint": "checkpoint_1",
+        "fixed": true,
+        "max_additional_attempts": 3
+      },
+      "rework_input_tokens": null,
+      "rework_output_tokens": null,
+      "run_id": "realworld-opencode-x-preview-f-free-high-20260821-1928-supermemory-r1-0cfbf8ba",
+      "steps": 9,
+      "time": 246.88941,
+      "tokens": 57034
+    },
+    {
+      "arm": "tdd",
+      "cache_read_tokens": 195264,
+      "cache_write_tokens": 0,
+      "core_failed": 0,
+      "core_passed": 2,
+      "core_total": 2,
+      "cost": null,
+      "cp": 1,
+      "creation_input_tokens": null,
+      "creation_output_tokens": null,
+      "files_delta": 2,
+      "input_tokens": 26662,
+      "loc_delta": 195,
+      "output_tokens": 6400,
+      "pass": true,
+      "reasoning_tokens": 1843,
+      "regressions": 0,
+      "reported_cost_usd": 0.0,
+      "rework": {
+        "attempts": [
+          {
+            "attempt": 1,
+            "duration": 18.063655376434326,
+            "failed_tests": [
+              "test_registration_validation_and_uniqueness"
+            ],
+            "infrastructure_failure": false,
+            "pass_counts": {
+              "Core": 1,
+              "Error": 0,
+              "Functionality": 0,
+              "Regression": 0
+            },
+            "passed_policy": false,
+            "total_counts": {
+              "Core": 2,
+              "Error": 0,
+              "Functionality": 0,
+              "Regression": 0
+            }
+          },
+          {
+            "attempt": 2,
+            "duration": 20.428893566131592,
+            "failed_tests": [
+              "test_registration_validation_and_uniqueness"
+            ],
+            "infrastructure_failure": false,
+            "pass_counts": {
+              "Core": 1,
+              "Error": 0,
+              "Functionality": 0,
+              "Regression": 0
+            },
+            "passed_policy": false,
+            "total_counts": {
+              "Core": 2,
+              "Error": 0,
+              "Functionality": 0,
+              "Regression": 0
+            }
+          },
+          {
+            "attempt": 3,
+            "duration": 16.334142923355103,
+            "failed_tests": [],
+            "infrastructure_failure": false,
+            "pass_counts": {
+              "Core": 2,
+              "Error": 0,
+              "Functionality": 0,
+              "Regression": 0
+            },
+            "passed_policy": true,
+            "total_counts": {
+              "Core": 2,
+              "Error": 0,
+              "Functionality": 0,
+              "Regression": 0
+            }
+          }
+        ],
+        "attempts_total": 3,
+        "checkpoint": "checkpoint_1",
+        "fixed": true,
+        "max_additional_attempts": 3
+      },
+      "rework_input_tokens": null,
+      "rework_output_tokens": null,
+      "run_id": "realworld-opencode-x-preview-f-free-high-20260821-1928-tdd-r1-e0997af9",
+      "steps": 14,
+      "time": 234.835157,
+      "tokens": 33062
+    },
+    {
+      "arm": "tdd",
+      "cache_read_tokens": 182464,
+      "cache_write_tokens": 0,
+      "core_failed": 0,
+      "core_passed": 2,
+      "core_total": 2,
+      "cost": null,
+      "cp": 5,
+      "creation_input_tokens": null,
+      "creation_output_tokens": null,
+      "files_delta": 2,
+      "input_tokens": 20152,
+      "loc_delta": 93,
+      "output_tokens": 2910,
+      "pass": true,
+      "reasoning_tokens": 786,
+      "regressions": 0,
+      "reported_cost_usd": 0.0,
+      "rework": {
+        "attempts": [
+          {
+            "attempt": 1,
+            "duration": 14.562545537948608,
+            "failed_tests": [
+              "test_create_article_full_contract_and_default_tags"
+            ],
+            "infrastructure_failure": false,
+            "pass_counts": {
+              "Core": 1,
+              "Error": 0,
+              "Functionality": 0,
+              "Regression": 0
+            },
+            "passed_policy": false,
+            "total_counts": {
+              "Core": 2,
+              "Error": 0,
+              "Functionality": 0,
+              "Regression": 0
+            }
+          },
+          {
+            "attempt": 2,
+            "duration": 18.016606330871582,
+            "failed_tests": [],
+            "infrastructure_failure": false,
+            "pass_counts": {
+              "Core": 2,
+              "Error": 0,
+              "Functionality": 0,
+              "Regression": 0
+            },
+            "passed_policy": true,
+            "total_counts": {
+              "Core": 2,
+              "Error": 0,
+              "Functionality": 0,
+              "Regression": 0
+            }
+          }
+        ],
+        "attempts_total": 2,
+        "checkpoint": "checkpoint_5",
+        "fixed": true,
+        "max_additional_attempts": 3
+      },
+      "rework_input_tokens": null,
+      "rework_output_tokens": null,
+      "run_id": "realworld-opencode-x-preview-f-free-high-20260821-1928-tdd-r1-e0997af9",
+      "steps": 13,
+      "time": 185.823228,
+      "tokens": 23062
+    },
+    {
+      "arm": "thermo-nuclear-code-quality-review",
+      "cache_read_tokens": 126528,
+      "cache_write_tokens": 0,
+      "core_failed": 1,
+      "core_passed": 1,
+      "core_total": 2,
+      "cost": null,
+      "cp": 1,
+      "creation_input_tokens": null,
+      "creation_output_tokens": null,
+      "files_delta": 2,
+      "input_tokens": 19704,
+      "loc_delta": 13,
+      "output_tokens": 3737,
+      "pass": false,
+      "reasoning_tokens": 1305,
+      "regressions": 0,
+      "reported_cost_usd": 0.0,
+      "rework": {
+        "attempts": [
+          {
+            "attempt": 1,
+            "duration": 21.589593648910522,
+            "failed_tests": [
+              "test_registration_validation_and_uniqueness"
+            ],
+            "infrastructure_failure": false,
+            "pass_counts": {
+              "Core": 1,
+              "Error": 0,
+              "Functionality": 0,
+              "Regression": 0
+            },
+            "passed_policy": false,
+            "total_counts": {
+              "Core": 2,
+              "Error": 0,
+              "Functionality": 0,
+              "Regression": 0
+            }
+          },
+          {
+            "attempt": 2,
+            "duration": 13.707664966583252,
+            "failed_tests": [
+              "test_registration_validation_and_uniqueness"
+            ],
+            "infrastructure_failure": false,
+            "pass_counts": {
+              "Core": 1,
+              "Error": 0,
+              "Functionality": 0,
+              "Regression": 0
+            },
+            "passed_policy": false,
+            "total_counts": {
+              "Core": 2,
+              "Error": 0,
+              "Functionality": 0,
+              "Regression": 0
+            }
+          },
+          {
+            "attempt": 3,
+            "duration": 16.730185747146606,
+            "failed_tests": [
+              "test_registration_validation_and_uniqueness"
+            ],
+            "infrastructure_failure": false,
+            "pass_counts": {
+              "Core": 1,
+              "Error": 0,
+              "Functionality": 0,
+              "Regression": 0
+            },
+            "passed_policy": false,
+            "total_counts": {
+              "Core": 2,
+              "Error": 0,
+              "Functionality": 0,
+              "Regression": 0
+            }
+          },
+          {
+            "attempt": 4,
+            "duration": 14.538976907730103,
+            "failed_tests": [
+              "test_registration_validation_and_uniqueness"
+            ],
+            "infrastructure_failure": false,
+            "pass_counts": {
+              "Core": 1,
+              "Error": 0,
+              "Functionality": 0,
+              "Regression": 0
+            },
+            "passed_policy": false,
+            "total_counts": {
+              "Core": 2,
+              "Error": 0,
+              "Functionality": 0,
+              "Regression": 0
+            }
+          }
+        ],
+        "attempts_total": 4,
+        "checkpoint": "checkpoint_1",
+        "fixed": false,
+        "max_additional_attempts": 3
+      },
+      "rework_input_tokens": null,
+      "rework_output_tokens": null,
+      "run_id": "realworld-opencode-x-preview-f-free-high-20260821-1928-thermo-nuclear-code-quality-review-r1-b23703d8",
+      "steps": 10,
+      "time": 171.187649,
+      "tokens": 23441
+    },
+    {
+      "arm": "thermo-nuclear-code-quality-review",
+      "cache_read_tokens": 401280,
+      "cache_write_tokens": 0,
+      "core_failed": 1,
+      "core_passed": 1,
+      "core_total": 2,
+      "cost": null,
+      "cp": 2,
+      "creation_input_tokens": null,
+      "creation_output_tokens": null,
+      "files_delta": 1,
+      "input_tokens": 32672,
+      "loc_delta": 15,
+      "output_tokens": 4693,
+      "pass": false,
+      "reasoning_tokens": 1533,
+      "regressions": 0,
+      "reported_cost_usd": 0.0,
+      "rework": {
+        "attempts": [
+          {
+            "attempt": 1,
+            "duration": 15.15618371963501,
+            "failed_tests": [
+              "test_auth_errors"
+            ],
+            "infrastructure_failure": false,
+            "pass_counts": {
+              "Core": 1,
+              "Error": 0,
+              "Functionality": 0,
+              "Regression": 0
+            },
+            "passed_policy": false,
+            "total_counts": {
+              "Core": 2,
+              "Error": 0,
+              "Functionality": 0,
+              "Regression": 0
+            }
+          },
+          {
+            "attempt": 2,
+            "duration": 16.71639895439148,
+            "failed_tests": [
+              "test_auth_errors"
+            ],
+            "infrastructure_failure": false,
+            "pass_counts": {
+              "Core": 1,
+              "Error": 0,
+              "Functionality": 0,
+              "Regression": 0
+            },
+            "passed_policy": false,
+            "total_counts": {
+              "Core": 2,
+              "Error": 0,
+              "Functionality": 0,
+              "Regression": 0
+            }
+          },
+          {
+            "attempt": 3,
+            "duration": 17.062588930130005,
+            "failed_tests": [
+              "test_auth_errors"
+            ],
+            "infrastructure_failure": false,
+            "pass_counts": {
+              "Core": 1,
+              "Error": 0,
+              "Functionality": 0,
+              "Regression": 0
+            },
+            "passed_policy": false,
+            "total_counts": {
+              "Core": 2,
+              "Error": 0,
+              "Functionality": 0,
+              "Regression": 0
+            }
+          },
+          {
+            "attempt": 4,
+            "duration": 15.85040020942688,
+            "failed_tests": [
+              "test_auth_errors"
+            ],
+            "infrastructure_failure": false,
+            "pass_counts": {
+              "Core": 1,
+              "Error": 0,
+              "Functionality": 0,
+              "Regression": 0
+            },
+            "passed_policy": false,
+            "total_counts": {
+              "Core": 2,
+              "Error": 0,
+              "Functionality": 0,
+              "Regression": 0
+            }
+          }
+        ],
+        "attempts_total": 4,
+        "checkpoint": "checkpoint_2",
+        "fixed": false,
+        "max_additional_attempts": 3
+      },
+      "rework_input_tokens": null,
+      "rework_output_tokens": null,
+      "run_id": "realworld-opencode-x-preview-f-free-high-20260821-1928-thermo-nuclear-code-quality-review-r1-b23703d8",
+      "steps": 26,
+      "time": 559.753188,
+      "tokens": 37365
+    },
+    {
+      "arm": "thermo-nuclear-code-quality-review",
+      "cache_read_tokens": 202752,
+      "cache_write_tokens": 0,
+      "core_failed": 0,
+      "core_passed": 3,
+      "core_total": 3,
+      "cost": null,
+      "cp": 3,
+      "creation_input_tokens": null,
+      "creation_output_tokens": null,
+      "files_delta": 2,
+      "input_tokens": 21955,
+      "loc_delta": 64,
+      "output_tokens": 4338,
+      "pass": true,
+      "reasoning_tokens": 756,
+      "regressions": 0,
+      "reported_cost_usd": 0.0,
+      "rework": {
+        "attempts": [
+          {
+            "attempt": 1,
+            "duration": 15.309516906738281,
+            "failed_tests": [
+              "test_update_identity_and_password",
+              "test_update_profile_fields_normalization_and_persistence",
+              "test_update_rejects_invalid_identity_and_requires_auth"
+            ],
+            "infrastructure_failure": false,
+            "pass_counts": {
+              "Core": 0,
+              "Error": 0,
+              "Functionality": 0,
+              "Regression": 0
+            },
+            "passed_policy": false,
+            "total_counts": {
+              "Core": 3,
+              "Error": 0,
+              "Functionality": 0,
+              "Regression": 0
+            }
+          },
+          {
+            "attempt": 2,
+            "duration": 14.846219062805176,
+            "failed_tests": [],
+            "infrastructure_failure": false,
+            "pass_counts": {
+              "Core": 3,
+              "Error": 0,
+              "Functionality": 0,
+              "Regression": 0
+            },
+            "passed_policy": true,
+            "total_counts": {
+              "Core": 3,
+              "Error": 0,
+              "Functionality": 0,
+              "Regression": 0
+            }
+          }
+        ],
+        "attempts_total": 2,
+        "checkpoint": "checkpoint_3",
+        "fixed": true,
+        "max_additional_attempts": 3
+      },
+      "rework_input_tokens": null,
+      "rework_output_tokens": null,
+      "run_id": "realworld-opencode-x-preview-f-free-high-20260821-1928-thermo-nuclear-code-quality-review-r1-b23703d8",
+      "steps": 15,
+      "time": 201.607885,
+      "tokens": 26293
+    },
+    {
+      "arm": "thermo-nuclear-code-quality-review",
+      "cache_read_tokens": 589312,
+      "cache_write_tokens": 0,
+      "core_failed": 0,
+      "core_passed": 2,
+      "core_total": 2,
+      "cost": null,
+      "cp": 5,
+      "creation_input_tokens": null,
+      "creation_output_tokens": null,
+      "files_delta": 3,
+      "input_tokens": 40920,
+      "loc_delta": 16,
+      "output_tokens": 9220,
+      "pass": true,
+      "reasoning_tokens": 3635,
+      "regressions": 0,
+      "reported_cost_usd": 0.0,
+      "rework": {
+        "attempts": [
+          {
+            "attempt": 1,
+            "duration": 11.83609676361084,
+            "failed_tests": [
+              "test_create_article_errors_and_duplicate_titles",
+              "test_create_article_full_contract_and_default_tags"
+            ],
+            "infrastructure_failure": false,
+            "pass_counts": {
+              "Core": 0,
+              "Error": 0,
+              "Functionality": 0,
+              "Regression": 0
+            },
+            "passed_policy": false,
+            "total_counts": {
+              "Core": 2,
+              "Error": 0,
+              "Functionality": 0,
+              "Regression": 0
+            }
+          },
+          {
+            "attempt": 2,
+            "duration": 12.533332109451294,
+            "failed_tests": [
+              "test_create_article_errors_and_duplicate_titles"
+            ],
+            "infrastructure_failure": false,
+            "pass_counts": {
+              "Core": 1,
+              "Error": 0,
+              "Functionality": 0,
+              "Regression": 0
+            },
+            "passed_policy": false,
+            "total_counts": {
+              "Core": 2,
+              "Error": 0,
+              "Functionality": 0,
+              "Regression": 0
+            }
+          },
+          {
+            "attempt": 3,
+            "duration": 11.748660326004028,
+            "failed_tests": [],
+            "infrastructure_failure": false,
+            "pass_counts": {
+              "Core": 2,
+              "Error": 0,
+              "Functionality": 0,
+              "Regression": 0
+            },
+            "passed_policy": true,
+            "total_counts": {
+              "Core": 2,
+              "Error": 0,
+              "Functionality": 0,
+              "Regression": 0
+            }
+          }
+        ],
+        "attempts_total": 3,
+        "checkpoint": "checkpoint_5",
+        "fixed": true,
+        "max_additional_attempts": 3
+      },
+      "rework_input_tokens": null,
+      "rework_output_tokens": null,
+      "run_id": "realworld-opencode-x-preview-f-free-high-20260821-1928-thermo-nuclear-code-quality-review-r1-b23703d8",
+      "steps": 29,
+      "time": 479.923927,
+      "tokens": 50140
+    },
+    {
+      "arm": "thermo-nuclear-code-quality-review",
+      "cache_read_tokens": 124864,
+      "cache_write_tokens": 0,
+      "core_failed": 1,
+      "core_passed": 1,
+      "core_total": 2,
+      "cost": null,
+      "cp": 6,
+      "creation_input_tokens": null,
+      "creation_output_tokens": null,
+      "files_delta": 0,
+      "input_tokens": 17770,
+      "loc_delta": 0,
+      "output_tokens": 2657,
+      "pass": false,
+      "reasoning_tokens": 1427,
+      "regressions": 0,
+      "reported_cost_usd": 0.0,
+      "rework": {
+        "attempts": [
+          {
+            "attempt": 1,
+            "duration": 12.292202949523926,
+            "failed_tests": [
+              "test_get_single_article_without_and_with_auth_persists"
+            ],
+            "infrastructure_failure": false,
+            "pass_counts": {
+              "Core": 1,
+              "Error": 0,
+              "Functionality": 0,
+              "Regression": 0
+            },
+            "passed_policy": false,
+            "total_counts": {
+              "Core": 2,
+              "Error": 0,
+              "Functionality": 0,
+              "Regression": 0
+            }
+          },
+          {
+            "attempt": 2,
+            "duration": 11.598069190979004,
+            "failed_tests": [
+              "test_get_single_article_without_and_with_auth_persists"
+            ],
+            "infrastructure_failure": false,
+            "pass_counts": {
+              "Core": 1,
+              "Error": 0,
+              "Functionality": 0,
+              "Regression": 0
+            },
+            "passed_policy": false,
+            "total_counts": {
+              "Core": 2,
+              "Error": 0,
+              "Functionality": 0,
+              "Regression": 0
+            }
+          },
+          {
+            "attempt": 3,
+            "duration": 12.538065433502197,
+            "failed_tests": [
+              "test_get_single_article_without_and_with_auth_persists"
+            ],
+            "infrastructure_failure": false,
+            "pass_counts": {
+              "Core": 1,
+              "Error": 0,
+              "Functionality": 0,
+              "Regression": 0
+            },
+            "passed_policy": false,
+            "total_counts": {
+              "Core": 2,
+              "Error": 0,
+              "Functionality": 0,
+              "Regression": 0
+            }
+          },
+          {
+            "attempt": 4,
+            "duration": 11.510233640670776,
+            "failed_tests": [
+              "test_get_single_article_without_and_with_auth_persists"
+            ],
+            "infrastructure_failure": false,
+            "pass_counts": {
+              "Core": 1,
+              "Error": 0,
+              "Functionality": 0,
+              "Regression": 0
+            },
+            "passed_policy": false,
+            "total_counts": {
+              "Core": 2,
+              "Error": 0,
+              "Functionality": 0,
+              "Regression": 0
+            }
+          }
+        ],
+        "attempts_total": 4,
+        "checkpoint": "checkpoint_6",
+        "fixed": false,
+        "max_additional_attempts": 3
+      },
+      "rework_input_tokens": null,
+      "rework_output_tokens": null,
+      "run_id": "realworld-opencode-x-preview-f-free-high-20260821-1928-thermo-nuclear-code-quality-review-r1-b23703d8",
+      "steps": 11,
+      "time": 403.989285,
+      "tokens": 20427
+    },
+    {
+      "arm": "thermo-nuclear-code-quality-review",
+      "cache_read_tokens": 53312,
+      "cache_write_tokens": 0,
+      "core_failed": 1,
+      "core_passed": 1,
+      "core_total": 2,
+      "cost": null,
+      "cp": 7,
+      "creation_input_tokens": null,
+      "creation_output_tokens": null,
+      "files_delta": 0,
+      "input_tokens": 8726,
+      "loc_delta": 0,
+      "output_tokens": 874,
+      "pass": false,
+      "reasoning_tokens": 462,
+      "regressions": 0,
+      "reported_cost_usd": 0.0,
+      "rework": {
+        "attempts": [
+          {
+            "attempt": 1,
+            "duration": 13.080443143844604,
+            "failed_tests": [
+              "test_update_article_fields_timestamps_tags_and_persistence"
+            ],
+            "infrastructure_failure": false,
+            "pass_counts": {
+              "Core": 1,
+              "Error": 0,
+              "Functionality": 0,
+              "Regression": 0
+            },
+            "passed_policy": false,
+            "total_counts": {
+              "Core": 2,
+              "Error": 0,
+              "Functionality": 0,
+              "Regression": 0
+            }
+          },
+          {
+            "attempt": 2,
+            "duration": 12.356755256652832,
+            "failed_tests": [
+              "test_update_article_fields_timestamps_tags_and_persistence"
+            ],
+            "infrastructure_failure": false,
+            "pass_counts": {
+              "Core": 1,
+              "Error": 0,
+              "Functionality": 0,
+              "Regression": 0
+            },
+            "passed_policy": false,
+            "total_counts": {
+              "Core": 2,
+              "Error": 0,
+              "Functionality": 0,
+              "Regression": 0
+            }
+          },
+          {
+            "attempt": 3,
+            "duration": 12.847591876983643,
+            "failed_tests": [
+              "test_update_article_fields_timestamps_tags_and_persistence"
+            ],
+            "infrastructure_failure": false,
+            "pass_counts": {
+              "Core": 1,
+              "Error": 0,
+              "Functionality": 0,
+              "Regression": 0
+            },
+            "passed_policy": false,
+            "total_counts": {
+              "Core": 2,
+              "Error": 0,
+              "Functionality": 0,
+              "Regression": 0
+            }
+          },
+          {
+            "attempt": 4,
+            "duration": 11.388962745666504,
+            "failed_tests": [
+              "test_update_article_fields_timestamps_tags_and_persistence"
+            ],
+            "infrastructure_failure": false,
+            "pass_counts": {
+              "Core": 1,
+              "Error": 0,
+              "Functionality": 0,
+              "Regression": 0
+            },
+            "passed_policy": false,
+            "total_counts": {
+              "Core": 2,
+              "Error": 0,
+              "Functionality": 0,
+              "Regression": 0
+            }
+          }
+        ],
+        "attempts_total": 4,
+        "checkpoint": "checkpoint_7",
+        "fixed": false,
+        "max_additional_attempts": 3
+      },
+      "rework_input_tokens": null,
+      "rework_output_tokens": null,
+      "run_id": "realworld-opencode-x-preview-f-free-high-20260821-1928-thermo-nuclear-code-quality-review-r1-b23703d8",
+      "steps": 6,
+      "time": 83.049439,
+      "tokens": 9600
+    },
+    {
+      "arm": "thermo-nuclear-code-quality-review",
+      "cache_read_tokens": 275200,
+      "cache_write_tokens": 0,
+      "core_failed": 1,
+      "core_passed": 1,
+      "core_total": 2,
+      "cost": null,
+      "cp": 9,
+      "creation_input_tokens": null,
+      "creation_output_tokens": null,
+      "files_delta": 0,
+      "input_tokens": 28414,
+      "loc_delta": 0,
+      "output_tokens": 6153,
+      "pass": false,
+      "reasoning_tokens": 3194,
+      "regressions": 0,
+      "reported_cost_usd": 0.0,
+      "rework": {
+        "attempts": [
+          {
+            "attempt": 1,
+            "duration": 11.814408302307129,
+            "failed_tests": [
+              "test_favorite_unfavorite_uniqueness_isolation_and_persistence"
+            ],
+            "infrastructure_failure": false,
+            "pass_counts": {
+              "Core": 1,
+              "Error": 0,
+              "Functionality": 0,
+              "Regression": 0
+            },
+            "passed_policy": false,
+            "total_counts": {
+              "Core": 2,
+              "Error": 0,
+              "Functionality": 0,
+              "Regression": 0
+            }
+          },
+          {
+            "attempt": 2,
+            "duration": 12.045538663864136,
+            "failed_tests": [
+              "test_favorite_unfavorite_uniqueness_isolation_and_persistence"
+            ],
+            "infrastructure_failure": false,
+            "pass_counts": {
+              "Core": 1,
+              "Error": 0,
+              "Functionality": 0,
+              "Regression": 0
+            },
+            "passed_policy": false,
+            "total_counts": {
+              "Core": 2,
+              "Error": 0,
+              "Functionality": 0,
+              "Regression": 0
+            }
+          },
+          {
+            "attempt": 3,
+            "duration": 11.69286298751831,
+            "failed_tests": [
+              "test_favorite_unfavorite_uniqueness_isolation_and_persistence"
+            ],
+            "infrastructure_failure": false,
+            "pass_counts": {
+              "Core": 1,
+              "Error": 0,
+              "Functionality": 0,
+              "Regression": 0
+            },
+            "passed_policy": false,
+            "total_counts": {
+              "Core": 2,
+              "Error": 0,
+              "Functionality": 0,
+              "Regression": 0
+            }
+          },
+          {
+            "attempt": 4,
+            "duration": 14.479016780853271,
+            "failed_tests": [
+              "test_favorite_unfavorite_uniqueness_isolation_and_persistence"
+            ],
+            "infrastructure_failure": false,
+            "pass_counts": {
+              "Core": 1,
+              "Error": 0,
+              "Functionality": 0,
+              "Regression": 0
+            },
+            "passed_policy": false,
+            "total_counts": {
+              "Core": 2,
+              "Error": 0,
+              "Functionality": 0,
+              "Regression": 0
+            }
+          }
+        ],
+        "attempts_total": 4,
+        "checkpoint": "checkpoint_9",
+        "fixed": false,
+        "max_additional_attempts": 3
+      },
+      "rework_input_tokens": null,
+      "rework_output_tokens": null,
+      "run_id": "realworld-opencode-x-preview-f-free-high-20260821-1928-thermo-nuclear-code-quality-review-r1-b23703d8",
+      "steps": 18,
+      "time": 514.496797,
+      "tokens": 34567
+    },
+    {
+      "arm": "thermo-nuclear-code-quality-review",
+      "cache_read_tokens": 1124288,
+      "cache_write_tokens": 0,
+      "core_failed": 1,
+      "core_passed": 0,
+      "core_total": 1,
+      "cost": null,
+      "cp": 10,
+      "creation_input_tokens": null,
+      "creation_output_tokens": null,
+      "files_delta": 1,
+      "input_tokens": 35350,
+      "loc_delta": 13,
+      "output_tokens": 12414,
+      "pass": false,
+      "reasoning_tokens": 3950,
+      "regressions": 0,
+      "reported_cost_usd": 0.0,
+      "rework": {
+        "attempts": [
+          {
+            "attempt": 1,
+            "duration": 13.013792276382446,
+            "failed_tests": [
+              "test_article_catalog_filters_pagination_projection_and_defaults"
+            ],
+            "infrastructure_failure": false,
+            "pass_counts": {
+              "Core": 0,
+              "Error": 0,
+              "Functionality": 0,
+              "Regression": 0
+            },
+            "passed_policy": false,
+            "total_counts": {
+              "Core": 1,
+              "Error": 0,
+              "Functionality": 0,
+              "Regression": 0
+            }
+          },
+          {
+            "attempt": 2,
+            "duration": 14.996900081634521,
+            "failed_tests": [
+              "test_article_catalog_filters_pagination_projection_and_defaults"
+            ],
+            "infrastructure_failure": false,
+            "pass_counts": {
+              "Core": 0,
+              "Error": 0,
+              "Functionality": 0,
+              "Regression": 0
+            },
+            "passed_policy": false,
+            "total_counts": {
+              "Core": 1,
+              "Error": 0,
+              "Functionality": 0,
+              "Regression": 0
+            }
+          },
+          {
+            "attempt": 3,
+            "duration": 13.893352508544922,
+            "failed_tests": [
+              "test_article_catalog_filters_pagination_projection_and_defaults"
+            ],
+            "infrastructure_failure": false,
+            "pass_counts": {
+              "Core": 0,
+              "Error": 0,
+              "Functionality": 0,
+              "Regression": 0
+            },
+            "passed_policy": false,
+            "total_counts": {
+              "Core": 1,
+              "Error": 0,
+              "Functionality": 0,
+              "Regression": 0
+            }
+          },
+          {
+            "attempt": 4,
+            "duration": 13.502020597457886,
+            "failed_tests": [
+              "test_article_catalog_filters_pagination_projection_and_defaults"
+            ],
+            "infrastructure_failure": false,
+            "pass_counts": {
+              "Core": 0,
+              "Error": 0,
+              "Functionality": 0,
+              "Regression": 0
+            },
+            "passed_policy": false,
+            "total_counts": {
+              "Core": 1,
+              "Error": 0,
+              "Functionality": 0,
+              "Regression": 0
+            }
+          }
+        ],
+        "attempts_total": 4,
+        "checkpoint": "checkpoint_10",
+        "fixed": false,
+        "max_additional_attempts": 3
+      },
+      "rework_input_tokens": null,
+      "rework_output_tokens": null,
+      "run_id": "realworld-opencode-x-preview-f-free-high-20260821-1928-thermo-nuclear-code-quality-review-r1-b23703d8",
+      "steps": 40,
+      "time": 506.209405,
+      "tokens": 47764
+    },
+    {
+      "arm": "thermo-nuclear-code-quality-review",
+      "cache_read_tokens": 376704,
+      "cache_write_tokens": 0,
+      "core_failed": 1,
+      "core_passed": 1,
+      "core_total": 2,
+      "cost": null,
+      "cp": 12,
+      "creation_input_tokens": null,
+      "creation_output_tokens": null,
+      "files_delta": 0,
+      "input_tokens": 48002,
+      "loc_delta": 0,
+      "output_tokens": 11033,
+      "pass": false,
+      "reasoning_tokens": 5187,
+      "regressions": 0,
+      "reported_cost_usd": 0.0,
+      "rework": {
+        "attempts": [
+          {
+            "attempt": 1,
+            "duration": 13.881701946258545,
+            "failed_tests": [
+              "test_personalized_feed_membership_projection_pagination_and_metadata"
+            ],
+            "infrastructure_failure": false,
+            "pass_counts": {
+              "Core": 1,
+              "Error": 0,
+              "Functionality": 0,
+              "Regression": 0
+            },
+            "passed_policy": false,
+            "total_counts": {
+              "Core": 2,
+              "Error": 0,
+              "Functionality": 0,
+              "Regression": 0
+            }
+          },
+          {
+            "attempt": 2,
+            "duration": 15.487081289291382,
+            "failed_tests": [
+              "test_personalized_feed_membership_projection_pagination_and_metadata"
+            ],
+            "infrastructure_failure": false,
+            "pass_counts": {
+              "Core": 1,
+              "Error": 0,
+              "Functionality": 0,
+              "Regression": 0
+            },
+            "passed_policy": false,
+            "total_counts": {
+              "Core": 2,
+              "Error": 0,
+              "Functionality": 0,
+              "Regression": 0
+            }
+          },
+          {
+            "attempt": 3,
+            "duration": 14.385915994644165,
+            "failed_tests": [
+              "test_personalized_feed_membership_projection_pagination_and_metadata"
+            ],
+            "infrastructure_failure": false,
+            "pass_counts": {
+              "Core": 1,
+              "Error": 0,
+              "Functionality": 0,
+              "Regression": 0
+            },
+            "passed_policy": false,
+            "total_counts": {
+              "Core": 2,
+              "Error": 0,
+              "Functionality": 0,
+              "Regression": 0
+            }
+          },
+          {
+            "attempt": 4,
+            "duration": 11.845554828643799,
+            "failed_tests": [
+              "test_personalized_feed_membership_projection_pagination_and_metadata"
+            ],
+            "infrastructure_failure": false,
+            "pass_counts": {
+              "Core": 1,
+              "Error": 0,
+              "Functionality": 0,
+              "Regression": 0
+            },
+            "passed_policy": false,
+            "total_counts": {
+              "Core": 2,
+              "Error": 0,
+              "Functionality": 0,
+              "Regression": 0
+            }
+          }
+        ],
+        "attempts_total": 4,
+        "checkpoint": "checkpoint_12",
+        "fixed": false,
+        "max_additional_attempts": 3
+      },
+      "rework_input_tokens": null,
+      "rework_output_tokens": null,
+      "run_id": "realworld-opencode-x-preview-f-free-high-20260821-1928-thermo-nuclear-code-quality-review-r1-b23703d8",
+      "steps": 21,
+      "time": 533.009349,
+      "tokens": 59035
+    },
+    {
+      "arm": "thermo-nuclear-code-quality-review",
+      "cache_read_tokens": 240896,
+      "cache_write_tokens": 0,
+      "core_failed": 1,
+      "core_passed": 1,
+      "core_total": 2,
+      "cost": null,
+      "cp": 13,
+      "creation_input_tokens": null,
+      "creation_output_tokens": null,
+      "files_delta": 0,
+      "input_tokens": 25008,
+      "loc_delta": 0,
+      "output_tokens": 3647,
+      "pass": false,
+      "reasoning_tokens": 821,
+      "regressions": 0,
+      "reported_cost_usd": 0.0,
+      "rework": {
+        "attempts": [
+          {
+            "attempt": 1,
+            "duration": 12.202929496765137,
+            "failed_tests": [
+              "test_comments_lifecycle_selective_delete_and_persistence"
+            ],
+            "infrastructure_failure": false,
+            "pass_counts": {
+              "Core": 1,
+              "Error": 0,
+              "Functionality": 0,
+              "Regression": 0
+            },
+            "passed_policy": false,
+            "total_counts": {
+              "Core": 2,
+              "Error": 0,
+              "Functionality": 0,
+              "Regression": 0
+            }
+          },
+          {
+            "attempt": 2,
+            "duration": 11.572307348251343,
+            "failed_tests": [
+              "test_comments_lifecycle_selective_delete_and_persistence"
+            ],
+            "infrastructure_failure": false,
+            "pass_counts": {
+              "Core": 1,
+              "Error": 0,
+              "Functionality": 0,
+              "Regression": 0
+            },
+            "passed_policy": false,
+            "total_counts": {
+              "Core": 2,
+              "Error": 0,
+              "Functionality": 0,
+              "Regression": 0
+            }
+          },
+          {
+            "attempt": 3,
+            "duration": 11.886622667312622,
+            "failed_tests": [
+              "test_comments_lifecycle_selective_delete_and_persistence"
+            ],
+            "infrastructure_failure": false,
+            "pass_counts": {
+              "Core": 1,
+              "Error": 0,
+              "Functionality": 0,
+              "Regression": 0
+            },
+            "passed_policy": false,
+            "total_counts": {
+              "Core": 2,
+              "Error": 0,
+              "Functionality": 0,
+              "Regression": 0
+            }
+          },
+          {
+            "attempt": 4,
+            "duration": 11.200703620910645,
+            "failed_tests": [
+              "test_comments_lifecycle_selective_delete_and_persistence"
+            ],
+            "infrastructure_failure": false,
+            "pass_counts": {
+              "Core": 1,
+              "Error": 0,
+              "Functionality": 0,
+              "Regression": 0
+            },
+            "passed_policy": false,
+            "total_counts": {
+              "Core": 2,
+              "Error": 0,
+              "Functionality": 0,
+              "Regression": 0
+            }
+          }
+        ],
+        "attempts_total": 4,
+        "checkpoint": "checkpoint_13",
+        "fixed": false,
+        "max_additional_attempts": 3
+      },
+      "rework_input_tokens": null,
+      "rework_output_tokens": null,
+      "run_id": "realworld-opencode-x-preview-f-free-high-20260821-1928-thermo-nuclear-code-quality-review-r1-b23703d8",
+      "steps": 16,
+      "time": 199.185145,
+      "tokens": 28655
+    }
+  ],
   "thinking": "high"
 }

@@ -3,28 +3,50 @@
   "agent_version": "1.14.33",
   "arms": {
     "baseline": {
+      "checkpoints_failed": 7.0,
       "checkpoints_passed": 15.0,
       "checkpoints_total": 15.0,
       "complexity": 827.0,
+      "core_failed": 0.0,
+      "core_passed": 62.0,
+      "core_total": 62.0,
+      "creation_input_tokens": null,
+      "creation_output_tokens": null,
       "dependencies_added": 7.0,
       "elapsed_time": 5766.478555,
       "loc_changed": 3922.0,
       "loc_final": 3533.0,
       "normalized_cost": 0.0,
-      "regression_failures": 4.0
+      "regression_failures": 4.0,
+      "repeated_attempts": 8.0,
+      "rework_input_tokens": null,
+      "rework_output_tokens": null,
+      "total_input_tokens": 614233.0,
+      "total_output_tokens": 149797.0
     }
   },
   "date": "2026-08-21T13:35:25.459061+00:00",
   "deltas": {
+    "checkpoints_failed": null,
     "checkpoints_passed": null,
     "checkpoints_total": null,
     "complexity": null,
+    "core_failed": null,
+    "core_passed": null,
+    "core_total": null,
+    "creation_input_tokens": null,
+    "creation_output_tokens": null,
     "dependencies_added": null,
     "elapsed_time": null,
     "loc_changed": null,
     "loc_final": null,
     "normalized_cost": null,
-    "regression_failures": null
+    "regression_failures": null,
+    "repeated_attempts": null,
+    "rework_input_tokens": null,
+    "rework_output_tokens": null,
+    "total_input_tokens": null,
+    "total_output_tokens": null
   },
   "deltas_by_arm": {},
   "excluded_ponytail_runs": 0,
@@ -49,8 +71,595 @@
     "baseline": {
       "attempts": 15,
       "fixed": 7,
+      "repeated_attempts": 8,
       "unresolved": 0
     }
   },
+  "rework_details": [
+    {
+      "arm": "baseline",
+      "cache_read_tokens": 392064,
+      "cache_write_tokens": 0,
+      "core_failed": 0,
+      "core_passed": 7,
+      "core_total": 7,
+      "cost": null,
+      "cp": 1,
+      "creation_input_tokens": null,
+      "creation_output_tokens": null,
+      "files_delta": 8,
+      "input_tokens": 23276,
+      "loc_delta": 635,
+      "output_tokens": 10432,
+      "pass": true,
+      "reasoning_tokens": 1281,
+      "regressions": 0,
+      "reported_cost_usd": 0.0,
+      "rework": {
+        "attempts": [
+          {
+            "attempt": 1,
+            "duration": 18.242714643478394,
+            "failed_tests": [
+              "test_duplicate_email_conflict",
+              "test_missing_auth_and_validation_errors",
+              "test_timestamps_use_controlled_clock",
+              "test_email_normalized_case_and_default_state",
+              "test_task_list_cursor_pagination",
+              "test_foreign_task_is_404",
+              "test_password_stored_as_hash_not_plaintext",
+              "test_register_login_and_create_task",
+              "test_registration_creates_four_system_category_states",
+              "test_sqlite_persists_across_app_restart",
+              "test_task_patch_and_list_contract",
+              "test_uvicorn_serves_same_app"
+            ],
+            "infrastructure_failure": false,
+            "pass_counts": {
+              "Core": 0,
+              "Error": 0,
+              "Functionality": 0,
+              "Regression": 0
+            },
+            "passed_policy": false,
+            "total_counts": {
+              "Core": 7,
+              "Error": 3,
+              "Functionality": 2,
+              "Regression": 0
+            }
+          },
+          {
+            "attempt": 2,
+            "duration": 20.637733697891235,
+            "failed_tests": [],
+            "infrastructure_failure": false,
+            "pass_counts": {
+              "Core": 7,
+              "Error": 3,
+              "Functionality": 2,
+              "Regression": 0
+            },
+            "passed_policy": true,
+            "total_counts": {
+              "Core": 7,
+              "Error": 3,
+              "Functionality": 2,
+              "Regression": 0
+            }
+          }
+        ],
+        "attempts_total": 2,
+        "checkpoint": "checkpoint_1",
+        "fixed": true,
+        "max_additional_attempts": 2
+      },
+      "rework_input_tokens": null,
+      "rework_output_tokens": null,
+      "run_id": "tm-opencode-oxalpha-high-baseline-r1-c11b10de",
+      "steps": 25,
+      "time": 438.001054,
+      "tokens": 33708
+    },
+    {
+      "arm": "baseline",
+      "cache_read_tokens": 238144,
+      "cache_write_tokens": 0,
+      "core_failed": 0,
+      "core_passed": 4,
+      "core_total": 4,
+      "cost": null,
+      "cp": 4,
+      "creation_input_tokens": null,
+      "creation_output_tokens": null,
+      "files_delta": 1,
+      "input_tokens": 15008,
+      "loc_delta": 38,
+      "output_tokens": 3292,
+      "pass": true,
+      "reasoning_tokens": 476,
+      "regressions": 0,
+      "reported_cost_usd": 0.0,
+      "rework": {
+        "attempts": [
+          {
+            "attempt": 1,
+            "duration": 33.693809509277344,
+            "failed_tests": [
+              "test_sort_directions_null_dues_last_and_tie_breaks"
+            ],
+            "infrastructure_failure": false,
+            "pass_counts": {
+              "Core": 3,
+              "Error": 1,
+              "Functionality": 1,
+              "Regression": 23
+            },
+            "passed_policy": false,
+            "total_counts": {
+              "Core": 4,
+              "Error": 1,
+              "Functionality": 1,
+              "Regression": 23
+            }
+          },
+          {
+            "attempt": 2,
+            "duration": 34.57409429550171,
+            "failed_tests": [],
+            "infrastructure_failure": false,
+            "pass_counts": {
+              "Core": 4,
+              "Error": 1,
+              "Functionality": 1,
+              "Regression": 23
+            },
+            "passed_policy": true,
+            "total_counts": {
+              "Core": 4,
+              "Error": 1,
+              "Functionality": 1,
+              "Regression": 23
+            }
+          }
+        ],
+        "attempts_total": 2,
+        "checkpoint": "checkpoint_4",
+        "fixed": true,
+        "max_additional_attempts": 2
+      },
+      "rework_input_tokens": null,
+      "rework_output_tokens": null,
+      "run_id": "tm-opencode-oxalpha-high-baseline-r1-c11b10de",
+      "steps": 13,
+      "time": 113.241073,
+      "tokens": 18300
+    },
+    {
+      "arm": "baseline",
+      "cache_read_tokens": 581760,
+      "cache_write_tokens": 0,
+      "core_failed": 0,
+      "core_passed": 4,
+      "core_total": 4,
+      "cost": null,
+      "cp": 7,
+      "creation_input_tokens": null,
+      "creation_output_tokens": null,
+      "files_delta": 2,
+      "input_tokens": 24926,
+      "loc_delta": 11,
+      "output_tokens": 4327,
+      "pass": true,
+      "reasoning_tokens": 678,
+      "regressions": 0,
+      "reported_cost_usd": 0.0,
+      "rework": {
+        "attempts": [
+          {
+            "attempt": 1,
+            "duration": 55.58464694023132,
+            "failed_tests": [
+              "test_create_starts_at_one_and_patch_increments",
+              "test_neighbor_version_unchanged_when_other_task_leaves_column",
+              "test_place_requires_version_and_increments",
+              "test_stale_version_conflicts_without_mutation",
+              "test_multi_task_state_delete_bumps_each_moved_task",
+              "test_version_validation_and_place_stale"
+            ],
+            "infrastructure_failure": false,
+            "pass_counts": {
+              "Core": 0,
+              "Error": 0,
+              "Functionality": 0,
+              "Regression": 42
+            },
+            "passed_policy": false,
+            "total_counts": {
+              "Core": 4,
+              "Error": 1,
+              "Functionality": 1,
+              "Regression": 42
+            }
+          },
+          {
+            "attempt": 2,
+            "duration": 55.729512214660645,
+            "failed_tests": [],
+            "infrastructure_failure": false,
+            "pass_counts": {
+              "Core": 4,
+              "Error": 1,
+              "Functionality": 1,
+              "Regression": 42
+            },
+            "passed_policy": true,
+            "total_counts": {
+              "Core": 4,
+              "Error": 1,
+              "Functionality": 1,
+              "Regression": 42
+            }
+          }
+        ],
+        "attempts_total": 2,
+        "checkpoint": "checkpoint_7",
+        "fixed": true,
+        "max_additional_attempts": 2
+      },
+      "rework_input_tokens": null,
+      "rework_output_tokens": null,
+      "run_id": "tm-opencode-oxalpha-high-baseline-r1-c11b10de",
+      "steps": 23,
+      "time": 226.755572,
+      "tokens": 29253
+    },
+    {
+      "arm": "baseline",
+      "cache_read_tokens": 401536,
+      "cache_write_tokens": 0,
+      "core_failed": 0,
+      "core_passed": 4,
+      "core_total": 4,
+      "cost": null,
+      "cp": 9,
+      "creation_input_tokens": null,
+      "creation_output_tokens": null,
+      "files_delta": 1,
+      "input_tokens": 39719,
+      "loc_delta": 4,
+      "output_tokens": 6803,
+      "pass": true,
+      "reasoning_tokens": 2523,
+      "regressions": 0,
+      "reported_cost_usd": 0.0,
+      "rework": {
+        "attempts": [
+          {
+            "attempt": 1,
+            "duration": 70.63989090919495,
+            "failed_tests": [
+              "test_delete_hides_branch_from_all_working_views"
+            ],
+            "infrastructure_failure": false,
+            "pass_counts": {
+              "Core": 3,
+              "Error": 1,
+              "Functionality": 1,
+              "Regression": 53
+            },
+            "passed_policy": false,
+            "total_counts": {
+              "Core": 4,
+              "Error": 1,
+              "Functionality": 1,
+              "Regression": 53
+            }
+          },
+          {
+            "attempt": 2,
+            "duration": 62.70211434364319,
+            "failed_tests": [],
+            "infrastructure_failure": false,
+            "pass_counts": {
+              "Core": 4,
+              "Error": 1,
+              "Functionality": 1,
+              "Regression": 53
+            },
+            "passed_policy": true,
+            "total_counts": {
+              "Core": 4,
+              "Error": 1,
+              "Functionality": 1,
+              "Regression": 53
+            }
+          }
+        ],
+        "attempts_total": 2,
+        "checkpoint": "checkpoint_9",
+        "fixed": true,
+        "max_additional_attempts": 2
+      },
+      "rework_input_tokens": null,
+      "rework_output_tokens": null,
+      "run_id": "tm-opencode-oxalpha-high-baseline-r1-c11b10de",
+      "steps": 17,
+      "time": 511.724074,
+      "tokens": 46522
+    },
+    {
+      "arm": "baseline",
+      "cache_read_tokens": 920768,
+      "cache_write_tokens": 0,
+      "core_failed": 0,
+      "core_passed": 5,
+      "core_total": 5,
+      "cost": null,
+      "cp": 12,
+      "creation_input_tokens": null,
+      "creation_output_tokens": null,
+      "files_delta": 5,
+      "input_tokens": 57088,
+      "loc_delta": 506,
+      "output_tokens": 10624,
+      "pass": true,
+      "reasoning_tokens": 2189,
+      "regressions": 0,
+      "reported_cost_usd": 0.0,
+      "rework": {
+        "attempts": [
+          {
+            "attempt": 1,
+            "duration": 88.09436011314392,
+            "failed_tests": [
+              "test_daily_horizon_exact_and_idempotent_and_short_month",
+              "test_horizon_uses_account_calendar_day",
+              "test_interval_and_weekday_rules_are_not_ignored",
+              "test_occurrence_link_and_rule_change_keeps_edited",
+              "test_time_rule_sets_due_at_for_reminders",
+              "test_recurrence_list_get_and_project",
+              "test_recurrence_validation_and_foreign"
+            ],
+            "infrastructure_failure": false,
+            "pass_counts": {
+              "Core": 0,
+              "Error": 0,
+              "Functionality": 0,
+              "Regression": 72
+            },
+            "passed_policy": false,
+            "total_counts": {
+              "Core": 5,
+              "Error": 1,
+              "Functionality": 1,
+              "Regression": 72
+            }
+          },
+          {
+            "attempt": 2,
+            "duration": 88.86139106750488,
+            "failed_tests": [
+              "test_recurrence_validation_and_foreign"
+            ],
+            "infrastructure_failure": false,
+            "pass_counts": {
+              "Core": 5,
+              "Error": 0,
+              "Functionality": 1,
+              "Regression": 72
+            },
+            "passed_policy": true,
+            "total_counts": {
+              "Core": 5,
+              "Error": 1,
+              "Functionality": 1,
+              "Regression": 72
+            }
+          }
+        ],
+        "attempts_total": 2,
+        "checkpoint": "checkpoint_12",
+        "fixed": true,
+        "max_additional_attempts": 2
+      },
+      "rework_input_tokens": null,
+      "rework_output_tokens": null,
+      "run_id": "tm-opencode-oxalpha-high-baseline-r1-c11b10de",
+      "steps": 26,
+      "time": 473.873216,
+      "tokens": 67712
+    },
+    {
+      "arm": "baseline",
+      "cache_read_tokens": 1047744,
+      "cache_write_tokens": 0,
+      "core_failed": 0,
+      "core_passed": 3,
+      "core_total": 3,
+      "cost": null,
+      "cp": 13,
+      "creation_input_tokens": null,
+      "creation_output_tokens": null,
+      "files_delta": 2,
+      "input_tokens": 69613,
+      "loc_delta": 310,
+      "output_tokens": 14750,
+      "pass": true,
+      "reasoning_tokens": 2426,
+      "regressions": 1,
+      "reported_cost_usd": 0.0,
+      "rework": {
+        "attempts": [
+          {
+            "attempt": 1,
+            "duration": 91.99412298202515,
+            "failed_tests": [
+              "test_recurrence_validation_and_foreign",
+              "test_analytics_validation_and_auth",
+              "test_completion_time_odd_median_and_account_timezone_days",
+              "test_counts_completions_time_and_last_completion_rule",
+              "test_empty_groups_deleted_excluded_archived_included_overdue",
+              "test_filters_apply_and_isolate_accounts"
+            ],
+            "infrastructure_failure": false,
+            "pass_counts": {
+              "Core": 0,
+              "Error": 0,
+              "Functionality": 0,
+              "Regression": 78
+            },
+            "passed_policy": false,
+            "total_counts": {
+              "Core": 3,
+              "Error": 1,
+              "Functionality": 1,
+              "Regression": 79
+            }
+          },
+          {
+            "attempt": 2,
+            "duration": 154.63600754737854,
+            "failed_tests": [
+              "test_recurrence_validation_and_foreign",
+              "test_analytics_validation_and_auth",
+              "test_completion_time_odd_median_and_account_timezone_days",
+              "test_counts_completions_time_and_last_completion_rule",
+              "test_empty_groups_deleted_excluded_archived_included_overdue",
+              "test_filters_apply_and_isolate_accounts"
+            ],
+            "infrastructure_failure": false,
+            "pass_counts": {
+              "Core": 0,
+              "Error": 0,
+              "Functionality": 0,
+              "Regression": 78
+            },
+            "passed_policy": false,
+            "total_counts": {
+              "Core": 3,
+              "Error": 1,
+              "Functionality": 1,
+              "Regression": 79
+            }
+          },
+          {
+            "attempt": 3,
+            "duration": 98.53046727180481,
+            "failed_tests": [
+              "test_recurrence_validation_and_foreign"
+            ],
+            "infrastructure_failure": false,
+            "pass_counts": {
+              "Core": 3,
+              "Error": 1,
+              "Functionality": 1,
+              "Regression": 78
+            },
+            "passed_policy": true,
+            "total_counts": {
+              "Core": 3,
+              "Error": 1,
+              "Functionality": 1,
+              "Regression": 79
+            }
+          }
+        ],
+        "attempts_total": 3,
+        "checkpoint": "checkpoint_13",
+        "fixed": true,
+        "max_additional_attempts": 2
+      },
+      "rework_input_tokens": null,
+      "rework_output_tokens": null,
+      "run_id": "tm-opencode-oxalpha-high-baseline-r1-c11b10de",
+      "steps": 27,
+      "time": 396.501831,
+      "tokens": 84363
+    },
+    {
+      "arm": "baseline",
+      "cache_read_tokens": 1947200,
+      "cache_write_tokens": 0,
+      "core_failed": 0,
+      "core_passed": 4,
+      "core_total": 4,
+      "cost": null,
+      "cp": 15,
+      "creation_input_tokens": null,
+      "creation_output_tokens": null,
+      "files_delta": 4,
+      "input_tokens": 73831,
+      "loc_delta": 471,
+      "output_tokens": 19010,
+      "pass": true,
+      "reasoning_tokens": 4473,
+      "regressions": 2,
+      "reported_cost_usd": 0.0,
+      "rework": {
+        "attempts": [
+          {
+            "attempt": 1,
+            "duration": 111.85700869560242,
+            "failed_tests": [
+              "test_recurrence_validation_and_foreign",
+              "test_builder_rejects_invalid_combinations",
+              "test_overdue_count_metric_and_isolation",
+              "test_project_state_cartesian_empty_groups_and_order",
+              "test_query_and_legacy_saved_report_still_execute",
+              "test_save_builder_query_execute_and_replace_definition",
+              "test_week_month_created_count_and_completion_statistics"
+            ],
+            "infrastructure_failure": false,
+            "pass_counts": {
+              "Core": 0,
+              "Error": 0,
+              "Functionality": 0,
+              "Regression": 88
+            },
+            "passed_policy": false,
+            "total_counts": {
+              "Core": 4,
+              "Error": 1,
+              "Functionality": 1,
+              "Regression": 89
+            }
+          },
+          {
+            "attempt": 2,
+            "duration": 126.37803435325623,
+            "failed_tests": [
+              "test_recurrence_validation_and_foreign",
+              "test_patch_revalidates_kind_params_and_is_atomic"
+            ],
+            "infrastructure_failure": false,
+            "pass_counts": {
+              "Core": 4,
+              "Error": 1,
+              "Functionality": 1,
+              "Regression": 87
+            },
+            "passed_policy": true,
+            "total_counts": {
+              "Core": 4,
+              "Error": 1,
+              "Functionality": 1,
+              "Regression": 89
+            }
+          }
+        ],
+        "attempts_total": 2,
+        "checkpoint": "checkpoint_15",
+        "fixed": true,
+        "max_additional_attempts": 2
+      },
+      "rework_input_tokens": null,
+      "rework_output_tokens": null,
+      "run_id": "tm-opencode-oxalpha-high-baseline-r1-c11b10de",
+      "steps": 35,
+      "time": 704.836561,
+      "tokens": 92841
+    }
+  ],
   "thinking": "high"
 }

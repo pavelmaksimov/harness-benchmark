@@ -8,6 +8,10 @@ import benchmark.analyze as analyze
 SUMMARY_KEYS = (
     "checkpoints_passed",
     "checkpoints_total",
+    "checkpoints_failed",
+    "core_passed",
+    "core_failed",
+    "core_total",
     "regression_failures",
     "total_input_tokens",
     "total_output_tokens",
@@ -20,6 +24,7 @@ SUMMARY_KEYS = (
     "dependencies_added",
     "complexity",
     "rework_attempts",
+    "repeated_attempts",
     "rework_fixed",
     "rework_unresolved",
 )

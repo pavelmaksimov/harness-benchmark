@@ -10,18 +10,37 @@ from benchmark.paths import DOCS_DIR, DOCS_REPORTS_DIR
 METRIC_KEYS = (
     "checkpoints_passed",
     "checkpoints_total",
+    "checkpoints_failed",
+    "core_passed",
+    "core_failed",
+    "core_total",
     "regression_failures",
+    "creation_input_tokens",
+    "creation_output_tokens",
+    "rework_input_tokens",
+    "rework_output_tokens",
+    "total_input_tokens",
+    "total_output_tokens",
     "normalized_cost",
     "elapsed_time",
     "loc_final",
     "loc_changed",
     "dependencies_added",
     "complexity",
+    "repeated_attempts",
 )
 
 SHORT_LABELS = {
     "checkpoints_passed": "CP passed/total",
+    "checkpoints_failed": "Failed checkpoints",
+    "repeated_attempts": "Repeated attempts",
     "regression_failures": "Regressions",
+    "creation_input_tokens": "Creation input tokens",
+    "creation_output_tokens": "Creation output tokens",
+    "rework_input_tokens": "Rework input tokens",
+    "rework_output_tokens": "Rework output tokens",
+    "total_input_tokens": "All input tokens",
+    "total_output_tokens": "All output tokens",
     "normalized_cost": "Normalized cost",
     "elapsed_time": "Elapsed",
     "loc_final": "Final LOC",
@@ -78,6 +97,15 @@ def _fmt_metric(key: str, value: float | None) -> str:
         return f"${value:.2f}"
     if key == "elapsed_time":
         return f"{value / 60:.1f}m"
+    if key in {
+        "creation_input_tokens",
+        "creation_output_tokens",
+        "rework_input_tokens",
+        "rework_output_tokens",
+        "total_input_tokens",
+        "total_output_tokens",
+    }:
+        return f"{value:,.0f}"
     if isinstance(value, float) and not value.is_integer():
         return f"{value:.1f}"
     return f"{value:.0f}"
@@ -99,6 +127,16 @@ def _fmt_delta(key: str, value: float | None) -> str:
         minutes = value / 60
         sign = "+" if minutes > 0 else ""
         return f"{sign}{minutes:.1f}m"
+    if key in {
+        "creation_input_tokens",
+        "creation_output_tokens",
+        "rework_input_tokens",
+        "rework_output_tokens",
+        "total_input_tokens",
+        "total_output_tokens",
+    }:
+        sign = "+" if value > 0 else ""
+        return f"{sign}{value:,.0f}"
     if isinstance(value, float) and not value.is_integer():
         sign = "+" if value > 0 else ""
         return f"{sign}{value:.1f}"
@@ -137,10 +175,12 @@ def build_publish_payload(experiment_dir: Path, comparison: dict[str, Any]) -> d
     raw_totals = comparison.get("raw_totals") or {}
     for arm, totals in raw_totals.items():
         attempts = sum(int(t.get("rework_attempts") or 0) for t in totals)
+        repeated_attempts = sum(int(t.get("repeated_attempts") or 0) for t in totals)
         if attempts <= 0:
             continue
         rework[arm] = {
             "attempts": attempts,
+            "repeated_attempts": repeated_attempts,
             "fixed": sum(int(t.get("rework_fixed") or 0) for t in totals),
             "unresolved": sum(int(t.get("rework_unresolved") or 0) for t in totals),
         }
@@ -148,6 +188,11 @@ def build_publish_payload(experiment_dir: Path, comparison: dict[str, Any]) -> d
     legacy_deltas = {
         key: (comparison.get("summary") or {}).get(key, {}).get("delta_mean") for key in METRIC_KEYS
     }
+    rework_details = [
+        row
+        for row in comparison.get("per_checkpoint") or []
+        if (row.get("rework") or {}).get("attempts")
+    ]
     payload: dict[str, Any] = {
         "experiment_id": experiment_dir.name,
         "date": manifest.get("date") or "",
@@ -169,6 +214,8 @@ def build_publish_payload(experiment_dir: Path, comparison: dict[str, Any]) -> d
     }
     if rework:
         payload["rework"] = rework
+    if rework_details:
+        payload["rework_details"] = rework_details
     for arm in arm_names:
         payload[f"n_{arm}"] = comparison.get(f"n_{arm}", 0)
     payload["n_baseline"] = comparison.get("n_baseline", 0)
@@ -230,6 +277,9 @@ def format_short_report(payload: dict[str, Any]) -> str:
         "",
         "## Metrics (mean)",
         "",
+        "Creation/Rework token metrics use per-attempt usage; `-` means unavailable.",
+        "Failed checkpoints include checkpoints repaired by rework; Rework = All - Create when possible.",
+        "",
     ]
 
     header = "| Metric | " + " | ".join(arm_names) + " |"
@@ -266,7 +316,8 @@ def format_short_report(payload: dict[str, Any]) -> str:
     if rework:
         for arm, rw in rework.items():
             lines.append(
-                f"- Rework {arm}: {rw['attempts']} extra attempts, "
+                f"- Rework {arm}: {rw.get('repeated_attempts', rw['attempts'])} repeated attempts "
+                f"({rw['attempts']} total attempts), "
                 f"{rw['fixed']} fixed, {rw['unresolved']} unresolved."
             )
     excluded = payload.get("excluded_runs") or {}
@@ -339,7 +390,15 @@ def _section_order(values: list[str], latest_date_by_value: dict[str, str]) -> l
 def _metric_cells(metrics: dict[str, Any]) -> str:
     parts = [
         _fmt_checkpoints(metrics),
+        _fmt_metric("checkpoints_failed", metrics.get("checkpoints_failed")),
+        _fmt_metric("repeated_attempts", metrics.get("repeated_attempts")),
         _fmt_metric("regression_failures", metrics.get("regression_failures")),
+        _fmt_metric("creation_input_tokens", metrics.get("creation_input_tokens")),
+        _fmt_metric("creation_output_tokens", metrics.get("creation_output_tokens")),
+        _fmt_metric("rework_input_tokens", metrics.get("rework_input_tokens")),
+        _fmt_metric("rework_output_tokens", metrics.get("rework_output_tokens")),
+        _fmt_metric("total_input_tokens", metrics.get("total_input_tokens")),
+        _fmt_metric("total_output_tokens", metrics.get("total_output_tokens")),
         _fmt_metric("normalized_cost", metrics.get("normalized_cost")),
         _fmt_metric("elapsed_time", metrics.get("elapsed_time")),
         _fmt_metric("loc_final", metrics.get("loc_final")),
@@ -369,6 +428,10 @@ def format_leaderboard(payloads: list[dict[str, Any]]) -> str:
         "",
         "Published from `docs/reports/*.json`. Rebuilt by `python -m benchmark report`.",
         "Newer experiments appear first.",
+        "Create/Rework token columns use per-attempt usage; `-` means it is unavailable.",
+        "All in/out columns preserve the aggregate usage for older runs.",
+        "Failed CP counts checkpoints that failed at least once, including repaired ones.",
+        "Rework in/out is calculated as All in/out minus Create in/out when possible.",
         "",
         "## By task",
         "",
@@ -382,13 +445,13 @@ def format_leaderboard(payloads: list[dict[str, Any]]) -> str:
         lines.append(f"### `{problem}`")
         lines.append("")
         lines.append(
-            "| Agent | Provider | Model | Harness | N | CP | Reg | Cost | Time | LOC | ΔLOC | Deps | Cx |"
+            "| Agent | Model | Harness | N | CP | Failed CP | Repeated | Reg | Create in | Create out | Rework in | Rework out | All in | All out | Cost | Time | LOC | ΔLOC | Deps | Cx |"
         )
-        lines.append("|-------|----------|-------|---------|--:|--:|----:|-----:|-----:|----:|-----:|-----:|---:|")
+        lines.append("|-------|-------|---------|--:|--:|----------:|----------:|----:|----------:|-----------:|----------:|-----------:|--------:|---------:|-----:|-----:|----:|-----:|-----:|---:|")
         rows = _sort_table_rows([c for c in cells if c["problem"] == problem], "model")
         for row in rows:
             lines.append(
-                f"| {row['agent']} | {row['provider']} | {row['model']} | {row['harness']} | "
+                f"| {row['agent']} | {row['model']} | {row['harness']} | "
                 f"{row['n']} | {_metric_cells(row['metrics'])} |"
             )
         lines.append("")
@@ -402,13 +465,13 @@ def format_leaderboard(payloads: list[dict[str, Any]]) -> str:
         lines.append(f"### `{model}`")
         lines.append("")
         lines.append(
-            "| Problem | Agent | Provider | Harness | N | CP | Reg | Cost | Time | LOC | ΔLOC | Deps | Cx |"
+            "| Problem | Agent | Harness | N | CP | Failed CP | Repeated | Reg | Create in | Create out | Rework in | Rework out | All in | All out | Cost | Time | LOC | ΔLOC | Deps | Cx |"
         )
-        lines.append("|---------|-------|----------|---------|--:|--:|----:|-----:|-----:|----:|-----:|-----:|---:|")
+        lines.append("|---------|-------|---------|--:|--:|----------:|----------:|----:|----------:|-----------:|----------:|-----------:|--------:|---------:|-----:|-----:|----:|-----:|-----:|---:|")
         rows = _sort_table_rows([c for c in cells if c["model"] == model], "problem")
         for row in rows:
             lines.append(
-                f"| {row['problem']} | {row['agent']} | {row['provider']} | {row['harness']} | "
+                f"| {row['problem']} | {row['agent']} | {row['harness']} | "
                 f"{row['n']} | {_metric_cells(row['metrics'])} |"
             )
         lines.append("")
@@ -417,8 +480,8 @@ def format_leaderboard(payloads: list[dict[str, Any]]) -> str:
         [
             "## Experiments",
             "",
-            "| Experiment | Date | Problem | Agent | Provider | Model | N | Report |",
-            "|------------|------|---------|-------|----------|-------|---|--------|",
+            "| Experiment | Date | Problem | Agent | Model | N | Report |",
+            "|------------|------|---------|-------|-------|---|--------|",
         ]
     )
     for payload in payloads:
@@ -431,7 +494,7 @@ def format_leaderboard(payloads: list[dict[str, Any]]) -> str:
             n = f"{payload.get('n_baseline', 0)}+{payload.get('n_ponytail', 0)}"
         lines.append(
             f"| {eid} | {date} | {payload.get('problem')} | {payload.get('agent')} | "
-            f"{payload.get('provider')} | {payload.get('model')} | {n} | "
+            f"{payload.get('model')} | {n} | "
             f"[short](reports/{eid}.md) |"
         )
     lines.append("")
