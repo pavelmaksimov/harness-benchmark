@@ -6,6 +6,7 @@ from pathlib import Path
 from typing import Any
 
 from benchmark.cost import load_pricing, normalized_cost_usd
+from benchmark.arms import arm_includes
 from benchmark.dependencies import collect_dependencies, dependency_delta
 from benchmark.isolation import verify_baseline_prompt, verify_skill_prompt
 from benchmark.paths import ACTIVATION_MARKER, CONFIGS_DIR
@@ -381,7 +382,7 @@ def collect_run(
         "cumulative": cumulative,
         "pins": load_pins(),
         "harness_meta": load_arm_meta(arm),
-        "ponytail": load_arm_meta("ponytail") if arm == "ponytail" else None,
+        "ponytail": load_arm_meta("ponytail") if arm_includes(arm, "ponytail") else None,
     }
 
 

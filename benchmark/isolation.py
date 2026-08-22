@@ -66,6 +66,10 @@ def verify_skill_prompt(arm: str, prompt_text: str) -> bool:
     phrase = spec.activation_phrase or ""
     if phrase and phrase not in prompt_text:
         return False
+    if spec.component_arms and not all(
+        component in prompt_text for component in spec.component_arms
+    ):
+        return False
     if spec.skill_name and spec.skill_name not in prompt_text:
         return False
     return True

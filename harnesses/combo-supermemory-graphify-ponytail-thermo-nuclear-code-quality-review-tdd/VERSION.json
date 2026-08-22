@@ -1,0 +1,29 @@
+{
+  "name": "combo-supermemory-graphify-ponytail-thermo-nuclear-code-quality-review-tdd",
+  "skill_names": [
+    "graphify",
+    "ponytail",
+    "supermemory-add",
+    "supermemory-forget",
+    "supermemory-profile",
+    "supermemory-save",
+    "supermemory-search",
+    "supermemory-status",
+    "tdd",
+    "thermo-nuclear-code-quality-review"
+  ],
+  "version": "pinned-local",
+  "kind": "bundle",
+  "tree_sha256": "bde77f1d75fc35836f44b042ff0eb3d3f9c3b6a6e3185b7d25cf2122da3c87ec",
+  "skill_bytes": 965904,
+  "file_count": 33,
+  "pinned_at": "2026-08-22T09:10:31.168124+00:00",
+  "source": "/home/user/my/harness-benchmark/harnesses/combo-supermemory-graphify-ponytail-thermo-nuclear-code-quality-review-tdd/skills + /home/user/my/harness-benchmark/harnesses/combo-supermemory-graphify-ponytail-thermo-nuclear-code-quality-review-tdd/home",
+  "component_arms": [
+    "supermemory",
+    "graphify",
+    "ponytail",
+    "thermo-nuclear-code-quality-review",
+    "tdd"
+  ]
+}

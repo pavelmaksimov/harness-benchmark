@@ -11,7 +11,7 @@ from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any, Sequence
 
-from benchmark.arms import DEFAULT_EXPERIMENT_ARMS, get_arm
+from benchmark.arms import DEFAULT_EXPERIMENT_ARMS, arm_includes, get_arm
 from benchmark.collect import collect_run, write_checkpoint_jsons
 from benchmark.manifest import build_manifest, write_manifest
 from benchmark.paths import (
@@ -136,7 +136,7 @@ def _resolve_config_paths(config_path: Path) -> Path:
 
 def _environment_config(arm: str) -> Path:
     """Resolve Docker environment yaml for an arm (absolute path for SCB)."""
-    if arm == "supermemory":
+    if arm_includes(arm, "supermemory"):
         return CONFIGS_DIR / "environments" / "docker-python3.12-uv-hostnet.yaml"
     return SCB_DIR / "configs" / "environments" / "docker-python3.12-uv.yaml"
 
@@ -375,7 +375,7 @@ def _build_scb_env(
     env["HB_REWORK_ATTEMPTS"] = str(rework_attempts)
     # supermemory container tag per problem: memory of one task must not leak
     # into another task's run (see versions.SUPERMEMORY_BENCHMARK_CONTAINER_TAG).
-    if arm == "supermemory":
+    if arm_includes(arm, "supermemory"):
         env["SUPERMEMORY_BENCHMARK_TAG"] = f"hb_supermemory_{problem}"
     # Ensure sitecustomize runs inside ProcessPool workers too.
     env["PYTHONPATH"] = os.pathsep.join(
@@ -397,7 +397,7 @@ def _build_scb_env(
 
     if spec.needs_hook:
         env["HB_ENABLE_HARNESS"] = "1"
-        if arm == "ponytail":
+        if arm_includes(arm, "ponytail"):
             env["HB_ENABLE_PONYTAIL"] = "1"
         else:
             env.pop("HB_ENABLE_PONYTAIL", None)
@@ -516,7 +516,7 @@ def _finalize_run(ctx: RunContext) -> dict[str, Any]:
         "problems_commit": ctx.pins.get("scb-problems"),
         "harness_meta": load_arm_meta(ctx.arm),
         "ponytail_commit": ctx.pins.get("ponytail_version")
-        if ctx.arm == "ponytail"
+        if arm_includes(ctx.arm, "ponytail")
         else None,
         "harness": ctx.arm,
         "docker_image": "ghcr.io/astral-sh/uv:python3.12-trixie-slim",

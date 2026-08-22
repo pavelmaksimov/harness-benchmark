@@ -1,10 +1,11 @@
 #!/usr/bin/env python3
-"""(Re)pin VERSION.json for `single`-kind harness arms.
+"""(Re)pin VERSION.json for harness arms.
 
 Usage:
     uv run python scripts/pin_harness.py <arm> [<arm> ...]
 
-For every arm it hashes ``harnesses/<arm>/skill``:
+For a single arm it hashes ``harnesses/<arm>/skill``. For a bundle it hashes
+the payload under ``harnesses/<arm>/skills`` and ``harnesses/<arm>/home``:
 
 - ``skill_sha256``  — plain sha256 of SKILL.md bytes (verified at activation time);
 - ``tree_sha256``   — sha256 over sorted files, each contributing
@@ -12,7 +13,8 @@ For every arm it hashes ``harnesses/<arm>/skill``:
 - plus ``skill_bytes``, ``file_count``, ``pinned_at`` (UTC).
 
 The scheme is intentionally simple and re-computable offline; do not edit
-VERSION.json by hand — rerun this script after any change under ``skill/``.
+VERSION.json by hand — rerun this script after any change under the payload
+directories.
 """
 
 from __future__ import annotations
@@ -37,31 +39,78 @@ def _tree_sha256(skill_dir: Path) -> str:
     return digest.hexdigest()
 
 
+def _bundle_files(harness_dir: Path) -> list[tuple[str, Path]]:
+    files: list[tuple[str, Path]] = []
+    for root_name in ("skills", "home"):
+        root = harness_dir / root_name
+        if not root.is_dir():
+            continue
+        files.extend(
+            (f"{root_name}/{path.relative_to(root).as_posix()}", path)
+            for path in root.rglob("*")
+            if path.is_file()
+        )
+    return sorted(files)
+
+
+def _bundle_tree_sha256(files: list[tuple[str, Path]]) -> str:
+    digest = hashlib.sha256()
+    for rel, path in files:
+        digest.update(rel.encode("utf-8") + b"\n")
+        digest.update(path.read_bytes())
+    return digest.hexdigest()
+
+
 def pin_arm(arm: str) -> Path:
     harness_dir = HARNESSES_DIR / arm
     skill_dir = harness_dir / "skill"
     skill_md = skill_dir / "SKILL.md"
-    if not skill_md.is_file():
-        raise SystemExit(f"{arm}: expected {skill_md} (kind=single layout)")
 
     existing: dict = {}
     version_path = harness_dir / "VERSION.json"
     if version_path.is_file():
         existing = json.loads(version_path.read_text(encoding="utf-8"))
 
-    files = sorted(p for p in skill_dir.rglob("*") if p.is_file())
-    meta = {
-        "name": arm,
-        "skill_name": arm,
-        "version": "pinned-local",
-        "kind": "single",
-        "skill_sha256": hashlib.sha256(skill_md.read_bytes()).hexdigest(),
-        "tree_sha256": _tree_sha256(skill_dir),
-        "skill_bytes": skill_md.stat().st_size,
-        "file_count": len(files),
-        "pinned_at": datetime.now(timezone.utc).isoformat(),
-        "source": str(skill_dir),
-    }
+    if skill_md.is_file():
+        files = sorted(p for p in skill_dir.rglob("*") if p.is_file())
+        meta = {
+            "name": arm,
+            "skill_name": arm,
+            "version": "pinned-local",
+            "kind": "single",
+            "skill_sha256": hashlib.sha256(skill_md.read_bytes()).hexdigest(),
+            "tree_sha256": _tree_sha256(skill_dir),
+            "skill_bytes": skill_md.stat().st_size,
+            "file_count": len(files),
+            "pinned_at": datetime.now(timezone.utc).isoformat(),
+            "source": str(skill_dir),
+        }
+    else:
+        bundle_files = _bundle_files(harness_dir)
+        if not bundle_files:
+            raise SystemExit(
+                f"{arm}: expected {skill_md} or bundle payload under "
+                f"{harness_dir / 'skills'} / {harness_dir / 'home'}"
+            )
+        meta = {
+            "name": arm,
+            "skill_names": sorted(
+                path.name
+                for path in (harness_dir / "skills").iterdir()
+                if path.is_dir()
+            )
+            if (harness_dir / "skills").is_dir()
+            else [],
+            "version": "pinned-local",
+            "kind": "bundle",
+            "tree_sha256": _bundle_tree_sha256(bundle_files),
+            "skill_bytes": sum(path.stat().st_size for _, path in bundle_files),
+            "file_count": len(bundle_files),
+            "pinned_at": datetime.now(timezone.utc).isoformat(),
+            "source": f"{harness_dir / 'skills'} + {harness_dir / 'home'}",
+        }
+        if "component_arms" in existing:
+            meta["component_arms"] = existing["component_arms"]
     # Preserve unknown extra keys an operator may have added previously.
     for key, value in existing.items():
         meta.setdefault(key, value)
@@ -79,7 +128,9 @@ def main(argv: list[str]) -> int:
             return 1
         path = pin_arm(arm)
         meta = json.loads(path.read_text(encoding="utf-8"))
-        print(f"pinned {arm}: tree={meta['tree_sha256'][:12]} skill={meta['skill_sha256'][:12]}")
+        skill_sha = meta.get("skill_sha256")
+        skill_info = skill_sha[:12] if skill_sha else "bundle"
+        print(f"pinned {arm}: tree={meta['tree_sha256'][:12]} skill={skill_info}")
     return 0
 
 

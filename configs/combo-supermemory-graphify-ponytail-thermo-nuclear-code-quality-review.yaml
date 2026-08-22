@@ -1,0 +1,14 @@
+# Combined harness: supermemory + graphify + ponytail +
+# thermo-nuclear-code-quality-review.
+agent: configs/agent_opencode.yaml
+environment: docker-python3.12-uv-hostnet
+prompt: configs/prompts/combo-supermemory-graphify-ponytail-thermo-nuclear-code-quality-review-solve.jinja
+model:
+  provider: opencode_auth
+  name: x-preview-f-free
+thinking: high
+pass_policy: all-core-cases
+problems:
+  - realworld
+save_dir: results/raw
+save_template: ${model.name}/combo_supermemory_graphify_ponytail_thermo_${prompt}_${thinking}_${now:%Y%m%dT%H%M%S}

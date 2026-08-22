@@ -8,7 +8,7 @@ import subprocess
 from pathlib import Path
 from typing import Any
 
-from benchmark.arms import ArmSpec, get_arm
+from benchmark.arms import ArmSpec, arm_includes, get_arm
 from benchmark.paths import (
     ACTIVATION_MARKER,
     HARNESSES_DIR,
@@ -296,6 +296,7 @@ def copy_arm_skills(
             "harness": spec.name,
             "skill_name": spec.skill_name,
             "skill_names": sorted(expected_names),
+            "component_arms": list(spec.component_arms),
             "skill_version": meta.get("version"),
             "tree_sha256_expected": meta.get("tree_sha256"),
             "installed_files": installed,
@@ -303,7 +304,7 @@ def copy_arm_skills(
             "harness_activation_verified": verified,
             "activation_mechanism": "codex_home_skills_copy+home_extras+prompt_prefix",
         }
-        if spec.name == "supermemory":
+        if arm_includes(spec, "supermemory"):
             runtime = install_supermemory_runtime_config(codex_home)
             marker.update(runtime)
             if not runtime.get("supermemory_credentials_injected"):

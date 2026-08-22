@@ -1,0 +1,14 @@
+Activate and follow the installed Codex skills `supermemory`, `graphify`. Stay in this combined mode until the task is done.
+
+Use both installed skills where relevant: preserve useful project knowledge and understand the repository structure while implementing. If a skill or its tooling is unavailable, continue and solve the specification anyway.
+
+Implement a program that 100% solves the specification. That is all you need to do.
+A specified entry file defines the required import path; it does not require all implementation code to be in that file.
+{% if not is_continuation -%}
+Use a virtual environment and ensure that a `requirements.txt` is present with any dependencies you need to solve the problem.
+{% else -%}
+Keep using the same virtual environment you started with, update `requirements.txt` with any new dependencies you need.
+{% endif -%}
+
+Your task is:
+{{ spec.strip() }}

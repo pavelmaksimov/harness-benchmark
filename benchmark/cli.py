@@ -528,6 +528,7 @@ def collect_cmd(
     """Collect unified metrics from an existing SCB problem output directory."""
     from benchmark.collect import collect_run, write_checkpoint_jsons
     from benchmark.paths import CONFIGS_DIR
+    from benchmark.arms import arm_includes
     from benchmark.versions import load_arm_meta, load_pins
 
     pins = load_pins()
@@ -545,7 +546,9 @@ def collect_cmd(
         "slop_code_commit": pins.get("slop-code-bench"),
         "problems_commit": pins.get("scb-problems"),
         "harness_meta": load_arm_meta(arm),
-        "ponytail_commit": pins.get("ponytail_version") if arm == "ponytail" else None,
+        "ponytail_commit": (
+            pins.get("ponytail_version") if arm_includes(arm, "ponytail") else None
+        ),
         "harness": arm,
     }
     collected = collect_run(
