@@ -32,6 +32,9 @@
 игнорируемые результаты со снапшотами, что приводит к конфликту pytest-опций и
 ошибкам импорта чужих приложений. Полный набор тестов проекта запускай как
 `uv run pytest tests -q`.
+После `scripts/bootstrap_vendor.sh` команда `uv sync` может удалить локальный
+`pytest` из проектного окружения; в этом случае запускай `uv run --with pytest
+pytest tests -q`, а не делай вывод о проблемах импорта по системному pytest.
 
 ## Онбординг новых харнесов
 
@@ -178,6 +181,22 @@ Two sources of packages:
   `usage`/cost агента кумулятивны по попыткам (это намеренно — цена включает доработку).
   `infrastructure_failure` внутри реворка не считается моделью — см.
   `benchmark-failure-triage.mdc`.
+
+## Rework feedback and provider truncation
+
+`--feedback-strategy current-first` prioritizes current checkpoint Core failures,
+then other current failures, new regressions, and finally persistent regression
+context. `v1` is a compatibility alias for `all-failures`; the complete failure
+inventory remains in `rework.json` even when the prompt is shortened.
+
+`--transient-retries N` / `HB_TRANSIENT_RETRIES=N` is disabled by default. A
+retry is spent only for a high-confidence `provider_truncation` diagnosis:
+`step_finish(reason=unknown)`, prior reasoning, output below 500 tokens, and no
+explicit error, limit, or evaluator infrastructure failure. Transient retries
+are recorded separately from semantic rework and are included in total usage,
+elapsed time, and cost. They do not change `checkpoint_success` or Core scores.
+Keep `transient_retries` and `feedback_strategy` unchanged when resuming a run;
+the persisted values are part of run identity validation.
 
 ## Resume invariants
 
