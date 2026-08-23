@@ -43,7 +43,7 @@ def test_latest_cells_keeps_same_model_for_different_adapters() -> None:
     }
 
 
-def test_leaderboard_shows_stage_tokens_without_provider_or_core_fail_column() -> None:
+def test_leaderboard_shows_stage_tokens_without_diagnostic_columns() -> None:
     payload = {
         "date": "2026-08-21T10:00:00Z",
         "experiment_id": "exp-1",
@@ -79,8 +79,7 @@ def test_leaderboard_shows_stage_tokens_without_provider_or_core_fail_column() -
 
     assert (
         "| Agent | Model | Harness | N | CP | Failed CP | Repeated | Reg | Create in | "
-        "Create out | Rework in | Rework out | Transient in | Transient out | Trunc | "
-        "Tr. retry | Recovery | Unresolved | All in | All out | Cost | Time | LOC | "
+        "Create out | Rework in | Rework out | All in | All out | Cost | Time | LOC | "
         "ΔLOC | Deps | Cx |"
     ) in text
     assert "| Experiment | Date | Problem | Agent | Model | N | Report |" in text
@@ -89,6 +88,12 @@ def test_leaderboard_shows_stage_tokens_without_provider_or_core_fail_column() -
     assert "234" in text
     assert "167" in text
     assert "| 2 |" in text
+    assert "Transient in" not in text
+    assert "Transient out" not in text
+    assert "Trunc" not in text
+    assert "Tr. retry" not in text
+    assert "Recovery" not in text
+    assert "Unresolved" not in text
     assert "Core fail" not in text
     assert "| Agent | Provider |" not in text
     assert "| Problem | Agent | Provider |" not in text
