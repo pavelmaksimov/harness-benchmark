@@ -23,6 +23,13 @@ Failed checkpoints include checkpoints repaired by rework; Rework = All - Create
 | Creation output tokens | - |
 | Rework input tokens | - |
 | Rework output tokens | - |
+| Transient input tokens | 0 |
+| Transient output tokens | 0 |
+| Semantic rework attempts | 8 |
+| Transient retries | 0 |
+| Provider truncations | 0 |
+| Transient recoveries | 0 |
+| Truncations unresolved | 0 |
 | All input tokens | 614,233 |
 | All output tokens | 149,797 |
 | Normalized cost | $0.00 |
@@ -35,6 +42,6 @@ Failed checkpoints include checkpoints repaired by rework; Rework = All - Create
 ## Notes
 
 - No paired baseline/harness means to summarize.
-- Rework baseline: 8 repeated attempts (15 total attempts), 7 fixed, 0 unresolved.
+- Rework baseline: 8 semantic retries (15 total attempts), 7 fixed, 0 unresolved.
 
 Raw (local only): `results/tm-opencode-oxalpha-high/`, `reports/tm-opencode-oxalpha-high/`.

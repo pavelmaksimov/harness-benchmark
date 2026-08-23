@@ -446,15 +446,6 @@ def _metric_cells(metrics: dict[str, Any]) -> str:
         _fmt_metric("creation_output_tokens", metrics.get("creation_output_tokens")),
         _fmt_metric("rework_input_tokens", metrics.get("rework_input_tokens")),
         _fmt_metric("rework_output_tokens", metrics.get("rework_output_tokens")),
-        _fmt_metric("transient_input_tokens", metrics.get("transient_input_tokens")),
-        _fmt_metric("transient_output_tokens", metrics.get("transient_output_tokens")),
-        _fmt_metric("provider_truncations", metrics.get("provider_truncations")),
-        _fmt_metric("transient_retries", metrics.get("transient_retries")),
-        _fmt_metric("transient_recoveries", metrics.get("transient_recoveries")),
-        _fmt_metric(
-            "provider_truncation_unresolved",
-            metrics.get("provider_truncation_unresolved"),
-        ),
         _fmt_metric("total_input_tokens", metrics.get("total_input_tokens")),
         _fmt_metric("total_output_tokens", metrics.get("total_output_tokens")),
         _fmt_metric("normalized_cost", metrics.get("normalized_cost")),
@@ -503,9 +494,9 @@ def format_leaderboard(payloads: list[dict[str, Any]]) -> str:
         lines.append(f"### `{problem}`")
         lines.append("")
         lines.append(
-            "| Agent | Model | Harness | N | CP | Failed CP | Repeated | Reg | Create in | Create out | Rework in | Rework out | Transient in | Transient out | Trunc | Tr. retry | Recovery | Unresolved | All in | All out | Cost | Time | LOC | ΔLOC | Deps | Cx |"
+            "| Agent | Model | Harness | N | CP | Failed CP | Repeated | Reg | Create in | Create out | Rework in | Rework out | All in | All out | Cost | Time | LOC | ΔLOC | Deps | Cx |"
         )
-        lines.append("|-------|-------|---------|--:|--:|----------:|----------:|----:|----------:|-----------:|----------:|-----------:|------------:|-------------:|-----:|----------:|---------:|----------:|--------:|---------:|-----:|-----:|----:|-----:|-----:|---:|")
+        lines.append("|-------|-------|---------|--:|--:|----------:|----------:|----:|----------:|-----------:|----------:|-----------:|--------:|---------:|-----:|-----:|----:|-----:|-----:|---:|")
         rows = _sort_table_rows([c for c in cells if c["problem"] == problem], "model")
         for row in rows:
             lines.append(
@@ -523,9 +514,9 @@ def format_leaderboard(payloads: list[dict[str, Any]]) -> str:
         lines.append(f"### `{model}`")
         lines.append("")
         lines.append(
-            "| Problem | Agent | Harness | N | CP | Failed CP | Repeated | Reg | Create in | Create out | Rework in | Rework out | Transient in | Transient out | Trunc | Tr. retry | Recovery | Unresolved | All in | All out | Cost | Time | LOC | ΔLOC | Deps | Cx |"
+            "| Problem | Agent | Harness | N | CP | Failed CP | Repeated | Reg | Create in | Create out | Rework in | Rework out | All in | All out | Cost | Time | LOC | ΔLOC | Deps | Cx |"
         )
-        lines.append("|---------|-------|---------|--:|--:|----------:|----------:|----:|----------:|-----------:|----------:|-----------:|------------:|-------------:|-----:|----------:|---------:|----------:|--------:|---------:|-----:|-----:|----:|-----:|-----:|---:|")
+        lines.append("|---------|-------|---------|--:|--:|----------:|----------:|----:|----------:|-----------:|----------:|-----------:|--------:|---------:|-----:|-----:|----:|-----:|-----:|---:|")
         rows = _sort_table_rows([c for c in cells if c["model"] == model], "problem")
         for row in rows:
             lines.append(
