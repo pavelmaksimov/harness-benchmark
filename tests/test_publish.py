@@ -4,14 +4,14 @@ from pathlib import Path
 
 from benchmark.publish import (
     METRIC_KEYS,
-    _latest_cells,
+    _aggregate_cells,
     build_publish_payload,
     format_leaderboard,
     format_short_report,
 )
 
 
-def test_latest_cells_keeps_same_model_for_different_adapters() -> None:
+def test_aggregate_cells_keeps_same_model_for_different_adapters() -> None:
     payloads = [
         {
             "date": "2026-08-21T10:00:00Z",
@@ -35,12 +35,58 @@ def test_latest_cells_keeps_same_model_for_different_adapters() -> None:
         },
     ]
 
-    cells = _latest_cells(payloads)
+    cells = _aggregate_cells(payloads)
 
     assert {(cell["agent"], cell["provider"]) for cell in cells} == {
         ("codex", "codex_auth"),
         ("opencode", "opencode_auth"),
     }
+
+
+def test_aggregate_cells_combines_same_cell_across_experiments() -> None:
+    payloads = [
+        {
+            "date": "2026-08-22T10:00:00Z",
+            "experiment_id": "new-exp",
+            "problem": "realworld",
+            "agent": "opencode",
+            "provider": "opencode_auth",
+            "model": "same-model",
+            "arms": {
+                "baseline": {
+                    "checkpoints_passed": 14,
+                    "checkpoints_total": 14,
+                    "elapsed_time": 120,
+                }
+            },
+            "n_baseline": 1,
+        },
+        {
+            "date": "2026-08-21T10:00:00Z",
+            "experiment_id": "old-exp",
+            "problem": "realworld",
+            "agent": "opencode",
+            "provider": "opencode_auth",
+            "model": "same-model",
+            "arms": {
+                "baseline": {
+                    "checkpoints_passed": 10,
+                    "checkpoints_total": 14,
+                    "elapsed_time": 60,
+                }
+            },
+            "n_baseline": 3,
+        },
+    ]
+
+    cells = _aggregate_cells(payloads)
+
+    assert len(cells) == 1
+    assert cells[0]["n"] == 4
+    assert cells[0]["experiment_ids"] == ["new-exp", "old-exp"]
+    assert cells[0]["metrics"]["checkpoints_passed"] == 11
+    assert cells[0]["metrics"]["checkpoints_total"] == 14
+    assert cells[0]["metrics"]["elapsed_time"] == 75
 
 
 def test_leaderboard_shows_stage_tokens_without_diagnostic_columns() -> None:

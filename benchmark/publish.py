@@ -64,7 +64,7 @@ SHORT_LABELS = {
 }
 
 METRIC_LEADERBOARDS = (
-    ("checkpoints_passed", "CP passed/total", "Higher is better. Passed and total checkpoints for the latest published cell."),
+    ("checkpoints_passed", "CP passed/total", "Higher is better. Passed and total checkpoints for the published cell."),
     ("checkpoints_failed", "Failed checkpoints", "Lower is better. Number of checkpoints that failed at least once, including repaired ones."),
     ("repeated_attempts", "Repeated attempts", "Lower is better. Additional semantic attempts after the initial attempt."),
     ("regression_failures", "Regressions", "Lower is better. Regression tests failing in the final checkpoint evaluations."),
@@ -419,34 +419,54 @@ def load_published_reports(docs_reports_dir: Path | None = None) -> list[dict[st
     return payloads
 
 
-def _latest_cells(payloads: list[dict[str, Any]]) -> list[dict[str, Any]]:
-    """Flatten arm rows; keep newest experiment per full adapter/model cell."""
-    cells: list[dict[str, Any]] = []
-    seen: set[tuple[str, str, str, str, str]] = set()
-    for payload in payloads:  # already newest-first
+def _aggregate_cells(payloads: list[dict[str, Any]]) -> list[dict[str, Any]]:
+    """Flatten arm rows and aggregate repeated experiments by full cell."""
+    cells_by_key: dict[tuple[str, str, str, str, str], dict[str, Any]] = {}
+    metric_weights: dict[tuple[str, str, str, str, str], dict[str, float]] = {}
+    for payload in payloads:
         problem = payload.get("problem") or "unknown"
         agent = payload.get("agent") or "unknown"
         provider = payload.get("provider") or "unknown"
         model = payload.get("model") or "unknown"
         for harness, metrics in (payload.get("arms") or {}).items():
             key = (problem, agent, provider, model, harness)
-            if key in seen:
+            n = int(payload.get(f"n_{harness}", 0) or 0)
+            if n <= 0:
                 continue
-            seen.add(key)
-            cells.append(
-                {
+            if key not in cells_by_key:
+                cells_by_key[key] = {
                     "date": payload.get("date") or "",
                     "experiment_id": payload.get("experiment_id"),
+                    "experiment_ids": [],
                     "problem": problem,
                     "agent": agent,
                     "provider": provider,
                     "model": model,
                     "harness": harness,
-                    "n": payload.get(f"n_{harness}", 0),
-                    "metrics": metrics,
+                    "n": 0,
+                    "metrics": {},
                 }
-            )
-    return cells
+                metric_weights[key] = {}
+            cell = cells_by_key[key]
+            cell["n"] += n
+            experiment_id = payload.get("experiment_id")
+            if experiment_id and experiment_id not in cell["experiment_ids"]:
+                cell["experiment_ids"].append(experiment_id)
+            for metric, value in metrics.items():
+                if value is None:
+                    continue
+                try:
+                    numeric_value = float(value)
+                except (TypeError, ValueError):
+                    continue
+                weight = metric_weights[key].get(metric, 0.0)
+                previous = cell["metrics"].get(metric)
+                cell["metrics"][metric] = (
+                    ((previous * weight) if previous is not None else 0.0)
+                    + numeric_value * n
+                ) / (weight + n)
+                metric_weights[key][metric] = weight + n
+    return list(cells_by_key.values())
 
 
 def _section_order(values: list[str], latest_date_by_value: dict[str, str]) -> list[str]:
@@ -486,8 +506,8 @@ def _metric_leaderboard_lines(cells: list[dict[str, Any]]) -> list[str]:
     lines = [
         "## Metric leaderboards",
         "",
-        "Each ranking uses the newest published cell for each `(problem, adapter, provider, model, harness)`.",
-        "Values are means when a cell contains multiple runs. Ties are ordered alphabetically.",
+        "Each ranking aggregates all published runs for each `(problem, adapter, provider, model, harness)`.",
+        "Values are means across runs, including runs from different experiments. Ties are ordered alphabetically.",
         "",
     ]
     for key, label, definition in METRIC_LEADERBOARDS:
@@ -546,7 +566,7 @@ def _metric_leaderboard_lines(cells: list[dict[str, Any]]) -> list[str]:
 
 
 def format_leaderboard(payloads: list[dict[str, Any]]) -> str:
-    cells = _latest_cells(payloads)
+    cells = _aggregate_cells(payloads)
     lines = [
         "# Leaderboard",
         "",
@@ -554,7 +574,7 @@ def format_leaderboard(payloads: list[dict[str, Any]]) -> str:
         "for the same `(problem, adapter, provider, model)` cell.",
         "",
         "Published from `docs/reports/*.json`. Rebuilt by `python -m benchmark report`.",
-        "Newer experiments appear first.",
+        "Experiment reports appear newest first; leaderboard rows aggregate all compatible published runs.",
         "Create/Rework token columns use per-attempt usage; `-` means it is unavailable.",
         "Failed CP counts checkpoints that failed at least once, including repaired ones.",
         "",
