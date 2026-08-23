@@ -1,0 +1,1301 @@
+=== run-all × 1 jobs=5 agent=opencode provider=opencode_auth 
+model=x-preview-f-free thinking=high transient_retries=(state.json) 
+feedback_strategy=(state.json) 
+arms=baseline,doorstop,graphify,ponytail,strictdoc,supermemory,tdd,thermo-nuclea
+r-code-quality-review,combo-supermemory-graphify,combo-supermemory-graphify-pony
+tail-thermo-nuclear-code-quality-review,combo-supermemory-graphify-ponytail-ther
+mo-nuclear-code-quality-review-doorstop-tdd,combo-supermemory-graphify-ponytail-
+thermo-nuclear-code-quality-review-tdd 
+experiment_id=realworld-opencode-x-preview-f-free-high-all-20260822-1838 ===
+REALWORLD — multi-harness
+
+N baseline=1  combo-supermemory-graphify=1  
+combo-supermemory-graphify-ponytail-thermo-nuclear-code-quality-review=1  
+combo-supermemory-graphify-ponytail-thermo-nuclear-code-quality-review-doorstop-
+tdd=0  
+combo-supermemory-graphify-ponytail-thermo-nuclear-code-quality-review-tdd=1  
+doorstop=1  graphify=1  ponytail=1  strictdoc=1  supermemory=1  tdd=1  
+thermo-nuclear-code-quality-review=1
+Failed checkpoints includes checkpoints repaired by rework.
+Rework tokens are All tokens minus Creation tokens when per-attempt usage is 
+unavailable.
+Transient retries are separate from semantic rework and require high-confidence 
+truncation signals.
+Incomplete (excluded from averages): 
+combo-supermemory-graphify-ponytail-thermo-nuclear-code-quality-review-doorstop-
+tdd=1
+
+Metric                                                                          
+baseline                                                          
+combo-supermemory-graphify              
+combo-supermemory-graphify-ponytail-thermo-nuclear-code-quality-review 
+combo-supermemory-graphify-ponytail-thermo-nuclear-code-quality-review-doorstop-
+tdd          
+combo-supermemory-graphify-ponytail-thermo-nuclear-code-quality-review-tdd      
+doorstop                                                                        
+graphify                                                                        
+ponytail                                                                        
+strictdoc                                                                       
+supermemory                                                                     
+tdd                                                  
+thermo-nuclear-code-quality-review
+--------------------------------------------------------------------------------
+--------------------------------------------------------------------------------
+--------------------------------------------------------------------------------
+--------------------------------------------------------------------------------
+--------------------------------------------------------------------------------
+--------------------------------------------------------------------------------
+--------------------------------------------------------------------------------
+--------------------------------------------------------------------------------
+--------------------------------------------------------------------------------
+--------------------------------------------------------------------------------
+--------------------------------------------------------------------------------
+--------------------------------------------------------------------------------
+----------------------------------------------------------------------
+CP passed/total                                                                 
+14/14                                                                           
+14/14                                                                           
+14/14                                                                           
+-/-                                                                             
+14/14                                                                           
+14/14                                                                           
+14/14                                                                           
+14/14                                                                           
+14/14                                                                           
+14/14                                                                           
+14/14                                                                           
+13/14
+Failed checkpoints                                                              
+0                                                                               
+2                                                                               
+2                                                                               
+-                                                                               
+2                                                                               
+1                                                                               
+1                                                                               
+2                                                                               
+0                                                                               
+2                                                                               
+2                                                                               
+3
+Regressions                                                                     
+0                                                                               
+0                                                                               
+0                                                                               
+-                                                                               
+0                                                                               
+0                                                                               
+0                                                                               
+0                                                                               
+0                                                                               
+0                                                                               
+0                                                                               
+0
+Creation input tokens                                                           
+261,474                                                                         
+389,947                                                                         
+286,932                                                                         
+-                                                                             
+317,407                                                                         
+333,660                                                                         
+484,474                                                                         
+234,726                                                                         
+398,588                                                                         
+270,951                                                                         
+275,550                                                                         
+380,970
+Creation output tokens                                                          
+39,124                                                                          
+62,963                                                                          
+40,490                                                                          
+-                                                                              
+53,728                                                                          
+66,256                                                                          
+59,561                                                                          
+29,180                                                                          
+62,940                                                                          
+55,271                                                                          
+43,670                                                                          
+62,509
+Rework input tokens                                                             
+0                                                                              
+48,615                                                                          
+25,102                                                                          
+-                                                                              
+33,752                                                                          
+19,770                                                                          
+12,504                                                                          
+27,967                                                                          
+0                                                                              
+48,913                                                                          
+30,196                                                                          
+90,941
+Rework output tokens                                                            
+0                                                                               
+7,593                                                                           
+6,783                                                                           
+-                                                                               
+4,320                                                                           
+3,926                                                                           
+1,964                                                                           
+4,879                                                                           
+0                                                                              
+12,466                                                                          
+4,356                                                                           
+18,577
+Transient input tokens                                                          
+0                                                                               
+0                                                                               
+0                                                                               
+-                                                                               
+0                                                                               
+0                                                                               
+0                                                                               
+0                                                                               
+0                                                                               
+0                                                                               
+0                                                                               
+0
+Transient output tokens                                                         
+0                                                                               
+0                                                                               
+0                                                                               
+-                                                                               
+0                                                                               
+0                                                                               
+0                                                                               
+0                                                                               
+0                                                                               
+0                                                                               
+0                                                                               
+0
+All input tokens                                                                
+261,474                                                                         
+438,562                                                                         
+312,034                                                                         
+-                                                                             
+351,159                                                                         
+353,430                                                                         
+496,978                                                                         
+262,693                                                                         
+398,588                                                                         
+319,864                                                                         
+305,746                                                                         
+471,911
+All output tokens                                                               
+39,124                                                                          
+70,556                                                                          
+47,273                                                                          
+-                                                                              
+58,048                                                                          
+70,182                                                                          
+61,525                                                                          
+34,059                                                                          
+62,940                                                                          
+67,737                                                                          
+48,026                                                                          
+81,086
+Reasoning tokens                                                                
+2,560                                                                           
+9,087                                                                           
+6,699                                                                           
+-                                                                               
+8,802                                                                           
+6,907                                                                           
+7,244                                                                           
+3,362                                                                           
+4,977                                                                           
+6,192                                                                           
+3,591                                                                           
+11,406
+Normalized cost                                                                 
+$0.00                                                                           
+$0.00                                                                           
+$0.00                                                                           
+-                                                                               
+$0.00                                                                           
+$0.00                                                                           
+$0.00                                                                           
+$0.00                                                                           
+$0.00                                                                           
+$0.00                                                                           
+$0.00                                                                           
+$0.00
+Elapsed time                                                                    
+58.2m                                                                           
+88.7m                                                                           
+60.8m                                                                           
+-                                                                               
+59.7m                                                                           
+95.4m                                                                           
+99.5m                                                                           
+34.2m                                                                           
+72.9m                                                                           
+61.3m                                                                           
+55.4m                                                                           
+96.0m
+Final LOC                                                                       
+905                                                                             
+1096                                                                            
+968                                                                             
+-                                                                               
+1620                                                                            
+2123                                                                            
+869                                                                             
+729                                                                             
+884                                                                             
+1125                                                                            
+2460                                                                            
+747
+Changed LOC                                                                     
+1169                                                                            
+909                                                                             
+945                                                                             
+-                                                                               
+1726                                                                            
+2371                                                                            
+963                                                                             
+752                                                                             
+1147                                                                            
+1169                                                                            
+2732                                                                            
+724
+Files touched                                                                   
+23                                                                              
+27                                                                              
+17                                                                              
+-                                                                               
+28                                                                              
+36                                                                              
+32                                                                              
+18                                                                              
+33                                                                              
+34                                                                              
+44                                                                              
+29
+Dependencies                                                                    
+6                                                                               
+7                                                                               
+5                                                                               
+-                                                                               
+6                                                                               
+6                                                                               
+6                                                                               
+25                                                                              
+6                                                                               
+7                                                                               
+30                                                                              
+6
+Complexity                                                                      
+222                                                                             
+229                                                                             
+245                                                                             
+-                                                                               
+606                                                                             
+570                                                                             
+179                                                                             
+168                                                                             
+210                                                                             
+204                                                                             
+676                                                                             
+131
+Semantic rework attempts                                                        
+0                                                                               
+2                                                                               
+2                                                                               
+-                                                                               
+2                                                                               
+1                                                                               
+1                                                                               
+2                                                                               
+0                                                                               
+3                                                                               
+2                                                                               
+4
+Repeated attempts                                                               
+0                                                                               
+2                                                                               
+2                                                                               
+-                                                                               
+2                                                                               
+1                                                                               
+1                                                                               
+2                                                                               
+0                                                                               
+3                                                                               
+2                                                                               
+4
+Rework fixed                                                                    
+0                                                                               
+2                                                                               
+2                                                                               
+-                                                                               
+2                                                                               
+1                                                                               
+1                                                                               
+2                                                                               
+0                                                                               
+2                                                                               
+2                                                                               
+2
+Rework unresolved                                                               
+0                                                                               
+0                                                                               
+0                                                                               
+-                                                                               
+0                                                                               
+0                                                                               
+0                                                                               
+0                                                                               
+0                                                                               
+0                                                                               
+0                                                                               
+1
+Transient retries                                                               
+0                                                                               
+0                                                                               
+0                                                                               
+-                                                                               
+0                                                                               
+0                                                                               
+0                                                                               
+0                                                                               
+0                                                                               
+0                                                                               
+0                                                                               
+0
+Provider truncations                                                            
+0                                                                               
+0                                                                               
+0                                                                               
+-                                                                               
+0                                                                               
+0                                                                               
+0                                                                               
+0                                                                               
+0                                                                               
+0                                                                               
+0                                                                               
+0
+Transient recoveries                                                            
+0                                                                               
+0                                                                               
+0                                                                               
+-                                                                               
+0                                                                               
+0                                                                               
+0                                                                               
+0                                                                               
+0                                                                               
+0                                                                               
+0                                                                               
+0
+Truncations unresolved                                                          
+0                                                                               
+0                                                                               
+0                                                                               
+-                                                                               
+0                                                                               
+0                                                                               
+0                                                                               
+0                                                                               
+0                                                                               
+0                                                                               
+0                                                                               
+0
+
+Δ vs baseline (mean):
+Metric                                                                          
+combo-supermemory-graphify              
+combo-supermemory-graphify-ponytail-thermo-nuclear-code-quality-review 
+combo-supermemory-graphify-ponytail-thermo-nuclear-code-quality-review-doorstop-
+tdd          
+combo-supermemory-graphify-ponytail-thermo-nuclear-code-quality-review-tdd      
+doorstop                                                                        
+graphify                                                                        
+ponytail                                                                        
+strictdoc                                                                       
+supermemory                                                                     
+tdd                                                  
+thermo-nuclear-code-quality-review
+CP passed/total                                                                 
+0                                                                               
+0                                                                               
+-                                                                               
+0                                                                               
+0                                                                               
+0                                                                               
+0                                                                               
+0                                                                               
+0                                                                               
+0                                                                               
+-1
+Failed checkpoints                                                              
+2                                                                               
+2                                                                               
+-                                                                               
+2                                                                               
+1                                                                               
+1                                                                               
+2                                                                               
+0                                                                               
+2                                                                               
+2                                                                               
+3
+Regressions                                                                     
+0                                                                               
+0                                                                               
+-                                                                               
+0                                                                               
+0                                                                               
+0                                                                               
+0                                                                               
+0                                                                               
+0                                                                               
+0                                                                               
+0
+Creation input tokens                                                           
+128,473                                                                         
+25,458                                                                          
+-                                                                              
+55,933                                                                          
+72,186                                                                          
+223,000                                                                         
+-26,748                                                                         
+137,114                                                                         
+9,477                                                                           
+14,076                                                                          
+119,496
+Creation output tokens                                                          
+23,839                                                                          
+1,366                                                                           
+-                                                                              
+14,604                                                                          
+27,132                                                                          
+20,437                                                                          
+-9,944                                                                          
+23,816                                                                          
+16,147                                                                          
+4,546                                                                           
+23,385
+Rework input tokens                                                             
+48,615                                                                          
+25,102                                                                          
+-                                                                              
+33,752                                                                          
+19,770                                                                          
+12,504                                                                          
+27,967                                                                          
+0                                                                              
+48,913                                                                          
+30,196                                                                          
+90,941
+Rework output tokens                                                            
+7,593                                                                           
+6,783                                                                           
+-                                                                               
+4,320                                                                           
+3,926                                                                           
+1,964                                                                           
+4,879                                                                           
+0                                                                              
+12,466                                                                          
+4,356                                                                           
+18,577
+Transient input tokens                                                          
+0                                                                               
+0                                                                               
+-                                                                               
+0                                                                               
+0                                                                               
+0                                                                               
+0                                                                               
+0                                                                               
+0                                                                               
+0                                                                               
+0
+Transient output tokens                                                         
+0                                                                               
+0                                                                               
+-                                                                               
+0                                                                               
+0                                                                               
+0                                                                               
+0                                                                               
+0                                                                               
+0                                                                               
+0                                                                               
+0
+All input tokens                                                                
+177,088                                                                         
+50,560                                                                          
+-                                                                              
+89,685                                                                          
+91,956                                                                          
+235,504                                                                         
+1,219                                                                           
+137,114                                                                         
+58,390                                                                          
+44,272                                                                          
+210,437
+All output tokens                                                               
+31,432                                                                          
+8,149                                                                           
+-                                                                              
+18,924                                                                          
+31,058                                                                          
+22,401                                                                          
+-5,065                                                                          
+23,816                                                                          
+28,613                                                                          
+8,902                                                                           
+41,962
+Reasoning tokens                                                                
+6,527                                                                           
+4,139                                                                           
+-                                                                               
+6,242                                                                           
+4,347                                                                           
+4,684                                                                           
+802                                                                             
+2,417                                                                           
+3,632                                                                           
+1,031                                                                           
+8,846
+Normalized cost                                                                 
+$0.00                                                                           
+$0.00                                                                           
+-                                                                               
+$0.00                                                                           
+$0.00                                                                           
+$0.00                                                                           
+$0.00                                                                           
+$0.00                                                                           
+$0.00                                                                           
+$0.00                                                                           
+$0.00
+Elapsed time                                                                    
+30.6m                                                                           
+2.6m                                                                            
+-                                                                               
+1.6m                                                                            
+37.2m                                                                           
+41.4m                                                                           
+-23.9m                                                                          
+14.7m                                                                           
+3.1m                                                                            
+-2.8m                                                                           
+37.8m
+Final LOC                                                                       
+191                                                                             
+63                                                                              
+-                                                                               
+715                                                                             
+1218                                                                            
+-36                                                                             
+-176                                                                            
+-21                                                                             
+220                                                                             
+1555                                                                            
+-158
+Changed LOC                                                                     
+-260                                                                            
+-224                                                                            
+-                                                                               
+557                                                                             
+1202                                                                            
+-206                                                                            
+-417                                                                            
+-22                                                                             
+0                                                                               
+1563                                                                            
+-445
+Files touched                                                                   
+4                                                                               
+-6                                                                              
+-                                                                               
+5                                                                               
+13                                                                              
+9                                                                               
+-5                                                                              
+10                                                                              
+11                                                                              
+21                                                                              
+6
+Dependencies                                                                    
+1                                                                               
+-1                                                                              
+-                                                                               
+0                                                                               
+0                                                                               
+0                                                                               
+19                                                                              
+0                                                                               
+1                                                                               
+24                                                                              
+0
+Complexity                                                                      
+7                                                                               
+23                                                                              
+-                                                                               
+384                                                                             
+348                                                                             
+-43                                                                             
+-54                                                                             
+-12                                                                             
+-18                                                                             
+454                                                                             
+-91
+Semantic rework attempts                                                        
+2                                                                               
+2                                                                               
+-                                                                               
+2                                                                               
+1                                                                               
+1                                                                               
+2                                                                               
+0                                                                               
+3                                                                               
+2                                                                               
+4
+Repeated attempts                                                               
+2                                                                               
+2                                                                               
+-                                                                               
+2                                                                               
+1                                                                               
+1                                                                               
+2                                                                               
+0                                                                               
+3                                                                               
+2                                                                               
+4
+Rework fixed                                                                    
+2                                                                               
+2                                                                               
+-                                                                               
+2                                                                               
+1                                                                               
+1                                                                               
+2                                                                               
+0                                                                               
+2                                                                               
+2                                                                               
+2
+Rework unresolved                                                               
+0                                                                               
+0                                                                               
+-                                                                               
+0                                                                               
+0                                                                               
+0                                                                               
+0                                                                               
+0                                                                               
+0                                                                               
+0                                                                               
+1
+Transient retries                                                               
+0                                                                               
+0                                                                               
+-                                                                               
+0                                                                               
+0                                                                               
+0                                                                               
+0                                                                               
+0                                                                               
+0                                                                               
+0                                                                               
+0
+Provider truncations                                                            
+0                                                                               
+0                                                                               
+-                                                                               
+0                                                                               
+0                                                                               
+0                                                                               
+0                                                                               
+0                                                                               
+0                                                                               
+0                                                                               
+0
+Transient recoveries                                                            
+0                                                                               
+0                                                                               
+-                                                                               
+0                                                                               
+0                                                                               
+0                                                                               
+0                                                                               
+0                                                                               
+0                                                                               
+0                                                                               
+0
+Truncations unresolved                                                          
+0                                                                               
+0                                                                               
+-                                                                               
+0                                                                               
+0                                                                               
+0                                                                               
+0                                                                               
+0                                                                               
+0                                                                               
+0                                                                               
+0
+
+Per-checkpoint (raw):
+CP   Arm                                  Pass   Create In Create Out  Rework In
+Rework Out Transient In Transient Out     All In    All Out     Cost     Time   
+LOCΔ   FilesΔ   Reg Repeat
+1    baseline                             True      18,468      5,756          0
+0            0             0     18,468      5,756        -      251      195   
+5     0      0
+2    baseline                             True      14,526      3,478          0
+0            0             0     14,526      3,478        -      288      107   
+2     0      0
+3    baseline                             True      15,421      3,755          0
+0            0             0     15,421      3,755        -      245      141   
+2     0      0
+4    baseline                             True      14,372      1,647          0
+0            0             0     14,372      1,647        -      155       62   
+2     0      0
+5    baseline                             True      17,752      3,498          0
+0            0             0     17,752      3,498        -      152      183   
+2     0      0
+6    baseline                             True      16,193      1,483          0
+0            0             0     16,193      1,483        -      137       12   
+1     0      0
+7    baseline                             True      19,375      2,623          0
+0            0             0     19,375      2,623        -      676       80   
+1     0      0
+8    baseline                             True      25,058      1,218          0
+0            0             0     25,058      1,218        -      144       24   
+1     0      0
+9    baseline                             True      18,453      2,059          0
+0            0             0     18,453      2,059        -       88       52   
+1     0      0
+10   baseline                             True      24,113      5,685          0
+0            0             0     24,113      5,685        -      770       66   
+1     0      0
+11   baseline                             True      19,512      2,402          0
+0            0             0     19,512      2,402        -      282       49   
+1     0      0
+12   baseline                             True      23,736      1,829          0
+0            0             0     23,736      1,829        -      110       41   
+1     0      0
+13   baseline                             True      21,289      2,979          0
+0            0             0     21,289      2,979        -      139      146   
+2     0      0
+14   baseline                             True      13,206        712          0
+0            0             0     13,206        712        -       50       11   
+1     0      0
+1    combo-supermemory-graphify           True      24,330      8,134     24,418
+3,566            0             0     48,748     11,700        -      643       
+31        3     0      1
+2    combo-supermemory-graphify           True      24,682      5,731          0
+0            0             0     24,682      5,731        -      545      115   
+3     0      0
+3    combo-supermemory-graphify           True      38,897      9,656          0
+0            0             0     38,897      9,656        -      814      129   
+2     0      0
+4    combo-supermemory-graphify           True      33,181      2,717          0
+0            0             0     33,181      2,717        -      114       76   
+4     0      0
+5    combo-supermemory-graphify           True      30,996      6,976     24,197
+4,027            0             0     55,193     11,003        -      965        
+4        1     0      1
+6    combo-supermemory-graphify           True      27,958      2,190          0
+0            0             0     27,958      2,190        -      188       12   
+1     0      0
+7    combo-supermemory-graphify           True      28,587      8,717          0
+0            0             0     28,587      8,717        -     1128      137   
+2     0      0
+8    combo-supermemory-graphify           True      18,095      1,308          0
+0            0             0     18,095      1,308        -      129       19   
+1     0      0
+9    combo-supermemory-graphify           True      32,129      2,764          0
+0            0             0     32,129      2,764        -      135       76   
+2     0      0
+10   combo-supermemory-graphify           True      21,965      3,210          0
+0            0             0     21,965      3,210        -      144       92   
+2     0      0
+11   combo-supermemory-graphify           True      23,440      1,870          0
+0            0             0     23,440      1,870        -       93       50   
+1     0      0
+12   combo-supermemory-graphify           True      34,306      5,346          0
+0            0             0     34,306      5,346        -      236       30   
+1     0      0
+13   combo-supermemory-graphify           True      26,484      3,049          0
+0            0             0     26,484      3,049        -       85      127   
+3     0      0
+14   combo-supermemory-graphify           True      24,897      1,295          0
+0            0             0     24,897      1,295        -      105       11   
+1     0      0
+1    combo-supermemory-graphify-ponytail-thermo-nuclear-code-quality-review True
+20,334      4,243     14,865      5,483            0             0     35,199   
+9,726        -      890       89        1     0      1
+2    combo-supermemory-graphify-ponytail-thermo-nuclear-code-quality-review True
+19,565      5,576          0          0            0             0     19,565   
+5,576        -      667       72        2     0      0
+3    combo-supermemory-graphify-ponytail-thermo-nuclear-code-quality-review True
+18,787      3,538          0          0            0             0     18,787   
+3,538        -      118      177        2     0      0
+4    combo-supermemory-graphify-ponytail-thermo-nuclear-code-quality-review True
+17,056      1,062          0          0            0             0     17,056   
+1,062        -      129       32        1     0      0
+5    combo-supermemory-graphify-ponytail-thermo-nuclear-code-quality-review True
+18,311      6,073     10,237      1,300            0             0     28,548   
+7,373        -      385       14        1     0      1
+6    combo-supermemory-graphify-ponytail-thermo-nuclear-code-quality-review True
+23,625        803          0          0            0             0     23,625   
+803        -       36       15        1     0      0
+7    combo-supermemory-graphify-ponytail-thermo-nuclear-code-quality-review True
+17,649      2,741          0          0            0             0     17,649   
+2,741        -      128       77        1     0      0
+8    combo-supermemory-graphify-ponytail-thermo-nuclear-code-quality-review True
+16,411      1,118          0          0            0             0     16,411   
+1,118        -       47       22        1     0      0
+9    combo-supermemory-graphify-ponytail-thermo-nuclear-code-quality-review True
+28,579      2,637          0          0            0             0     28,579   
+2,637        -      124       76        1     0      0
+10   combo-supermemory-graphify-ponytail-thermo-nuclear-code-quality-review True
+28,787      2,303          0          0            0             0     28,787   
+2,303        -      178      124        2     0      0
+11   combo-supermemory-graphify-ponytail-thermo-nuclear-code-quality-review True
+18,075      4,480          0          0            0             0     18,075   
+4,480        -      361       89        1     0      0
+12   combo-supermemory-graphify-ponytail-thermo-nuclear-code-quality-review True
+21,561      2,496          0          0            0             0     21,561   
+2,496        -      204       28        1     0      0
+13   combo-supermemory-graphify-ponytail-thermo-nuclear-code-quality-review True
+21,363      2,440          0          0            0             0     21,363   
+2,440        -      309      115        1     0      0
+14   combo-supermemory-graphify-ponytail-thermo-nuclear-code-quality-review True
+16,829        980          0          0            0             0     16,829   
+980        -       71       15        1     0      0
+1    combo-supermemory-graphify-ponytail-thermo-nuclear-code-quality-review-tdd 
+True      27,725      3,515     17,065      2,292            0             0    
+44,790      5,807        -      344       11        1     0      1
+2    combo-supermemory-graphify-ponytail-thermo-nuclear-code-quality-review-tdd 
+True      16,735      4,141          0          0            0             0    
+16,735      4,141        -      175      187        2     0      0
+3    combo-supermemory-graphify-ponytail-thermo-nuclear-code-quality-review-tdd 
+True      20,437      5,911     16,687      2,028            0             0    
+37,124      7,939        -      336       36        2     0      1
+4    combo-supermemory-graphify-ponytail-thermo-nuclear-code-quality-review-tdd 
+True      15,371      1,281          0          0            0             0    
+15,371      1,281        -      100       79        2     0      0
+5    combo-supermemory-graphify-ponytail-thermo-nuclear-code-quality-review-tdd 
+True      20,282      3,886          0          0            0             0    
+20,282      3,886        -      228      232        2     0      0
+6    combo-supermemory-graphify-ponytail-thermo-nuclear-code-quality-review-tdd 
+True      21,754      2,215          0          0            0             0    
+21,754      2,215        -      182       61        2     0      0
+7    combo-supermemory-graphify-ponytail-thermo-nuclear-code-quality-review-tdd 
+True      20,111      3,260          0          0            0             0    
+20,111      3,260        -      147      134        2     0      0
+8    combo-supermemory-graphify-ponytail-thermo-nuclear-code-quality-review-tdd 
+True      16,725      1,189          0          0            0             0    
+16,725      1,189        -       57       63        2     0      0
+9    combo-supermemory-graphify-ponytail-thermo-nuclear-code-quality-review-tdd 
+True      19,619      3,580          0          0            0             0    
+19,619      3,580        -      474      145        2     0      0
+10   combo-supermemory-graphify-ponytail-thermo-nuclear-code-quality-review-tdd 
+True      29,611      6,875          0          0            0             0    
+29,611      6,875        -      721      175        2     0      0
+11   combo-supermemory-graphify-ponytail-thermo-nuclear-code-quality-review-tdd 
+True      25,476      4,973          0          0            0             0    
+25,476      4,973        -      168      197        2     0      0
+12   combo-supermemory-graphify-ponytail-thermo-nuclear-code-quality-review-tdd 
+True      15,300      1,736          0          0            0             0    
+15,300      1,736        -       59      114        2     0      0
+13   combo-supermemory-graphify-ponytail-thermo-nuclear-code-quality-review-tdd 
+True      19,988      3,308          0          0            0             0    
+19,988      3,308        -      143      230        2     0      0
+14   combo-supermemory-graphify-ponytail-thermo-nuclear-code-quality-review-tdd 
+True      48,273      7,858          0          0            0             0    
+48,273      7,858        -      450       62        3     0      0
+1    doorstop                             True      19,391      5,818     19,770
+3,926            0             0     39,161      9,744        -      768       
+95        2     0      1
+2    doorstop                             True      27,191      8,107          0
+0            0             0     27,191      8,107        -      619      278   
+4     0      0
+3    doorstop                             True      36,149      5,561          0
+0            0             0     36,149      5,561        -     1067      235   
+3     0      0
+4    doorstop                             True      13,083      2,748          0
+0            0             0     13,083      2,748        -      232       51   
+2     0      0
+5    doorstop                             True      26,610      7,928          0
+0            0             0     26,610      7,928        -      522      356   
+4     0      0
+6    doorstop                             True      29,070      2,557          0
+0            0             0     29,070      2,557        -      265       99   
+2     0      0
+7    doorstop                             True      15,039      4,163          0
+0            0             0     15,039      4,163        -      251      267   
+3     0      0
+8    doorstop                             True      18,999      1,772          0
+0            0             0     18,999      1,772        -      137       24   
+1     0      0
+9    doorstop                             True      18,209      4,417          0
+0            0             0     18,209      4,417        -      240      183   
+3     0      0
+10   doorstop                             True      20,684      4,257          0
+0            0             0     20,684      4,257        -      313       89   
+2     0      0
+11   doorstop                             True      29,450      5,450          0
+0            0             0     29,450      5,450        -      336      258   
+3     0      0
+12   doorstop                             True      24,353      4,699          0
+0            0             0     24,353      4,699        -      425       28   
+1     0      0
+13   doorstop                             True      30,457      6,205          0
+0            0             0     30,457      6,205        -      263      309   
+4     0      0
+14   doorstop                             True      24,975      2,574          0
+0            0             0     24,975      2,574        -      285       99   
+2     0      0
+1    graphify                             True     120,871      8,758     12,504
+1,964            0             0    133,375     10,722        -     2337       
+19        1     0      1
+2    graphify                             True      30,434      5,824          0
+0            0             0     30,434      5,824        -      593      111   
+4     0      0
+3    graphify                             True      37,299      3,843          0
+0            0             0     37,299      3,843        -      303       78   
+2     0      0
+4    graphify                             True      17,427      1,867          0
+0            0             0     17,427      1,867        -      110       48   
+3     0      0
+5    graphify                             True      36,261      7,273          0
+0            0             0     36,261      7,273        -      368      175   
+4     0      0
+6    graphify                             True      26,796      1,873          0
+0            0             0     26,796      1,873        -      119       23   
+1     0      0
+7    graphify                             True      24,157      4,076          0
+0            0             0     24,157      4,076        -      189       84   
+3     0      0
+8    graphify                             True      20,865      1,681          0
+0            0             0     20,865      1,681        -      179       23   
+2     0      0
+9    graphify                             True      30,077      2,517          0
+0            0             0     30,077      2,517        -      190       60   
+2     0      0
+10   graphify                             True      17,115      5,508          0
+0            0             0     17,115      5,508        -      704       66   
+1     0      0
+11   graphify                             True      37,188      3,593          0
+0            0             0     37,188      3,593        -      347       90   
+3     0      0
+12   graphify                             True      40,065      8,272          0
+0            0             0     40,065      8,272        -      338       34   
+1     0      0
+13   graphify                             True      23,523      3,430          0
+0            0             0     23,523      3,430        -      114      141   
+4     0      0
+14   graphify                             True      22,396      1,046          0
+0            0             0     22,396      1,046        -       80       11   
+1     0      0
+1    ponytail                             True       6,115      2,244     14,697
+3,260            0             0     20,812      5,504        -      360       
+91        1     0      1
+2    ponytail                             True       9,340      3,764          0
+0            0             0      9,340      3,764        -      225       57   
+1     0      0
+3    ponytail                             True      14,158      2,038          0
+0            0             0     14,158      2,038        -       75       65   
+1     0      0
+4    ponytail                             True      12,899        672          0
+0            0             0     12,899        672        -       41       19   
+1     0      0
+5    ponytail                             True      19,866      1,851     13,270
+1,619            0             0     33,136      3,470        -      198       
+10        1     0      1
+6    ponytail                             True      15,945        769          0
+0            0             0     15,945        769        -       40       36   
+2     0      0
+7    ponytail                             True      24,525      1,853          0
+0            0             0     24,525      1,853        -      113       46   
+1     0      0
+8    ponytail                             True      16,407        850          0
+0            0             0     16,407        850        -       66       41   
+2     0      0
+9    ponytail                             True      19,250      1,817          0
+0            0             0     19,250      1,817        -      129       98   
+2     0      0
+10   ponytail                             True      24,314      1,732          0
+0            0             0     24,314      1,732        -      200       64   
+2     0      0
+11   ponytail                             True      19,369      2,717          0
+0            0             0     19,369      2,717        -      135       95   
+1     0      0
+12   ponytail                             True      14,452      5,471          0
+0            0             0     14,452      5,471        -      247       20   
+1     0      0
+13   ponytail                             True      21,219      2,555          0
+0            0             0     21,219      2,555        -      109       99   
+1     0      0
+14   ponytail                             True      16,867        847          0
+0            0             0     16,867        847        -      113       11   
+1     0      0
+1    strictdoc                            True      27,304      6,554          0
+0            0             0     27,304      6,554        -      575      220   
+9     0      0
+2    strictdoc                            True      28,161      5,543          0
+0            0             0     28,161      5,543        -      529       90   
+2     0      0
+3    strictdoc                            True      24,045      4,683          0
+0            0             0     24,045      4,683        -      270      123   
+2     0      0
+4    strictdoc                            True      17,012      2,358          0
+0            0             0     17,012      2,358        -      164       58   
+2     0      0
+5    strictdoc                            True      32,870      9,788          0
+0            0             0     32,870      9,788        -      476      161   
+3     0      0
+6    strictdoc                            True      24,960      2,013          0
+0            0             0     24,960      2,013        -      114       37   
+2     0      0
+7    strictdoc                            True      22,523      4,196          0
+0            0             0     22,523      4,196        -      249       71   
+1     0      0
+8    strictdoc                            True      30,937      1,840          0
+0            0             0     30,937      1,840        -      106       15   
+1     0      0
+9    strictdoc                            True      23,606      3,856          0
+0            0             0     23,606      3,856        -      244       80   
+2     0      0
+10   strictdoc                            True      26,601      5,480          0
+0            0             0     26,601      5,480        -      680       41   
+1     0      0
+11   strictdoc                            True      61,994      6,307          0
+0            0             0     61,994      6,307        -      363      100   
+3     0      0
+12   strictdoc                            True      32,682      3,609          0
+0            0             0     32,682      3,609        -      122       26   
+1     0      0
+13   strictdoc                            True      21,994      5,230          0
+0            0             0     21,994      5,230        -      361      113   
+3     0      0
+14   strictdoc                            True      23,899      1,483          0
+0            0             0     23,899      1,483        -      121       12   
+1     0      0
+1    supermemory                          True      23,303      5,571     27,064
+7,634            0             0     50,367     13,205        -     1030       
+73        4     0      2
+2    supermemory                          True      28,190      6,928          0
+0            0             0     28,190      6,928        -      425      141   
+4     0      0
+3    supermemory                          True      17,471      3,567          0
+0            0             0     17,471      3,567        -      171      113   
+2     0      0
+4    supermemory                          True      41,579      2,607          0
+0            0             0     41,579      2,607        -      274       68   
+3     0      0
+5    supermemory                          True      21,129      5,321     21,849
+4,832            0             0     42,978     10,153        -      571       
+15        1     0      1
+6    supermemory                          True      20,236      2,367          0
+0            0             0     20,236      2,367        -      123       43   
+3     0      0
+7    supermemory                          True      19,746      3,879          0
+0            0             0     19,746      3,879        -      181      109   
+2     0      0
+8    supermemory                          True       7,256      1,603          0
+0            0             0      7,256      1,603        -       88       25   
+1     0      0
+9    supermemory                          True      20,109      7,151          0
+0            0             0     20,109      7,151        -      229      128   
+2     0      0
+10   supermemory                          True      16,963      2,468          0
+0            0             0     16,963      2,468        -       96       58   
+1     0      0
+11   supermemory                          True      14,333      4,844          0
+0            0             0     14,333      4,844        -      143      154   
+3     0      0
+12   supermemory                          True      10,861      1,910          0
+0            0             0     10,861      1,910        -       71       32   
+1     0      0
+13   supermemory                          True      16,089      5,469          0
+0            0             0     16,089      5,469        -      149      189   
+4     0      0
+14   supermemory                          True      13,686      1,586          0
+0            0             0     13,686      1,586        -      128       21   
+3     0      0
+1    tdd                                  True      18,734      6,675          0
+0            0             0     18,734      6,675        -      759      318   
+8     0      0
+2    tdd                                  True      19,446      5,290          0
+0            0             0     19,446      5,290        -      273      271   
+4     0      0
+3    tdd                                  True      13,847      3,883          0
+0            0             0     13,847      3,883        -      162      196   
+3     0      0
+4    tdd                                  True      11,515      1,661     12,285
+2,027            0             0     23,800      3,688        -      322       
+91        3     0      1
+5    tdd                                  True      27,575      3,941     17,911
+2,329            0             0     45,486      6,270        -      389       
+51        3     0      1
+6    tdd                                  True      18,504      1,354          0
+0            0             0     18,504      1,354        -       88       90   
+2     0      0
+7    tdd                                  True      12,286      2,805          0
+0            0             0     12,286      2,805        -      136      222   
+3     0      0
+8    tdd                                  True      17,663      1,194          0
+0            0             0     17,663      1,194        -       74       99   
+2     0      0
+9    tdd                                  True      20,485      3,280          0
+0            0             0     20,485      3,280        -      154      239   
+3     0      0
+10   tdd                                  True      30,051      3,913          0
+0            0             0     30,051      3,913        -      185      310   
+3     0      0
+11   tdd                                  True      22,755      3,026          0
+0            0             0     22,755      3,026        -      131      274   
+2     0      0
+12   tdd                                  True      20,721      2,294          0
+0            0             0     20,721      2,294        -       97      182   
+2     0      0
+13   tdd                                  True      22,893      3,309          0
+0            0             0     22,893      3,309        -      221      314   
+4     0      0
+14   tdd                                  True      19,075      1,045          0
+0            0             0     19,075      1,045        -      333       75   
+2     0      0
+1    thermo-nuclear-code-quality-review   False     24,546     10,030     38,108
+9,313            0             0     62,654     19,343        -     1254       
+85        5     0      2
+2    thermo-nuclear-code-quality-review   True      24,978      5,541     23,755
+4,940            0             0     48,733     10,481        -      560       
+51        3     0      1
+3    thermo-nuclear-code-quality-review   True      16,388      5,007          0
+0            0             0     16,388      5,007        -      207       95   
+2     0      0
+4    thermo-nuclear-code-quality-review   True      28,728      4,238          0
+0            0             0     28,728      4,238        -      771       75   
+4     0      0
+5    thermo-nuclear-code-quality-review   True      24,519      7,789     29,078
+4,324            0             0     53,597     12,113        -      545       
+35        2     0      1
+6    thermo-nuclear-code-quality-review   True      30,310      2,602          0
+0            0             0     30,310      2,602        -      169       19   
+1     0      0
+7    thermo-nuclear-code-quality-review   True      18,854      2,725          0
+0            0             0     18,854      2,725        -       95       57   
+2     0      0
+8    thermo-nuclear-code-quality-review   True      34,331      4,531          0
+0            0             0     34,331      4,531        -     1332       27   
+2     0      0
+9    thermo-nuclear-code-quality-review   True      16,922      2,297          0
+0            0             0     16,922      2,297        -      109       38   
+1     0      0
+10   thermo-nuclear-code-quality-review   True      36,922      3,320          0
+0            0             0     36,922      3,320        -      109       44   
+1     0      0
+11   thermo-nuclear-code-quality-review   True      20,760      3,696          0
+0            0             0     20,760      3,696        -      152       40   
+1     0      0
+12   thermo-nuclear-code-quality-review   True      45,649      3,994          0
+0            0             0     45,649      3,994        -      161       45   
+1     0      0
+13   thermo-nuclear-code-quality-review   True      25,448      5,280          0
+0            0             0     25,448      5,280        -      179      104   
+3     0      0
+14   thermo-nuclear-code-quality-review   True      32,615      1,459          0
+0            0             0     32,615      1,459        -      115        9   
+1     0      0
+
+Rework attempts (raw):
+CP   Arm                                  Stage      #  Core p/f/t         In   
+Out     Time     Cost Failed
+1    combo-supermemory-graphify           creation   1       1/1/2     24,330   
+8,134      457     0.00      1
+1    combo-supermemory-graphify           rework     2       2/0/2     24,418   
+3,566      186     0.00      0
+5    combo-supermemory-graphify           creation   1       1/1/2     30,996   
+6,976      421     0.00      1
+5    combo-supermemory-graphify           rework     2       2/0/2     24,197   
+4,027      545     0.00      0
+1    combo-supermemory-graphify-ponytail-thermo-nuclear-code-quality-review 
+creation   1       1/1/2     20,334      4,243      610     0.00      1
+1    combo-supermemory-graphify-ponytail-thermo-nuclear-code-quality-review 
+rework     2       2/0/2     14,865      5,483      281     0.00      0
+5    combo-supermemory-graphify-ponytail-thermo-nuclear-code-quality-review 
+creation   1       1/1/2     18,311      6,073      309     0.00      1
+5    combo-supermemory-graphify-ponytail-thermo-nuclear-code-quality-review 
+rework     2       2/0/2     10,237      1,300       77     0.00      0
+1    combo-supermemory-graphify-ponytail-thermo-nuclear-code-quality-review-tdd 
+creation   1       1/1/2     27,725      3,515      182     0.00      1
+1    combo-supermemory-graphify-ponytail-thermo-nuclear-code-quality-review-tdd 
+rework     2       2/0/2     17,065      2,292      162     0.00      0
+3    combo-supermemory-graphify-ponytail-thermo-nuclear-code-quality-review-tdd 
+creation   1       2/1/3     20,437      5,911      191     0.00      1
+3    combo-supermemory-graphify-ponytail-thermo-nuclear-code-quality-review-tdd 
+rework     2       3/0/3     16,687      2,028      145     0.00      0
+1    doorstop                             creation   1       1/1/2     19,391   
+5,818      499     0.00      1
+1    doorstop                             rework     2       2/0/2     19,770   
+3,926      269     0.00      0
+1    graphify                             creation   1       1/1/2    120,871   
+8,758     1887     0.00      1
+1    graphify                             rework     2       2/0/2     12,504   
+1,964      450     0.00      0
+1    ponytail                             creation   1       1/1/2      6,115   
+2,244      159     0.00      1
+1    ponytail                             rework     2       2/0/2     14,697   
+3,260      201     0.00      0
+5    ponytail                             creation   1       1/1/2     19,866   
+1,851       93     0.00      1
+5    ponytail                             rework     2       2/0/2     13,270   
+1,619      105     0.00      0
+1    supermemory                          creation   1       1/1/2     23,303   
+5,571      337     0.00      1
+1    supermemory                          rework     2       1/1/2     18,370   
+3,208      407     0.00      1
+1    supermemory                          rework     3       2/0/2      8,694   
+4,426      286     0.00      0
+5    supermemory                          creation   1       1/1/2     21,129   
+5,321      289     0.00      1
+5    supermemory                          rework     2       2/0/2     21,849   
+4,832      282     0.00      0
+4    tdd                                  creation   1       1/1/2     11,515   
+1,661      193     0.00      1
+4    tdd                                  rework     2       2/0/2     12,285   
+2,027      129     0.00      0
+5    tdd                                  creation   1       1/1/2     27,575   
+3,941      219     0.00      1
+5    tdd                                  rework     2       2/0/2     17,911   
+2,329      170     0.00      0
+1    thermo-nuclear-code-quality-review   creation   1       1/1/2     24,546   
+10,030      656     0.00      1
+1    thermo-nuclear-code-quality-review   rework     2       1/1/2     24,792   
+3,431      177     0.00      1
+1    thermo-nuclear-code-quality-review   rework     3       1/1/2     13,316   
+5,882      421     0.00      1
+2    thermo-nuclear-code-quality-review   creation   1       1/1/2     24,978   
+5,541      273     0.00      1
+2    thermo-nuclear-code-quality-review   rework     2       2/0/2     23,755   
+4,940      287     0.00      0
+5    thermo-nuclear-code-quality-review   creation   1       1/1/2     24,519   
+7,789      276     0.00      1
+5    thermo-nuclear-code-quality-review   rework     2       2/0/2     29,078   
+4,324      269     0.00      0
+
+Stats per metric include mean/median/min/max/stddev in the JSON report.
+
+Wrote 
+/home/user/my/harness-benchmark/reports/realworld-opencode-x-preview-f-free-high
+-all-20260822-1838/comparison.txt and 
+/home/user/my/harness-benchmark/reports/realworld-opencode-x-preview-f-free-high
+-all-20260822-1838/comparison.json
+Published 
+/home/user/my/harness-benchmark/docs/reports/realworld-opencode-x-preview-f-free
+-high-all-20260822-1838.md, 
+/home/user/my/harness-benchmark/docs/reports/realworld-opencode-x-preview-f-free
+-high-all-20260822-1838.json, 
+/home/user/my/harness-benchmark/docs/LEADERBOARD.md
