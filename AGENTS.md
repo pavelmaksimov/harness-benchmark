@@ -159,6 +159,37 @@ Two sources of packages:
 
 **Known case (2026-08-17):** agent used `pwdlib[argon2]` in-session; eval `uvx` lacked it and tests ERROR’d on import. Fix is the snapshot `requirements.txt` path above, not adding `pwdlib` to `test_dependencies`.
 
+## Инцидент `realworld` / bundle-arm (2026-08-22)
+
+В эксперименте `realworld-opencode-x-preview-f-free-high-all-20260822-1838`
+у арма
+`combo-supermemory-graphify-ponytail-thermo-nuclear-code-quality-review-doorstop-tdd`
+CP1 не прошёл не из-за кода модели: агент записал в снапшот
+`uvicorn==0.38.1`, но такой версии не было в индексе evaluator. Изолированный
+`uvx` завершился на разрешении зависимостей до запуска pytest:
+`No solution found when resolving dependencies`. Поэтому CP1 имеет
+`infrastructure_failure: true`, а его нулевой результат нельзя считать ошибкой
+модели.
+
+После resume CP2–CP14 действительно выполнились; итоговые артефакты содержат
+13 успешных чекпоинтов из 14. Затем SCB завершился ошибкой очистки временного
+окружения (`PermissionError: Operation not permitted` для
+`/tmp/.../.venv`). Из-за этого `state.json` остался `phase=incomplete`, и
+агрегатор правильно исключил весь run из обычных средних. Наличие каталогов и
+`evaluation.json` поздних чекпоинтов не отменяет неполный статус run.
+
+### Как предотвращать и разбирать
+
+1. До полного запуска проверять все версии из snapshot `requirements.txt` тем
+   же изолированным evaluator-путём, что использует `uvx`; в этом случае
+   доступной заменой была `uvicorn==0.38.0`.
+2. Ошибку установки зависимостей классифицировать как
+   `infrastructure_failure`, открыть `evaluation/stderr.txt` и не включать
+   этот CP в оценку качества модели.
+3. После ошибки очистки не помечать run вручную завершённым. Сначала устранить
+   проблему временного `.venv`, затем повторить run в чистом слоте и проверить
+   `state.json`, `run_info.yaml` и наличие `evaluation.json` для каждого CP.
+
 ## Rework loop: test-failure retries (`--rework-attempts` / `HB_REWORK_ATTEMPTS`)
 
 `run` / `run-all` принимают `--rework-attempts N` (default `2`, min `0`; smoke всегда `0`).
