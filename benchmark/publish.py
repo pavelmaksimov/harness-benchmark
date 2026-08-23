@@ -63,6 +63,23 @@ SHORT_LABELS = {
     "complexity": "Complexity",
 }
 
+METRIC_LEADERBOARDS = (
+    ("checkpoints_passed", "CP passed/total", "Higher is better. Passed and total checkpoints for the latest published cell."),
+    ("checkpoints_failed", "Failed checkpoints", "Lower is better. Number of checkpoints that failed at least once, including repaired ones."),
+    ("repeated_attempts", "Repeated attempts", "Lower is better. Additional semantic attempts after the initial attempt."),
+    ("regression_failures", "Regressions", "Lower is better. Regression tests failing in the final checkpoint evaluations."),
+    ("creation_input_tokens", "Creation input tokens", "Lower is better. Input tokens used by initial checkpoint attempts."),
+    ("creation_output_tokens", "Creation output tokens", "Lower is better. Output tokens used by initial checkpoint attempts."),
+    ("rework_input_tokens", "Rework input tokens", "Lower is better. Input tokens used by semantic rework attempts."),
+    ("rework_output_tokens", "Rework output tokens", "Lower is better. Output tokens used by semantic rework attempts."),
+    ("normalized_cost", "Normalized cost", "Lower is better. Cost normalized with the versioned pricing configuration."),
+    ("elapsed_time", "Elapsed time", "Lower is better. Sum of agent inference time across checkpoints."),
+    ("loc_final", "Final LOC", "Descriptive. Lines of solution code in the final snapshot."),
+    ("loc_changed", "Changed LOC", "Lower is better as a churn measure. Lines changed from the initial snapshot."),
+    ("dependencies_added", "Dependencies", "Lower is better as a complexity measure. Dependencies added by the solution."),
+    ("complexity", "Complexity", "Lower is better. Measured code complexity in the final snapshot."),
+)
+
 
 def _load_manifest(experiment_dir: Path) -> dict[str, Any]:
     for path in sorted(experiment_dir.glob("*/run_*/manifest.json")):
@@ -446,8 +463,6 @@ def _metric_cells(metrics: dict[str, Any]) -> str:
         _fmt_metric("creation_output_tokens", metrics.get("creation_output_tokens")),
         _fmt_metric("rework_input_tokens", metrics.get("rework_input_tokens")),
         _fmt_metric("rework_output_tokens", metrics.get("rework_output_tokens")),
-        _fmt_metric("total_input_tokens", metrics.get("total_input_tokens")),
-        _fmt_metric("total_output_tokens", metrics.get("total_output_tokens")),
         _fmt_metric("normalized_cost", metrics.get("normalized_cost")),
         _fmt_metric("elapsed_time", metrics.get("elapsed_time")),
         _fmt_metric("loc_final", metrics.get("loc_final")),
@@ -467,6 +482,69 @@ def _sort_table_rows(rows: list[dict[str, Any]], secondary: str) -> list[dict[st
     return sorted(ordered, key=lambda c: c["date"], reverse=True)
 
 
+def _metric_leaderboard_lines(cells: list[dict[str, Any]]) -> list[str]:
+    lines = [
+        "## Metric leaderboards",
+        "",
+        "Each ranking uses the newest published cell for each `(problem, adapter, provider, model, harness)`.",
+        "Values are means when a cell contains multiple runs. Ties are ordered alphabetically.",
+        "",
+    ]
+    for key, label, definition in METRIC_LEADERBOARDS:
+        entries = []
+        for cell in cells:
+            value = cell["metrics"].get(key)
+            if value is None:
+                continue
+            if key == "checkpoints_passed":
+                total = cell["metrics"].get("checkpoints_total")
+                if total is None:
+                    continue
+                sort_value = (value / total if total else 0, value, total)
+                display = _fmt_checkpoints(cell["metrics"])
+            else:
+                sort_value = value
+                display = _fmt_metric(key, value)
+            entries.append((sort_value, cell, display))
+        if key == "checkpoints_passed":
+            entries.sort(
+                key=lambda item: (
+                    -item[0][0],
+                    -item[0][1],
+                    -item[0][2],
+                    item[1]["problem"],
+                    item[1]["model"],
+                    item[1]["harness"],
+                )
+            )
+        else:
+            entries.sort(
+                key=lambda item: (
+                    item[0],
+                    item[1]["problem"],
+                    item[1]["model"],
+                    item[1]["harness"],
+                )
+            )
+        lines.extend(
+            [
+                f"### {label}",
+                "",
+                definition,
+                "",
+                "| Rank | Problem | Model | Harness | Value |",
+                "|----:|---------|-------|---------|------:|",
+            ]
+        )
+        for rank, (_, cell, display) in enumerate(entries, start=1):
+            lines.append(
+                f"| {rank} | {cell['problem']} | {cell['model']} | "
+                f"{cell['harness']} | {display} |"
+            )
+        lines.append("")
+    return lines
+
+
 def format_leaderboard(payloads: list[dict[str, Any]]) -> str:
     cells = _latest_cells(payloads)
     lines = [
@@ -478,9 +556,7 @@ def format_leaderboard(payloads: list[dict[str, Any]]) -> str:
         "Published from `docs/reports/*.json`. Rebuilt by `python -m benchmark report`.",
         "Newer experiments appear first.",
         "Create/Rework token columns use per-attempt usage; `-` means it is unavailable.",
-        "All in/out columns preserve the aggregate usage for older runs.",
         "Failed CP counts checkpoints that failed at least once, including repaired ones.",
-        "Rework in/out is calculated as All in/out minus Create in/out when possible.",
         "",
         "## By task",
         "",
@@ -494,9 +570,9 @@ def format_leaderboard(payloads: list[dict[str, Any]]) -> str:
         lines.append(f"### `{problem}`")
         lines.append("")
         lines.append(
-            "| Agent | Model | Harness | N | CP | Failed CP | Repeated | Reg | Create in | Create out | Rework in | Rework out | All in | All out | Cost | Time | LOC | ΔLOC | Deps | Cx |"
+            "| Agent | Model | Harness | N | CP | Failed CP | Repeated | Reg | Create in | Create out | Rework in | Rework out | Cost | Time | LOC | ΔLOC | Deps | Cx |"
         )
-        lines.append("|-------|-------|---------|--:|--:|----------:|----------:|----:|----------:|-----------:|----------:|-----------:|--------:|---------:|-----:|-----:|----:|-----:|-----:|---:|")
+        lines.append("|-------|-------|---------|--:|--:|----------:|----------:|----:|----------:|-----------:|----------:|-----------:|-----:|-----:|----:|-----:|-----:|---:|")
         rows = _sort_table_rows([c for c in cells if c["problem"] == problem], "model")
         for row in rows:
             lines.append(
@@ -514,9 +590,9 @@ def format_leaderboard(payloads: list[dict[str, Any]]) -> str:
         lines.append(f"### `{model}`")
         lines.append("")
         lines.append(
-            "| Problem | Agent | Harness | N | CP | Failed CP | Repeated | Reg | Create in | Create out | Rework in | Rework out | All in | All out | Cost | Time | LOC | ΔLOC | Deps | Cx |"
+            "| Problem | Agent | Harness | N | CP | Failed CP | Repeated | Reg | Create in | Create out | Rework in | Rework out | Cost | Time | LOC | ΔLOC | Deps | Cx |"
         )
-        lines.append("|---------|-------|---------|--:|--:|----------:|----------:|----:|----------:|-----------:|----------:|-----------:|--------:|---------:|-----:|-----:|----:|-----:|-----:|---:|")
+        lines.append("|---------|-------|---------|--:|--:|----------:|----------:|----:|----------:|-----------:|----------:|-----------:|-----:|-----:|----:|-----:|-----:|---:|")
         rows = _sort_table_rows([c for c in cells if c["model"] == model], "problem")
         for row in rows:
             lines.append(
@@ -547,6 +623,7 @@ def format_leaderboard(payloads: list[dict[str, Any]]) -> str:
             f"[short](reports/{eid}.md) |"
         )
     lines.append("")
+    lines.extend(_metric_leaderboard_lines(cells))
     return "\n".join(lines)
 
 
