@@ -451,6 +451,23 @@ reasoning-шаг) поражает не только первые попытки
 [docs/fleet-autopilot.md](docs/fleet-autopilot.md); чеклист нового arm — в
 [docs/harness-onboarding.md](docs/harness-onboarding.md).
 
+### Уровень инструкций Hermes для benchmark
+
+Hermes используется как компромиссный канал уведомлений, а не как исполнитель задач benchmark.
+Инструкции находятся в коде проекта, не в `~/.hermes/config.yaml`:
+
+- `benchmark/notify.py::HERMES_WEBHOOK_PROMPT` передаётся при создании подписки через
+  `hermes webhook subscribe ... --prompt` и запрещает автоматически запускать benchmark,
+  менять `desired.yaml` или исправлять тикеты;
+- `benchmark/notify.py::HERMES_NOTIFICATION_FOOTER` добавляется в конец каждого human-ticket и
+  completion notification; сообщение заканчивается фразой `Это только уведомление. Ничего делать не надо.`;
+- в footer перечислены только read-only команды состояния: `fleet status`, `fleet plan`,
+  `systemctl --user status harness-benchmark-fleet.service` и `pgrep -af
+  'monitor_benchmark.py|benchmark.scb_main'`.
+
+При изменении поведения Hermes редактируй эти константы и regression-тесты уведомлений; не добавляй
+в сообщения команды, которые могут менять конфигурацию, запускать benchmark или закрывать тикеты.
+
 ## Запрос на новый профиль запуска benchmark
 
 Когда пользователь просит добавить профиль для новой модели, агента или провайдера, проходи этот workflow:

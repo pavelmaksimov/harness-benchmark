@@ -196,6 +196,8 @@ def test_human_ticket_and_completion_are_idempotent(tmp_path: Path) -> None:
     assert ticket == same_ticket
     assert first.delivered and second.reason == "cooldown"
     assert len(notifier.calls) == 1
+    assert notifier.calls[0][0].endswith("Это только уведомление. Ничего делать не надо.")
+    assert "fleet status --config configs/desired.yaml" in notifier.calls[0][0]
 
 
 def test_completion_notification_is_once_per_revision(tmp_path: Path) -> None:
@@ -228,3 +230,4 @@ def test_completion_notification_is_once_per_revision(tmp_path: Path) -> None:
 
     assert first.delivered and second.reason == "already-sent"
     assert len(notifier.calls) == 1
+    assert notifier.calls[0][0].endswith("Это только уведомление. Ничего делать не надо.")
