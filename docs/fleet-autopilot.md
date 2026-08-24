@@ -264,6 +264,13 @@ uv run python -m benchmark fleet plan --config configs/desired.yaml
 - `results/<experiment>/fleet-monitor.log` — лог monitor;
 - `ops/needs-human/*.md` — тикеты, требующие решения человека.
 
+Уведомления Hermes — информационные: в конце каждого сообщения есть пометка,
+что действий не требуется, и read-only команды для проверки состояния:
+`fleet status`, `fleet plan`, `systemctl --user status
+harness-benchmark-fleet.service` и `pgrep -af
+'monitor_benchmark.py|benchmark.scb_main'`. Hermes не должен автоматически
+запускать benchmark, менять `desired.yaml` или исправлять тикеты.
+
 Красный checkpoint сначала триажьте по `benchmark-failure-triage`: setup/import
 ERROR и `infrastructure_failure` не являются автоматически ошибкой модели.
 Логи SCB могут отставать; сверяйте файлы на диске, `state.json` и живость
