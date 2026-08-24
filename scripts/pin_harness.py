@@ -4,7 +4,8 @@
 Usage:
     uv run python scripts/pin_harness.py <arm> [<arm> ...]
 
-For a single arm it hashes ``harnesses/<arm>/skill``. For a bundle it hashes
+For a single arm it hashes ``harnesses/<arm>/skill`` and, when present, the
+optional ``harnesses/<arm>/AGENTS.md`` payload. For a bundle it hashes
 the payload under ``harnesses/<arm>/skills`` and ``harnesses/<arm>/home``:
 
 - ``skill_sha256``  — plain sha256 of SKILL.md bytes (verified at activation time);
@@ -29,11 +30,17 @@ REPO_ROOT = Path(__file__).resolve().parents[1]
 HARNESSES_DIR = REPO_ROOT / "harnesses"
 
 
-def _tree_sha256(skill_dir: Path) -> str:
+def _tree_sha256(
+    skill_dir: Path,
+    extra_files: list[tuple[str, Path]] | None = None,
+) -> str:
     digest = hashlib.sha256()
     files = sorted(p for p in skill_dir.rglob("*") if p.is_file())
     for path in files:
         rel = path.relative_to(skill_dir).as_posix()
+        digest.update(rel.encode("utf-8") + b"\n")
+        digest.update(path.read_bytes())
+    for rel, path in sorted(extra_files or []):
         digest.update(rel.encode("utf-8") + b"\n")
         digest.update(path.read_bytes())
     return digest.hexdigest()
@@ -73,18 +80,23 @@ def pin_arm(arm: str) -> Path:
 
     if skill_md.is_file():
         files = sorted(p for p in skill_dir.rglob("*") if p.is_file())
+        agents_md = harness_dir / "AGENTS.md"
+        extra_files = [("AGENTS.md", agents_md)] if agents_md.is_file() else []
         meta = {
             "name": arm,
             "skill_name": arm,
             "version": "pinned-local",
             "kind": "single",
             "skill_sha256": hashlib.sha256(skill_md.read_bytes()).hexdigest(),
-            "tree_sha256": _tree_sha256(skill_dir),
+            "tree_sha256": _tree_sha256(skill_dir, extra_files),
             "skill_bytes": skill_md.stat().st_size,
             "file_count": len(files),
             "pinned_at": datetime.now(timezone.utc).isoformat(),
             "source": str(skill_dir),
         }
+        if agents_md.is_file():
+            meta["agents_sha256"] = hashlib.sha256(agents_md.read_bytes()).hexdigest()
+            meta["agents_bytes"] = agents_md.stat().st_size
     else:
         bundle_files = _bundle_files(harness_dir)
         if not bundle_files:

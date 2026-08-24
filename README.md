@@ -60,7 +60,7 @@ uv run python -m benchmark run --arm baseline --problem file_backup --runs 1
 По умолчанию: `--agent codex`, `--provider codex_auth`, модель/thinking из дефолтов.
 Модель и провайдер можно задать явно: `--provider … --model …`.
 
-### OpenCode (baseline only; модель и провайдер обязательны)
+### OpenCode (модель и провайдер обязательны)
 
 ```bash
 uv run python -m benchmark run --arm baseline \
@@ -70,7 +70,10 @@ uv run python -m benchmark run --arm baseline \
   --thinking none
 ```
 
-Skill-arm’ы с OpenCode не поддерживаются (хуки skills заточены под Codex).
+Для skill-arm’ов OpenCode получает закреплённые skills через home mount. Если
+арм содержит `AGENTS.md`, он дополнительно монтируется в корень рабочего
+пространства: это позволяет передать правила агентам, которые не читают
+`.cursor/rules/`.
 
 ### Один ponytail run
 

@@ -1,0 +1,41 @@
+{
+  "arm": "python-harness",
+  "checkpoints": [
+    "checkpoint_1"
+  ],
+  "checkpoints_completed": [
+    1
+  ],
+  "exclude_dir_names": [
+    ".git",
+    ".mypy_cache",
+    ".pytest_cache",
+    ".ruff_cache",
+    ".tox",
+    ".venv",
+    "__pycache__",
+    "build",
+    "dist",
+    "doorstop-docs",
+    "graphify-out",
+    "node_modules",
+    "strictdoc-docs",
+    "venv"
+  ],
+  "experiment_id": "smoke-python-harness-codex-20260823",
+  "harness_activation_verified": true,
+  "harness_content_sha": "2bc3e4beb85fbe083b39d1469e31a976cfd4b102aa26fb15e2d90ea33400f4de",
+  "ok": true,
+  "problem": "file_backup",
+  "run_dir": "/home/user/my/harness-benchmark/results/smoke-python-harness-codex-20260823/python-harness/run_1",
+  "snapshot": {
+    "already_excluded": [],
+    "needs_exclude_review": [],
+    "top_level": [
+      "backup_scheduler.py",
+      "requirements.txt"
+    ],
+    "top_level_dirs": []
+  },
+  "validated_at": "2026-08-23T13:35:42.319803+00:00"
+}

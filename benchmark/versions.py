@@ -318,3 +318,25 @@ def copy_arm_skills(
         encoding="utf-8",
     )
     return marker
+
+
+def copy_arm_agents_file(arm: ArmSpec | str, destination: Path) -> dict[str, Any]:
+    """Copy an optional flattened ``AGENTS.md`` payload for non-Codex agents."""
+    spec = get_arm(arm) if isinstance(arm, str) else arm
+    harness_dir = HARNESSES_DIR / spec.name
+    source = harness_dir / "AGENTS.md"
+    if not source.is_file():
+        return {"agents_file_present": False}
+
+    destination.parent.mkdir(parents=True, exist_ok=True)
+    shutil.copy2(source, destination)
+    actual = sha256_file(destination)
+    meta = load_arm_meta(spec) or {}
+    expected = meta.get("agents_sha256") or sha256_file(source)
+    return {
+        "agents_file_present": True,
+        "agents_file_sha256_expected": expected,
+        "agents_file_sha256_actual": actual,
+        "agents_file_installed_path": str(destination),
+        "agents_file_verified": actual == expected,
+    }
