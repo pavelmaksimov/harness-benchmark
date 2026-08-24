@@ -26,6 +26,7 @@ METRIC_KEYS = (
     "normalized_cost",
     "elapsed_time",
     "loc_final",
+    "module_count",
     "loc_changed",
     "dependencies_added",
     "complexity",
@@ -58,6 +59,7 @@ SHORT_LABELS = {
     "normalized_cost": "Normalized cost",
     "elapsed_time": "Elapsed",
     "loc_final": "Final LOC",
+    "module_count": "Python modules",
     "loc_changed": "Changed LOC",
     "dependencies_added": "Dependencies",
     "complexity": "Complexity",
@@ -75,6 +77,7 @@ METRIC_LEADERBOARDS = (
     ("normalized_cost", "Normalized cost", "Lower is better. Cost normalized with the versioned pricing configuration."),
     ("elapsed_time", "Elapsed time", "Lower is better. Sum of agent inference time across checkpoints."),
     ("loc_final", "Final LOC", "Descriptive. Lines of solution code in the final snapshot."),
+    ("module_count", "Python modules", "Descriptive. Python source modules in the final snapshot."),
     ("loc_changed", "Changed LOC", "Lower is better as a churn measure. Lines changed from the initial snapshot."),
     ("dependencies_added", "Dependencies", "Lower is better as a complexity measure. Dependencies added by the solution."),
     ("complexity", "Complexity", "Lower is better. Measured code complexity in the final snapshot."),
@@ -486,6 +489,7 @@ def _metric_cells(metrics: dict[str, Any]) -> str:
         _fmt_metric("normalized_cost", metrics.get("normalized_cost")),
         _fmt_metric("elapsed_time", metrics.get("elapsed_time")),
         _fmt_metric("loc_final", metrics.get("loc_final")),
+        _fmt_metric("module_count", metrics.get("module_count")),
         _fmt_metric("loc_changed", metrics.get("loc_changed")),
         _fmt_metric("dependencies_added", metrics.get("dependencies_added")),
         _fmt_metric("complexity", metrics.get("complexity")),
@@ -590,9 +594,9 @@ def format_leaderboard(payloads: list[dict[str, Any]]) -> str:
         lines.append(f"### `{problem}`")
         lines.append("")
         lines.append(
-            "| Agent | Model | Harness | N | CP | Failed CP | Repeated | Reg | Create in | Create out | Rework in | Rework out | Cost | Time | LOC | ΔLOC | Deps | Cx |"
+            "| Agent | Model | Harness | N | CP | Failed CP | Repeated | Reg | Create in | Create out | Rework in | Rework out | Cost | Time | LOC | Py modules | ΔLOC | Deps | Cx |"
         )
-        lines.append("|-------|-------|---------|--:|--:|----------:|----------:|----:|----------:|-----------:|----------:|-----------:|-----:|-----:|----:|-----:|-----:|---:|")
+        lines.append("|-------|-------|---------|--:|--:|----------:|----------:|----:|----------:|-----------:|----------:|-----------:|-----:|-----:|----:|----------:|-----:|-----:|---:|")
         rows = _sort_table_rows([c for c in cells if c["problem"] == problem], "model")
         for row in rows:
             lines.append(
@@ -610,9 +614,9 @@ def format_leaderboard(payloads: list[dict[str, Any]]) -> str:
         lines.append(f"### `{model}`")
         lines.append("")
         lines.append(
-            "| Problem | Agent | Harness | N | CP | Failed CP | Repeated | Reg | Create in | Create out | Rework in | Rework out | Cost | Time | LOC | ΔLOC | Deps | Cx |"
+            "| Problem | Agent | Harness | N | CP | Failed CP | Repeated | Reg | Create in | Create out | Rework in | Rework out | Cost | Time | LOC | Py modules | ΔLOC | Deps | Cx |"
         )
-        lines.append("|---------|-------|---------|--:|--:|----------:|----------:|----:|----------:|-----------:|----------:|-----------:|-----:|-----:|----:|-----:|-----:|---:|")
+        lines.append("|---------|-------|---------|--:|--:|----------:|----------:|----:|----------:|-----------:|----------:|-----------:|-----:|-----:|----:|----------:|-----:|-----:|---:|")
         rows = _sort_table_rows([c for c in cells if c["model"] == model], "problem")
         for row in rows:
             lines.append(

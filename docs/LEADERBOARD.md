@@ -12,46 +12,46 @@ Failed CP counts checkpoints that failed at least once, including repaired ones.
 
 ### `realworld`
 
-| Agent | Model | Harness | N | CP | Failed CP | Repeated | Reg | Create in | Create out | Rework in | Rework out | Cost | Time | LOC | ΔLOC | Deps | Cx |
-|-------|-------|---------|--:|--:|----------:|----------:|----:|----------:|-----------:|----------:|-----------:|-----:|-----:|----:|-----:|-----:|---:|
-| opencode | x-preview-f-free | baseline | 2 | 14/14 | 1.5 | 1.5 | 0 | 261,474 | 39,124 | 0 | 0 | $0.00 | 47.8m | 940.5 | 1111 | 5.5 | 209.5 |
-| opencode | x-preview-f-free | combo-supermemory-graphify | 2 | 14/14 | 2 | 2.5 | 0 | 378,424 | 55,019 | 48,955 | 8,562 | $0.00 | 75.3m | 1094 | 1064.5 | 6 | 228 |
-| opencode | x-preview-f-free | combo-supermemory-graphify-ponytail-thermo-nuclear-code-quality-review | 2 | 14/14 | 1 | 1 | 0 | 291,872 | 42,498 | 12,551 | 3,392 | $0.00 | 54.6m | 918 | 1046 | 5 | 248 |
-| opencode | x-preview-f-free | combo-supermemory-graphify-ponytail-thermo-nuclear-code-quality-review-tdd | 2 | 14/14 | 1.5 | 1.5 | 0 | 381,832 | 47,168 | 40,394 | 3,082 | $0.00 | 58.9m | 1745 | 2001 | 6 | 621 |
-| opencode | x-preview-f-free | doorstop | 2 | 14/14 | 1.5 | 2 | 0 | 333,660 | 66,256 | 19,770 | 3,926 | $0.00 | 72.5m | 1425 | 1673 | 5.5 | 377.5 |
-| opencode | x-preview-f-free | graphify | 2 | 14/14 | 1 | 1 | 0 | 484,474 | 59,561 | 12,504 | 1,964 | $0.00 | 69.8m | 933 | 1171.5 | 5.5 | 178.5 |
-| opencode | x-preview-f-free | ponytail | 2 | 13.5/14 | 2 | 3 | 0 | 234,726 | 29,180 | 27,967 | 4,879 | $0.00 | 31.1m | 612 | 618 | 15 | 143 |
-| opencode | x-preview-f-free | strictdoc | 2 | 14/14 | 2.5 | 4 | 0 | 398,588 | 62,940 | 0 | 0 | $0.00 | 65.1m | 870.5 | 1124.5 | 5.5 | 201 |
-| opencode | x-preview-f-free | supermemory | 2 | 14/14 | 1.5 | 2.5 | 0 | 270,951 | 55,271 | 48,913 | 12,466 | $0.00 | 47.3m | 1078.5 | 1153.5 | 14.5 | 207.5 |
-| opencode | x-preview-f-free | tdd | 2 | 14/14 | 2 | 2.5 | 0 | 275,550 | 43,670 | 30,196 | 4,356 | $0.00 | 43.5m | 2536.5 | 2797 | 18.5 | 748.5 |
-| opencode | x-preview-f-free | thermo-nuclear-code-quality-review | 2 | 9.5/14 | 6.5 | 15.5 | 0 | 380,970 | 62,509 | 90,941 | 18,577 | $0.00 | 83.5m | 693.5 | 505.5 | 6 | 116 |
-| opencode | x-preview-f-free | combo-supermemory-graphify-ponytail-thermo-nuclear-code-quality-review-doorstop-tdd | 1 | 13/14 | 3 | 6 | 0 | 706,788 | 59,699 | 309,366 | 39,710 | $0.00 | 161.6m | 1861 | 1832 | 4 | 653 |
+| Agent | Model | Harness | N | CP | Failed CP | Repeated | Reg | Create in | Create out | Rework in | Rework out | Cost | Time | LOC | Py modules | ΔLOC | Deps | Cx |
+|-------|-------|---------|--:|--:|----------:|----------:|----:|----------:|-----------:|----------:|-----------:|-----:|-----:|----:|----------:|-----:|-----:|---:|
+| opencode | x-preview-f-free | baseline | 2 | 14/14 | 1.5 | 1.5 | 0 | 261,474 | 39,124 | 0 | 0 | $0.00 | 47.8m | 940.5 | 4.5 | 1111 | 5.5 | 209.5 |
+| opencode | x-preview-f-free | combo-supermemory-graphify | 2 | 14/14 | 2 | 2.5 | 0 | 378,424 | 55,019 | 48,955 | 8,562 | $0.00 | 75.3m | 1094 | 6.5 | 1064.5 | 6 | 228 |
+| opencode | x-preview-f-free | combo-supermemory-graphify-ponytail-thermo-nuclear-code-quality-review | 2 | 14/14 | 1 | 1 | 0 | 291,872 | 42,498 | 12,551 | 3,392 | $0.00 | 54.6m | 918 | 5.5 | 1046 | 5 | 248 |
+| opencode | x-preview-f-free | combo-supermemory-graphify-ponytail-thermo-nuclear-code-quality-review-tdd | 2 | 14/14 | 1.5 | 1.5 | 0 | 381,832 | 47,168 | 40,394 | 3,082 | $0.00 | 58.9m | 1745 | 16.5 | 2001 | 6 | 621 |
+| opencode | x-preview-f-free | doorstop | 2 | 14/14 | 1.5 | 2 | 0 | 333,660 | 66,256 | 19,770 | 3,926 | $0.00 | 72.5m | 1425 | 11.5 | 1673 | 5.5 | 377.5 |
+| opencode | x-preview-f-free | graphify | 2 | 14/14 | 1 | 1 | 0 | 484,474 | 59,561 | 12,504 | 1,964 | $0.00 | 69.8m | 933 | 12 | 1171.5 | 5.5 | 178.5 |
+| opencode | x-preview-f-free | ponytail | 2 | 13.5/14 | 2 | 3 | 0 | 234,726 | 29,180 | 27,967 | 4,879 | $0.00 | 31.1m | 612 | 2.5 | 618 | 15 | 143 |
+| opencode | x-preview-f-free | strictdoc | 2 | 14/14 | 2.5 | 4 | 0 | 398,588 | 62,940 | 0 | 0 | $0.00 | 65.1m | 870.5 | 12 | 1124.5 | 5.5 | 201 |
+| opencode | x-preview-f-free | supermemory | 2 | 14/14 | 1.5 | 2.5 | 0 | 270,951 | 55,271 | 48,913 | 12,466 | $0.00 | 47.3m | 1078.5 | 8.5 | 1153.5 | 14.5 | 207.5 |
+| opencode | x-preview-f-free | tdd | 2 | 14/14 | 2 | 2.5 | 0 | 275,550 | 43,670 | 30,196 | 4,356 | $0.00 | 43.5m | 2536.5 | 19 | 2797 | 18.5 | 748.5 |
+| opencode | x-preview-f-free | thermo-nuclear-code-quality-review | 2 | 9.5/14 | 6.5 | 15.5 | 0 | 380,970 | 62,509 | 90,941 | 18,577 | $0.00 | 83.5m | 693.5 | 9.5 | 505.5 | 6 | 116 |
+| opencode | x-preview-f-free | combo-supermemory-graphify-ponytail-thermo-nuclear-code-quality-review-doorstop-tdd | 1 | 13/14 | 3 | 6 | 0 | 706,788 | 59,699 | 309,366 | 39,710 | $0.00 | 161.6m | 1861 | 16 | 1832 | 4 | 653 |
 
 ### `task_manager`
 
-| Agent | Model | Harness | N | CP | Failed CP | Repeated | Reg | Create in | Create out | Rework in | Rework out | Cost | Time | LOC | ΔLOC | Deps | Cx |
-|-------|-------|---------|--:|--:|----------:|----------:|----:|----------:|-----------:|----------:|-----------:|-----:|-----:|----:|-----:|-----:|---:|
-| opencode | x-preview-f-free | baseline | 3 | 15/15 | 2.7 | 3 | 1.7 | 900,910 | 202,798 | 10,562 | 2,472 | $0.00 | 215.6m | 4686.7 | 5738.3 | 5.7 | 931.7 |
+| Agent | Model | Harness | N | CP | Failed CP | Repeated | Reg | Create in | Create out | Rework in | Rework out | Cost | Time | LOC | Py modules | ΔLOC | Deps | Cx |
+|-------|-------|---------|--:|--:|----------:|----------:|----:|----------:|-----------:|----------:|-----------:|-----:|-----:|----:|----------:|-----:|-----:|---:|
+| opencode | x-preview-f-free | baseline | 3 | 15/15 | 2.7 | 3 | 1.7 | 900,910 | 202,798 | 10,562 | 2,472 | $0.00 | 215.6m | 4686.7 | 8.3 | 5738.3 | 5.7 | 931.7 |
 
 ## By model
 
 ### `x-preview-f-free`
 
-| Problem | Agent | Harness | N | CP | Failed CP | Repeated | Reg | Create in | Create out | Rework in | Rework out | Cost | Time | LOC | ΔLOC | Deps | Cx |
-|---------|-------|---------|--:|--:|----------:|----------:|----:|----------:|-----------:|----------:|-----------:|-----:|-----:|----:|-----:|-----:|---:|
-| realworld | opencode | baseline | 2 | 14/14 | 1.5 | 1.5 | 0 | 261,474 | 39,124 | 0 | 0 | $0.00 | 47.8m | 940.5 | 1111 | 5.5 | 209.5 |
-| realworld | opencode | combo-supermemory-graphify | 2 | 14/14 | 2 | 2.5 | 0 | 378,424 | 55,019 | 48,955 | 8,562 | $0.00 | 75.3m | 1094 | 1064.5 | 6 | 228 |
-| realworld | opencode | combo-supermemory-graphify-ponytail-thermo-nuclear-code-quality-review | 2 | 14/14 | 1 | 1 | 0 | 291,872 | 42,498 | 12,551 | 3,392 | $0.00 | 54.6m | 918 | 1046 | 5 | 248 |
-| realworld | opencode | combo-supermemory-graphify-ponytail-thermo-nuclear-code-quality-review-tdd | 2 | 14/14 | 1.5 | 1.5 | 0 | 381,832 | 47,168 | 40,394 | 3,082 | $0.00 | 58.9m | 1745 | 2001 | 6 | 621 |
-| realworld | opencode | doorstop | 2 | 14/14 | 1.5 | 2 | 0 | 333,660 | 66,256 | 19,770 | 3,926 | $0.00 | 72.5m | 1425 | 1673 | 5.5 | 377.5 |
-| realworld | opencode | graphify | 2 | 14/14 | 1 | 1 | 0 | 484,474 | 59,561 | 12,504 | 1,964 | $0.00 | 69.8m | 933 | 1171.5 | 5.5 | 178.5 |
-| realworld | opencode | ponytail | 2 | 13.5/14 | 2 | 3 | 0 | 234,726 | 29,180 | 27,967 | 4,879 | $0.00 | 31.1m | 612 | 618 | 15 | 143 |
-| realworld | opencode | strictdoc | 2 | 14/14 | 2.5 | 4 | 0 | 398,588 | 62,940 | 0 | 0 | $0.00 | 65.1m | 870.5 | 1124.5 | 5.5 | 201 |
-| realworld | opencode | supermemory | 2 | 14/14 | 1.5 | 2.5 | 0 | 270,951 | 55,271 | 48,913 | 12,466 | $0.00 | 47.3m | 1078.5 | 1153.5 | 14.5 | 207.5 |
-| realworld | opencode | tdd | 2 | 14/14 | 2 | 2.5 | 0 | 275,550 | 43,670 | 30,196 | 4,356 | $0.00 | 43.5m | 2536.5 | 2797 | 18.5 | 748.5 |
-| realworld | opencode | thermo-nuclear-code-quality-review | 2 | 9.5/14 | 6.5 | 15.5 | 0 | 380,970 | 62,509 | 90,941 | 18,577 | $0.00 | 83.5m | 693.5 | 505.5 | 6 | 116 |
-| task_manager | opencode | baseline | 3 | 15/15 | 2.7 | 3 | 1.7 | 900,910 | 202,798 | 10,562 | 2,472 | $0.00 | 215.6m | 4686.7 | 5738.3 | 5.7 | 931.7 |
-| realworld | opencode | combo-supermemory-graphify-ponytail-thermo-nuclear-code-quality-review-doorstop-tdd | 1 | 13/14 | 3 | 6 | 0 | 706,788 | 59,699 | 309,366 | 39,710 | $0.00 | 161.6m | 1861 | 1832 | 4 | 653 |
+| Problem | Agent | Harness | N | CP | Failed CP | Repeated | Reg | Create in | Create out | Rework in | Rework out | Cost | Time | LOC | Py modules | ΔLOC | Deps | Cx |
+|---------|-------|---------|--:|--:|----------:|----------:|----:|----------:|-----------:|----------:|-----------:|-----:|-----:|----:|----------:|-----:|-----:|---:|
+| realworld | opencode | baseline | 2 | 14/14 | 1.5 | 1.5 | 0 | 261,474 | 39,124 | 0 | 0 | $0.00 | 47.8m | 940.5 | 4.5 | 1111 | 5.5 | 209.5 |
+| realworld | opencode | combo-supermemory-graphify | 2 | 14/14 | 2 | 2.5 | 0 | 378,424 | 55,019 | 48,955 | 8,562 | $0.00 | 75.3m | 1094 | 6.5 | 1064.5 | 6 | 228 |
+| realworld | opencode | combo-supermemory-graphify-ponytail-thermo-nuclear-code-quality-review | 2 | 14/14 | 1 | 1 | 0 | 291,872 | 42,498 | 12,551 | 3,392 | $0.00 | 54.6m | 918 | 5.5 | 1046 | 5 | 248 |
+| realworld | opencode | combo-supermemory-graphify-ponytail-thermo-nuclear-code-quality-review-tdd | 2 | 14/14 | 1.5 | 1.5 | 0 | 381,832 | 47,168 | 40,394 | 3,082 | $0.00 | 58.9m | 1745 | 16.5 | 2001 | 6 | 621 |
+| realworld | opencode | doorstop | 2 | 14/14 | 1.5 | 2 | 0 | 333,660 | 66,256 | 19,770 | 3,926 | $0.00 | 72.5m | 1425 | 11.5 | 1673 | 5.5 | 377.5 |
+| realworld | opencode | graphify | 2 | 14/14 | 1 | 1 | 0 | 484,474 | 59,561 | 12,504 | 1,964 | $0.00 | 69.8m | 933 | 12 | 1171.5 | 5.5 | 178.5 |
+| realworld | opencode | ponytail | 2 | 13.5/14 | 2 | 3 | 0 | 234,726 | 29,180 | 27,967 | 4,879 | $0.00 | 31.1m | 612 | 2.5 | 618 | 15 | 143 |
+| realworld | opencode | strictdoc | 2 | 14/14 | 2.5 | 4 | 0 | 398,588 | 62,940 | 0 | 0 | $0.00 | 65.1m | 870.5 | 12 | 1124.5 | 5.5 | 201 |
+| realworld | opencode | supermemory | 2 | 14/14 | 1.5 | 2.5 | 0 | 270,951 | 55,271 | 48,913 | 12,466 | $0.00 | 47.3m | 1078.5 | 8.5 | 1153.5 | 14.5 | 207.5 |
+| realworld | opencode | tdd | 2 | 14/14 | 2 | 2.5 | 0 | 275,550 | 43,670 | 30,196 | 4,356 | $0.00 | 43.5m | 2536.5 | 19 | 2797 | 18.5 | 748.5 |
+| realworld | opencode | thermo-nuclear-code-quality-review | 2 | 9.5/14 | 6.5 | 15.5 | 0 | 380,970 | 62,509 | 90,941 | 18,577 | $0.00 | 83.5m | 693.5 | 9.5 | 505.5 | 6 | 116 |
+| task_manager | opencode | baseline | 3 | 15/15 | 2.7 | 3 | 1.7 | 900,910 | 202,798 | 10,562 | 2,472 | $0.00 | 215.6m | 4686.7 | 8.3 | 5738.3 | 5.7 | 931.7 |
+| realworld | opencode | combo-supermemory-graphify-ponytail-thermo-nuclear-code-quality-review-doorstop-tdd | 1 | 13/14 | 3 | 6 | 0 | 706,788 | 59,699 | 309,366 | 39,710 | $0.00 | 161.6m | 1861 | 16 | 1832 | 4 | 653 |
 
 ## Experiments
 
@@ -289,6 +289,26 @@ Descriptive. Lines of solution code in the final snapshot.
 | 11 | realworld | x-preview-f-free | combo-supermemory-graphify-ponytail-thermo-nuclear-code-quality-review-doorstop-tdd | 1861 |
 | 12 | realworld | x-preview-f-free | tdd | 2536.5 |
 | 13 | task_manager | x-preview-f-free | baseline | 4686.7 |
+
+### Python modules
+
+Descriptive. Python source modules in the final snapshot.
+
+| Rank | Problem | Model | Harness | Value |
+|----:|---------|-------|---------|------:|
+| 1 | realworld | x-preview-f-free | ponytail | 2.5 |
+| 2 | realworld | x-preview-f-free | baseline | 4.5 |
+| 3 | realworld | x-preview-f-free | combo-supermemory-graphify-ponytail-thermo-nuclear-code-quality-review | 5.5 |
+| 4 | realworld | x-preview-f-free | combo-supermemory-graphify | 6.5 |
+| 5 | task_manager | x-preview-f-free | baseline | 8.3 |
+| 6 | realworld | x-preview-f-free | supermemory | 8.5 |
+| 7 | realworld | x-preview-f-free | thermo-nuclear-code-quality-review | 9.5 |
+| 8 | realworld | x-preview-f-free | doorstop | 11.5 |
+| 9 | realworld | x-preview-f-free | graphify | 12 |
+| 10 | realworld | x-preview-f-free | strictdoc | 12 |
+| 11 | realworld | x-preview-f-free | combo-supermemory-graphify-ponytail-thermo-nuclear-code-quality-review-doorstop-tdd | 16 |
+| 12 | realworld | x-preview-f-free | combo-supermemory-graphify-ponytail-thermo-nuclear-code-quality-review-tdd | 16.5 |
+| 13 | realworld | x-preview-f-free | tdd | 19 |
 
 ### Changed LOC
 

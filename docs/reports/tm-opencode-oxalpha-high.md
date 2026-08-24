@@ -35,6 +35,7 @@ Failed checkpoints include checkpoints repaired by rework; Rework = All - Create
 | Normalized cost | $0.00 |
 | Elapsed | 96.1m |
 | Final LOC | 3533 |
+| Python modules | 9 |
 | Changed LOC | 3922 |
 | Dependencies | 7 |
 | Complexity | 827 |
