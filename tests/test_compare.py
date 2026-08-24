@@ -42,6 +42,7 @@ def test_compare_exposes_stage_tokens_and_raw_core_details() -> None:
                 "change": {"lines_changed": 2, "files_touched": 1},
                 "code": {
                     "total_source_loc": 10,
+                    "module_count": 2,
                     "cyclomatic_complexity_total": 3,
                     "dependencies_added": 0,
                 },
@@ -56,6 +57,7 @@ def test_compare_exposes_stage_tokens_and_raw_core_details() -> None:
     assert totals["core_passed"] == 2
     assert totals["core_failed"] == 1
     assert totals["core_total"] == 3
+    assert totals["module_count"] == 2
     assert totals["creation_input_tokens"] == 70
     assert totals["creation_output_tokens"] == 20
     assert totals["rework_input_tokens"] == 31
@@ -69,6 +71,7 @@ def test_compare_exposes_stage_tokens_and_raw_core_details() -> None:
     assert comparison["summary"]["total_output_tokens"]["baseline"]["mean"] == 37
     assert comparison["summary"]["creation_input_tokens"]["baseline"]["mean"] == 70
     assert comparison["summary"]["rework_output_tokens"]["baseline"]["mean"] == 17
+    assert comparison["summary"]["module_count"]["baseline"]["mean"] == 2
 
     checkpoint = comparison["per_checkpoint"][0]
     assert checkpoint["core_failed"] == 1

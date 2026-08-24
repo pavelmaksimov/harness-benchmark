@@ -16,6 +16,7 @@
       "elapsed_time": 2251.535949,
       "loc_changed": 1053.0,
       "loc_final": 976.0,
+      "module_count": 5.0,
       "normalized_cost": 0.0,
       "regression_failures": 0.0,
       "repeated_attempts": 3.0,

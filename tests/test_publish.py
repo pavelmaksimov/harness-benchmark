@@ -113,6 +113,7 @@ def test_leaderboard_shows_stage_tokens_without_diagnostic_columns() -> None:
                 "normalized_cost": 0.0,
                 "elapsed_time": 60.0,
                 "loc_final": 10,
+                "module_count": 2,
                 "loc_changed": 3,
                 "dependencies_added": 0,
                 "complexity": 2,
@@ -125,19 +126,21 @@ def test_leaderboard_shows_stage_tokens_without_diagnostic_columns() -> None:
 
     assert (
         "| Agent | Model | Harness | N | CP | Failed CP | Repeated | Reg | Create in | "
-        "Create out | Rework in | Rework out | Cost | Time | LOC | ΔLOC | Deps | Cx |"
+        "Create out | Rework in | Rework out | Cost | Time | LOC | Py modules | ΔLOC | Deps | Cx |"
     ) in text
     assert "| Experiment | Date | Problem | Agent | Model | N | Report |" in text
     assert "| Problem | Agent | Harness | N | CP | Failed CP | Repeated | Reg | Create in | " in text
-    assert "|---------|-------|---------|--:|--:|----------:|----------:|----:|----------:|-----------:|----------:|-----------:|-----:|-----:|----:|-----:|-----:|---:|" in text
+    assert "|---------|-------|---------|--:|--:|----------:|----------:|----:|----------:|-----------:|----------:|-----------:|-----:|-----:|----:|----------:|-----:|-----:|---:|" in text
     assert "## Metric leaderboards" in text
     assert "### CP passed/total" in text
+    assert "### Python modules" in text
     assert "Higher is better." in text
     assert "1,000" in text
     assert "400" in text
     assert "234" in text
     assert "167" in text
     assert "| 2 |" in text
+    assert "| 10 | 2 | 3 | 0 | 2 |" in text
     assert "All in" not in text
     assert "All out" not in text
     assert "Transient in" not in text
