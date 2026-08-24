@@ -205,6 +205,11 @@ def build_plan(
     ops_dir: Path | None = None,
 ) -> FleetPlan:
     """Compute all cell statuses without starting SCB, Docker, or an agent."""
+    from benchmark.catalog import validate_desired
+
+    validation = validate_desired(desired)
+    if not validation.ok:
+        raise ValueError("invalid fleet configuration:\n  " + "\n  ".join(issue.render() for issue in validation.issues))
     ops_dir = ops_dir or results_dir.parent
     actions: list[FleetAction] = []
     statuses: dict[str, str] = {}

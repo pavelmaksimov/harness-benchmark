@@ -42,16 +42,105 @@ bash scripts/build_images.sh
 после изменения их pin'ов. Убедитесь, что нужные credentials доступны агенту;
 секреты не добавляйте в `configs/desired.yaml`.
 
-## 2. Описание цели
+## 2. Каталог имён и проверка конфигурации
+
+В benchmark нет одного универсального API-списка: у каждого маршрута свой
+provider. Для запуска используются имена из локального SCB-каталога, который
+собирается из vendor-каталога и `configs/models/*.yaml`.
+
+Посмотреть точные идентификаторы:
+
+```bash
+uv run python -m benchmark catalog providers
+uv run python -m benchmark catalog models
+```
+
+В выводе моделей:
+
+- `name` — значение, которое нужно писать в `desired.yaml` в поле `model`;
+- `api` — внутренний/API model id из определения модели;
+- `catalog_provider` — provider, записанный в определении модели;
+- `routes` — фактические agent-specific маршруты, например `opencode:opencode`;
+- `agents` — для каких адаптеров есть специальные настройки.
+
+Например, `opencode_auth` — это имя credential provider (файл авторизации
+OpenCode), а `x-preview-f-free` — имя модели в benchmark-каталоге. Не склеивайте
+их вручную в поле `model`: в `desired.yaml` они задаются отдельно.
+
+Если нужной модели нет в выводе, не подставляйте случайный API id прямо в
+`desired.yaml`. Сначала добавьте проверенный overlay
+`configs/models/<catalog-name>.yaml` с точным `internal_name` и настройками
+нужного agent, затем повторите `catalog models` и `fleet validate`.
+
+Для воспроизводимого выбора создайте профиль в `configs/profiles/`. Пути в поле
+`profile` считаются относительными корню репозитория:
+
+```yaml
+id: opencode-x-preview-f-free-high
+description: OpenCode Zen free route with high reasoning.
+agent: opencode
+provider: opencode_auth
+model: x-preview-f-free
+thinking: high
+```
+
+Проверьте профиль до подключения к benchmark:
+
+```bash
+uv run python -m benchmark profile list
+uv run python -m benchmark profile validate \
+  --config configs/profiles/opencode-x-preview-f-free-high.yaml \
+  --check-credentials
+```
+
+Для нового skill-arm можно сразу проверить реальный запуск профиля:
+
+```bash
+uv run python -m benchmark profile smoke \
+  --config configs/profiles/opencode-x-preview-f-free-high.yaml \
+  --arm <name> --problem file_backup --checkpoints 2
+```
+
+После успешной проверки в `desired.yaml` указывайте только путь к профилю:
+
+```yaml
+defaults:
+  profile: configs/profiles/opencode-x-preview-f-free-high.yaml
+```
+
+Не смешивайте `profile` с `agent`, `provider`, `model` или `thinking` в одном
+блоке. Это намеренно запрещено, чтобы benchmark не выполнялся на частично
+переопределённой конфигурации.
+
+Перед запуском проверьте весь desired-конфиг:
+
+```bash
+uv run python -m benchmark fleet validate --config configs/desired.yaml
+```
+
+Проверка не вызывает модель и не делает сетевой API-запрос. Она проверяет YAML,
+точные имена provider/model/agent, thinking preset, существование problem и
+зарегистрированных arms. Для дополнительной проверки наличия локального файла
+или переменной credentials:
+
+```bash
+uv run python -m benchmark fleet validate \
+  --config configs/desired.yaml --check-credentials
+```
+
+Проверка автоматически выполняется также перед `fleet plan`, `fleet status` и
+каждым reconciliation-циклом daemon. Если имя неверно, запуск завершается с
+понятной ошибкой и monitor не создаётся. Наличие credentials ещё не доказывает,
+что provider принимает запрос; это проверяется smoke-прогоном. Обычные команды
+`run`, `run-all` и `smoke` также проверяют resolved selection до старта прогона.
+
+## 3. Описание цели
 
 Редактируйте только `configs/desired.yaml`. Минимальный пример:
 
 ```yaml
 defaults:
-  agent: opencode
-  provider: opencode_auth
-  model: x-preview-f-free
-  thinking: high
+  profile: configs/profiles/opencode-x-preview-f-free-high.yaml
   runs: 3
   jobs: 4
   rework_attempts: 2
@@ -98,7 +187,7 @@ harnesses:
 `configs/models/`. Для `low`, `high` или `max` у модели должны быть именованные
 variants.
 
-## 3. Проверка без запуска
+## 4. Проверка без запуска
 
 Сначала посмотрите, что fleet собирается делать:
 
@@ -120,7 +209,7 @@ uv run python -m benchmark fleet --once --config configs/desired.yaml
 файлом `results/.fleet.lock`, второй monitor того же эксперимента —
 `results/<experiment>/.monitor.lock`.
 
-## 4. Постоянный запуск
+## 5. Постоянный запуск
 
 ### Вручную в терминале
 
@@ -158,7 +247,7 @@ journalctl --user -u harness-benchmark-fleet.service -f
 Не запускайте одновременно ручной демон и systemd-unit: lock защищает от
 дублей, но один режим проще контролировать.
 
-## 5. Контроль прогресса и результаты
+## 6. Контроль прогресса и результаты
 
 Периодически проверяйте:
 
@@ -180,7 +269,7 @@ ERROR и `infrastructure_failure` не являются автоматическ
 Логи SCB могут отставать; сверяйте файлы на диске, `state.json` и живость
 контейнера, а не только хвост лога. Не удаляйте `/tmp/tmp*` во время прогона.
 
-## 6. Smoke и onboarding
+## 7. Smoke и onboarding
 
 Для каждого нового или изменённого skill-arm обязателен smoke до полного run:
 
@@ -199,7 +288,7 @@ Source-only onboarding выполняется только при явно за�
 `ops/needs-human/`, а не вызывает модель самовольно. После ручного исправления
 установите в front matter тикета `resolved: true` и повторите `plan`.
 
-## 7. Остановка и завершение
+## 8. Остановка и завершение
 
 После того как `status` показывает, что все ячейки завершены, проверьте наличие
 `metrics/run.json` и `reports/<experiment>/comparison.json`.

@@ -44,13 +44,25 @@ def _validate_selection(
     thinking: Optional[str],
 ) -> tuple[str, str, str, str]:
     try:
-        return resolve_run_selection(
+        resolved = resolve_run_selection(
             agent=agent,
             arm=arm,
             provider=provider,
             model=model,
             thinking=thinking,
         )
+        from benchmark.catalog import validate_selection
+
+        report = validate_selection(
+            agent=resolved[0],
+            provider=resolved[1],
+            model=resolved[2],
+            thinking=resolved[3],
+            scope=f"arm {arm}",
+        )
+        if not report.ok:
+            raise ValueError("\n".join(issue.render() for issue in report.issues))
+        return resolved
     except ValueError as exc:
         raise typer.BadParameter(str(exc)) from exc
 
@@ -595,20 +607,142 @@ def collect_cmd(
     console.print(f"Wrote metrics to {out}")
 
 
+@app.command("profile")
+def profile_cmd(
+    action: str | None = typer.Argument(None, help="list, validate, or smoke"),
+    config: Optional[Path] = typer.Option(None, "--config", help="Profile YAML path"),
+    arm: Optional[str] = typer.Option(None, "--arm", help="Harness arm for profile smoke"),
+    problem: str = typer.Option(DEFAULT_PROBLEM, "--problem"),
+    checkpoints: int = typer.Option(1, "--checkpoints", min=1),
+    experiment_id: Optional[str] = typer.Option(None, "--experiment-id"),
+    json_output: bool = typer.Option(False, "--json"),
+    check_credentials: bool = typer.Option(False, "--check-credentials"),
+) -> None:
+    """List, validate, or smoke-test reusable run profiles."""
+    from benchmark.profiles import list_profiles, load_profile, render_profiles, validate_profile
+
+    if action == "list":
+        profiles = list_profiles()
+        if json_output:
+            console.print_json(
+                json.dumps(
+                    [{"id": profile.profile_id, "path": str(profile.path), **profile.selection()} for profile in profiles],
+                    ensure_ascii=False,
+                )
+            )
+        else:
+            console.print(render_profiles(profiles))
+        return
+    if action not in {"validate", "smoke"}:
+        raise typer.BadParameter("action must be one of: list, validate, smoke")
+    if config is None:
+        raise typer.BadParameter("--config is required for profile validate/smoke")
+    try:
+        profile = load_profile(config)
+        report = validate_profile(profile, check_credentials=check_credentials or action == "smoke")
+    except (FileNotFoundError, OSError, TypeError, ValueError) as exc:
+        console.print(f"[red]profile validation failed: {exc}[/red]")
+        raise typer.Exit(code=1) from exc
+    if json_output:
+        from benchmark.catalog import report_json
+
+        console.print_json(
+            json.dumps(
+                {
+                    "profile": str(profile.path),
+                    "selection": profile.selection(),
+                    "validation": json.loads(report_json(report)),
+                },
+                ensure_ascii=False,
+            )
+        )
+    else:
+        console.print(f"profile={profile.path}")
+        console.print(" ".join(f"{key}={value}" for key, value in profile.selection().items()))
+        console.print(report.render())
+    if not report.ok:
+        raise typer.Exit(code=1)
+    if action == "validate":
+        return
+    if arm is None:
+        raise typer.BadParameter("--arm is required for profile smoke")
+    from benchmark.scb_run import run_smoke
+
+    try:
+        collected = run_smoke(
+            arm=arm,
+            problem=problem,
+            agent=profile.agent,
+            provider=profile.provider,
+            model=profile.model,
+            thinking=profile.thinking,
+            experiment_id=experiment_id,
+            checkpoint_count=checkpoints,
+        )
+    except (RuntimeError, ValueError, OSError) as exc:
+        console.print(f"[red]profile smoke failed: {exc}[/red]")
+        raise typer.Exit(code=1) from exc
+    console.print(f"smoke_ok={collected.get('smoke_ok')} marker={collected.get('smoke_marker')}")
+    if not collected.get("smoke_ok"):
+        raise typer.Exit(code=1)
+
+
+@app.command("catalog")
+def catalog_cmd(
+    kind: str = typer.Argument("all", help="all, providers, or models"),
+    json_output: bool = typer.Option(False, "--json"),
+) -> None:
+    """List exact provider credential names and model catalog identifiers."""
+    if kind not in {"all", "providers", "models"}:
+        raise typer.BadParameter("kind must be one of: all, providers, models")
+    from benchmark.catalog import catalog_snapshot, render_catalog
+
+    try:
+        snapshot = catalog_snapshot()
+    except (OSError, ValueError) as exc:
+        console.print(f"[red]catalog loading failed: {exc}[/red]")
+        raise typer.Exit(code=1) from exc
+    if json_output:
+        payload = snapshot if kind == "all" else {kind: snapshot[kind]}
+        console.print_json(json.dumps(payload, ensure_ascii=False))
+    else:
+        console.print(render_catalog(snapshot, kind))
+
+
 @app.command("fleet")
 def fleet_cmd(
-    action: str | None = typer.Argument(None, help="daemon (default), plan, or status"),
+    action: str | None = typer.Argument(None, help="daemon (default), plan, status, or validate"),
     config: Path = typer.Option(Path("configs/desired.yaml"), "--config"),  # noqa: B008
     interval: float | None = typer.Option(None, "--interval", min=0.1),
     once: bool = typer.Option(False, "--once", help="Reconcile once and exit (useful for cron/tests)"),
     json_output: bool = typer.Option(False, "--json"),
+    check_credentials: bool = typer.Option(False, "--check-credentials"),
 ) -> None:
-    """Run the fleet daemon, or show its plan/status without starting work."""
+    """Run fleet, inspect its plan/status, or validate desired.yaml."""
     from benchmark.fleet.config import load_desired
+
+    try:
+        desired = load_desired(config)
+    except (FileNotFoundError, ValueError) as exc:
+        console.print(f"[red]{exc}[/red]")
+        raise typer.Exit(code=1) from exc
+    if action == "validate":
+        from benchmark.catalog import report_json, validate_desired
+
+        try:
+            report = validate_desired(desired, check_credentials=check_credentials)
+        except (OSError, ValueError) as exc:
+            console.print(f"[red]catalog validation failed: {exc}[/red]")
+            raise typer.Exit(code=1) from exc
+        console.print(report_json(report) if json_output else report.render())
+        if not report.ok:
+            raise typer.Exit(code=1)
+        return
+
     from benchmark.fleet.planner import build_plan, render_plan, render_status
 
     try:
-        plan = build_plan(load_desired(config))
+        plan = build_plan(desired)
     except (FileNotFoundError, ValueError) as exc:
         console.print(f"[red]{exc}[/red]")
         raise typer.Exit(code=1) from exc
@@ -631,7 +765,7 @@ def fleet_cmd(
     if action == "status":
         console.print_json(json.dumps(plan.as_dict(), ensure_ascii=False)) if json_output else console.print(render_status(plan))
         return
-    raise typer.BadParameter("action must be one of: plan, status, daemon")
+    raise typer.BadParameter("action must be one of: plan, status, validate, daemon")
 
 
 if __name__ == "__main__":

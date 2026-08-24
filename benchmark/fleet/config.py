@@ -17,9 +17,11 @@ from typing import Any
 import yaml
 
 from benchmark.paths import CONFIGS_DIR
+from benchmark.profiles import load_profile
 
 DEFAULT_DESIRED_PATH = CONFIGS_DIR / "desired.yaml"
 SAFE_ID_CHARS = frozenset("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789_-.:")
+SELECTION_FIELDS = ("agent", "provider", "model", "thinking")
 
 
 def _string(value: Any, *, field_name: str, default: str | None = None) -> str | None:
@@ -97,6 +99,7 @@ class FleetDefaults:
     feedback_strategy: str | None = "current-first"
     interval: float = 30.0
     max_restarts: int = 3
+    profile: str | None = None
 
     @classmethod
     def from_raw(cls, raw: Any) -> FleetDefaults:
@@ -110,11 +113,23 @@ class FleetDefaults:
         max_restarts = _non_negative_int(
             raw.get("max_restarts"), field_name="defaults.max_restarts", default=cls.max_restarts
         )
+        profile_path = _string(raw.get("profile"), field_name="defaults.profile")
+        if profile_path is not None:
+            if any(field in raw for field in SELECTION_FIELDS):
+                raise ValueError("defaults.profile cannot be combined with agent/provider/model/thinking")
+            profile = load_profile(profile_path)
+            selection = profile.selection()
+        else:
+            selection = {
+                "agent": _string(raw.get("agent"), field_name="defaults.agent", default=cls.agent) or cls.agent,
+                "provider": _string(raw.get("provider"), field_name="defaults.provider", default=cls.provider)
+                or cls.provider,
+                "model": _string(raw.get("model"), field_name="defaults.model", default=cls.model) or cls.model,
+                "thinking": _string(raw.get("thinking"), field_name="defaults.thinking", default=cls.thinking)
+                or cls.thinking,
+            }
         return cls(
-            agent=_string(raw.get("agent"), field_name="defaults.agent", default=cls.agent) or cls.agent,
-            provider=_string(raw.get("provider"), field_name="defaults.provider", default=cls.provider) or cls.provider,
-            model=_string(raw.get("model"), field_name="defaults.model", default=cls.model) or cls.model,
-            thinking=_string(raw.get("thinking"), field_name="defaults.thinking", default=cls.thinking) or cls.thinking,
+            **selection,
             runs=_positive_int(raw.get("runs"), field_name="defaults.runs", default=cls.runs),
             jobs=_positive_int(raw.get("jobs"), field_name="defaults.jobs", default=cls.jobs),
             rework_attempts=_non_negative_int(
@@ -128,6 +143,7 @@ class FleetDefaults:
             ),
             interval=float(interval),
             max_restarts=max_restarts,
+            profile=profile_path,
         )
 
 
@@ -146,6 +162,7 @@ class ExperimentTarget:
     transient_retries: int
     feedback_strategy: str | None
     max_restarts: int
+    profile: str | None = None
 
     @classmethod
     def from_raw(cls, raw: Any, defaults: FleetDefaults) -> ExperimentTarget:
@@ -173,16 +190,50 @@ class ExperimentTarget:
             raise ValueError(f"experiments[{experiment_id}].arms contains an unsafe name")
         if len(arms) != len(set(arms)):
             raise ValueError(f"experiments[{experiment_id}].arms contains duplicates")
+        profile_path = _string(raw.get("profile"), field_name=f"experiments[{experiment_id}].profile")
+        direct_fields = [field for field in SELECTION_FIELDS if field in raw]
+        if profile_path is not None:
+            if direct_fields:
+                raise ValueError(
+                    f"experiments[{experiment_id}].profile cannot be combined with "
+                    "agent/provider/model/thinking"
+                )
+            profile = load_profile(profile_path)
+            selection = profile.selection()
+        elif defaults.profile is not None:
+            if direct_fields:
+                raise ValueError(
+                    f"experiments[{experiment_id}] must use profile when defaults.profile is set"
+                )
+            profile_path = defaults.profile
+            selection = {
+                "agent": defaults.agent,
+                "provider": defaults.provider,
+                "model": defaults.model,
+                "thinking": defaults.thinking,
+            }
+        else:
+            selection = {
+                "agent": _string(raw.get("agent"), field_name="experiment.agent", default=defaults.agent)
+                or defaults.agent,
+                "provider": _string(
+                    raw.get("provider"), field_name="experiment.provider", default=defaults.provider
+                )
+                or defaults.provider,
+                "model": _string(raw.get("model"), field_name="experiment.model", default=defaults.model)
+                or defaults.model,
+                "thinking": _string(
+                    raw.get("thinking"), field_name="experiment.thinking", default=defaults.thinking
+                )
+                or defaults.thinking,
+            }
         return cls(
             id=experiment_id,
             problem=problem or "",
             arms=arms,
             runs=_positive_int(raw.get("runs"), field_name=f"experiments[{experiment_id}].runs", default=defaults.runs),
             jobs=_positive_int(raw.get("jobs"), field_name=f"experiments[{experiment_id}].jobs", default=defaults.jobs),
-            agent=_string(raw.get("agent"), field_name="experiment.agent", default=defaults.agent) or defaults.agent,
-            provider=_string(raw.get("provider"), field_name="experiment.provider", default=defaults.provider) or defaults.provider,
-            model=_string(raw.get("model"), field_name="experiment.model", default=defaults.model) or defaults.model,
-            thinking=_string(raw.get("thinking"), field_name="experiment.thinking", default=defaults.thinking) or defaults.thinking,
+            **selection,
             rework_attempts=_non_negative_int(
                 raw.get("rework_attempts"), field_name="experiment.rework_attempts", default=defaults.rework_attempts
             ),
@@ -195,6 +246,7 @@ class ExperimentTarget:
             max_restarts=_non_negative_int(
                 raw.get("max_restarts"), field_name="experiment.max_restarts", default=defaults.max_restarts
             ),
+            profile=profile_path,
         )
 
     def selection(self) -> dict[str, Any]:
@@ -207,6 +259,7 @@ class ExperimentTarget:
             "rework_attempts": self.rework_attempts,
             "transient_retries": self.transient_retries,
             "feedback_strategy": self.feedback_strategy,
+            "profile": self.profile,
         }
 
     def identity_payload(self) -> dict[str, Any]:
