@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import json
 from pathlib import Path
 from typing import Any, Optional
 
@@ -592,6 +593,45 @@ def collect_cmd(
     )
     write_checkpoint_jsons(collected, out)
     console.print(f"Wrote metrics to {out}")
+
+
+@app.command("fleet")
+def fleet_cmd(
+    action: str | None = typer.Argument(None, help="daemon (default), plan, or status"),
+    config: Path = typer.Option(Path("configs/desired.yaml"), "--config"),  # noqa: B008
+    interval: float | None = typer.Option(None, "--interval", min=0.1),
+    once: bool = typer.Option(False, "--once", help="Reconcile once and exit (useful for cron/tests)"),
+    json_output: bool = typer.Option(False, "--json"),
+) -> None:
+    """Run the fleet daemon, or show its plan/status without starting work."""
+    from benchmark.fleet.config import load_desired
+    from benchmark.fleet.planner import build_plan, render_plan, render_status
+
+    try:
+        plan = build_plan(load_desired(config))
+    except (FileNotFoundError, ValueError) as exc:
+        console.print(f"[red]{exc}[/red]")
+        raise typer.Exit(code=1) from exc
+    if action in {None, "daemon"}:
+        from benchmark.fleet.daemon import run_fleet
+
+        try:
+            run_fleet(
+                config_path=config,
+                interval=interval if interval is not None else plan.desired.defaults.interval,
+                once=once,
+            )
+            return
+        except (FileNotFoundError, RuntimeError, ValueError) as exc:
+            console.print(f"[red]{exc}[/red]")
+            raise typer.Exit(code=1) from exc
+    if action == "plan":
+        console.print_json(json.dumps(plan.as_dict(), ensure_ascii=False)) if json_output else console.print(render_plan(plan))
+        return
+    if action == "status":
+        console.print_json(json.dumps(plan.as_dict(), ensure_ascii=False)) if json_output else console.print(render_status(plan))
+        return
+    raise typer.BadParameter("action must be one of: plan, status, daemon")
 
 
 if __name__ == "__main__":

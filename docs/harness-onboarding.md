@@ -7,6 +7,13 @@
 Связанные правила: `benchmark-new-harness` (чеклист), `benchmark-metrics` (эксклюзии),
 `benchmark-git-cleanup`, `benchmark-failure-triage` (триаж красных смоуков), `benchmark-pitfalls`.
 
+## 0. Fleet autopilot
+
+Краткий запуск и постоянная эксплуатация описаны в отдельной инструкции:
+[`docs/fleet-autopilot.md`](fleet-autopilot.md). В ней есть пример
+`configs/desired.yaml`, dry-run через `fleet plan`, запуск `--once`, user-unit
+systemd, контроль результатов, smoke-gate и обработка тикетов `needs-human`.
+
 ---
 
 ## 1. Что такое «харнес» в этом репо

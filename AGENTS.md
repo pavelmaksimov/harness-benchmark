@@ -5,6 +5,8 @@
 Если проблема имеет тематический характер, создай выделенный документ на эту тему
 и записывай туда встречающиеся ошибки и их решения, оставив ссылку на этот документ в AGENTS.md
 
+Запуск автоматического benchmark fleet - docs/fleet-autopilot.md
+
 ## Cursor rules (обязательные к прочтению)
 
 Правила из `.cursor/rules/` — они применяются Cursor, но агенты вне Cursor должны читать их напрямую. Ключевые для работы с бенчмарком:
@@ -434,6 +436,16 @@ reasoning-шаг) поражает не только первые попытки
 `inference_result.usage.net_tokens.output < 500`. Отличать от реального
 провала модели: чистые (необрезанные) попытки того же агента на том же
 чекпоинте дают стабильный результат.
+
+## Автопилот fleet
+
+Целевое состояние для unattended-прогонов хранится в [configs/desired.yaml](configs/desired.yaml).
+План и read-only статус проверяются командами `uv run python -m benchmark fleet plan` и
+`uv run python -m benchmark fleet status`; демон запускается через `uv run python -m benchmark fleet`.
+Тикеты, требующие человека, пишутся в `ops/needs-human/`; после исправления причины в тикете
+нужно выставить `resolved: true`. Полная инструкция — в
+[docs/fleet-autopilot.md](docs/fleet-autopilot.md); чеклист нового arm — в
+[docs/harness-onboarding.md](docs/harness-onboarding.md).
 
 ## graphify
 
