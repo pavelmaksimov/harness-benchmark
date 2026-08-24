@@ -1,0 +1,7 @@
+# OpenCode profile using the OpenRouter credential provider.
+id: opencode-x-preview-f-free-openrouter-high
+description: OpenCode with the x-preview-f-free model through OpenRouter at high reasoning.
+agent: opencode
+provider: openrouter
+model: x-preview-f-free
+thinking: high

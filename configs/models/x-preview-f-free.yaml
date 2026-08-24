@@ -1,5 +1,6 @@
 # OpenCode Zen free model "Ox Alpha Free (Unlimited)" (catalog entry — not a run default).
-# Same model is also exposed as opencode-go/ox-alpha-free; we use the `opencode` route.
+# Same model is also exposed as opencode-go/ox-alpha-free; the default route is `opencode`.
+# The OpenRouter profile selects `openrouter` through provider_name_overrides below.
 # Use: --agent opencode --provider opencode_auth --model x-preview-f-free --thinking high
 # Catalog (models.dev 2026-08-21) declares reasoning_options low|high|max but ships no
 # named variants, so define them here — SCB passes thinking via `--variant=<name>`.
@@ -14,9 +15,21 @@ aliases: []
 agent_specific:
   opencode:
     provider_name: opencode
+    provider_name_overrides:
+      openrouter: openrouter
     config:
       provider:
         opencode:
+          models:
+            x-preview-f-free:
+              variants:
+                low:
+                  reasoningEffort: low
+                high:
+                  reasoningEffort: high
+                max:
+                  reasoningEffort: max
+        openrouter:
           models:
             x-preview-f-free:
               variants:
