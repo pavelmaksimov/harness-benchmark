@@ -1,0 +1,17 @@
+[Unit]
+Description=Harness benchmark fleet autopilot
+After=network-online.target docker.service
+Wants=network-online.target
+StartLimitIntervalSec=0
+
+[Service]
+Type=simple
+WorkingDirectory=%h/my/harness-benchmark
+Environment=PATH=%h/.local/bin:%h/.nvm/versions/node/v22.17.1/bin:/usr/local/bin:/usr/bin:/bin
+Environment="HB_FLEET_ONBOARD_COMMAND=codex exec --approve-for-me --skip-git-repo-check"
+ExecStart=%h/.local/bin/uv run python -m benchmark fleet --config configs/desired.yaml
+Restart=always
+RestartSec=15
+
+[Install]
+WantedBy=default.target

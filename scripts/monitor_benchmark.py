@@ -49,6 +49,8 @@ class MonitorConfig:
     max_restarts: int
     orphan_timeout: float
     log_path: Path
+    transient_retries: int | None = None
+    feedback_strategy: str | None = None
 
 
 @dataclass(frozen=True)
@@ -187,6 +189,10 @@ def _benchmark_command(config: MonitorConfig, *, resume: bool) -> list[str]:
                 command.extend([flag, value])
         if config.rework_attempts is not None:
             command.extend(["--rework-attempts", str(config.rework_attempts)])
+        if config.transient_retries is not None:
+            command.extend(["--transient-retries", str(config.transient_retries)])
+        if config.feedback_strategy is not None:
+            command.extend(["--feedback-strategy", config.feedback_strategy])
     if config.skip_smoke_check:
         command.append("--skip-smoke-check")
     if resume:
@@ -644,6 +650,8 @@ def _parser() -> argparse.ArgumentParser:
     parser.add_argument("--model", default=None)
     parser.add_argument("--thinking", default=None)
     parser.add_argument("--rework-attempts", type=_non_negative_int, default=None)
+    parser.add_argument("--transient-retries", type=_non_negative_int, default=None)
+    parser.add_argument("--feedback-strategy", default=None)
     parser.add_argument("--skip-smoke-check", action="store_true")
     parser.add_argument(
         "--interval",
@@ -703,6 +711,8 @@ def main(argv: Sequence[str] | None = None) -> int:
         max_restarts=args.max_restarts,
         orphan_timeout=args.orphan_timeout,
         log_path=log_path,
+        transient_retries=args.transient_retries,
+        feedback_strategy=args.feedback_strategy,
     )
     try:
         return run_monitor(config)
