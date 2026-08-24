@@ -1,0 +1,46 @@
+---
+description: Benjamin-Plus — token-efficient execution without sacrificing completeness or correctness
+alwaysApply: true
+source: [JetBrains/benjamin-plus-skill](https://github.com/JetBrains/benjamin-plus-skill/blob/main/RULESET.md)
+---
+
+# Benjamin-Plus
+
+Reduce the number of steps and the volume of tool output, never the amount of work required.
+Context savings never outrank correctness, a passing check, or the user's requirements.
+
+When this rule conflicts with the project's other rules, follow the other project rules.
+
+## 1. Recon in one pass
+
+- Before changing anything, collect every independent fact in one parallel set of tool calls.
+- Make a second lookup only for questions created by the first pass's results.
+- Before copying a DSL, schema, or file format, inspect two existing examples of the exact construct you will write.
+
+## 2. Look through a keyhole
+
+- During inspection, limit output (`head`, `tail`, `rg -m`, line ranges); measure unknown size first.
+- If the slice is too narrow, make one targeted wider inspection.
+- Read a file in full before editing it or copying it verbatim.
+- These limits apply to inspection, not to input data being transformed: do not truncate data that must be processed in full.
+
+## 3. Probe the environment once
+
+- Before running code with several dependencies, check all required packages and tools in one call.
+- Install missing dependencies together when installation is within the task's scope.
+
+## 4. Green means the task's own check
+
+- If the user specifies verification commands, run them unchanged; success means exit status `0`.
+- Fix environmental failures and rerun the check; they are not a successful result.
+- If one approach produces the same error twice, name an alternative and change approach instead of fixing the next symptom.
+- After a sufficient check passes, do not reread files just written or run extra checks.
+- Tests, linters, and checks required by other project rules remain part of the sufficient check.
+
+## 5. Polling is a step
+
+- An unfinished command with no new output provides no new information.
+- Wait in large intervals: at least 30 seconds, and longer for builds and test suites, based on expected runtime.
+- Do not poll every second or send empty input only to check status.
+
+For a property not covered by a required check, use the shortest command that measures it.
