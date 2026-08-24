@@ -7,8 +7,8 @@ import sys
 
 
 def main() -> None:
+    from benchmark.catalog import load_catalogs
     from benchmark.eval_deps_hook import install_eval_deps_hook
-    from benchmark.paths import MODELS_DIR
 
     install_eval_deps_hook()
 
@@ -22,6 +22,7 @@ def main() -> None:
 
         install_skill_hook()
 
+    from benchmark.continue_hook import install_continue_after_test_failure
     from benchmark.rework_hook import (
         DEFAULT_FEEDBACK_STRATEGY,
         HB_REWORK_ATTEMPTS,
@@ -29,7 +30,6 @@ def main() -> None:
         HB_TRANSIENT_RETRIES,
         install_rework_hook,
     )
-    from benchmark.continue_hook import install_continue_after_test_failure
 
     install_continue_after_test_failure()
     try:
@@ -48,16 +48,8 @@ def main() -> None:
             feedback_strategy=feedback_strategy,
         )
 
-    # Ensure agent registrations load.
-    import slop_code.agent_runner.agents  # noqa: F401
-    from slop_code.agent_runner.credentials import ProviderCatalog
-    from slop_code.common.llms import ModelCatalog
-
     # SCB catalog first, then harness-benchmark overlays (e.g. free OpenCode models).
-    ProviderCatalog.ensure_loaded()
-    ModelCatalog.ensure_loaded()
-    if MODELS_DIR.is_dir():
-        ModelCatalog.load_from_directory(MODELS_DIR)
+    load_catalogs()
 
     from slop_code.entrypoints.cli import app
 

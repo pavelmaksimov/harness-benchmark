@@ -1,0 +1,7 @@
+# Example OpenCode profile. Validate it before adding it to desired.yaml.
+id: opencode-x-preview-f-free-high
+description: OpenCode Zen free route with high reasoning.
+agent: opencode
+provider: opencode_auth
+model: x-preview-f-free
+thinking: high

@@ -442,10 +442,63 @@ reasoning-шаг) поражает не только первые попытки
 Целевое состояние для unattended-прогонов хранится в [configs/desired.yaml](configs/desired.yaml).
 План и read-only статус проверяются командами `uv run python -m benchmark fleet plan` и
 `uv run python -m benchmark fleet status`; демон запускается через `uv run python -m benchmark fleet`.
+Точные имена можно узнать командами `uv run python -m benchmark catalog providers` и
+`uv run python -m benchmark catalog models`; перед запуском проверяйте конфиг через
+`uv run python -m benchmark fleet validate --config configs/desired.yaml`. Для
+воспроизводимого выбора используйте профиль из `configs/profiles/` и сначала
+проверьте его через `uv run python -m benchmark profile validate --config <path>`.
 Тикеты, требующие человека, пишутся в `ops/needs-human/`; после исправления причины в тикете
 нужно выставить `resolved: true`. Полная инструкция — в
 [docs/fleet-autopilot.md](docs/fleet-autopilot.md); чеклист нового arm — в
 [docs/harness-onboarding.md](docs/harness-onboarding.md).
+
+## Запрос на новый профиль запуска benchmark
+
+Когда пользователь просит добавить профиль для новой модели, агента или провайдера, проходи этот workflow:
+
+1. **Проверь существующие идентификаторы.** Выполни `uv run python -m benchmark catalog providers` и
+   `uv run python -m benchmark catalog models`. Не угадывай имена и не подставляй произвольный API id.
+2. **Раздели случай.** Если agent/provider/model уже есть в каталогах — создай только
+   `configs/profiles/<profile-id>.yaml`. Если отсутствует модель — сначала добавь и проверь её overlay в
+   `configs/models/`. Если отсутствует provider — сначала подключи его к каталогу credentials по правилам
+   `benchmark-runner`. Если отсутствует agent — сначала добавь его adapter, регистрацию и `configs/agent_<name>.yaml`;
+   один профиль не регистрирует новый agent/provider/model.
+3. **Создай профиль** с полями `id`, `agent`, `provider`, `model`, `thinking` и, при необходимости,
+   `description`. Пути к профилям в `desired.yaml` задаются относительно корня репозитория.
+4. **Проверь профиль до desired-конфига:**
+
+   ```bash
+   uv run python -m benchmark profile validate \
+     --config configs/profiles/<profile-id>.yaml \
+     --check-credentials
+   ```
+
+   Проверка должна завершиться с кодом `0`; credentials не выводи и не добавляй в YAML.
+5. **Проведи реальный smoke** на нужном arm:
+
+   ```bash
+   uv run python -m benchmark profile smoke \
+     --config configs/profiles/<profile-id>.yaml \
+     --arm <arm> --problem <problem> --checkpoints 2
+   ```
+
+   Красный smoke сначала классифицируй по `benchmark-failure-triage`: setup/import или
+   `infrastructure_failure` не объявляй ошибкой модели. Для изменённого skill-arm после правок
+   обязательно обнови pin и пересмокай arm.
+6. **Только после зелёных проверок подключи профиль** в `configs/desired.yaml`:
+
+   ```yaml
+   defaults:
+     profile: configs/profiles/<profile-id>.yaml
+   ```
+
+   Для отдельного эксперимента профиль указывается в его блоке `experiments[].profile`. Не смешивай
+   `profile` с `agent`, `provider`, `model` или `thinking`: это частично переопределённая конфигурация.
+7. **Перед запуском fleet** выполни `uv run python -m benchmark fleet validate --config configs/desired.yaml`,
+   затем `fleet plan`. Профиль считается добавленным только когда `profile validate`, smoke и desired
+   validation успешны; после этого можно запускать daemon или полный benchmark.
+
+Подробные варианты запуска, resume и systemd находятся в [docs/fleet-autopilot.md](docs/fleet-autopilot.md).
 
 ## graphify
 
