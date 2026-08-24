@@ -9,7 +9,7 @@ from typing import Any
 
 from benchmark.arms import get_arm
 from benchmark.paths import ACTIVATION_MARKER
-from benchmark.versions import copy_arm_skills
+from benchmark.versions import copy_arm_agents_file, copy_arm_skills
 
 _ORIG_SETUP = None
 _ORIG_SAVE = None
@@ -105,6 +105,23 @@ def install_skill_hook() -> None:
         codex_home = self.tmp_dir / ".codex"
         codex_home.mkdir(parents=True, exist_ok=True)
         _LAST_MARKER = copy_arm_skills(arm, skills_root, codex_home=codex_home)
+        agents_path = self.tmp_dir / "AGENTS.md"
+        agents_marker = copy_arm_agents_file(arm, agents_path)
+        if agents_marker.get("agents_file_present"):
+            _LAST_MARKER.update(agents_marker)
+            _LAST_MARKER["activation_mechanism"] = (
+                f"{_LAST_MARKER['activation_mechanism']}+workspace_agents_mount"
+            )
+            if not agents_marker.get("agents_file_verified"):
+                _LAST_MARKER["harness_activation_verified"] = False
+            volumes[str(agents_path)] = {
+                "bind": "/workspace/AGENTS.md",
+                "mode": "ro",
+            }
+            (codex_home / ACTIVATION_MARKER).write_text(
+                json.dumps(_LAST_MARKER, indent=2) + "\n",
+                encoding="utf-8",
+            )
         volumes[str(skills_root)] = {
             "bind": f"{HOME_PATH}/.config/opencode/skills",
             "mode": "rw",
