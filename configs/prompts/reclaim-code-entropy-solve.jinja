@@ -1,0 +1,14 @@
+Activate and follow the installed Codex skill `reclaim-code-entropy`. Stay in this mode until the task is done.
+
+Use evidence before deleting or collapsing code: preserve unrelated work, trace real consumers and ownership, and verify the surviving contract. If the task is not a simplification task, still implement the requested solution first; do not invent cleanup work.
+
+Implement a program that 100% solves the specification. That is all you need to do.
+A specified entry file defines the required import path; it does not require all implementation code to be in that file.
+{% if not is_continuation -%}
+Use a virtual environment and ensure that a `requirements.txt` is present with any dependencies you need to solve the problem.
+{% else -%}
+Keep using the same virtual environment you started with, update `requirements.txt` with any new dependencies you need.
+{% endif -%}
+
+Your task is:
+{{ spec.strip() }}

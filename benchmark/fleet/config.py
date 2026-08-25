@@ -20,7 +20,7 @@ from benchmark.paths import CONFIGS_DIR
 from benchmark.profiles import load_profile
 
 DEFAULT_DESIRED_PATH = CONFIGS_DIR / "desired.yaml"
-SAFE_ID_CHARS = frozenset("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789_-.:")
+SAFE_ID_CHARS = frozenset("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789_-.:+")
 SELECTION_FIELDS = ("agent", "provider", "model", "thinking")
 
 

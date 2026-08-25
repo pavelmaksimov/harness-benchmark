@@ -57,6 +57,9 @@ Failed CP counts checkpoints that failed at least once, including repaired ones.
 
 | Experiment | Date | Problem | Agent | Model | N | Report |
 |------------|------|---------|-------|-------|---|--------|
+| realworld-opencode-x-preview-f-free-high-harnesses-retry-b | 2026-08-25 | realworld | opencode | x-preview-f-free | 0+0 | [short](reports/realworld-opencode-x-preview-f-free-high-harnesses-retry-b.md) |
+| realworld-opencode-x-preview-f-free-high-harnesses-retry | 2026-08-25 | realworld | opencode | x-preview-f-free | 0+0 | [short](reports/realworld-opencode-x-preview-f-free-high-harnesses-retry.md) |
+| realworld-opencode-x-preview-f-free-high-harnesses | 2026-08-24 | realworld | opencode | x-preview-f-free | 0+0 | [short](reports/realworld-opencode-x-preview-f-free-high-harnesses.md) |
 | realworld-opencode-x-preview-f-free-high-all-20260822-1838 | 2026-08-22 | realworld | opencode | x-preview-f-free | 1+1+1+1+1+1+1+1+1+1+1 | [short](reports/realworld-opencode-x-preview-f-free-high-all-20260822-1838.md) |
 | pilot-feedback-v1-task_manager-20260822 | 2026-08-22 | task_manager | opencode | x-preview-f-free | 2 | [short](reports/pilot-feedback-v1-task_manager-20260822.md) |
 | realworld-opencode-x-preview-f-free-high-combinations-20260822 | 2026-08-22 | realworld | opencode | x-preview-f-free | 1+1+1+1 | [short](reports/realworld-opencode-x-preview-f-free-high-combinations-20260822.md) |

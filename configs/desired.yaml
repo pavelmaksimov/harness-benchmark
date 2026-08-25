@@ -12,17 +12,34 @@ defaults:
 
 harnesses:
   python-harness: {}
-  # Example for a not-yet-wired arm:
-  # my-new-tool:
-  #   source: "https://github.com/org/my-tool tag v1.2.3"
-  #   install: "uv tool install my-tool==1.2.3"
-  #   expect:
-  #     - "my-tool-docs/"
+  benjamin-plus-skill:
+    source: "https://github.com/JetBrains/benjamin-plus-skill @ 532771be5687566b12a9f62e17fbe7ad3591518c"
+    install:
+      - "copy RULESET.md to harnesses/benjamin-plus-skill/skill/SKILL.md"
+      - "copy injected-instruction.md to harnesses/benjamin-plus-skill/AGENTS.md"
+  reclaim-code-entropy:
+    source: "https://github.com/Yevanchen/reclaim-code-entropy @ 9e6482e45814076b9710b55c8dcbb064ba4b7977"
+    install: "copy skills/reclaim-code-entropy to harnesses/reclaim-code-entropy/skill"
+  python-harness+ponytail+tdd+graphify+benjamin-plus-skill+reclaim-code-entropy:
+    source: "local bundle of the six registered harness payloads"
+    install: "compose harnesses/<name>/skills from the registered component pins"
 
-experiments: []
-# Example:
-# - id: tm-opencode-oxalpha-high
-#   problem: task_manager
-#   arms: [baseline, python-harness]
-#   runs: 3
-#   jobs: 5
+experiments:
+  # First launch: split the four requested arms between two independent
+  # experiments while keeping the same high profile and immutable identities.
+  - id: realworld-opencode-x-preview-f-free-high-harnesses-retry
+    problem: realworld
+    profile: configs/profiles/opencode-x-preview-f-free-high.yaml
+    arms: [python-harness, benjamin-plus-skill]
+    runs: 1
+    jobs: 5
+    transient_retries: 2
+  - id: realworld-opencode-x-preview-f-free-high-harnesses-retry-b
+    problem: realworld
+    profile: configs/profiles/opencode-x-preview-f-free-high.yaml
+    arms:
+      - reclaim-code-entropy
+      - python-harness+ponytail+tdd+graphify+benjamin-plus-skill+reclaim-code-entropy
+    runs: 1
+    jobs: 5
+    transient_retries: 2
