@@ -113,6 +113,8 @@ def test_monitor_does_not_start_completed_experiment(tmp_path, monkeypatch) -> N
 
     assert monitor.run_monitor(config) == 0
     assert called.value is False
+    result = json.loads((monitor.RESULTS_DIR / config.experiment_id / ".monitor-result.json").read_text())
+    assert result["status"] == "complete"
 
 
 def test_monitor_maps_orphan_container_to_infer_workspace(tmp_path, monkeypatch) -> None:
@@ -151,3 +153,34 @@ def test_monitor_maps_orphan_container_to_infer_workspace(tmp_path, monkeypatch)
 
     assert [container.name for container in containers] == ["benchmark-agent"]
     assert containers[0].source == str(workspace)
+
+
+def test_monitor_persists_human_required_after_restart_budget(tmp_path, monkeypatch) -> None:
+    results_dir = tmp_path / "results"
+    monkeypatch.setattr(monitor, "RESULTS_DIR", results_dir)
+    config = _config(tmp_path, max_restarts=1)
+    commands: list[list[str]] = []
+
+    class FailedPopen:
+        _next_pid = 510_000
+
+        def __init__(self, command, **_kwargs):
+            commands.append(list(command))
+            _write_state(config, complete=False)
+            self.pid = FailedPopen._next_pid
+            FailedPopen._next_pid += 1
+            self.returncode = 3
+
+        def poll(self):
+            return self.returncode
+
+        def wait(self, timeout=None):
+            return self.returncode
+
+    monkeypatch.setattr(monitor.subprocess, "Popen", FailedPopen)
+
+    assert monitor.run_monitor(config) == 3
+    result = json.loads((results_dir / config.experiment_id / ".monitor-result.json").read_text())
+    assert result["status"] == "needs-human"
+    assert result["return_code"] == 3
+    assert len(commands) == 2

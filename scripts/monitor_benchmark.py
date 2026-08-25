@@ -51,6 +51,7 @@ class MonitorConfig:
     log_path: Path
     transient_retries: int | None = None
     feedback_strategy: str | None = None
+    desired_fingerprint: str | None = None
 
 
 @dataclass(frozen=True)
@@ -92,6 +93,33 @@ def _log(path: Path, message: str) -> None:
             stream.write(line + "\n")
     except OSError as exc:
         print(f"[{_timestamp()}] cannot write monitor log {path}: {exc}", flush=True)
+
+
+def _monitor_result_path(config: MonitorConfig) -> Path:
+    return RESULTS_DIR / config.experiment_id / ".monitor-result.json"
+
+
+def _write_monitor_result(config: MonitorConfig, *, status: str, return_code: int, reason: str) -> None:
+    path = _monitor_result_path(config)
+    path.parent.mkdir(parents=True, exist_ok=True)
+    temporary = path.with_name(f".{path.name}.tmp")
+    temporary.write_text(
+        json.dumps(
+            {
+                "status": status,
+                "return_code": return_code,
+                "reason": reason,
+                "experiment_id": config.experiment_id,
+                "desired_fingerprint": config.desired_fingerprint,
+                "updated_at": _timestamp(),
+            },
+            indent=2,
+            sort_keys=True,
+        )
+        + "\n",
+        encoding="utf-8",
+    )
+    temporary.replace(path)
 
 
 def _read_json_dict(path: Path) -> dict[str, object] | None:
@@ -408,6 +436,18 @@ def _matching_processes_from(previous: Sequence[ProcessInfo]) -> list[ProcessInf
     return live
 
 
+def _activity_mtime(config: MonitorConfig) -> float:
+    latest = 0.0
+    experiment_dir = RESULTS_DIR / config.experiment_id
+    for pattern in ("**/state.json", "**/infer.log", "**/scb_run.log", "**/run_info.yaml"):
+        for path in experiment_dir.glob(pattern):
+            try:
+                latest = max(latest, path.stat().st_mtime)
+            except OSError:
+                continue
+    return latest
+
+
 def _wait_for_quiescence(
     config: MonitorConfig,
     *,
@@ -417,6 +457,7 @@ def _wait_for_quiescence(
     """Do not launch a resume while the old process tree is still alive."""
     poll_interval = min(config.interval, 300.0)
     deadline = time.monotonic() + config.orphan_timeout
+    activity_mtime = _activity_mtime(config)
     warned = False
     while True:
         processes = _matching_processes(config.experiment_id)
@@ -424,6 +465,12 @@ def _wait_for_quiescence(
         group_alive = _process_group_exists(process_group)
         if not group_alive and not processes and not containers:
             return
+        current_activity = _activity_mtime(config)
+        if current_activity > activity_mtime:
+            activity_mtime = current_activity
+            deadline = time.monotonic() + config.orphan_timeout
+            if warned:
+                _log(log_path, "benchmark process tree is active; extending orphan grace period")
         if not warned:
             details = ", ".join(f"{item.pid}: {item.command}" for item in processes[:3])
             if containers:
@@ -520,6 +567,10 @@ def run_monitor(config: MonitorConfig) -> int:
     experiment_dir = RESULTS_DIR / config.experiment_id
     lock_path = experiment_dir / ".monitor.lock"
     with _monitor_lock(lock_path):
+        def finish(status: str, return_code: int, reason: str) -> int:
+            _write_monitor_result(config, status=status, return_code=return_code, reason=reason)
+            return return_code
+
         _log(
             config.log_path,
             f"monitor started: experiment={config.experiment_id} "
@@ -528,7 +579,7 @@ def run_monitor(config: MonitorConfig) -> int:
         )
         if _completion_status(config)[0] == len(config.arms) * config.runs:
             _log(config.log_path, "all requested slots are already complete; nothing to run")
-            return 0
+            return finish("complete", 0, "all requested slots are complete")
 
         _wait_for_quiescence(config, process_group=None, log_path=config.log_path)
         restarts = 0
@@ -537,7 +588,7 @@ def run_monitor(config: MonitorConfig) -> int:
             completed, total, _ = _completion_status(config)
             if completed == total:
                 _log(config.log_path, "benchmark complete")
-                return 0
+                return finish("complete", 0, "all requested slots are complete")
 
             _wait_for_quiescence(config, process_group=None, log_path=config.log_path)
             resume = _has_recorded_state(config)
@@ -579,14 +630,18 @@ def run_monitor(config: MonitorConfig) -> int:
             )
             if completed == total:
                 _log(config.log_path, "benchmark complete")
-                return 0
+                return finish("complete", 0, "all requested slots are complete")
             if config.max_restarts and restarts >= config.max_restarts:
                 _log(
                     config.log_path,
                     f"restart limit reached ({config.max_restarts}); "
                     f"leaving incomplete results for manual triage",
                 )
-                return return_code or 1
+                return finish(
+                    "needs-human",
+                    return_code or 1,
+                    f"restart limit reached ({config.max_restarts}); incomplete results require triage",
+                )
 
             restarts += 1
             next_mode = "resume" if _has_recorded_state(config) else "fresh"
@@ -652,6 +707,7 @@ def _parser() -> argparse.ArgumentParser:
     parser.add_argument("--rework-attempts", type=_non_negative_int, default=None)
     parser.add_argument("--transient-retries", type=_non_negative_int, default=None)
     parser.add_argument("--feedback-strategy", default=None)
+    parser.add_argument("--desired-fingerprint", default=None)
     parser.add_argument("--skip-smoke-check", action="store_true")
     parser.add_argument(
         "--interval",
@@ -713,6 +769,7 @@ def main(argv: Sequence[str] | None = None) -> int:
         log_path=log_path,
         transient_retries=args.transient_retries,
         feedback_strategy=args.feedback_strategy,
+        desired_fingerprint=args.desired_fingerprint,
     )
     try:
         return run_monitor(config)

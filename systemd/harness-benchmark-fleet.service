@@ -8,10 +8,13 @@ StartLimitIntervalSec=0
 Type=simple
 WorkingDirectory=%h/my/harness-benchmark
 Environment=PATH=%h/.local/bin:%h/.nvm/versions/node/v22.17.1/bin:/usr/local/bin:/usr/bin:/bin
-Environment="HB_FLEET_ONBOARD_COMMAND=codex exec --approve-for-me --skip-git-repo-check"
-ExecStart=%h/.local/bin/uv run python -m benchmark fleet --config configs/desired.yaml
+Environment=PYTHONUNBUFFERED=1
+Environment=UV_CACHE_DIR=/tmp/harness-benchmark-uv-cache
+ExecStart=%h/my/harness-benchmark/.venv/bin/python3 -m benchmark fleet --config configs/desired.yaml
+KillMode=control-group
 Restart=always
 RestartSec=15
+TimeoutStopSec=30
 
 [Install]
 WantedBy=default.target

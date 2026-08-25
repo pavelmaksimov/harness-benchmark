@@ -8,7 +8,7 @@ import yaml
 
 from benchmark.catalog import catalog_snapshot, validate_desired
 from benchmark.fleet.config import load_desired
-from benchmark.fleet.planner import build_plan
+from benchmark.fleet.planner import _is_live_monitor_command, build_plan
 from benchmark.notify import DeliveryResult, notify_experiment_completion, notify_human
 from benchmark.profiles import load_profile, validate_profile
 
@@ -163,6 +163,45 @@ def test_planner_blocks_selection_change(tmp_path: Path) -> None:
 
     assert plan.statuses["exp/baseline/run_1"] == "blocked-human"
     assert any(action.kind == "ticket" for action in plan.actions)
+
+
+def test_planner_does_not_confuse_scb_worker_with_live_monitor() -> None:
+    assert _is_live_monitor_command("python scripts/monitor_benchmark.py --experiment-id exp", "exp")
+    assert not _is_live_monitor_command(
+        "python -m benchmark.scb_main run --experiment-id exp", "exp"
+    )
+
+
+def test_planner_tickets_persistent_monitor_failure(tmp_path: Path) -> None:
+    config_path = tmp_path / "desired.yaml"
+    _desired(config_path, runs=1)
+    desired = load_desired(config_path)
+    experiment_dir = tmp_path / "results" / "exp"
+    experiment_dir.mkdir(parents=True)
+    (experiment_dir / ".monitor-result.json").write_text(
+        json.dumps(
+            {
+                "status": "needs-human",
+                "reason": "restart limit reached",
+                "desired_fingerprint": desired.experiments[0].fingerprint(),
+            }
+        ),
+        encoding="utf-8",
+    )
+
+    plan = build_plan(desired, results_dir=tmp_path / "results", ops_dir=tmp_path / "ops")
+
+    assert plan.statuses["exp/baseline/run_1"] == "blocked-human"
+    assert any(action.kind == "ticket" for action in plan.actions)
+
+    ops_dir = tmp_path / "ops" / "needs-human"
+    ops_dir.mkdir(parents=True)
+    (ops_dir / "monitor.md").write_text(
+        "experiment=exp\narm=experiment\nresolved: false\n", encoding="utf-8"
+    )
+    blocked_plan = build_plan(desired, results_dir=tmp_path / "results", ops_dir=tmp_path / "ops")
+    assert blocked_plan.statuses["exp/baseline/run_1"] == "blocked-human"
+    assert not any(action.kind == "ticket" for action in blocked_plan.actions)
 
 
 def test_planner_onboards_registered_arm_with_missing_payload(

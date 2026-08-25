@@ -110,6 +110,8 @@ def _monitor_command(experiment: ExperimentTarget, *, log_path: Path) -> list[st
         str(log_path),
         "--max-restarts",
         str(experiment.max_restarts),
+        "--desired-fingerprint",
+        experiment.fingerprint(),
     ]
     if experiment.feedback_strategy:
         command.extend(["--feedback-strategy", experiment.feedback_strategy])
@@ -221,6 +223,11 @@ def fleet_cycle(
             continue
         _onboard(action, desired, ops_dir=ops_dir)
         onboarded.add(action.arm or "")
+
+    if onboarded:
+        # Onboarding writes the smoke marker; replan now so --once also starts
+        # the monitor in the same cycle instead of waiting for a second tick.
+        plan = build_plan(desired, results_dir=results_dir, ops_dir=ops_dir)
 
     if start_monitors:
         started: set[str] = set()
