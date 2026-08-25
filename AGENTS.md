@@ -6,6 +6,10 @@
 
 Запуск автоматического benchmark fleet - docs/fleet-autopilot.md
 
+Для запросов о статусе, прогрессе, медленных или незавершённых экспериментах сначала
+используй [docs/experiment-status.md](docs/experiment-status.md): это быстрый read-only
+runbook по `state.json`, checkpoint-артефактам, monitor и Docker.
+
 ## Cursor rules (обязательные к прочтению)
 
 Правила из `.cursor/rules/` — они применяются Cursor, но агенты вне Cursor должны читать их напрямую. Ключевые для работы с бенчмарком:
