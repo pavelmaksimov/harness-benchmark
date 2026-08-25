@@ -14,6 +14,7 @@ Failed CP counts checkpoints that failed at least once, including repaired ones.
 
 | Agent | Model | Harness | N | CP | Failed CP | Repeated | Reg | Create in | Create out | Rework in | Rework out | Cost | Time | LOC | Py modules | ΔLOC | Deps | Cx |
 |-------|-------|---------|--:|--:|----------:|----------:|----:|----------:|-----------:|----------:|-----------:|-----:|-----:|----:|----------:|-----:|-----:|---:|
+| opencode | x-preview-f-free | python-harness | 1 | 14/14 | 2 | 3 | 0 | 725,810 | 80,603 | 144,495 | 27,421 | $0.00 | 95.8m | 3357 | 49 | 9125 | 10 | 968 |
 | opencode | x-preview-f-free | baseline | 2 | 14/14 | 1.5 | 1.5 | 0 | 261,474 | 39,124 | 0 | 0 | $0.00 | 47.8m | 940.5 | 4.5 | 1111 | 5.5 | 209.5 |
 | opencode | x-preview-f-free | combo-supermemory-graphify | 2 | 14/14 | 2 | 2.5 | 0 | 378,424 | 55,019 | 48,955 | 8,562 | $0.00 | 75.3m | 1094 | 6.5 | 1064.5 | 6 | 228 |
 | opencode | x-preview-f-free | combo-supermemory-graphify-ponytail-thermo-nuclear-code-quality-review | 2 | 14/14 | 1 | 1 | 0 | 291,872 | 42,498 | 12,551 | 3,392 | $0.00 | 54.6m | 918 | 5.5 | 1046 | 5 | 248 |
@@ -39,6 +40,7 @@ Failed CP counts checkpoints that failed at least once, including repaired ones.
 
 | Problem | Agent | Harness | N | CP | Failed CP | Repeated | Reg | Create in | Create out | Rework in | Rework out | Cost | Time | LOC | Py modules | ΔLOC | Deps | Cx |
 |---------|-------|---------|--:|--:|----------:|----------:|----:|----------:|-----------:|----------:|-----------:|-----:|-----:|----:|----------:|-----:|-----:|---:|
+| realworld | opencode | python-harness | 1 | 14/14 | 2 | 3 | 0 | 725,810 | 80,603 | 144,495 | 27,421 | $0.00 | 95.8m | 3357 | 49 | 9125 | 10 | 968 |
 | realworld | opencode | baseline | 2 | 14/14 | 1.5 | 1.5 | 0 | 261,474 | 39,124 | 0 | 0 | $0.00 | 47.8m | 940.5 | 4.5 | 1111 | 5.5 | 209.5 |
 | realworld | opencode | combo-supermemory-graphify | 2 | 14/14 | 2 | 2.5 | 0 | 378,424 | 55,019 | 48,955 | 8,562 | $0.00 | 75.3m | 1094 | 6.5 | 1064.5 | 6 | 228 |
 | realworld | opencode | combo-supermemory-graphify-ponytail-thermo-nuclear-code-quality-review | 2 | 14/14 | 1 | 1 | 0 | 291,872 | 42,498 | 12,551 | 3,392 | $0.00 | 54.6m | 918 | 5.5 | 1046 | 5 | 248 |
@@ -57,8 +59,8 @@ Failed CP counts checkpoints that failed at least once, including repaired ones.
 
 | Experiment | Date | Problem | Agent | Model | N | Report |
 |------------|------|---------|-------|-------|---|--------|
+| realworld-opencode-x-preview-f-free-high-harnesses-retry | 2026-08-25 | realworld | opencode | x-preview-f-free | 1 | [short](reports/realworld-opencode-x-preview-f-free-high-harnesses-retry.md) |
 | realworld-opencode-x-preview-f-free-high-harnesses-retry-b | 2026-08-25 | realworld | opencode | x-preview-f-free | 0+0 | [short](reports/realworld-opencode-x-preview-f-free-high-harnesses-retry-b.md) |
-| realworld-opencode-x-preview-f-free-high-harnesses-retry | 2026-08-25 | realworld | opencode | x-preview-f-free | 0+0 | [short](reports/realworld-opencode-x-preview-f-free-high-harnesses-retry.md) |
 | realworld-opencode-x-preview-f-free-high-harnesses | 2026-08-24 | realworld | opencode | x-preview-f-free | 0+0 | [short](reports/realworld-opencode-x-preview-f-free-high-harnesses.md) |
 | realworld-opencode-x-preview-f-free-high-all-20260822-1838 | 2026-08-22 | realworld | opencode | x-preview-f-free | 1+1+1+1+1+1+1+1+1+1+1 | [short](reports/realworld-opencode-x-preview-f-free-high-all-20260822-1838.md) |
 | pilot-feedback-v1-task_manager-20260822 | 2026-08-22 | task_manager | opencode | x-preview-f-free | 2 | [short](reports/pilot-feedback-v1-task_manager-20260822.md) |
@@ -86,12 +88,13 @@ Higher is better. Passed and total checkpoints for the published cell.
 | 5 | realworld | x-preview-f-free | combo-supermemory-graphify-ponytail-thermo-nuclear-code-quality-review-tdd | 14/14 |
 | 6 | realworld | x-preview-f-free | doorstop | 14/14 |
 | 7 | realworld | x-preview-f-free | graphify | 14/14 |
-| 8 | realworld | x-preview-f-free | strictdoc | 14/14 |
-| 9 | realworld | x-preview-f-free | supermemory | 14/14 |
-| 10 | realworld | x-preview-f-free | tdd | 14/14 |
-| 11 | realworld | x-preview-f-free | ponytail | 13.5/14 |
-| 12 | realworld | x-preview-f-free | combo-supermemory-graphify-ponytail-thermo-nuclear-code-quality-review-doorstop-tdd | 13/14 |
-| 13 | realworld | x-preview-f-free | thermo-nuclear-code-quality-review | 9.5/14 |
+| 8 | realworld | x-preview-f-free | python-harness | 14/14 |
+| 9 | realworld | x-preview-f-free | strictdoc | 14/14 |
+| 10 | realworld | x-preview-f-free | supermemory | 14/14 |
+| 11 | realworld | x-preview-f-free | tdd | 14/14 |
+| 12 | realworld | x-preview-f-free | ponytail | 13.5/14 |
+| 13 | realworld | x-preview-f-free | combo-supermemory-graphify-ponytail-thermo-nuclear-code-quality-review-doorstop-tdd | 13/14 |
+| 14 | realworld | x-preview-f-free | thermo-nuclear-code-quality-review | 9.5/14 |
 
 ### Failed checkpoints
 
@@ -107,11 +110,12 @@ Lower is better. Number of checkpoints that failed at least once, including repa
 | 6 | realworld | x-preview-f-free | supermemory | 1.5 |
 | 7 | realworld | x-preview-f-free | combo-supermemory-graphify | 2 |
 | 8 | realworld | x-preview-f-free | ponytail | 2 |
-| 9 | realworld | x-preview-f-free | tdd | 2 |
-| 10 | realworld | x-preview-f-free | strictdoc | 2.5 |
-| 11 | task_manager | x-preview-f-free | baseline | 2.7 |
-| 12 | realworld | x-preview-f-free | combo-supermemory-graphify-ponytail-thermo-nuclear-code-quality-review-doorstop-tdd | 3 |
-| 13 | realworld | x-preview-f-free | thermo-nuclear-code-quality-review | 6.5 |
+| 9 | realworld | x-preview-f-free | python-harness | 2 |
+| 10 | realworld | x-preview-f-free | tdd | 2 |
+| 11 | realworld | x-preview-f-free | strictdoc | 2.5 |
+| 12 | task_manager | x-preview-f-free | baseline | 2.7 |
+| 13 | realworld | x-preview-f-free | combo-supermemory-graphify-ponytail-thermo-nuclear-code-quality-review-doorstop-tdd | 3 |
+| 14 | realworld | x-preview-f-free | thermo-nuclear-code-quality-review | 6.5 |
 
 ### Repeated attempts
 
@@ -128,10 +132,11 @@ Lower is better. Additional semantic attempts after the initial attempt.
 | 7 | realworld | x-preview-f-free | supermemory | 2.5 |
 | 8 | realworld | x-preview-f-free | tdd | 2.5 |
 | 9 | realworld | x-preview-f-free | ponytail | 3 |
-| 10 | task_manager | x-preview-f-free | baseline | 3 |
-| 11 | realworld | x-preview-f-free | strictdoc | 4 |
-| 12 | realworld | x-preview-f-free | combo-supermemory-graphify-ponytail-thermo-nuclear-code-quality-review-doorstop-tdd | 6 |
-| 13 | realworld | x-preview-f-free | thermo-nuclear-code-quality-review | 15.5 |
+| 10 | realworld | x-preview-f-free | python-harness | 3 |
+| 11 | task_manager | x-preview-f-free | baseline | 3 |
+| 12 | realworld | x-preview-f-free | strictdoc | 4 |
+| 13 | realworld | x-preview-f-free | combo-supermemory-graphify-ponytail-thermo-nuclear-code-quality-review-doorstop-tdd | 6 |
+| 14 | realworld | x-preview-f-free | thermo-nuclear-code-quality-review | 15.5 |
 
 ### Regressions
 
@@ -147,11 +152,12 @@ Lower is better. Regression tests failing in the final checkpoint evaluations.
 | 6 | realworld | x-preview-f-free | doorstop | 0 |
 | 7 | realworld | x-preview-f-free | graphify | 0 |
 | 8 | realworld | x-preview-f-free | ponytail | 0 |
-| 9 | realworld | x-preview-f-free | strictdoc | 0 |
-| 10 | realworld | x-preview-f-free | supermemory | 0 |
-| 11 | realworld | x-preview-f-free | tdd | 0 |
-| 12 | realworld | x-preview-f-free | thermo-nuclear-code-quality-review | 0 |
-| 13 | task_manager | x-preview-f-free | baseline | 1.7 |
+| 9 | realworld | x-preview-f-free | python-harness | 0 |
+| 10 | realworld | x-preview-f-free | strictdoc | 0 |
+| 11 | realworld | x-preview-f-free | supermemory | 0 |
+| 12 | realworld | x-preview-f-free | tdd | 0 |
+| 13 | realworld | x-preview-f-free | thermo-nuclear-code-quality-review | 0 |
+| 14 | task_manager | x-preview-f-free | baseline | 1.7 |
 
 ### Creation input tokens
 
@@ -171,7 +177,8 @@ Lower is better. Input tokens used by initial checkpoint attempts.
 | 10 | realworld | x-preview-f-free | strictdoc | 398,588 |
 | 11 | realworld | x-preview-f-free | graphify | 484,474 |
 | 12 | realworld | x-preview-f-free | combo-supermemory-graphify-ponytail-thermo-nuclear-code-quality-review-doorstop-tdd | 706,788 |
-| 13 | task_manager | x-preview-f-free | baseline | 900,910 |
+| 13 | realworld | x-preview-f-free | python-harness | 725,810 |
+| 14 | task_manager | x-preview-f-free | baseline | 900,910 |
 
 ### Creation output tokens
 
@@ -191,7 +198,8 @@ Lower is better. Output tokens used by initial checkpoint attempts.
 | 10 | realworld | x-preview-f-free | thermo-nuclear-code-quality-review | 62,509 |
 | 11 | realworld | x-preview-f-free | strictdoc | 62,940 |
 | 12 | realworld | x-preview-f-free | doorstop | 66,256 |
-| 13 | task_manager | x-preview-f-free | baseline | 202,798 |
+| 13 | realworld | x-preview-f-free | python-harness | 80,603 |
+| 14 | task_manager | x-preview-f-free | baseline | 202,798 |
 
 ### Rework input tokens
 
@@ -211,7 +219,8 @@ Lower is better. Input tokens used by semantic rework attempts.
 | 10 | realworld | x-preview-f-free | supermemory | 48,913 |
 | 11 | realworld | x-preview-f-free | combo-supermemory-graphify | 48,955 |
 | 12 | realworld | x-preview-f-free | thermo-nuclear-code-quality-review | 90,941 |
-| 13 | realworld | x-preview-f-free | combo-supermemory-graphify-ponytail-thermo-nuclear-code-quality-review-doorstop-tdd | 309,366 |
+| 13 | realworld | x-preview-f-free | python-harness | 144,495 |
+| 14 | realworld | x-preview-f-free | combo-supermemory-graphify-ponytail-thermo-nuclear-code-quality-review-doorstop-tdd | 309,366 |
 
 ### Rework output tokens
 
@@ -231,7 +240,8 @@ Lower is better. Output tokens used by semantic rework attempts.
 | 10 | realworld | x-preview-f-free | combo-supermemory-graphify | 8,562 |
 | 11 | realworld | x-preview-f-free | supermemory | 12,466 |
 | 12 | realworld | x-preview-f-free | thermo-nuclear-code-quality-review | 18,577 |
-| 13 | realworld | x-preview-f-free | combo-supermemory-graphify-ponytail-thermo-nuclear-code-quality-review-doorstop-tdd | 39,710 |
+| 13 | realworld | x-preview-f-free | python-harness | 27,421 |
+| 14 | realworld | x-preview-f-free | combo-supermemory-graphify-ponytail-thermo-nuclear-code-quality-review-doorstop-tdd | 39,710 |
 
 ### Normalized cost
 
@@ -247,11 +257,12 @@ Lower is better. Cost normalized with the versioned pricing configuration.
 | 6 | realworld | x-preview-f-free | doorstop | $0.00 |
 | 7 | realworld | x-preview-f-free | graphify | $0.00 |
 | 8 | realworld | x-preview-f-free | ponytail | $0.00 |
-| 9 | realworld | x-preview-f-free | strictdoc | $0.00 |
-| 10 | realworld | x-preview-f-free | supermemory | $0.00 |
-| 11 | realworld | x-preview-f-free | tdd | $0.00 |
-| 12 | realworld | x-preview-f-free | thermo-nuclear-code-quality-review | $0.00 |
-| 13 | task_manager | x-preview-f-free | baseline | $0.00 |
+| 9 | realworld | x-preview-f-free | python-harness | $0.00 |
+| 10 | realworld | x-preview-f-free | strictdoc | $0.00 |
+| 11 | realworld | x-preview-f-free | supermemory | $0.00 |
+| 12 | realworld | x-preview-f-free | tdd | $0.00 |
+| 13 | realworld | x-preview-f-free | thermo-nuclear-code-quality-review | $0.00 |
+| 14 | task_manager | x-preview-f-free | baseline | $0.00 |
 
 ### Elapsed time
 
@@ -270,8 +281,9 @@ Lower is better. Sum of agent inference time across checkpoints.
 | 9 | realworld | x-preview-f-free | doorstop | 72.5m |
 | 10 | realworld | x-preview-f-free | combo-supermemory-graphify | 75.3m |
 | 11 | realworld | x-preview-f-free | thermo-nuclear-code-quality-review | 83.5m |
-| 12 | realworld | x-preview-f-free | combo-supermemory-graphify-ponytail-thermo-nuclear-code-quality-review-doorstop-tdd | 161.6m |
-| 13 | task_manager | x-preview-f-free | baseline | 215.6m |
+| 12 | realworld | x-preview-f-free | python-harness | 95.8m |
+| 13 | realworld | x-preview-f-free | combo-supermemory-graphify-ponytail-thermo-nuclear-code-quality-review-doorstop-tdd | 161.6m |
+| 14 | task_manager | x-preview-f-free | baseline | 215.6m |
 
 ### Final LOC
 
@@ -291,7 +303,8 @@ Descriptive. Lines of solution code in the final snapshot.
 | 10 | realworld | x-preview-f-free | combo-supermemory-graphify-ponytail-thermo-nuclear-code-quality-review-tdd | 1745 |
 | 11 | realworld | x-preview-f-free | combo-supermemory-graphify-ponytail-thermo-nuclear-code-quality-review-doorstop-tdd | 1861 |
 | 12 | realworld | x-preview-f-free | tdd | 2536.5 |
-| 13 | task_manager | x-preview-f-free | baseline | 4686.7 |
+| 13 | realworld | x-preview-f-free | python-harness | 3357 |
+| 14 | task_manager | x-preview-f-free | baseline | 4686.7 |
 
 ### Python modules
 
@@ -312,6 +325,7 @@ Descriptive. Python source modules in the final snapshot.
 | 11 | realworld | x-preview-f-free | combo-supermemory-graphify-ponytail-thermo-nuclear-code-quality-review-doorstop-tdd | 16 |
 | 12 | realworld | x-preview-f-free | combo-supermemory-graphify-ponytail-thermo-nuclear-code-quality-review-tdd | 16.5 |
 | 13 | realworld | x-preview-f-free | tdd | 19 |
+| 14 | realworld | x-preview-f-free | python-harness | 49 |
 
 ### Changed LOC
 
@@ -332,6 +346,7 @@ Lower is better as a churn measure. Lines changed from the initial snapshot.
 | 11 | realworld | x-preview-f-free | combo-supermemory-graphify-ponytail-thermo-nuclear-code-quality-review-tdd | 2001 |
 | 12 | realworld | x-preview-f-free | tdd | 2797 |
 | 13 | task_manager | x-preview-f-free | baseline | 5738.3 |
+| 14 | realworld | x-preview-f-free | python-harness | 9125 |
 
 ### Dependencies
 
@@ -349,9 +364,10 @@ Lower is better as a complexity measure. Dependencies added by the solution.
 | 8 | realworld | x-preview-f-free | combo-supermemory-graphify | 6 |
 | 9 | realworld | x-preview-f-free | combo-supermemory-graphify-ponytail-thermo-nuclear-code-quality-review-tdd | 6 |
 | 10 | realworld | x-preview-f-free | thermo-nuclear-code-quality-review | 6 |
-| 11 | realworld | x-preview-f-free | supermemory | 14.5 |
-| 12 | realworld | x-preview-f-free | ponytail | 15 |
-| 13 | realworld | x-preview-f-free | tdd | 18.5 |
+| 11 | realworld | x-preview-f-free | python-harness | 10 |
+| 12 | realworld | x-preview-f-free | supermemory | 14.5 |
+| 13 | realworld | x-preview-f-free | ponytail | 15 |
+| 14 | realworld | x-preview-f-free | tdd | 18.5 |
 
 ### Complexity
 
@@ -372,3 +388,4 @@ Lower is better. Measured code complexity in the final snapshot.
 | 11 | realworld | x-preview-f-free | combo-supermemory-graphify-ponytail-thermo-nuclear-code-quality-review-doorstop-tdd | 653 |
 | 12 | realworld | x-preview-f-free | tdd | 748.5 |
 | 13 | task_manager | x-preview-f-free | baseline | 931.7 |
+| 14 | realworld | x-preview-f-free | python-harness | 968 |

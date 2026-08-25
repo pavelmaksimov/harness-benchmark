@@ -2,7 +2,7 @@
   "agent": "opencode",
   "agent_version": "1.14.33",
   "arms": {},
-  "date": "2026-08-25T07:25:51.204624+00:00",
+  "date": "2026-08-25T08:59:14.796229+00:00",
   "deltas": {
     "checkpoints_failed": null,
     "checkpoints_passed": null,
@@ -103,7 +103,7 @@
   "experiment_id": "realworld-opencode-x-preview-f-free-high-harnesses-retry-b",
   "feedback_strategy": "current-first",
   "git_commits": {
-    "harness_benchmark": "b7380f84a092400000b8d29958fca45f950c566e",
+    "harness_benchmark": "561727517799fb9b0ff26f89321bdcd85847ddd9",
     "scb_problems": "ef6a9dd13911566b6b01075ca121758c9f7b5c5f",
     "slop_code_bench": "06b5c0687d4c05ee502e9696a4d0c22fc1eec5e0"
   },
@@ -119,7 +119,7 @@
         "provider": "opencode_auth",
         "rework_attempts": 2,
         "run_index": 1,
-        "stopped_at_checkpoint": "checkpoint_6",
+        "stopped_at_checkpoint": "checkpoint_8",
         "thinking": "high",
         "transient_retries": 2
       }
@@ -135,7 +135,7 @@
         "provider": "opencode_auth",
         "rework_attempts": 2,
         "run_index": 1,
-        "stopped_at_checkpoint": "checkpoint_1",
+        "stopped_at_checkpoint": "checkpoint_5",
         "thinking": "high",
         "transient_retries": 2
       }
