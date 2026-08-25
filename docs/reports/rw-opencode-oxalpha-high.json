@@ -3,6 +3,7 @@
   "agent_version": "1.14.33",
   "arms": {
     "baseline": {
+      "cache_read_tokens": 2396224.0,
       "checkpoints_failed": 3.0,
       "checkpoints_passed": 14.0,
       "checkpoints_total": 14.0,
@@ -14,20 +15,29 @@
       "creation_output_tokens": null,
       "dependencies_added": 5.0,
       "elapsed_time": 2251.535949,
+      "llm_requests": 186.0,
       "loc_changed": 1053.0,
       "loc_final": 976.0,
       "module_count": 5.0,
       "normalized_cost": 0.0,
+      "provider_truncation_unresolved": 0.0,
+      "provider_truncations": 0.0,
       "regression_failures": 0.0,
       "repeated_attempts": 3.0,
       "rework_input_tokens": null,
       "rework_output_tokens": null,
+      "semantic_rework_attempts": 3.0,
       "total_input_tokens": 250689.0,
-      "total_output_tokens": 42406.0
+      "total_output_tokens": 42406.0,
+      "transient_input_tokens": 0.0,
+      "transient_output_tokens": 0.0,
+      "transient_recoveries": 0.0,
+      "transient_retries": 0.0
     }
   },
   "date": "2026-08-21T13:11:26.108751+00:00",
   "deltas": {
+    "cache_read_tokens": null,
     "checkpoints_failed": null,
     "checkpoints_passed": null,
     "checkpoints_total": null,
@@ -39,15 +49,24 @@
     "creation_output_tokens": null,
     "dependencies_added": null,
     "elapsed_time": null,
+    "llm_requests": null,
     "loc_changed": null,
     "loc_final": null,
+    "module_count": null,
     "normalized_cost": null,
+    "provider_truncation_unresolved": null,
+    "provider_truncations": null,
     "regression_failures": null,
     "repeated_attempts": null,
     "rework_input_tokens": null,
     "rework_output_tokens": null,
+    "semantic_rework_attempts": null,
     "total_input_tokens": null,
-    "total_output_tokens": null
+    "total_output_tokens": null,
+    "transient_input_tokens": null,
+    "transient_output_tokens": null,
+    "transient_recoveries": null,
+    "transient_retries": null
   },
   "deltas_by_arm": {},
   "excluded_ponytail_runs": 0,
@@ -55,6 +74,7 @@
     "baseline": 0
   },
   "experiment_id": "rw-opencode-oxalpha-high",
+  "feedback_strategy": null,
   "git_commits": {
     "harness_benchmark": "b4a6f9c5a81e0c136b58f543a7519473c802c929",
     "scb_problems": "ef6a9dd13911566b6b01075ca121758c9f7b5c5f",
@@ -72,13 +92,19 @@
     "baseline": {
       "attempts": 6,
       "fixed": 3,
+      "provider_truncation_unresolved": 0,
+      "provider_truncations": 0,
       "repeated_attempts": 3,
+      "transient_recoveries": 0,
+      "transient_retries": 0,
       "unresolved": 0
     }
   },
+  "rework_attempts": null,
   "rework_details": [
     {
       "arm": "baseline",
+      "attempt_diagnostics": null,
       "cache_read_tokens": 107456,
       "cache_write_tokens": 0,
       "core_failed": 0,
@@ -149,10 +175,13 @@
       "run_id": "rw-opencode-oxalpha-high-baseline-r1-2b4a8335",
       "steps": 10,
       "time": 114.001954,
-      "tokens": 9977
+      "tokens": 9977,
+      "transient_input_tokens": 0,
+      "transient_output_tokens": 0
     },
     {
       "arm": "baseline",
+      "attempt_diagnostics": null,
       "cache_read_tokens": 85632,
       "cache_write_tokens": 0,
       "core_failed": 0,
@@ -223,10 +252,13 @@
       "run_id": "rw-opencode-oxalpha-high-baseline-r1-2b4a8335",
       "steps": 9,
       "time": 68.759045,
-      "tokens": 17068
+      "tokens": 17068,
+      "transient_input_tokens": 0,
+      "transient_output_tokens": 0
     },
     {
       "arm": "baseline",
+      "attempt_diagnostics": null,
       "cache_read_tokens": 365952,
       "cache_write_tokens": 0,
       "core_failed": 0,
@@ -298,8 +330,11 @@
       "run_id": "rw-opencode-oxalpha-high-baseline-r1-2b4a8335",
       "steps": 24,
       "time": 252.778616,
-      "tokens": 23001
+      "tokens": 23001,
+      "transient_input_tokens": 0,
+      "transient_output_tokens": 0
     }
   ],
-  "thinking": "high"
+  "thinking": "high",
+  "transient_retries": null
 }

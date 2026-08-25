@@ -23,11 +23,21 @@ Failed checkpoints include checkpoints repaired by rework; Rework = All - Create
 | Creation output tokens | - |
 | Rework input tokens | - |
 | Rework output tokens | - |
+| Transient input tokens | 0 |
+| Transient output tokens | 0 |
+| Semantic rework attempts | 3 |
+| Transient retries | 0 |
+| Provider truncations | 0 |
+| Transient recoveries | 0 |
+| Truncations unresolved | 0 |
 | All input tokens | 250,689 |
 | All output tokens | 42,406 |
+| Cached tokens | 2,396,224 |
+| LLM requests | 186 |
 | Normalized cost | $0.00 |
 | Elapsed | 37.5m |
 | Final LOC | 976 |
+| Python modules | 5 |
 | Changed LOC | 1053 |
 | Dependencies | 5 |
 | Complexity | 197 |
@@ -35,6 +45,6 @@ Failed checkpoints include checkpoints repaired by rework; Rework = All - Create
 ## Notes
 
 - No paired baseline/harness means to summarize.
-- Rework baseline: 3 repeated attempts (6 total attempts), 3 fixed, 0 unresolved.
+- Rework baseline: 3 semantic retries (6 total attempts), 3 fixed, 0 unresolved.
 
 Raw (local only): `results/rw-opencode-oxalpha-high/`, `reports/rw-opencode-oxalpha-high/`.
