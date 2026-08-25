@@ -3,6 +3,7 @@
   "agent_version": "1.14.33",
   "arms": {
     "baseline": {
+      "cache_read_tokens": 2056896.0,
       "checkpoints_failed": 0.0,
       "checkpoints_passed": 14.0,
       "checkpoints_total": 14.0,
@@ -14,6 +15,7 @@
       "creation_output_tokens": 39124.0,
       "dependencies_added": 6.0,
       "elapsed_time": 3489.137214,
+      "llm_requests": 170.0,
       "loc_changed": 1169.0,
       "loc_final": 905.0,
       "module_count": 4.0,
@@ -33,6 +35,7 @@
       "transient_retries": 0.0
     },
     "combo-supermemory-graphify": {
+      "cache_read_tokens": 6618496.0,
       "checkpoints_failed": 2.0,
       "checkpoints_passed": 14.0,
       "checkpoints_total": 14.0,
@@ -44,6 +47,7 @@
       "creation_output_tokens": 62963.0,
       "dependencies_added": 7.0,
       "elapsed_time": 5324.465164,
+      "llm_requests": 315.0,
       "loc_changed": 909.0,
       "loc_final": 1096.0,
       "module_count": 7.0,
@@ -63,6 +67,7 @@
       "transient_retries": 0.0
     },
     "combo-supermemory-graphify-ponytail-thermo-nuclear-code-quality-review": {
+      "cache_read_tokens": 3034304.0,
       "checkpoints_failed": 2.0,
       "checkpoints_passed": 14.0,
       "checkpoints_total": 14.0,
@@ -74,6 +79,7 @@
       "creation_output_tokens": 40490.0,
       "dependencies_added": 5.0,
       "elapsed_time": 3647.888204,
+      "llm_requests": 215.0,
       "loc_changed": 945.0,
       "loc_final": 968.0,
       "module_count": 5.0,
@@ -93,6 +99,7 @@
       "transient_retries": 0.0
     },
     "combo-supermemory-graphify-ponytail-thermo-nuclear-code-quality-review-tdd": {
+      "cache_read_tokens": 5146496.0,
       "checkpoints_failed": 2.0,
       "checkpoints_passed": 14.0,
       "checkpoints_total": 14.0,
@@ -104,6 +111,7 @@
       "creation_output_tokens": 53728.0,
       "dependencies_added": 6.0,
       "elapsed_time": 3584.269672,
+      "llm_requests": 288.0,
       "loc_changed": 1726.0,
       "loc_final": 1620.0,
       "module_count": 17.0,
@@ -123,6 +131,7 @@
       "transient_retries": 0.0
     },
     "doorstop": {
+      "cache_read_tokens": 6829888.0,
       "checkpoints_failed": 1.0,
       "checkpoints_passed": 14.0,
       "checkpoints_total": 14.0,
@@ -134,6 +143,7 @@
       "creation_output_tokens": 66256.0,
       "dependencies_added": 6.0,
       "elapsed_time": 5723.641481,
+      "llm_requests": 410.0,
       "loc_changed": 2371.0,
       "loc_final": 2123.0,
       "module_count": 17.0,
@@ -153,6 +163,7 @@
       "transient_retries": 0.0
     },
     "graphify": {
+      "cache_read_tokens": 5693504.0,
       "checkpoints_failed": 1.0,
       "checkpoints_passed": 14.0,
       "checkpoints_total": 14.0,
@@ -164,6 +175,7 @@
       "creation_output_tokens": 59561.0,
       "dependencies_added": 6.0,
       "elapsed_time": 5970.68974,
+      "llm_requests": 276.0,
       "loc_changed": 963.0,
       "loc_final": 869.0,
       "module_count": 11.0,
@@ -183,6 +195,7 @@
       "transient_retries": 0.0
     },
     "ponytail": {
+      "cache_read_tokens": 1967168.0,
       "checkpoints_failed": 2.0,
       "checkpoints_passed": 14.0,
       "checkpoints_total": 14.0,
@@ -194,6 +207,7 @@
       "creation_output_tokens": 29180.0,
       "dependencies_added": 25.0,
       "elapsed_time": 2052.271768,
+      "llm_requests": 164.0,
       "loc_changed": 752.0,
       "loc_final": 729.0,
       "module_count": 3.0,
@@ -213,6 +227,7 @@
       "transient_retries": 0.0
     },
     "strictdoc": {
+      "cache_read_tokens": 5563520.0,
       "checkpoints_failed": 0.0,
       "checkpoints_passed": 14.0,
       "checkpoints_total": 14.0,
@@ -224,6 +239,7 @@
       "creation_output_tokens": 62940.0,
       "dependencies_added": 6.0,
       "elapsed_time": 4373.924445000001,
+      "llm_requests": 292.0,
       "loc_changed": 1147.0,
       "loc_final": 884.0,
       "module_count": 12.0,
@@ -243,6 +259,7 @@
       "transient_retries": 0.0
     },
     "supermemory": {
+      "cache_read_tokens": 4040256.0,
       "checkpoints_failed": 2.0,
       "checkpoints_passed": 14.0,
       "checkpoints_total": 14.0,
@@ -254,6 +271,7 @@
       "creation_output_tokens": 55271.0,
       "dependencies_added": 7.0,
       "elapsed_time": 3678.062126,
+      "llm_requests": 307.0,
       "loc_changed": 1169.0,
       "loc_final": 1125.0,
       "module_count": 11.0,
@@ -273,6 +291,7 @@
       "transient_retries": 0.0
     },
     "tdd": {
+      "cache_read_tokens": 3818752.0,
       "checkpoints_failed": 2.0,
       "checkpoints_passed": 14.0,
       "checkpoints_total": 14.0,
@@ -284,6 +303,7 @@
       "creation_output_tokens": 43670.0,
       "dependencies_added": 30.0,
       "elapsed_time": 3322.984022,
+      "llm_requests": 273.0,
       "loc_changed": 2732.0,
       "loc_final": 2460.0,
       "module_count": 21.0,
@@ -303,6 +323,7 @@
       "transient_retries": 0.0
     },
     "thermo-nuclear-code-quality-review": {
+      "cache_read_tokens": 5366720.0,
       "checkpoints_failed": 3.0,
       "checkpoints_passed": 13.0,
       "checkpoints_total": 14.0,
@@ -314,6 +335,7 @@
       "creation_output_tokens": 62509.0,
       "dependencies_added": 6.0,
       "elapsed_time": 5757.334039,
+      "llm_requests": 361.0,
       "loc_changed": 724.0,
       "loc_final": 747.0,
       "module_count": 11.0,
@@ -335,6 +357,7 @@
   },
   "date": "2026-08-22T16:51:45.588181+00:00",
   "deltas": {
+    "cache_read_tokens": -89728.0,
     "checkpoints_failed": 2.0,
     "checkpoints_passed": 0.0,
     "checkpoints_total": 0.0,
@@ -346,8 +369,10 @@
     "creation_output_tokens": -9944.0,
     "dependencies_added": 19.0,
     "elapsed_time": -1436.8654459999998,
+    "llm_requests": -6.0,
     "loc_changed": -417.0,
     "loc_final": -176.0,
+    "module_count": -1.0,
     "normalized_cost": 0.0,
     "provider_truncation_unresolved": 0.0,
     "provider_truncations": 0.0,
@@ -365,6 +390,7 @@
   },
   "deltas_by_arm": {
     "combo-supermemory-graphify": {
+      "cache_read_tokens": 4561600.0,
       "checkpoints_failed": 2.0,
       "checkpoints_passed": 0.0,
       "checkpoints_total": 0.0,
@@ -376,8 +402,10 @@
       "creation_output_tokens": 23839.0,
       "dependencies_added": 1.0,
       "elapsed_time": 1835.3279500000003,
+      "llm_requests": 145.0,
       "loc_changed": -260.0,
       "loc_final": 191.0,
+      "module_count": 3.0,
       "normalized_cost": 0.0,
       "provider_truncation_unresolved": 0.0,
       "provider_truncations": 0.0,
@@ -394,6 +422,7 @@
       "transient_retries": 0.0
     },
     "combo-supermemory-graphify-ponytail-thermo-nuclear-code-quality-review": {
+      "cache_read_tokens": 977408.0,
       "checkpoints_failed": 2.0,
       "checkpoints_passed": 0.0,
       "checkpoints_total": 0.0,
@@ -405,8 +434,10 @@
       "creation_output_tokens": 1366.0,
       "dependencies_added": -1.0,
       "elapsed_time": 158.75099,
+      "llm_requests": 45.0,
       "loc_changed": -224.0,
       "loc_final": 63.0,
+      "module_count": 1.0,
       "normalized_cost": 0.0,
       "provider_truncation_unresolved": 0.0,
       "provider_truncations": 0.0,
@@ -423,6 +454,7 @@
       "transient_retries": 0.0
     },
     "combo-supermemory-graphify-ponytail-thermo-nuclear-code-quality-review-doorstop-tdd": {
+      "cache_read_tokens": null,
       "checkpoints_failed": null,
       "checkpoints_passed": null,
       "checkpoints_total": null,
@@ -434,8 +466,10 @@
       "creation_output_tokens": null,
       "dependencies_added": null,
       "elapsed_time": null,
+      "llm_requests": null,
       "loc_changed": null,
       "loc_final": null,
+      "module_count": null,
       "normalized_cost": null,
       "provider_truncation_unresolved": null,
       "provider_truncations": null,
@@ -452,6 +486,7 @@
       "transient_retries": null
     },
     "combo-supermemory-graphify-ponytail-thermo-nuclear-code-quality-review-tdd": {
+      "cache_read_tokens": 3089600.0,
       "checkpoints_failed": 2.0,
       "checkpoints_passed": 0.0,
       "checkpoints_total": 0.0,
@@ -463,8 +498,10 @@
       "creation_output_tokens": 14604.0,
       "dependencies_added": 0.0,
       "elapsed_time": 95.13245800000004,
+      "llm_requests": 118.0,
       "loc_changed": 557.0,
       "loc_final": 715.0,
+      "module_count": 13.0,
       "normalized_cost": 0.0,
       "provider_truncation_unresolved": 0.0,
       "provider_truncations": 0.0,
@@ -481,6 +518,7 @@
       "transient_retries": 0.0
     },
     "doorstop": {
+      "cache_read_tokens": 4772992.0,
       "checkpoints_failed": 1.0,
       "checkpoints_passed": 0.0,
       "checkpoints_total": 0.0,
@@ -492,8 +530,10 @@
       "creation_output_tokens": 27132.0,
       "dependencies_added": 0.0,
       "elapsed_time": 2234.504267,
+      "llm_requests": 240.0,
       "loc_changed": 1202.0,
       "loc_final": 1218.0,
+      "module_count": 13.0,
       "normalized_cost": 0.0,
       "provider_truncation_unresolved": 0.0,
       "provider_truncations": 0.0,
@@ -510,6 +550,7 @@
       "transient_retries": 0.0
     },
     "graphify": {
+      "cache_read_tokens": 3636608.0,
       "checkpoints_failed": 1.0,
       "checkpoints_passed": 0.0,
       "checkpoints_total": 0.0,
@@ -521,8 +562,10 @@
       "creation_output_tokens": 20437.0,
       "dependencies_added": 0.0,
       "elapsed_time": 2481.552526,
+      "llm_requests": 106.0,
       "loc_changed": -206.0,
       "loc_final": -36.0,
+      "module_count": 7.0,
       "normalized_cost": 0.0,
       "provider_truncation_unresolved": 0.0,
       "provider_truncations": 0.0,
@@ -539,6 +582,7 @@
       "transient_retries": 0.0
     },
     "ponytail": {
+      "cache_read_tokens": -89728.0,
       "checkpoints_failed": 2.0,
       "checkpoints_passed": 0.0,
       "checkpoints_total": 0.0,
@@ -550,8 +594,10 @@
       "creation_output_tokens": -9944.0,
       "dependencies_added": 19.0,
       "elapsed_time": -1436.8654459999998,
+      "llm_requests": -6.0,
       "loc_changed": -417.0,
       "loc_final": -176.0,
+      "module_count": -1.0,
       "normalized_cost": 0.0,
       "provider_truncation_unresolved": 0.0,
       "provider_truncations": 0.0,
@@ -568,6 +614,7 @@
       "transient_retries": 0.0
     },
     "strictdoc": {
+      "cache_read_tokens": 3506624.0,
       "checkpoints_failed": 0.0,
       "checkpoints_passed": 0.0,
       "checkpoints_total": 0.0,
@@ -579,8 +626,10 @@
       "creation_output_tokens": 23816.0,
       "dependencies_added": 0.0,
       "elapsed_time": 884.7872310000007,
+      "llm_requests": 122.0,
       "loc_changed": -22.0,
       "loc_final": -21.0,
+      "module_count": 8.0,
       "normalized_cost": 0.0,
       "provider_truncation_unresolved": 0.0,
       "provider_truncations": 0.0,
@@ -597,6 +646,7 @@
       "transient_retries": 0.0
     },
     "supermemory": {
+      "cache_read_tokens": 1983360.0,
       "checkpoints_failed": 2.0,
       "checkpoints_passed": 0.0,
       "checkpoints_total": 0.0,
@@ -608,8 +658,10 @@
       "creation_output_tokens": 16147.0,
       "dependencies_added": 1.0,
       "elapsed_time": 188.92491199999995,
+      "llm_requests": 137.0,
       "loc_changed": 0.0,
       "loc_final": 220.0,
+      "module_count": 7.0,
       "normalized_cost": 0.0,
       "provider_truncation_unresolved": 0.0,
       "provider_truncations": 0.0,
@@ -626,6 +678,7 @@
       "transient_retries": 0.0
     },
     "tdd": {
+      "cache_read_tokens": 1761856.0,
       "checkpoints_failed": 2.0,
       "checkpoints_passed": 0.0,
       "checkpoints_total": 0.0,
@@ -637,8 +690,10 @@
       "creation_output_tokens": 4546.0,
       "dependencies_added": 24.0,
       "elapsed_time": -166.15319199999976,
+      "llm_requests": 103.0,
       "loc_changed": 1563.0,
       "loc_final": 1555.0,
+      "module_count": 17.0,
       "normalized_cost": 0.0,
       "provider_truncation_unresolved": 0.0,
       "provider_truncations": 0.0,
@@ -655,6 +710,7 @@
       "transient_retries": 0.0
     },
     "thermo-nuclear-code-quality-review": {
+      "cache_read_tokens": 3309824.0,
       "checkpoints_failed": 3.0,
       "checkpoints_passed": -1.0,
       "checkpoints_total": 0.0,
@@ -666,8 +722,10 @@
       "creation_output_tokens": 23385.0,
       "dependencies_added": 0.0,
       "elapsed_time": 2268.1968250000004,
+      "llm_requests": 191.0,
       "loc_changed": -445.0,
       "loc_final": -158.0,
+      "module_count": 7.0,
       "normalized_cost": 0.0,
       "provider_truncation_unresolved": 0.0,
       "provider_truncations": 0.0,

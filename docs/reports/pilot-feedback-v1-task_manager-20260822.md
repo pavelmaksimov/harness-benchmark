@@ -32,9 +32,12 @@ Failed checkpoints include checkpoints repaired by rework; Rework = All - Create
 | Truncations unresolved | 0 |
 | All input tokens | 911,472 |
 | All output tokens | 205,270 |
+| Cached tokens | 20,202,496 |
+| LLM requests | 548 |
 | Normalized cost | $0.00 |
 | Elapsed | 275.3m |
 | Final LOC | 5263.5 |
+| Python modules | 8 |
 | Changed LOC | 6646.5 |
 | Dependencies | 5 |
 | Complexity | 984 |

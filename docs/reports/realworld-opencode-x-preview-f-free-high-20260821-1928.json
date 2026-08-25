@@ -3,6 +3,7 @@
   "agent_version": "1.14.33",
   "arms": {
     "doorstop": {
+      "cache_read_tokens": 4656384.0,
       "checkpoints_failed": 2.0,
       "checkpoints_passed": 14.0,
       "checkpoints_total": 14.0,
@@ -14,18 +15,27 @@
       "creation_output_tokens": null,
       "dependencies_added": 5.0,
       "elapsed_time": 2972.923247,
+      "llm_requests": 295.0,
       "loc_changed": 975.0,
       "loc_final": 727.0,
       "module_count": 6.0,
       "normalized_cost": 0.0,
+      "provider_truncation_unresolved": 0.0,
+      "provider_truncations": 0.0,
       "regression_failures": 0.0,
       "repeated_attempts": 3.0,
       "rework_input_tokens": null,
       "rework_output_tokens": null,
+      "semantic_rework_attempts": 3.0,
       "total_input_tokens": 383992.0,
-      "total_output_tokens": 53534.0
+      "total_output_tokens": 53534.0,
+      "transient_input_tokens": 0.0,
+      "transient_output_tokens": 0.0,
+      "transient_recoveries": 0.0,
+      "transient_retries": 0.0
     },
     "graphify": {
+      "cache_read_tokens": 3680512.0,
       "checkpoints_failed": 1.0,
       "checkpoints_passed": 14.0,
       "checkpoints_total": 14.0,
@@ -37,18 +47,27 @@
       "creation_output_tokens": null,
       "dependencies_added": 5.0,
       "elapsed_time": 2400.137689,
+      "llm_requests": 210.0,
       "loc_changed": 1380.0,
       "loc_final": 997.0,
       "module_count": 13.0,
       "normalized_cost": 0.0,
+      "provider_truncation_unresolved": 0.0,
+      "provider_truncations": 0.0,
       "regression_failures": 0.0,
       "repeated_attempts": 1.0,
       "rework_input_tokens": null,
       "rework_output_tokens": null,
+      "semantic_rework_attempts": 1.0,
       "total_input_tokens": 591912.0,
-      "total_output_tokens": 45805.0
+      "total_output_tokens": 45805.0,
+      "transient_input_tokens": 0.0,
+      "transient_output_tokens": 0.0,
+      "transient_recoveries": 0.0,
+      "transient_retries": 0.0
     },
     "ponytail": {
+      "cache_read_tokens": 1207872.0,
       "checkpoints_failed": 2.0,
       "checkpoints_passed": 13.0,
       "checkpoints_total": 14.0,
@@ -60,18 +79,27 @@
       "creation_output_tokens": null,
       "dependencies_added": 5.0,
       "elapsed_time": 1674.627612,
+      "llm_requests": 124.0,
       "loc_changed": 484.0,
       "loc_final": 495.0,
       "module_count": 2.0,
       "normalized_cost": 0.0,
+      "provider_truncation_unresolved": 0.0,
+      "provider_truncations": 0.0,
       "regression_failures": 0.0,
       "repeated_attempts": 4.0,
       "rework_input_tokens": null,
       "rework_output_tokens": null,
+      "semantic_rework_attempts": 4.0,
       "total_input_tokens": 294683.0,
-      "total_output_tokens": 25333.0
+      "total_output_tokens": 25333.0,
+      "transient_input_tokens": 0.0,
+      "transient_output_tokens": 0.0,
+      "transient_recoveries": 0.0,
+      "transient_retries": 0.0
     },
     "strictdoc": {
+      "cache_read_tokens": 6009152.0,
       "checkpoints_failed": 5.0,
       "checkpoints_passed": 14.0,
       "checkpoints_total": 14.0,
@@ -83,18 +111,27 @@
       "creation_output_tokens": null,
       "dependencies_added": 5.0,
       "elapsed_time": 3439.913321,
+      "llm_requests": 305.0,
       "loc_changed": 1102.0,
       "loc_final": 857.0,
       "module_count": 12.0,
       "normalized_cost": 0.0,
+      "provider_truncation_unresolved": 0.0,
+      "provider_truncations": 0.0,
       "regression_failures": 0.0,
       "repeated_attempts": 8.0,
       "rework_input_tokens": null,
       "rework_output_tokens": null,
+      "semantic_rework_attempts": 8.0,
       "total_input_tokens": 431917.0,
-      "total_output_tokens": 59943.0
+      "total_output_tokens": 59943.0,
+      "transient_input_tokens": 0.0,
+      "transient_output_tokens": 0.0,
+      "transient_recoveries": 0.0,
+      "transient_retries": 0.0
     },
     "supermemory": {
+      "cache_read_tokens": 2696640.0,
       "checkpoints_failed": 1.0,
       "checkpoints_passed": 14.0,
       "checkpoints_total": 14.0,
@@ -106,18 +143,27 @@
       "creation_output_tokens": null,
       "dependencies_added": 22.0,
       "elapsed_time": 1994.596407,
+      "llm_requests": 198.0,
       "loc_changed": 1138.0,
       "loc_final": 1032.0,
       "module_count": 6.0,
       "normalized_cost": 0.0,
+      "provider_truncation_unresolved": 0.0,
+      "provider_truncations": 0.0,
       "regression_failures": 0.0,
       "repeated_attempts": 2.0,
       "rework_input_tokens": null,
       "rework_output_tokens": null,
+      "semantic_rework_attempts": 2.0,
       "total_input_tokens": 473208.0,
-      "total_output_tokens": 48053.0
+      "total_output_tokens": 48053.0,
+      "transient_input_tokens": 0.0,
+      "transient_output_tokens": 0.0,
+      "transient_recoveries": 0.0,
+      "transient_retries": 0.0
     },
     "tdd": {
+      "cache_read_tokens": 2555520.0,
       "checkpoints_failed": 2.0,
       "checkpoints_passed": 14.0,
       "checkpoints_total": 14.0,
@@ -129,18 +175,27 @@
       "creation_output_tokens": null,
       "dependencies_added": 7.0,
       "elapsed_time": 1897.95224,
+      "llm_requests": 180.0,
       "loc_changed": 2862.0,
       "loc_final": 2613.0,
       "module_count": 17.0,
       "normalized_cost": 0.0,
+      "provider_truncation_unresolved": 0.0,
+      "provider_truncations": 0.0,
       "regression_failures": 0.0,
       "repeated_attempts": 3.0,
       "rework_input_tokens": null,
       "rework_output_tokens": null,
+      "semantic_rework_attempts": 3.0,
       "total_input_tokens": 302511.0,
-      "total_output_tokens": 40629.0
+      "total_output_tokens": 40629.0,
+      "transient_input_tokens": 0.0,
+      "transient_output_tokens": 0.0,
+      "transient_recoveries": 0.0,
+      "transient_retries": 0.0
     },
     "thermo-nuclear-code-quality-review": {
+      "cache_read_tokens": 4323520.0,
       "checkpoints_failed": 10.0,
       "checkpoints_passed": 6.0,
       "checkpoints_total": 14.0,
@@ -152,20 +207,29 @@
       "creation_output_tokens": null,
       "dependencies_added": 6.0,
       "elapsed_time": 4258.293989,
+      "llm_requests": 251.0,
       "loc_changed": 287.0,
       "loc_final": 640.0,
       "module_count": 8.0,
       "normalized_cost": 0.0,
+      "provider_truncation_unresolved": 0.0,
+      "provider_truncations": 0.0,
       "regression_failures": 0.0,
       "repeated_attempts": 27.0,
       "rework_input_tokens": null,
       "rework_output_tokens": null,
+      "semantic_rework_attempts": 27.0,
       "total_input_tokens": 389073.0,
-      "total_output_tokens": 69573.0
+      "total_output_tokens": 69573.0,
+      "transient_input_tokens": 0.0,
+      "transient_output_tokens": 0.0,
+      "transient_recoveries": 0.0,
+      "transient_retries": 0.0
     }
   },
   "date": "2026-08-21T18:02:44.957910+00:00",
   "deltas": {
+    "cache_read_tokens": null,
     "checkpoints_failed": null,
     "checkpoints_passed": null,
     "checkpoints_total": null,
@@ -177,18 +241,28 @@
     "creation_output_tokens": null,
     "dependencies_added": null,
     "elapsed_time": null,
+    "llm_requests": null,
     "loc_changed": null,
     "loc_final": null,
+    "module_count": null,
     "normalized_cost": null,
+    "provider_truncation_unresolved": null,
+    "provider_truncations": null,
     "regression_failures": null,
     "repeated_attempts": null,
     "rework_input_tokens": null,
     "rework_output_tokens": null,
+    "semantic_rework_attempts": null,
     "total_input_tokens": null,
-    "total_output_tokens": null
+    "total_output_tokens": null,
+    "transient_input_tokens": null,
+    "transient_output_tokens": null,
+    "transient_recoveries": null,
+    "transient_retries": null
   },
   "deltas_by_arm": {
     "doorstop": {
+      "cache_read_tokens": null,
       "checkpoints_failed": null,
       "checkpoints_passed": null,
       "checkpoints_total": null,
@@ -200,17 +274,27 @@
       "creation_output_tokens": null,
       "dependencies_added": null,
       "elapsed_time": null,
+      "llm_requests": null,
       "loc_changed": null,
       "loc_final": null,
+      "module_count": null,
       "normalized_cost": null,
+      "provider_truncation_unresolved": null,
+      "provider_truncations": null,
       "regression_failures": null,
       "repeated_attempts": null,
       "rework_input_tokens": null,
       "rework_output_tokens": null,
+      "semantic_rework_attempts": null,
       "total_input_tokens": null,
-      "total_output_tokens": null
+      "total_output_tokens": null,
+      "transient_input_tokens": null,
+      "transient_output_tokens": null,
+      "transient_recoveries": null,
+      "transient_retries": null
     },
     "graphify": {
+      "cache_read_tokens": null,
       "checkpoints_failed": null,
       "checkpoints_passed": null,
       "checkpoints_total": null,
@@ -222,17 +306,27 @@
       "creation_output_tokens": null,
       "dependencies_added": null,
       "elapsed_time": null,
+      "llm_requests": null,
       "loc_changed": null,
       "loc_final": null,
+      "module_count": null,
       "normalized_cost": null,
+      "provider_truncation_unresolved": null,
+      "provider_truncations": null,
       "regression_failures": null,
       "repeated_attempts": null,
       "rework_input_tokens": null,
       "rework_output_tokens": null,
+      "semantic_rework_attempts": null,
       "total_input_tokens": null,
-      "total_output_tokens": null
+      "total_output_tokens": null,
+      "transient_input_tokens": null,
+      "transient_output_tokens": null,
+      "transient_recoveries": null,
+      "transient_retries": null
     },
     "ponytail": {
+      "cache_read_tokens": null,
       "checkpoints_failed": null,
       "checkpoints_passed": null,
       "checkpoints_total": null,
@@ -244,17 +338,27 @@
       "creation_output_tokens": null,
       "dependencies_added": null,
       "elapsed_time": null,
+      "llm_requests": null,
       "loc_changed": null,
       "loc_final": null,
+      "module_count": null,
       "normalized_cost": null,
+      "provider_truncation_unresolved": null,
+      "provider_truncations": null,
       "regression_failures": null,
       "repeated_attempts": null,
       "rework_input_tokens": null,
       "rework_output_tokens": null,
+      "semantic_rework_attempts": null,
       "total_input_tokens": null,
-      "total_output_tokens": null
+      "total_output_tokens": null,
+      "transient_input_tokens": null,
+      "transient_output_tokens": null,
+      "transient_recoveries": null,
+      "transient_retries": null
     },
     "strictdoc": {
+      "cache_read_tokens": null,
       "checkpoints_failed": null,
       "checkpoints_passed": null,
       "checkpoints_total": null,
@@ -266,17 +370,27 @@
       "creation_output_tokens": null,
       "dependencies_added": null,
       "elapsed_time": null,
+      "llm_requests": null,
       "loc_changed": null,
       "loc_final": null,
+      "module_count": null,
       "normalized_cost": null,
+      "provider_truncation_unresolved": null,
+      "provider_truncations": null,
       "regression_failures": null,
       "repeated_attempts": null,
       "rework_input_tokens": null,
       "rework_output_tokens": null,
+      "semantic_rework_attempts": null,
       "total_input_tokens": null,
-      "total_output_tokens": null
+      "total_output_tokens": null,
+      "transient_input_tokens": null,
+      "transient_output_tokens": null,
+      "transient_recoveries": null,
+      "transient_retries": null
     },
     "supermemory": {
+      "cache_read_tokens": null,
       "checkpoints_failed": null,
       "checkpoints_passed": null,
       "checkpoints_total": null,
@@ -288,17 +402,27 @@
       "creation_output_tokens": null,
       "dependencies_added": null,
       "elapsed_time": null,
+      "llm_requests": null,
       "loc_changed": null,
       "loc_final": null,
+      "module_count": null,
       "normalized_cost": null,
+      "provider_truncation_unresolved": null,
+      "provider_truncations": null,
       "regression_failures": null,
       "repeated_attempts": null,
       "rework_input_tokens": null,
       "rework_output_tokens": null,
+      "semantic_rework_attempts": null,
       "total_input_tokens": null,
-      "total_output_tokens": null
+      "total_output_tokens": null,
+      "transient_input_tokens": null,
+      "transient_output_tokens": null,
+      "transient_recoveries": null,
+      "transient_retries": null
     },
     "tdd": {
+      "cache_read_tokens": null,
       "checkpoints_failed": null,
       "checkpoints_passed": null,
       "checkpoints_total": null,
@@ -310,17 +434,27 @@
       "creation_output_tokens": null,
       "dependencies_added": null,
       "elapsed_time": null,
+      "llm_requests": null,
       "loc_changed": null,
       "loc_final": null,
+      "module_count": null,
       "normalized_cost": null,
+      "provider_truncation_unresolved": null,
+      "provider_truncations": null,
       "regression_failures": null,
       "repeated_attempts": null,
       "rework_input_tokens": null,
       "rework_output_tokens": null,
+      "semantic_rework_attempts": null,
       "total_input_tokens": null,
-      "total_output_tokens": null
+      "total_output_tokens": null,
+      "transient_input_tokens": null,
+      "transient_output_tokens": null,
+      "transient_recoveries": null,
+      "transient_retries": null
     },
     "thermo-nuclear-code-quality-review": {
+      "cache_read_tokens": null,
       "checkpoints_failed": null,
       "checkpoints_passed": null,
       "checkpoints_total": null,
@@ -332,15 +466,24 @@
       "creation_output_tokens": null,
       "dependencies_added": null,
       "elapsed_time": null,
+      "llm_requests": null,
       "loc_changed": null,
       "loc_final": null,
+      "module_count": null,
       "normalized_cost": null,
+      "provider_truncation_unresolved": null,
+      "provider_truncations": null,
       "regression_failures": null,
       "repeated_attempts": null,
       "rework_input_tokens": null,
       "rework_output_tokens": null,
+      "semantic_rework_attempts": null,
       "total_input_tokens": null,
-      "total_output_tokens": null
+      "total_output_tokens": null,
+      "transient_input_tokens": null,
+      "transient_output_tokens": null,
+      "transient_recoveries": null,
+      "transient_retries": null
     }
   },
   "excluded_ponytail_runs": 0,
@@ -354,6 +497,7 @@
     "thermo-nuclear-code-quality-review": 0
   },
   "experiment_id": "realworld-opencode-x-preview-f-free-high-20260821-1928",
+  "feedback_strategy": null,
   "git_commits": {
     "harness_benchmark": "c12cb67e6e73cb601dc9002a8c9d6f206792f997",
     "scb_problems": "ef6a9dd13911566b6b01075ca121758c9f7b5c5f",
@@ -377,49 +521,79 @@
     "doorstop": {
       "attempts": 5,
       "fixed": 2,
+      "provider_truncation_unresolved": 0,
+      "provider_truncations": 0,
       "repeated_attempts": 3,
+      "transient_recoveries": 0,
+      "transient_retries": 0,
       "unresolved": 0
     },
     "graphify": {
       "attempts": 2,
       "fixed": 1,
+      "provider_truncation_unresolved": 0,
+      "provider_truncations": 0,
       "repeated_attempts": 1,
+      "transient_recoveries": 0,
+      "transient_retries": 0,
       "unresolved": 0
     },
     "ponytail": {
       "attempts": 6,
       "fixed": 1,
+      "provider_truncation_unresolved": 0,
+      "provider_truncations": 0,
       "repeated_attempts": 4,
+      "transient_recoveries": 0,
+      "transient_retries": 0,
       "unresolved": 1
     },
     "strictdoc": {
       "attempts": 13,
       "fixed": 5,
+      "provider_truncation_unresolved": 0,
+      "provider_truncations": 0,
       "repeated_attempts": 8,
+      "transient_recoveries": 0,
+      "transient_retries": 0,
       "unresolved": 0
     },
     "supermemory": {
       "attempts": 3,
       "fixed": 1,
+      "provider_truncation_unresolved": 0,
+      "provider_truncations": 0,
       "repeated_attempts": 2,
+      "transient_recoveries": 0,
+      "transient_retries": 0,
       "unresolved": 0
     },
     "tdd": {
       "attempts": 5,
       "fixed": 2,
+      "provider_truncation_unresolved": 0,
+      "provider_truncations": 0,
       "repeated_attempts": 3,
+      "transient_recoveries": 0,
+      "transient_retries": 0,
       "unresolved": 0
     },
     "thermo-nuclear-code-quality-review": {
       "attempts": 37,
       "fixed": 2,
+      "provider_truncation_unresolved": 0,
+      "provider_truncations": 0,
       "repeated_attempts": 27,
+      "transient_recoveries": 0,
+      "transient_retries": 0,
       "unresolved": 8
     }
   },
+  "rework_attempts": null,
   "rework_details": [
     {
       "arm": "doorstop",
+      "attempt_diagnostics": null,
       "cache_read_tokens": 214528,
       "cache_write_tokens": 0,
       "core_failed": 0,
@@ -491,10 +665,13 @@
       "run_id": "realworld-opencode-x-preview-f-free-high-20260821-1928-doorstop-r1-091ea3a6",
       "steps": 17,
       "time": 138.111866,
-      "tokens": 44260
+      "tokens": 44260,
+      "transient_input_tokens": 0,
+      "transient_output_tokens": 0
     },
     {
       "arm": "doorstop",
+      "attempt_diagnostics": null,
       "cache_read_tokens": 156736,
       "cache_write_tokens": 0,
       "core_failed": 0,
@@ -586,10 +763,13 @@
       "run_id": "realworld-opencode-x-preview-f-free-high-20260821-1928-doorstop-r1-091ea3a6",
       "steps": 13,
       "time": 274.369182,
-      "tokens": 21008
+      "tokens": 21008,
+      "transient_input_tokens": 0,
+      "transient_output_tokens": 0
     },
     {
       "arm": "graphify",
+      "attempt_diagnostics": null,
       "cache_read_tokens": 51776,
       "cache_write_tokens": 0,
       "core_failed": 0,
@@ -660,10 +840,13 @@
       "run_id": "realworld-opencode-x-preview-f-free-high-20260821-1928-graphify-r1-83b8803c",
       "steps": 6,
       "time": 55.916872,
-      "tokens": 14748
+      "tokens": 14748,
+      "transient_input_tokens": 0,
+      "transient_output_tokens": 0
     },
     {
       "arm": "ponytail",
+      "attempt_diagnostics": null,
       "cache_read_tokens": 64,
       "cache_write_tokens": 0,
       "core_failed": 1,
@@ -778,10 +961,13 @@
       "run_id": "realworld-opencode-x-preview-f-free-high-20260821-1928-ponytail-r1-1b27ccbb",
       "steps": 3,
       "time": 44.992626,
-      "tokens": 16718
+      "tokens": 16718,
+      "transient_input_tokens": 0,
+      "transient_output_tokens": 0
     },
     {
       "arm": "ponytail",
+      "attempt_diagnostics": null,
       "cache_read_tokens": 171776,
       "cache_write_tokens": 0,
       "core_failed": 0,
@@ -852,10 +1038,13 @@
       "run_id": "realworld-opencode-x-preview-f-free-high-20260821-1928-ponytail-r1-1b27ccbb",
       "steps": 16,
       "time": 397.52034,
-      "tokens": 27777
+      "tokens": 27777,
+      "transient_input_tokens": 0,
+      "transient_output_tokens": 0
     },
     {
       "arm": "strictdoc",
+      "attempt_diagnostics": null,
       "cache_read_tokens": 353792,
       "cache_write_tokens": 0,
       "core_failed": 0,
@@ -927,10 +1116,13 @@
       "run_id": "realworld-opencode-x-preview-f-free-high-20260821-1928-strictdoc-r1-4d45fec7",
       "steps": 26,
       "time": 225.729523,
-      "tokens": 28445
+      "tokens": 28445,
+      "transient_input_tokens": 0,
+      "transient_output_tokens": 0
     },
     {
       "arm": "strictdoc",
+      "attempt_diagnostics": null,
       "cache_read_tokens": 397120,
       "cache_write_tokens": 0,
       "core_failed": 0,
@@ -1024,10 +1216,13 @@
       "run_id": "realworld-opencode-x-preview-f-free-high-20260821-1928-strictdoc-r1-4d45fec7",
       "steps": 20,
       "time": 215.900057,
-      "tokens": 30177
+      "tokens": 30177,
+      "transient_input_tokens": 0,
+      "transient_output_tokens": 0
     },
     {
       "arm": "strictdoc",
+      "attempt_diagnostics": null,
       "cache_read_tokens": 1177152,
       "cache_write_tokens": 0,
       "core_failed": 0,
@@ -1121,10 +1316,13 @@
       "run_id": "realworld-opencode-x-preview-f-free-high-20260821-1928-strictdoc-r1-4d45fec7",
       "steps": 30,
       "time": 246.790873,
-      "tokens": 101266
+      "tokens": 101266,
+      "transient_input_tokens": 0,
+      "transient_output_tokens": 0
     },
     {
       "arm": "strictdoc",
+      "attempt_diagnostics": null,
       "cache_read_tokens": 382016,
       "cache_write_tokens": 0,
       "core_failed": 0,
@@ -1218,10 +1416,13 @@
       "run_id": "realworld-opencode-x-preview-f-free-high-20260821-1928-strictdoc-r1-4d45fec7",
       "steps": 22,
       "time": 264.227343,
-      "tokens": 30105
+      "tokens": 30105,
+      "transient_input_tokens": 0,
+      "transient_output_tokens": 0
     },
     {
       "arm": "strictdoc",
+      "attempt_diagnostics": null,
       "cache_read_tokens": 615936,
       "cache_write_tokens": 0,
       "core_failed": 0,
@@ -1293,10 +1494,13 @@
       "run_id": "realworld-opencode-x-preview-f-free-high-20260821-1928-strictdoc-r1-4d45fec7",
       "steps": 28,
       "time": 183.531863,
-      "tokens": 34492
+      "tokens": 34492,
+      "transient_input_tokens": 0,
+      "transient_output_tokens": 0
     },
     {
       "arm": "supermemory",
+      "attempt_diagnostics": null,
       "cache_read_tokens": 68096,
       "cache_write_tokens": 0,
       "core_failed": 0,
@@ -1388,10 +1592,13 @@
       "run_id": "realworld-opencode-x-preview-f-free-high-20260821-1928-supermemory-r1-0cfbf8ba",
       "steps": 9,
       "time": 246.88941,
-      "tokens": 57034
+      "tokens": 57034,
+      "transient_input_tokens": 0,
+      "transient_output_tokens": 0
     },
     {
       "arm": "tdd",
+      "attempt_diagnostics": null,
       "cache_read_tokens": 195264,
       "cache_write_tokens": 0,
       "core_failed": 0,
@@ -1483,10 +1690,13 @@
       "run_id": "realworld-opencode-x-preview-f-free-high-20260821-1928-tdd-r1-e0997af9",
       "steps": 14,
       "time": 234.835157,
-      "tokens": 33062
+      "tokens": 33062,
+      "transient_input_tokens": 0,
+      "transient_output_tokens": 0
     },
     {
       "arm": "tdd",
+      "attempt_diagnostics": null,
       "cache_read_tokens": 182464,
       "cache_write_tokens": 0,
       "core_failed": 0,
@@ -1557,10 +1767,13 @@
       "run_id": "realworld-opencode-x-preview-f-free-high-20260821-1928-tdd-r1-e0997af9",
       "steps": 13,
       "time": 185.823228,
-      "tokens": 23062
+      "tokens": 23062,
+      "transient_input_tokens": 0,
+      "transient_output_tokens": 0
     },
     {
       "arm": "thermo-nuclear-code-quality-review",
+      "attempt_diagnostics": null,
       "cache_read_tokens": 126528,
       "cache_write_tokens": 0,
       "core_failed": 1,
@@ -1675,10 +1888,13 @@
       "run_id": "realworld-opencode-x-preview-f-free-high-20260821-1928-thermo-nuclear-code-quality-review-r1-b23703d8",
       "steps": 10,
       "time": 171.187649,
-      "tokens": 23441
+      "tokens": 23441,
+      "transient_input_tokens": 0,
+      "transient_output_tokens": 0
     },
     {
       "arm": "thermo-nuclear-code-quality-review",
+      "attempt_diagnostics": null,
       "cache_read_tokens": 401280,
       "cache_write_tokens": 0,
       "core_failed": 1,
@@ -1793,10 +2009,13 @@
       "run_id": "realworld-opencode-x-preview-f-free-high-20260821-1928-thermo-nuclear-code-quality-review-r1-b23703d8",
       "steps": 26,
       "time": 559.753188,
-      "tokens": 37365
+      "tokens": 37365,
+      "transient_input_tokens": 0,
+      "transient_output_tokens": 0
     },
     {
       "arm": "thermo-nuclear-code-quality-review",
+      "attempt_diagnostics": null,
       "cache_read_tokens": 202752,
       "cache_write_tokens": 0,
       "core_failed": 0,
@@ -1869,10 +2088,13 @@
       "run_id": "realworld-opencode-x-preview-f-free-high-20260821-1928-thermo-nuclear-code-quality-review-r1-b23703d8",
       "steps": 15,
       "time": 201.607885,
-      "tokens": 26293
+      "tokens": 26293,
+      "transient_input_tokens": 0,
+      "transient_output_tokens": 0
     },
     {
       "arm": "thermo-nuclear-code-quality-review",
+      "attempt_diagnostics": null,
       "cache_read_tokens": 589312,
       "cache_write_tokens": 0,
       "core_failed": 0,
@@ -1965,10 +2187,13 @@
       "run_id": "realworld-opencode-x-preview-f-free-high-20260821-1928-thermo-nuclear-code-quality-review-r1-b23703d8",
       "steps": 29,
       "time": 479.923927,
-      "tokens": 50140
+      "tokens": 50140,
+      "transient_input_tokens": 0,
+      "transient_output_tokens": 0
     },
     {
       "arm": "thermo-nuclear-code-quality-review",
+      "attempt_diagnostics": null,
       "cache_read_tokens": 124864,
       "cache_write_tokens": 0,
       "core_failed": 1,
@@ -2083,10 +2308,13 @@
       "run_id": "realworld-opencode-x-preview-f-free-high-20260821-1928-thermo-nuclear-code-quality-review-r1-b23703d8",
       "steps": 11,
       "time": 403.989285,
-      "tokens": 20427
+      "tokens": 20427,
+      "transient_input_tokens": 0,
+      "transient_output_tokens": 0
     },
     {
       "arm": "thermo-nuclear-code-quality-review",
+      "attempt_diagnostics": null,
       "cache_read_tokens": 53312,
       "cache_write_tokens": 0,
       "core_failed": 1,
@@ -2201,10 +2429,13 @@
       "run_id": "realworld-opencode-x-preview-f-free-high-20260821-1928-thermo-nuclear-code-quality-review-r1-b23703d8",
       "steps": 6,
       "time": 83.049439,
-      "tokens": 9600
+      "tokens": 9600,
+      "transient_input_tokens": 0,
+      "transient_output_tokens": 0
     },
     {
       "arm": "thermo-nuclear-code-quality-review",
+      "attempt_diagnostics": null,
       "cache_read_tokens": 275200,
       "cache_write_tokens": 0,
       "core_failed": 1,
@@ -2319,10 +2550,13 @@
       "run_id": "realworld-opencode-x-preview-f-free-high-20260821-1928-thermo-nuclear-code-quality-review-r1-b23703d8",
       "steps": 18,
       "time": 514.496797,
-      "tokens": 34567
+      "tokens": 34567,
+      "transient_input_tokens": 0,
+      "transient_output_tokens": 0
     },
     {
       "arm": "thermo-nuclear-code-quality-review",
+      "attempt_diagnostics": null,
       "cache_read_tokens": 1124288,
       "cache_write_tokens": 0,
       "core_failed": 1,
@@ -2437,10 +2671,13 @@
       "run_id": "realworld-opencode-x-preview-f-free-high-20260821-1928-thermo-nuclear-code-quality-review-r1-b23703d8",
       "steps": 40,
       "time": 506.209405,
-      "tokens": 47764
+      "tokens": 47764,
+      "transient_input_tokens": 0,
+      "transient_output_tokens": 0
     },
     {
       "arm": "thermo-nuclear-code-quality-review",
+      "attempt_diagnostics": null,
       "cache_read_tokens": 376704,
       "cache_write_tokens": 0,
       "core_failed": 1,
@@ -2555,10 +2792,13 @@
       "run_id": "realworld-opencode-x-preview-f-free-high-20260821-1928-thermo-nuclear-code-quality-review-r1-b23703d8",
       "steps": 21,
       "time": 533.009349,
-      "tokens": 59035
+      "tokens": 59035,
+      "transient_input_tokens": 0,
+      "transient_output_tokens": 0
     },
     {
       "arm": "thermo-nuclear-code-quality-review",
+      "attempt_diagnostics": null,
       "cache_read_tokens": 240896,
       "cache_write_tokens": 0,
       "core_failed": 1,
@@ -2673,8 +2913,11 @@
       "run_id": "realworld-opencode-x-preview-f-free-high-20260821-1928-thermo-nuclear-code-quality-review-r1-b23703d8",
       "steps": 16,
       "time": 199.185145,
-      "tokens": 28655
+      "tokens": 28655,
+      "transient_input_tokens": 0,
+      "transient_output_tokens": 0
     }
   ],
-  "thinking": "high"
+  "thinking": "high",
+  "transient_retries": null
 }

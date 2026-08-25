@@ -1,8 +1,69 @@
 {
   "agent": "opencode",
   "agent_version": "1.14.33",
-  "arms": {},
-  "date": "2026-08-25T08:59:14.796229+00:00",
+  "arms": {
+    "python-harness+ponytail+tdd+graphify+benjamin-plus-skill+reclaim-code-entropy": {
+      "checkpoints_failed": 1.0,
+      "checkpoints_passed": 14.0,
+      "checkpoints_total": 14.0,
+      "complexity": 552.0,
+      "core_failed": 0.0,
+      "core_passed": 26.0,
+      "core_total": 26.0,
+      "creation_input_tokens": 317730.0,
+      "creation_output_tokens": 39191.0,
+      "dependencies_added": 7.0,
+      "elapsed_time": 2633.765258,
+      "loc_changed": 11422.0,
+      "loc_final": 1841.0,
+      "module_count": 19.0,
+      "normalized_cost": 0.0,
+      "provider_truncation_unresolved": 0.0,
+      "provider_truncations": 0.0,
+      "regression_failures": 0.0,
+      "repeated_attempts": 1.0,
+      "rework_input_tokens": 10099.0,
+      "rework_output_tokens": 2865.0,
+      "semantic_rework_attempts": 1.0,
+      "total_input_tokens": 327829.0,
+      "total_output_tokens": 42056.0,
+      "transient_input_tokens": 0.0,
+      "transient_output_tokens": 0.0,
+      "transient_recoveries": 0.0,
+      "transient_retries": 0.0
+    },
+    "reclaim-code-entropy": {
+      "checkpoints_failed": 0.0,
+      "checkpoints_passed": 14.0,
+      "checkpoints_total": 14.0,
+      "complexity": 497.0,
+      "core_failed": 0.0,
+      "core_passed": 26.0,
+      "core_total": 26.0,
+      "creation_input_tokens": 344737.0,
+      "creation_output_tokens": 47928.0,
+      "dependencies_added": 6.0,
+      "elapsed_time": 3393.393267,
+      "loc_changed": 17450.0,
+      "loc_final": 1880.0,
+      "module_count": 13.0,
+      "normalized_cost": 0.0,
+      "provider_truncation_unresolved": 0.0,
+      "provider_truncations": 0.0,
+      "regression_failures": 0.0,
+      "repeated_attempts": 0.0,
+      "rework_input_tokens": 0.0,
+      "rework_output_tokens": 0.0,
+      "semantic_rework_attempts": 0.0,
+      "total_input_tokens": 344737.0,
+      "total_output_tokens": 47928.0,
+      "transient_input_tokens": 0.0,
+      "transient_output_tokens": 0.0,
+      "transient_recoveries": 0.0,
+      "transient_retries": 0.0
+    }
+  },
+  "date": "2026-08-25T13:17:37.745382+00:00",
   "deltas": {
     "checkpoints_failed": null,
     "checkpoints_passed": null,
@@ -103,49 +164,16 @@
   "experiment_id": "realworld-opencode-x-preview-f-free-high-harnesses-retry-b",
   "feedback_strategy": "current-first",
   "git_commits": {
-    "harness_benchmark": "561727517799fb9b0ff26f89321bdcd85847ddd9",
+    "harness_benchmark": "0b18b1a85d3ee5cc4c3de627403bd1029fd618cf",
     "scb_problems": "ef6a9dd13911566b6b01075ca121758c9f7b5c5f",
     "slop_code_bench": "06b5c0687d4c05ee502e9696a4d0c22fc1eec5e0"
   },
-  "incomplete_runs": {
-    "python-harness+ponytail+tdd+graphify+benjamin-plus-skill+reclaim-code-entropy": [
-      {
-        "agent": "opencode",
-        "feedback_strategy": "current-first",
-        "fully_completed": false,
-        "interrupt_reason": "interrupted",
-        "model": "x-preview-f-free",
-        "phase": "incomplete",
-        "provider": "opencode_auth",
-        "rework_attempts": 2,
-        "run_index": 1,
-        "stopped_at_checkpoint": "checkpoint_8",
-        "thinking": "high",
-        "transient_retries": 2
-      }
-    ],
-    "reclaim-code-entropy": [
-      {
-        "agent": "opencode",
-        "feedback_strategy": "current-first",
-        "fully_completed": false,
-        "interrupt_reason": "interrupted",
-        "model": "x-preview-f-free",
-        "phase": "incomplete",
-        "provider": "opencode_auth",
-        "rework_attempts": 2,
-        "run_index": 1,
-        "stopped_at_checkpoint": "checkpoint_5",
-        "thinking": "high",
-        "transient_retries": 2
-      }
-    ]
-  },
+  "incomplete_runs": {},
   "model": "x-preview-f-free",
   "n_baseline": 0,
   "n_ponytail": 0,
-  "n_python-harness+ponytail+tdd+graphify+benjamin-plus-skill+reclaim-code-entropy": 0,
-  "n_reclaim-code-entropy": 0,
+  "n_python-harness+ponytail+tdd+graphify+benjamin-plus-skill+reclaim-code-entropy": 1,
+  "n_reclaim-code-entropy": 1,
   "ponytail": {
     "name": "ponytail",
     "pinned_from": "/home/user/.local/share/ponytail/skills/ponytail/SKILL.md",
@@ -159,7 +187,521 @@
   "pricing_version": "2026-08-12-openai-gpt-5.6-luna",
   "problem": "realworld",
   "provider": "opencode_auth",
+  "rework": {
+    "python-harness+ponytail+tdd+graphify+benjamin-plus-skill+reclaim-code-entropy": {
+      "attempts": 2,
+      "fixed": 1,
+      "provider_truncation_unresolved": 0,
+      "provider_truncations": 0,
+      "repeated_attempts": 1,
+      "transient_recoveries": 0,
+      "transient_retries": 0,
+      "unresolved": 0
+    }
+  },
   "rework_attempts": 2,
+  "rework_details": [
+    {
+      "arm": "python-harness+ponytail+tdd+graphify+benjamin-plus-skill+reclaim-code-entropy",
+      "attempt_diagnostics": {
+        "feedback_strategy": "current-first",
+        "final": {
+          "confidence": "none",
+          "detected": false,
+          "failure_class": "none",
+          "finish_reason": "stop",
+          "message_count": 46,
+          "message_path": "/home/user/my/harness-benchmark/results/realworld-opencode-x-preview-f-free-high-harnesses-retry-b/python-harness+ponytail+tdd+graphify+benjamin-plus-skill+reclaim-code-entropy/run_1/scb/realworld/checkpoint_2/agent/messages.jsonl",
+          "message_types": [
+            "step_start",
+            "reasoning",
+            "tool_use",
+            "tool_use",
+            "tool_use",
+            "step_finish",
+            "step_start",
+            "tool_use",
+            "step_finish",
+            "step_start",
+            "tool_use",
+            "tool_use",
+            "tool_use",
+            "tool_use",
+            "tool_use",
+            "step_finish",
+            "step_start",
+            "reasoning",
+            "tool_use",
+            "step_finish",
+            "step_start",
+            "reasoning",
+            "tool_use",
+            "tool_use",
+            "text",
+            "step_finish",
+            "step_start",
+            "tool_use",
+            "step_finish",
+            "step_start",
+            "tool_use",
+            "tool_use",
+            "tool_use",
+            "text",
+            "step_finish",
+            "step_start",
+            "reasoning",
+            "tool_use",
+            "step_finish",
+            "step_start",
+            "tool_use",
+            "step_finish",
+            "step_start",
+            "reasoning",
+            "text",
+            "step_finish"
+          ],
+          "output_threshold": 500,
+          "output_tokens": 2865,
+          "parse_errors": 0,
+          "signals": {
+            "no_explicit_error": true,
+            "no_explicit_error_or_limit": true,
+            "no_explicit_limit": true,
+            "no_infrastructure_failure": true,
+            "output_below_threshold": false,
+            "preceding_reasoning": true,
+            "unknown_finish": false
+          },
+          "steps": 10
+        },
+        "provider_truncation_unresolved": false,
+        "provider_truncations": 0,
+        "transient_recovered": false,
+        "transient_retries": 0
+      },
+      "cache_read_tokens": 148928,
+      "cache_write_tokens": 0,
+      "core_failed": 0,
+      "core_passed": 2,
+      "core_total": 2,
+      "cost": null,
+      "cp": 2,
+      "creation_input_tokens": 10860,
+      "creation_output_tokens": 120,
+      "files_delta": 4,
+      "input_tokens": 20959,
+      "loc_delta": 201,
+      "output_tokens": 2985,
+      "pass": true,
+      "reasoning_tokens": 1178,
+      "regressions": 0,
+      "reported_cost_usd": 0.0,
+      "rework": {
+        "attempts": [
+          {
+            "attempt": 1,
+            "cache_read_tokens": 8768,
+            "cache_write_tokens": 0,
+            "confidence": "none",
+            "core": {
+              "failed": 2,
+              "failed_tests": [
+                "test_auth_errors",
+                "test_login_current_user_token_isolation_and_restart"
+              ],
+              "passed": 0,
+              "total": 2
+            },
+            "diagnostics": {
+              "confidence": "none",
+              "detected": false,
+              "failure_class": "none",
+              "finish_reason": "tool-calls",
+              "message_count": 9,
+              "message_path": "/home/user/my/harness-benchmark/results/realworld-opencode-x-preview-f-free-high-harnesses-retry-b/python-harness+ponytail+tdd+graphify+benjamin-plus-skill+reclaim-code-entropy/run_1/scb/realworld/checkpoint_2/agent/messages.jsonl",
+              "message_types": [
+                "step_start",
+                "reasoning",
+                "tool_use",
+                "tool_use",
+                "step_finish",
+                "step_start",
+                "tool_use",
+                "tool_use",
+                "step_finish"
+              ],
+              "output_threshold": 500,
+              "output_tokens": 120,
+              "parse_errors": 0,
+              "signals": {
+                "no_explicit_error": true,
+                "no_explicit_error_or_limit": true,
+                "no_explicit_limit": true,
+                "no_infrastructure_failure": true,
+                "output_below_threshold": true,
+                "preceding_reasoning": true,
+                "unknown_finish": false
+              },
+              "steps": 2
+            },
+            "duration": 11.425723791122437,
+            "elapsed_seconds": 21.310683,
+            "failed_tests": [
+              "test_auth_errors",
+              "test_login_current_user_token_isolation_and_restart"
+            ],
+            "failed_tests_by_group": {
+              "Core": [
+                "test_auth_errors",
+                "test_login_current_user_token_isolation_and_restart"
+              ]
+            },
+            "failure_class": "none",
+            "feedback_context": {
+              "all_failed_tests": [
+                "test_auth_errors",
+                "test_login_current_user_token_isolation_and_restart"
+              ],
+              "current_checkpoint": 2,
+              "current_other_failures": [],
+              "failed_tests_by_bucket": {
+                "checkpoint_2-Core": [
+                  "test_auth_errors",
+                  "test_login_current_user_token_isolation_and_restart"
+                ]
+              },
+              "failure_items": [
+                {
+                  "bucket": "checkpoint_2-Core",
+                  "group": "Core",
+                  "name": "test_auth_errors",
+                  "source_checkpoint": 2
+                },
+                {
+                  "bucket": "checkpoint_2-Core",
+                  "group": "Core",
+                  "name": "test_login_current_user_token_isolation_and_restart",
+                  "source_checkpoint": 2
+                }
+              ],
+              "other_failures": [],
+              "policy_failures": [
+                "test_auth_errors",
+                "test_login_current_user_token_isolation_and_restart"
+              ],
+              "regression_comparison_available": true,
+              "regression_new_failures": [],
+              "regression_persistent_failures": [],
+              "strategy_version": "current-first-v1"
+            },
+            "feedback_metadata": {
+              "limits": {
+                "context_failures": 5,
+                "policy_failures": 20
+              },
+              "omitted_counts": {
+                "current_other_failures": 0,
+                "other_failures": 0,
+                "policy_failures": 0,
+                "regression_new_failures": 0,
+                "regression_persistent_failures": 0
+              },
+              "regression_comparison_available": true,
+              "shown_counts": {
+                "current_other_failures": 0,
+                "other_failures": 0,
+                "policy_failures": 2,
+                "regression_new_failures": 0,
+                "regression_persistent_failures": 0
+              },
+              "strategy": "current-first",
+              "strategy_version": "current-first-v1"
+            },
+            "feedback_strategy": "current-first",
+            "groups": {
+              "Core": {
+                "failed": 2,
+                "failed_tests": [
+                  "test_auth_errors",
+                  "test_login_current_user_token_isolation_and_restart"
+                ],
+                "passed": 0,
+                "total": 2
+              },
+              "Error": {
+                "failed": 0,
+                "failed_tests": [],
+                "passed": 0,
+                "total": 0
+              },
+              "Functionality": {
+                "failed": 0,
+                "failed_tests": [],
+                "passed": 0,
+                "total": 0
+              },
+              "Regression": {
+                "failed": 0,
+                "failed_tests": [],
+                "passed": 0,
+                "total": 0
+              }
+            },
+            "infrastructure_failure": false,
+            "input_tokens": 10860,
+            "message_path": "/home/user/my/harness-benchmark/results/realworld-opencode-x-preview-f-free-high-harnesses-retry-b/python-harness+ponytail+tdd+graphify+benjamin-plus-skill+reclaim-code-entropy/run_1/scb/realworld/checkpoint_2/agent/messages.jsonl",
+            "output_tokens": 120,
+            "pass_counts": {
+              "Core": 0,
+              "Error": 0,
+              "Functionality": 0,
+              "Regression": 0
+            },
+            "passed_policy": false,
+            "reasoning_tokens": 12,
+            "reported_cost_usd": 0.0,
+            "signals": {
+              "no_explicit_error": true,
+              "no_explicit_error_or_limit": true,
+              "no_explicit_limit": true,
+              "no_infrastructure_failure": true,
+              "output_below_threshold": true,
+              "preceding_reasoning": true,
+              "unknown_finish": false
+            },
+            "stage": "creation",
+            "steps": 2,
+            "total_counts": {
+              "Core": 2,
+              "Error": 0,
+              "Functionality": 0,
+              "Regression": 0
+            },
+            "truncation_output_threshold": 500,
+            "usage": {
+              "cache_read_tokens": 8768,
+              "cache_write_tokens": 0,
+              "elapsed_seconds": 21.310683,
+              "input_tokens": 10860,
+              "output_tokens": 120,
+              "reasoning_tokens": 12,
+              "reported_cost_usd": 0.0,
+              "steps": 2
+            }
+          },
+          {
+            "attempt": 2,
+            "cache_read_tokens": 140160,
+            "cache_write_tokens": 0,
+            "confidence": "none",
+            "core": {
+              "failed": 0,
+              "failed_tests": [],
+              "passed": 2,
+              "total": 2
+            },
+            "diagnostics": {
+              "confidence": "none",
+              "detected": false,
+              "failure_class": "none",
+              "finish_reason": "stop",
+              "message_count": 46,
+              "message_path": "/home/user/my/harness-benchmark/results/realworld-opencode-x-preview-f-free-high-harnesses-retry-b/python-harness+ponytail+tdd+graphify+benjamin-plus-skill+reclaim-code-entropy/run_1/scb/realworld/checkpoint_2/agent/messages.jsonl",
+              "message_types": [
+                "step_start",
+                "reasoning",
+                "tool_use",
+                "tool_use",
+                "tool_use",
+                "step_finish",
+                "step_start",
+                "tool_use",
+                "step_finish",
+                "step_start",
+                "tool_use",
+                "tool_use",
+                "tool_use",
+                "tool_use",
+                "tool_use",
+                "step_finish",
+                "step_start",
+                "reasoning",
+                "tool_use",
+                "step_finish",
+                "step_start",
+                "reasoning",
+                "tool_use",
+                "tool_use",
+                "text",
+                "step_finish",
+                "step_start",
+                "tool_use",
+                "step_finish",
+                "step_start",
+                "tool_use",
+                "tool_use",
+                "tool_use",
+                "text",
+                "step_finish",
+                "step_start",
+                "reasoning",
+                "tool_use",
+                "step_finish",
+                "step_start",
+                "tool_use",
+                "step_finish",
+                "step_start",
+                "reasoning",
+                "text",
+                "step_finish"
+              ],
+              "output_threshold": 500,
+              "output_tokens": 2865,
+              "parse_errors": 0,
+              "signals": {
+                "no_explicit_error": true,
+                "no_explicit_error_or_limit": true,
+                "no_explicit_limit": true,
+                "no_infrastructure_failure": true,
+                "output_below_threshold": false,
+                "preceding_reasoning": true,
+                "unknown_finish": false
+              },
+              "steps": 10
+            },
+            "duration": 11.124298334121704,
+            "elapsed_seconds": 143.598251,
+            "failed_tests": [],
+            "failed_tests_by_group": {},
+            "failure_class": "none",
+            "feedback_context": {
+              "all_failed_tests": [],
+              "current_checkpoint": 2,
+              "current_other_failures": [],
+              "failed_tests_by_bucket": {},
+              "failure_items": [],
+              "other_failures": [],
+              "policy_failures": [],
+              "regression_comparison_available": true,
+              "regression_new_failures": [],
+              "regression_persistent_failures": [],
+              "strategy_version": "current-first-v1"
+            },
+            "feedback_metadata": {
+              "limits": {
+                "context_failures": 5,
+                "policy_failures": 20
+              },
+              "omitted_counts": {
+                "current_other_failures": 0,
+                "other_failures": 0,
+                "policy_failures": 0,
+                "regression_new_failures": 0,
+                "regression_persistent_failures": 0
+              },
+              "regression_comparison_available": true,
+              "shown_counts": {
+                "current_other_failures": 0,
+                "other_failures": 0,
+                "policy_failures": 0,
+                "regression_new_failures": 0,
+                "regression_persistent_failures": 0
+              },
+              "strategy": "current-first",
+              "strategy_version": "current-first-v1"
+            },
+            "feedback_strategy": "current-first",
+            "groups": {
+              "Core": {
+                "failed": 0,
+                "failed_tests": [],
+                "passed": 2,
+                "total": 2
+              },
+              "Error": {
+                "failed": 0,
+                "failed_tests": [],
+                "passed": 0,
+                "total": 0
+              },
+              "Functionality": {
+                "failed": 0,
+                "failed_tests": [],
+                "passed": 0,
+                "total": 0
+              },
+              "Regression": {
+                "failed": 0,
+                "failed_tests": [],
+                "passed": 0,
+                "total": 0
+              }
+            },
+            "infrastructure_failure": false,
+            "input_tokens": 10099,
+            "message_path": "/home/user/my/harness-benchmark/results/realworld-opencode-x-preview-f-free-high-harnesses-retry-b/python-harness+ponytail+tdd+graphify+benjamin-plus-skill+reclaim-code-entropy/run_1/scb/realworld/checkpoint_2/agent/messages.jsonl",
+            "output_tokens": 2865,
+            "pass_counts": {
+              "Core": 2,
+              "Error": 0,
+              "Functionality": 0,
+              "Regression": 0
+            },
+            "passed_policy": true,
+            "reasoning_tokens": 1166,
+            "reported_cost_usd": 0.0,
+            "signals": {
+              "no_explicit_error": true,
+              "no_explicit_error_or_limit": true,
+              "no_explicit_limit": true,
+              "no_infrastructure_failure": true,
+              "output_below_threshold": false,
+              "preceding_reasoning": true,
+              "unknown_finish": false
+            },
+            "stage": "rework",
+            "steps": 10,
+            "total_counts": {
+              "Core": 2,
+              "Error": 0,
+              "Functionality": 0,
+              "Regression": 0
+            },
+            "truncation_output_threshold": 500,
+            "usage": {
+              "cache_read_tokens": 140160,
+              "cache_write_tokens": 0,
+              "elapsed_seconds": 143.598251,
+              "input_tokens": 10099,
+              "output_tokens": 2865,
+              "reasoning_tokens": 1166,
+              "reported_cost_usd": 0.0,
+              "steps": 10
+            }
+          }
+        ],
+        "attempts_total": 2,
+        "checkpoint": "checkpoint_2",
+        "feedback_strategy": "current-first",
+        "fixed": true,
+        "max_additional_attempts": 2,
+        "max_transient_retries": 2,
+        "provider_truncation_attempts": 0,
+        "provider_truncation_recovered": false,
+        "provider_truncation_unresolved": false,
+        "semantic_attempts_total": 2,
+        "transient_retries_total": 0
+      },
+      "rework_input_tokens": 10099,
+      "rework_output_tokens": 2865,
+      "run_id": "realworld-opencode-x-preview-f-free-high-harnesses-retry-b-python-harness+ponytail+tdd+graphify+benjamin-plus-skill+reclaim-code-entropy-r1-58beec3b",
+      "steps": 12,
+      "time": 164.90893400000002,
+      "tokens": 23944,
+      "transient_input_tokens": 0,
+      "transient_output_tokens": 0
+    }
+  ],
   "thinking": "high",
   "transient_retries": 2
 }

@@ -32,9 +32,12 @@ Failed checkpoints include checkpoints repaired by rework; Rework = All - Create
 | Truncations unresolved | 0 | 0 | 0 | 0 |
 | All input tokens | 416,195 | 296,812 | 1,016,154 | 493,295 |
 | All output tokens | 56,606 | 44,506 | 99,409 | 42,450 |
+| Cached tokens | 4,880,896 | 3,604,992 | 13,633,472 | 2,716,416 |
+| LLM requests | 258 | 243 | 509 | 200 |
 | Normalized cost | $0.00 | $0.00 | $0.00 | $0.00 |
 | Elapsed | 61.9m | 48.3m | 161.6m | 58.1m |
 | Final LOC | 1092 | 868 | 1861 | 1870 |
+| Python modules | 6 | 6 | 16 | 16 |
 | Changed LOC | 1220 | 1147 | 1832 | 2276 |
 | Dependencies | 5 | 5 | 4 | 6 |
 | Complexity | 227 | 251 | 653 | 636 |
@@ -60,9 +63,12 @@ Failed checkpoints include checkpoints repaired by rework; Rework = All - Create
 | Truncations unresolved | - | - | - | - |
 | All input tokens | - | - | - | - |
 | All output tokens | - | - | - | - |
+| Cached tokens | - | - | - | - |
+| LLM requests | - | - | - | - |
 | Normalized cost | - | - | - | - |
 | Elapsed | - | - | - | - |
 | Final LOC | - | - | - | - |
+| Python modules | - | - | - | - |
 | Changed LOC | - | - | - | - |
 | Dependencies | - | - | - | - |
 | Complexity | - | - | - | - |

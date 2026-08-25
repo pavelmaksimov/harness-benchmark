@@ -3,6 +3,7 @@
   "agent_version": "1.14.33",
   "arms": {
     "combo-supermemory-graphify": {
+      "cache_read_tokens": 4880896.0,
       "checkpoints_failed": 2.0,
       "checkpoints_passed": 14.0,
       "checkpoints_total": 14.0,
@@ -14,6 +15,7 @@
       "creation_output_tokens": 47075.0,
       "dependencies_added": 5.0,
       "elapsed_time": 3712.115326,
+      "llm_requests": 258.0,
       "loc_changed": 1220.0,
       "loc_final": 1092.0,
       "module_count": 6.0,
@@ -33,6 +35,7 @@
       "transient_retries": 0.0
     },
     "combo-supermemory-graphify-ponytail-thermo-nuclear-code-quality-review": {
+      "cache_read_tokens": 3604992.0,
       "checkpoints_failed": 0.0,
       "checkpoints_passed": 14.0,
       "checkpoints_total": 14.0,
@@ -44,6 +47,7 @@
       "creation_output_tokens": 44506.0,
       "dependencies_added": 5.0,
       "elapsed_time": 2898.491071,
+      "llm_requests": 243.0,
       "loc_changed": 1147.0,
       "loc_final": 868.0,
       "module_count": 6.0,
@@ -63,6 +67,7 @@
       "transient_retries": 0.0
     },
     "combo-supermemory-graphify-ponytail-thermo-nuclear-code-quality-review-doorstop-tdd": {
+      "cache_read_tokens": 13633472.0,
       "checkpoints_failed": 3.0,
       "checkpoints_passed": 13.0,
       "checkpoints_total": 14.0,
@@ -74,6 +79,7 @@
       "creation_output_tokens": 59699.0,
       "dependencies_added": 4.0,
       "elapsed_time": 9698.126889,
+      "llm_requests": 509.0,
       "loc_changed": 1832.0,
       "loc_final": 1861.0,
       "module_count": 16.0,
@@ -93,6 +99,7 @@
       "transient_retries": 0.0
     },
     "combo-supermemory-graphify-ponytail-thermo-nuclear-code-quality-review-tdd": {
+      "cache_read_tokens": 2716416.0,
       "checkpoints_failed": 1.0,
       "checkpoints_passed": 14.0,
       "checkpoints_total": 14.0,
@@ -104,6 +111,7 @@
       "creation_output_tokens": 40607.0,
       "dependencies_added": 6.0,
       "elapsed_time": 3488.998605,
+      "llm_requests": 200.0,
       "loc_changed": 2276.0,
       "loc_final": 1870.0,
       "module_count": 16.0,
@@ -125,6 +133,7 @@
   },
   "date": "2026-08-22T13:48:12.399927+00:00",
   "deltas": {
+    "cache_read_tokens": null,
     "checkpoints_failed": null,
     "checkpoints_passed": null,
     "checkpoints_total": null,
@@ -136,8 +145,10 @@
     "creation_output_tokens": null,
     "dependencies_added": null,
     "elapsed_time": null,
+    "llm_requests": null,
     "loc_changed": null,
     "loc_final": null,
+    "module_count": null,
     "normalized_cost": null,
     "provider_truncation_unresolved": null,
     "provider_truncations": null,
@@ -155,6 +166,7 @@
   },
   "deltas_by_arm": {
     "combo-supermemory-graphify": {
+      "cache_read_tokens": null,
       "checkpoints_failed": null,
       "checkpoints_passed": null,
       "checkpoints_total": null,
@@ -166,8 +178,10 @@
       "creation_output_tokens": null,
       "dependencies_added": null,
       "elapsed_time": null,
+      "llm_requests": null,
       "loc_changed": null,
       "loc_final": null,
+      "module_count": null,
       "normalized_cost": null,
       "provider_truncation_unresolved": null,
       "provider_truncations": null,
@@ -184,6 +198,7 @@
       "transient_retries": null
     },
     "combo-supermemory-graphify-ponytail-thermo-nuclear-code-quality-review": {
+      "cache_read_tokens": null,
       "checkpoints_failed": null,
       "checkpoints_passed": null,
       "checkpoints_total": null,
@@ -195,8 +210,10 @@
       "creation_output_tokens": null,
       "dependencies_added": null,
       "elapsed_time": null,
+      "llm_requests": null,
       "loc_changed": null,
       "loc_final": null,
+      "module_count": null,
       "normalized_cost": null,
       "provider_truncation_unresolved": null,
       "provider_truncations": null,
@@ -213,6 +230,7 @@
       "transient_retries": null
     },
     "combo-supermemory-graphify-ponytail-thermo-nuclear-code-quality-review-doorstop-tdd": {
+      "cache_read_tokens": null,
       "checkpoints_failed": null,
       "checkpoints_passed": null,
       "checkpoints_total": null,
@@ -224,8 +242,10 @@
       "creation_output_tokens": null,
       "dependencies_added": null,
       "elapsed_time": null,
+      "llm_requests": null,
       "loc_changed": null,
       "loc_final": null,
+      "module_count": null,
       "normalized_cost": null,
       "provider_truncation_unresolved": null,
       "provider_truncations": null,
@@ -242,6 +262,7 @@
       "transient_retries": null
     },
     "combo-supermemory-graphify-ponytail-thermo-nuclear-code-quality-review-tdd": {
+      "cache_read_tokens": null,
       "checkpoints_failed": null,
       "checkpoints_passed": null,
       "checkpoints_total": null,
@@ -253,8 +274,10 @@
       "creation_output_tokens": null,
       "dependencies_added": null,
       "elapsed_time": null,
+      "llm_requests": null,
       "loc_changed": null,
       "loc_final": null,
+      "module_count": null,
       "normalized_cost": null,
       "provider_truncation_unresolved": null,
       "provider_truncations": null,

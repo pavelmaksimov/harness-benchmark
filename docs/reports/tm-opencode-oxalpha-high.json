@@ -3,6 +3,7 @@
   "agent_version": "1.14.33",
   "arms": {
     "baseline": {
+      "cache_read_tokens": 12032896.0,
       "checkpoints_failed": 7.0,
       "checkpoints_passed": 15.0,
       "checkpoints_total": 15.0,
@@ -14,6 +15,7 @@
       "creation_output_tokens": null,
       "dependencies_added": 7.0,
       "elapsed_time": 5766.478555,
+      "llm_requests": 392.0,
       "loc_changed": 3922.0,
       "loc_final": 3533.0,
       "module_count": 9.0,
@@ -35,6 +37,7 @@
   },
   "date": "2026-08-21T13:35:25.459061+00:00",
   "deltas": {
+    "cache_read_tokens": null,
     "checkpoints_failed": null,
     "checkpoints_passed": null,
     "checkpoints_total": null,
@@ -46,6 +49,7 @@
     "creation_output_tokens": null,
     "dependencies_added": null,
     "elapsed_time": null,
+    "llm_requests": null,
     "loc_changed": null,
     "loc_final": null,
     "module_count": null,
