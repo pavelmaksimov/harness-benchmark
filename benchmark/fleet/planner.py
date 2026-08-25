@@ -93,6 +93,10 @@ def _work_path(experiment_dir: Path) -> Path:
     return experiment_dir / ".fleet-work.json"
 
 
+def _is_live_monitor_command(command: str, experiment_id: str) -> bool:
+    return "monitor_benchmark.py" in command and experiment_id in command
+
+
 def _work_is_live(experiment_dir: Path) -> bool:
     work = _read_json(_work_path(experiment_dir))
     if work:
@@ -101,7 +105,7 @@ def _work_is_live(experiment_dir: Path) -> bool:
             try:
                 os.kill(pid, 0)
                 command = (Path("/proc") / str(pid) / "cmdline").read_bytes().decode(errors="replace")
-                if "monitor_benchmark.py" in command and str(work.get("experiment_id", "")) in command:
+                if _is_live_monitor_command(command, str(work.get("experiment_id", ""))):
                     return True
             except OSError:
                 pass
@@ -113,7 +117,7 @@ def _work_is_live(experiment_dir: Path) -> bool:
             command = pid_dir.joinpath("cmdline").read_bytes().decode(errors="replace")
         except OSError:
             continue
-        if experiment_dir.name in command and ("monitor_benchmark.py" in command or "benchmark.scb_main" in command):
+        if _is_live_monitor_command(command, experiment_dir.name):
             return True
     return False
 
@@ -157,6 +161,14 @@ def _known_arm(arm: str) -> bool:
 
 
 def _open_ticket_for(experiment_id: str, arm: str, ops_dir: Path) -> bool:
+    return _ticket_for(experiment_id, arm, ops_dir, unresolved=True)
+
+
+def _resolved_ticket_for(experiment_id: str, arm: str, ops_dir: Path) -> bool:
+    return _ticket_for(experiment_id, arm, ops_dir, unresolved=False)
+
+
+def _ticket_for(experiment_id: str, arm: str, ops_dir: Path, *, unresolved: bool) -> bool:
     root = ops_dir / "needs-human"
     if not root.is_dir():
         return False
@@ -165,13 +177,24 @@ def _open_ticket_for(experiment_id: str, arm: str, ops_dir: Path) -> bool:
             text = path.read_text(encoding="utf-8")
         except OSError:
             continue
-        if (
-            "resolved: true" not in text.lower()
-            and f"experiment={experiment_id}" in text
-            and (f"arm={arm}" in text or f"harness {arm}" in text.lower() or f"{arm}" in text.splitlines()[0:8])
-        ):
+        matches = f"experiment={experiment_id}" in text and (
+            f"arm={arm}" in text or f"harness {arm}" in text.lower() or f"{arm}" in text.splitlines()[0:8]
+            or "arm=experiment" in text
+        )
+        is_unresolved = "resolved: true" not in text.lower()
+        if matches and is_unresolved == unresolved:
             return True
     return False
+
+
+def _monitor_terminal_reason(experiment: ExperimentTarget, experiment_dir: Path) -> str | None:
+    result = _read_json(experiment_dir / ".monitor-result.json")
+    if not result or result.get("status") != "needs-human":
+        return None
+    if result.get("desired_fingerprint") != experiment.fingerprint():
+        return None
+    reason = result.get("reason")
+    return str(reason) if reason else "monitor repair budget exhausted"
 
 
 def _arm_needs_onboarding(
@@ -259,6 +282,20 @@ def build_plan(
                     reasons[key] = mismatch or "selection mismatch"
             actions.append(FleetAction(experiment.id, "ticket", reason=mismatch or "selection mismatch"))
             continue
+
+        terminal_reason = _monitor_terminal_reason(experiment, experiment_dir)
+        if terminal_reason:
+            unresolved_ticket = any(_open_ticket_for(experiment.id, arm, ops_dir) for arm in experiment.arms)
+            resolved_ticket = any(_resolved_ticket_for(experiment.id, arm, ops_dir) for arm in experiment.arms)
+            if not unresolved_ticket and not resolved_ticket:
+                actions.append(FleetAction(experiment.id, "ticket", reason=terminal_reason))
+            if unresolved_ticket or not resolved_ticket:
+                for arm in experiment.arms:
+                    for run_index in range(1, experiment.runs + 1):
+                        key = f"{experiment.id}/{arm}/run_{run_index}"
+                        statuses[key] = "blocked-human"
+                        reasons[key] = terminal_reason
+                continue
 
         for arm in experiment.arms:
             if arm in onboarding_arms or arm in blocked_arms or not _known_arm(arm):

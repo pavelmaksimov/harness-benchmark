@@ -209,6 +209,11 @@ uv run python -m benchmark fleet --once --config configs/desired.yaml
 файлом `results/.fleet.lock`, второй monitor того же эксперимента —
 `results/<experiment>/.monitor.lock`.
 
+Для постоянного unattended-запуска `--once` недостаточен: он не является supervisor и не
+перезапустит fleet после падения процесса. Используйте user systemd unit ниже; он должен
+оставаться с `Restart=always` и `KillMode=control-group`, чтобы перезапускался весь процессный
+групповой контур.
+
 ## 5. Постоянный запуск
 
 ### Вручную в терминале

@@ -538,8 +538,18 @@ Hermes используется как компромиссный канал у�
   сохрани артефакты для триажа и запусти чистый experiment/slot с исправленным environment.
 - `unknown OpenCode error` с нулевыми токенами — transient provider failure; для чистого
   retry допускается `transient_retries: 2`, но не классифицируй это как дефект решения.
-- После успешного onboarding в режиме `--once` нужен следующий fleet cycle: первый cycle
-  создаёт `SMOKE.json`, следующий стартует monitor.
+- После успешного onboarding fleet немедленно перестраивает план и запускает monitor в том же
+  cycle; это важно для `--once` и убирает лишнее окно, в котором прогон мог остаться queued.
+- Для unattended-запуска используй установленный user systemd unit, а не только shell-таймер:
+  unit должен иметь `Restart=always` и `KillMode=control-group`. `fleet --once` — одна
+  reconcile-итерация, а не постоянный supervisor.
+- Если monitor исчерпал retry-бюджет, он пишет `.monitor-result.json` со статусом `needs-human`,
+  а planner создаёт idempotent ticket и блокирует эксперимент до `resolved: true`. Не возобновляй
+  такой прогон вручную вслепую: сначала исправь причину и только потом закрой тикет.
+- `benchmark.scb_main` в `/proc` — это worker текущего прогона, не доказательство живого fleet
+  monitor. Planner должен считать работу live только по процессу `monitor_benchmark.py`; сам monitor
+  при старте ждёт активное orphan-дерево и ориентируется на изменения файлов на диске, а не на тишину
+  буферизованного лога.
 
 ## graphify
 
