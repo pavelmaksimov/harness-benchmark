@@ -35,6 +35,8 @@ def test_compare_exposes_stage_tokens_and_raw_core_details() -> None:
                     "creation_output_tokens": 20,
                     "rework_input_tokens": 31,
                     "rework_output_tokens": 17,
+                    "cache_read_tokens": 123,
+                    "steps": 7,
                     "reasoning_tokens": 19,
                     "normalized_cost_usd": 0.12,
                     "elapsed_seconds": 4.5,
@@ -65,10 +67,14 @@ def test_compare_exposes_stage_tokens_and_raw_core_details() -> None:
     assert totals["repeated_attempts"] == 0
     assert totals["total_input_tokens"] == 101
     assert totals["total_output_tokens"] == 37
+    assert totals["cache_read_tokens"] == 123
+    assert totals["llm_requests"] == 7
     assert comparison["summary"]["core_failed"]["baseline"]["mean"] == 1
     assert comparison["summary"]["checkpoints_failed"]["baseline"]["mean"] == 1
     assert comparison["summary"]["total_input_tokens"]["baseline"]["mean"] == 101
     assert comparison["summary"]["total_output_tokens"]["baseline"]["mean"] == 37
+    assert comparison["summary"]["cache_read_tokens"]["baseline"]["mean"] == 123
+    assert comparison["summary"]["llm_requests"]["baseline"]["mean"] == 7
     assert comparison["summary"]["creation_input_tokens"]["baseline"]["mean"] == 70
     assert comparison["summary"]["rework_output_tokens"]["baseline"]["mean"] == 17
     assert comparison["summary"]["module_count"]["baseline"]["mean"] == 2

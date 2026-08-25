@@ -23,6 +23,8 @@ METRIC_KEYS = (
     "transient_output_tokens",
     "total_input_tokens",
     "total_output_tokens",
+    "cache_read_tokens",
+    "llm_requests",
     "normalized_cost",
     "elapsed_time",
     "loc_final",
@@ -56,6 +58,8 @@ SHORT_LABELS = {
     "provider_truncation_unresolved": "Truncations unresolved",
     "total_input_tokens": "All input tokens",
     "total_output_tokens": "All output tokens",
+    "cache_read_tokens": "Cached tokens",
+    "llm_requests": "LLM requests",
     "normalized_cost": "Normalized cost",
     "elapsed_time": "Elapsed",
     "loc_final": "Final LOC",
@@ -74,6 +78,8 @@ METRIC_LEADERBOARDS = (
     ("creation_output_tokens", "Creation output tokens", "Lower is better. Output tokens used by initial checkpoint attempts."),
     ("rework_input_tokens", "Rework input tokens", "Lower is better. Input tokens used by semantic rework attempts."),
     ("rework_output_tokens", "Rework output tokens", "Lower is better. Output tokens used by semantic rework attempts."),
+    ("cache_read_tokens", "Cached tokens", "Lower is better. Prompt tokens read from the provider cache."),
+    ("llm_requests", "LLM requests", "Lower is better. Sum of SCB agent steps (LLM requests) across checkpoints."),
     ("normalized_cost", "Normalized cost", "Lower is better. Cost normalized with the versioned pricing configuration."),
     ("elapsed_time", "Elapsed time", "Lower is better. Sum of agent inference time across checkpoints."),
     ("loc_final", "Final LOC", "Descriptive. Lines of solution code in the final snapshot."),
@@ -145,6 +151,8 @@ def _fmt_metric(key: str, value: float | None) -> str:
         "transient_output_tokens",
         "total_input_tokens",
         "total_output_tokens",
+        "cache_read_tokens",
+        "llm_requests",
     }:
         return f"{value:,.0f}"
     if isinstance(value, float) and not value.is_integer():
@@ -177,6 +185,8 @@ def _fmt_delta(key: str, value: float | None) -> str:
         "transient_output_tokens",
         "total_input_tokens",
         "total_output_tokens",
+        "cache_read_tokens",
+        "llm_requests",
     }:
         sign = "+" if value > 0 else ""
         return f"{sign}{value:,.0f}"
@@ -486,6 +496,8 @@ def _metric_cells(metrics: dict[str, Any]) -> str:
         _fmt_metric("creation_output_tokens", metrics.get("creation_output_tokens")),
         _fmt_metric("rework_input_tokens", metrics.get("rework_input_tokens")),
         _fmt_metric("rework_output_tokens", metrics.get("rework_output_tokens")),
+        _fmt_metric("cache_read_tokens", metrics.get("cache_read_tokens")),
+        _fmt_metric("llm_requests", metrics.get("llm_requests")),
         _fmt_metric("normalized_cost", metrics.get("normalized_cost")),
         _fmt_metric("elapsed_time", metrics.get("elapsed_time")),
         _fmt_metric("loc_final", metrics.get("loc_final")),
@@ -579,7 +591,7 @@ def format_leaderboard(payloads: list[dict[str, Any]]) -> str:
         "",
         "Published from `docs/reports/*.json`. Rebuilt by `python -m benchmark report`.",
         "Experiment reports appear newest first; leaderboard rows aggregate all compatible published runs.",
-        "Create/Rework token columns use per-attempt usage; `-` means it is unavailable.",
+        "Create/Rework/Cached token columns use per-attempt usage; `-` means it is unavailable.",
         "Failed CP counts checkpoints that failed at least once, including repaired ones.",
         "",
         "## By task",
@@ -594,9 +606,9 @@ def format_leaderboard(payloads: list[dict[str, Any]]) -> str:
         lines.append(f"### `{problem}`")
         lines.append("")
         lines.append(
-            "| Agent | Model | Harness | N | CP | Failed CP | Repeated | Reg | Create in | Create out | Rework in | Rework out | Cost | Time | LOC | Py modules | ΔLOC | Deps | Cx |"
+            "| Agent | Model | Harness | N | CP | Failed CP | Repeated | Reg | Create in | Create out | Rework in | Rework out | Cached tokens | LLM requests | Cost | Time | LOC | Py modules | ΔLOC | Deps | Cx |"
         )
-        lines.append("|-------|-------|---------|--:|--:|----------:|----------:|----:|----------:|-----------:|----------:|-----------:|-----:|-----:|----:|----------:|-----:|-----:|---:|")
+        lines.append("|-------|-------|---------|--:|--:|----------:|----------:|----:|----------:|-----------:|----------:|-----------:|-------------:|------------:|-----:|-----:|----:|----------:|-----:|-----:|---:|")
         rows = _sort_table_rows([c for c in cells if c["problem"] == problem], "model")
         for row in rows:
             lines.append(
@@ -614,9 +626,9 @@ def format_leaderboard(payloads: list[dict[str, Any]]) -> str:
         lines.append(f"### `{model}`")
         lines.append("")
         lines.append(
-            "| Problem | Agent | Harness | N | CP | Failed CP | Repeated | Reg | Create in | Create out | Rework in | Rework out | Cost | Time | LOC | Py modules | ΔLOC | Deps | Cx |"
+            "| Problem | Agent | Harness | N | CP | Failed CP | Repeated | Reg | Create in | Create out | Rework in | Rework out | Cached tokens | LLM requests | Cost | Time | LOC | Py modules | ΔLOC | Deps | Cx |"
         )
-        lines.append("|---------|-------|---------|--:|--:|----------:|----------:|----:|----------:|-----------:|----------:|-----------:|-----:|-----:|----:|----------:|-----:|-----:|---:|")
+        lines.append("|---------|-------|---------|--:|--:|----------:|----------:|----:|----------:|-----------:|----------:|-----------:|-------------:|------------:|-----:|-----:|----:|----------:|-----:|-----:|---:|")
         rows = _sort_table_rows([c for c in cells if c["model"] == model], "problem")
         for row in rows:
             lines.append(

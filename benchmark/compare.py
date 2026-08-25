@@ -239,6 +239,8 @@ def _run_totals(run: dict[str, Any]) -> dict[str, Any]:
     transient_output_tokens = _sum_stage_tokens(cps, "transient_output_tokens", "output_tokens")
     input_tokens = _sum_known(cps, "usage", "input_tokens")
     output_tokens = _sum_known(cps, "usage", "output_tokens")
+    cache_read_tokens = _sum_known(cps, "usage", "cache_read_tokens")
+    llm_requests = _sum_known(cps, "usage", "steps")
     reasoning = _sum_known(cps, "usage", "reasoning_tokens")
     final = _final_checkpoint(run) or {}
     return {
@@ -257,6 +259,8 @@ def _run_totals(run: dict[str, Any]) -> dict[str, Any]:
         "transient_output_tokens": transient_output_tokens,
         "total_input_tokens": input_tokens,
         "total_output_tokens": output_tokens,
+        "cache_read_tokens": cache_read_tokens,
+        "llm_requests": llm_requests,
         "reasoning_tokens": reasoning,
         "normalized_cost": cost,
         "elapsed_time": elapsed,
@@ -371,6 +375,8 @@ def compare_arms(by_arm: dict[str, list[dict[str, Any]]]) -> dict[str, Any]:
         "transient_output_tokens",
         "total_input_tokens",
         "total_output_tokens",
+        "cache_read_tokens",
+        "llm_requests",
         "reasoning_tokens",
         "normalized_cost",
         "elapsed_time",
