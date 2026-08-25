@@ -144,7 +144,8 @@ def _environment_config(arm: str) -> Path:
     """Resolve Docker environment yaml for an arm (absolute path for SCB)."""
     if arm_includes(arm, "supermemory"):
         return CONFIGS_DIR / "environments" / "docker-python3.12-uv-hostnet.yaml"
-    return SCB_DIR / "configs" / "environments" / "docker-python3.12-uv.yaml"
+    local = CONFIGS_DIR / "environments" / "docker-python3.12-uv.yaml"
+    return local if local.is_file() else SCB_DIR / "configs" / "environments" / "docker-python3.12-uv.yaml"
 
 
 @dataclass

@@ -1,0 +1,46 @@
+{
+  "arm": "python-harness+ponytail+tdd+graphify+benjamin-plus-skill+reclaim-code-entropy",
+  "checkpoints": [
+    "checkpoint_1"
+  ],
+  "checkpoints_completed": [
+    1,
+    2
+  ],
+  "exclude_dir_names": [
+    ".git",
+    ".mypy_cache",
+    ".pytest_cache",
+    ".ruff_cache",
+    ".tox",
+    ".venv",
+    "__pycache__",
+    "build",
+    "dist",
+    "doorstop-docs",
+    "graphify-out",
+    "node_modules",
+    "strictdoc-docs",
+    "venv"
+  ],
+  "experiment_id": "smoke-python-harness+ponytail+tdd+graphify+benjamin-plus-skill+reclaim-code-entropy-20260824T154100232507-3830c141",
+  "harness_activation_verified": true,
+  "harness_content_sha": "fcf3283507f64f361871a6ec6cbb7806d7f281bd32e19a47920023dfe9236081",
+  "ok": true,
+  "problem": "realworld",
+  "run_dir": "/home/user/my/harness-benchmark/results/smoke-python-harness+ponytail+tdd+graphify+benjamin-plus-skill+reclaim-code-entropy-20260824T154100232507-3830c141/python-harness+ponytail+tdd+graphify+benjamin-plus-skill+reclaim-code-entropy/run_1",
+  "snapshot": {
+    "already_excluded": [],
+    "needs_exclude_review": [],
+    "top_level": [
+      "realworld_app",
+      "requirements.txt",
+      "tests"
+    ],
+    "top_level_dirs": [
+      "realworld_app",
+      "tests"
+    ]
+  },
+  "validated_at": "2026-08-24T15:52:13.596488+00:00"
+}

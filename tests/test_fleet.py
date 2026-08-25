@@ -165,6 +165,36 @@ def test_planner_blocks_selection_change(tmp_path: Path) -> None:
     assert any(action.kind == "ticket" for action in plan.actions)
 
 
+def test_planner_onboards_registered_arm_with_missing_payload(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    config_path = tmp_path / "desired.yaml"
+    config_path.write_text(
+        yaml.safe_dump(
+            {
+                "defaults": {
+                    "agent": "opencode",
+                    "provider": "opencode_auth",
+                    "model": "x-preview-f-free",
+                    "thinking": "high",
+                },
+                "harnesses": {"python-harness": {"source": "https://example.invalid/harness"}},
+                "experiments": [
+                    {"id": "exp", "problem": "file_backup", "arms": ["python-harness"]}
+                ],
+            },
+            sort_keys=False,
+        ),
+        encoding="utf-8",
+    )
+    desired = load_desired(config_path)
+    monkeypatch.setattr("benchmark.fleet.planner.HARNESSES_DIR", tmp_path / "harnesses")
+
+    plan = build_plan(desired, results_dir=tmp_path / "results", ops_dir=tmp_path / "ops")
+
+    assert any(action.kind == "onboard" and action.arm == "python-harness" for action in plan.actions)
+
+
 class _Notifier:
     def __init__(self) -> None:
         self.calls: list[tuple[str, str]] = []

@@ -1,0 +1,13 @@
+{
+  "name": "reclaim-code-entropy",
+  "skill_name": "reclaim-code-entropy",
+  "version": "pinned-local",
+  "kind": "single",
+  "skill_sha256": "d3099852c5e3abdb46f7b9f9bf9189d924145bbaede78d982e35757a452c958e",
+  "tree_sha256": "f5764e9fe867d1a25d866f4f4f1567a647e8bd3b1f5e52ae863e16f7429eaa16",
+  "skill_bytes": 9573,
+  "file_count": 2,
+  "pinned_at": "2026-08-24T15:28:48.272857+00:00",
+  "source": "/home/user/my/harness-benchmark/harnesses/reclaim-code-entropy/skill",
+  "source_commit": "9e6482e45814076b9710b55c8dcbb064ba4b7977"
+}

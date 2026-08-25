@@ -79,6 +79,9 @@ COMBO_SUPERMEMORY_GRAPHIFY_PONYTAIL_THERMO = (
     "combo-supermemory-graphify-ponytail-thermo-nuclear-code-quality-review"
 )
 COMBO_SUPERMEMORY_GRAPHIFY = "combo-supermemory-graphify"
+COMBO_REALWORLD_HARNESSES = (
+    "python-harness+ponytail+tdd+graphify+benjamin-plus-skill+reclaim-code-entropy"
+)
 
 COMBINATION_ARMS: dict[str, tuple[str, ...]] = {
     COMBO_SUPERMEMORY_GRAPHIFY_PONYTAIL_THERMO_DOORSTOP_TDD: (
@@ -103,6 +106,14 @@ COMBINATION_ARMS: dict[str, tuple[str, ...]] = {
         "thermo-nuclear-code-quality-review",
     ),
     COMBO_SUPERMEMORY_GRAPHIFY: ("supermemory", "graphify"),
+    COMBO_REALWORLD_HARNESSES: (
+        "python-harness",
+        "ponytail",
+        "tdd",
+        "graphify",
+        "benjamin-plus-skill",
+        "reclaim-code-entropy",
+    ),
 }
 
 ARMS: dict[str, ArmSpec] = {
@@ -163,6 +174,24 @@ ARMS: dict[str, ArmSpec] = {
         skill_name="doorstop",
         activation_phrase="Activate and follow the installed Codex skill `doorstop`",
     ),
+    "python-harness": ArmSpec(
+        name="python-harness",
+        kind="single",
+        skill_name="python-harness",
+        activation_phrase="Activate and follow the installed Codex skill `python-harness`",
+    ),
+    "benjamin-plus-skill": ArmSpec(
+        name="benjamin-plus-skill",
+        kind="single",
+        skill_name="benjamin-plus-skill",
+        activation_phrase="Activate and follow the installed Codex skill `benjamin-plus-skill`",
+    ),
+    "reclaim-code-entropy": ArmSpec(
+        name="reclaim-code-entropy",
+        kind="single",
+        skill_name="reclaim-code-entropy",
+        activation_phrase="Activate and follow the installed Codex skill `reclaim-code-entropy`",
+    ),
 }
 ARMS.update(
     {
@@ -187,6 +216,9 @@ DEFAULT_EXPERIMENT_ARMS: tuple[str, ...] = (
     "review-agent",
     "strictdoc",
     "doorstop",
+    "python-harness",
+    "benjamin-plus-skill",
+    "reclaim-code-entropy",
     *COMBINATION_ARMS,
 )
 

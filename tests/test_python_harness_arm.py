@@ -1,15 +1,14 @@
 from benchmark.arms import DEFAULT_EXPERIMENT_ARMS, get_arm
-from benchmark.versions import load_arm_meta, sha256_file
-from benchmark.versions import copy_arm_agents_file
+from benchmark.versions import copy_arm_agents_file, load_arm_meta, sha256_file
 
 
-def test_python_harness_arm_is_registered_but_not_default_before_smoke() -> None:
+def test_python_harness_arm_is_registered_and_default() -> None:
     arm = get_arm("python-harness")
 
     assert arm.kind == "single"
     assert arm.skill_name == "python-harness"
     assert arm.prompt_path.name == "python-harness-solve.jinja"
-    assert "python-harness" not in DEFAULT_EXPERIMENT_ARMS
+    assert "python-harness" in DEFAULT_EXPERIMENT_ARMS
 
 
 def test_python_harness_pin_tracks_upstream_commit() -> None:

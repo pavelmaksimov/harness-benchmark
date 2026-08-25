@@ -190,6 +190,8 @@ def _arm_needs_onboarding(
     if not spec.needs_hook:
         return False, "baseline needs no onboarding"
     if not (HARNESSES_DIR / arm).is_dir():
+        if desired.harness(arm).source:
+            return True, "registered arm is missing its harness payload"
         return False, "registered arm has no harness directory"
     from benchmark.smoke import is_smoke_validated
 

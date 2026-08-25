@@ -1,0 +1,15 @@
+{
+  "name": "benjamin-plus-skill",
+  "skill_name": "benjamin-plus-skill",
+  "version": "pinned-local",
+  "kind": "single",
+  "skill_sha256": "a8a8871804f1890c75b15a11d769028ab5d22b2ab8941f9b3f9b24c9539cb58c",
+  "tree_sha256": "cce58619d91cb968280e4dc0f951eb2e9e784a7fbe790902b30d3585476b190f",
+  "skill_bytes": 3487,
+  "file_count": 1,
+  "pinned_at": "2026-08-24T15:03:39.599132+00:00",
+  "source": "/home/user/my/harness-benchmark/harnesses/benjamin-plus-skill/skill",
+  "agents_sha256": "be51fa14d9437840e7282d768f75e1938adb21286e9ef2eb167337daf418b275",
+  "agents_bytes": 2996,
+  "source_commit": "532771be5687566b12a9f62e17fbe7ad3591518c"
+}

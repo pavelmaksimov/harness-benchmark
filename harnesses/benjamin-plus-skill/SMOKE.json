@@ -1,0 +1,41 @@
+{
+  "arm": "benjamin-plus-skill",
+  "checkpoints": [
+    "checkpoint_1"
+  ],
+  "checkpoints_completed": [
+    1
+  ],
+  "exclude_dir_names": [
+    ".git",
+    ".mypy_cache",
+    ".pytest_cache",
+    ".ruff_cache",
+    ".tox",
+    ".venv",
+    "__pycache__",
+    "build",
+    "dist",
+    "doorstop-docs",
+    "graphify-out",
+    "node_modules",
+    "strictdoc-docs",
+    "venv"
+  ],
+  "experiment_id": "smoke-benjamin-plus-skill-20260824T145111991956-656b88fe",
+  "harness_activation_verified": true,
+  "harness_content_sha": "cce58619d91cb968280e4dc0f951eb2e9e784a7fbe790902b30d3585476b190f",
+  "ok": true,
+  "problem": "file_backup",
+  "run_dir": "/home/user/my/harness-benchmark/results/smoke-benjamin-plus-skill-20260824T145111991956-656b88fe/benjamin-plus-skill/run_1",
+  "snapshot": {
+    "already_excluded": [],
+    "needs_exclude_review": [],
+    "top_level": [
+      "backup_scheduler.py",
+      "requirements.txt"
+    ],
+    "top_level_dirs": []
+  },
+  "validated_at": "2026-08-24T15:01:14.857977+00:00"
+}

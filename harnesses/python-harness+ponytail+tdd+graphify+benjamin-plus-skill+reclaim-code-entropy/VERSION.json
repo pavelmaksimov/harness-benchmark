@@ -1,0 +1,26 @@
+{
+  "name": "python-harness+ponytail+tdd+graphify+benjamin-plus-skill+reclaim-code-entropy",
+  "skill_names": [
+    "benjamin-plus-skill",
+    "graphify",
+    "ponytail",
+    "python-harness",
+    "reclaim-code-entropy",
+    "tdd"
+  ],
+  "version": "pinned-local",
+  "kind": "bundle",
+  "tree_sha256": "fcf3283507f64f361871a6ec6cbb7806d7f281bd32e19a47920023dfe9236081",
+  "skill_bytes": 114771,
+  "file_count": 19,
+  "pinned_at": "2026-08-24T15:41:00.232386+00:00",
+  "source": "/home/user/my/harness-benchmark/harnesses/python-harness+ponytail+tdd+graphify+benjamin-plus-skill+reclaim-code-entropy/skills + /home/user/my/harness-benchmark/harnesses/python-harness+ponytail+tdd+graphify+benjamin-plus-skill+reclaim-code-entropy/home",
+  "component_arms": [
+    "python-harness",
+    "ponytail",
+    "tdd",
+    "graphify",
+    "benjamin-plus-skill",
+    "reclaim-code-entropy"
+  ]
+}

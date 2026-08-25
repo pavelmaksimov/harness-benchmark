@@ -516,6 +516,31 @@ Hermes используется как компромиссный канал у�
 
 Подробные варианты запуска, resume и systemd находятся в [docs/fleet-autopilot.md](docs/fleet-autopilot.md).
 
+### Инцидент fleet: jobs и OpenRouter credentials
+
+- При разных профилях задавай `jobs` в каждом `experiments[].jobs`, а не только в
+  `defaults.jobs`. После запуска проверяй фактический контракт в
+  `results/<experiment>/.fleet-work.json` и `fleet-monitor.log`: там должны быть
+  `--jobs N` у `monitor_benchmark.py` и `run-all`.
+- Перед OpenRouter smoke/run выполняй profile validation с `--check-credentials`.
+  Отсутствующий `OPENROUTER_API_KEY` классифицируй как credential/infrastructure
+  blocker и не засчитывай как ошибку модели или harness.
+- `HB_FLEET_ONBOARD_COMMAND` нужен только когда payload действительно отсутствует.
+  Если harness уже скопирован и pinned, запускай fleet без этой переменной: daemon
+  сам перепинит и проведёт smoke, не создавая лишнего внешнего onboarding-процесса.
+
+### Инцидент SCB cleanup
+
+- Для Docker environment benchmark wrapper должен задавать `docker.user: "1000:1000"`.
+  Иначе `resume_commands` создают root-owned `.venv`, а завершение прогона падает на
+  `PermissionError` при удалении временного workspace.
+- После такого cleanup failure не возобновляй старый run со старым `environment.yaml`:
+  сохрани артефакты для триажа и запусти чистый experiment/slot с исправленным environment.
+- `unknown OpenCode error` с нулевыми токенами — transient provider failure; для чистого
+  retry допускается `transient_retries: 2`, но не классифицируй это как дефект решения.
+- После успешного onboarding в режиме `--once` нужен следующий fleet cycle: первый cycle
+  создаёт `SMOKE.json`, следующий стартует monitor.
+
 ## graphify
 
 This project has a knowledge graph at graphify-out/ with god nodes, community structure, and cross-file relationships.

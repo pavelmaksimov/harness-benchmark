@@ -1,0 +1,44 @@
+{
+  "arm": "reclaim-code-entropy",
+  "checkpoints": [
+    "checkpoint_1"
+  ],
+  "checkpoints_completed": [
+    1,
+    2
+  ],
+  "exclude_dir_names": [
+    ".git",
+    ".mypy_cache",
+    ".pytest_cache",
+    ".ruff_cache",
+    ".tox",
+    ".venv",
+    "__pycache__",
+    "build",
+    "dist",
+    "doorstop-docs",
+    "graphify-out",
+    "node_modules",
+    "strictdoc-docs",
+    "venv"
+  ],
+  "experiment_id": "smoke-reclaim-code-entropy-20260824T152848273088-a3595188",
+  "harness_activation_verified": true,
+  "harness_content_sha": "f5764e9fe867d1a25d866f4f4f1567a647e8bd3b1f5e52ae863e16f7429eaa16",
+  "ok": true,
+  "problem": "realworld",
+  "run_dir": "/home/user/my/harness-benchmark/results/smoke-reclaim-code-entropy-20260824T152848273088-a3595188/reclaim-code-entropy/run_1",
+  "snapshot": {
+    "already_excluded": [],
+    "needs_exclude_review": [],
+    "top_level": [
+      "realworld_app",
+      "requirements.txt"
+    ],
+    "top_level_dirs": [
+      "realworld_app"
+    ]
+  },
+  "validated_at": "2026-08-24T15:41:00.049701+00:00"
+}
