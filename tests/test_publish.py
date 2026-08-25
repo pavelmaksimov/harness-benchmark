@@ -110,6 +110,8 @@ def test_leaderboard_shows_stage_tokens_without_diagnostic_columns() -> None:
                 "rework_output_tokens": 167,
                 "total_input_tokens": 1234,
                 "total_output_tokens": 567,
+                "cache_read_tokens": 2345,
+                "llm_requests": 6,
                 "normalized_cost": 0.0,
                 "elapsed_time": 60.0,
                 "loc_final": 10,
@@ -126,11 +128,12 @@ def test_leaderboard_shows_stage_tokens_without_diagnostic_columns() -> None:
 
     assert (
         "| Agent | Model | Harness | N | CP | Failed CP | Repeated | Reg | Create in | "
-        "Create out | Rework in | Rework out | Cost | Time | LOC | Py modules | ΔLOC | Deps | Cx |"
+        "Create out | Rework in | Rework out | Cached tokens | LLM requests | Cost | Time | "
+        "LOC | Py modules | ΔLOC | Deps | Cx |"
     ) in text
     assert "| Experiment | Date | Problem | Agent | Model | N | Report |" in text
     assert "| Problem | Agent | Harness | N | CP | Failed CP | Repeated | Reg | Create in | " in text
-    assert "|---------|-------|---------|--:|--:|----------:|----------:|----:|----------:|-----------:|----------:|-----------:|-----:|-----:|----:|----------:|-----:|-----:|---:|" in text
+    assert "| 1,000 | 400 | 234 | 167 | 2,345 | 6 | $0.00 |" in text
     assert "## Metric leaderboards" in text
     assert "### CP passed/total" in text
     assert "### Python modules" in text

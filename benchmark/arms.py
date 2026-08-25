@@ -82,6 +82,13 @@ COMBO_SUPERMEMORY_GRAPHIFY = "combo-supermemory-graphify"
 COMBO_REALWORLD_HARNESSES = (
     "python-harness+ponytail+tdd+graphify+benjamin-plus-skill+reclaim-code-entropy"
 )
+PYTHON_HARNESS_V123 = "python-harness-v1.2.3"
+COMBO_PYTHON_HARNESS_V123_TDD = (
+    "python-harness-v1.2.3+ponytail+tdd+graphify+benjamin-plus-skill"
+)
+COMBO_PYTHON_HARNESS_V123 = (
+    "python-harness-v1.2.3+ponytail+graphify+benjamin-plus-skill"
+)
 
 COMBINATION_ARMS: dict[str, tuple[str, ...]] = {
     COMBO_SUPERMEMORY_GRAPHIFY_PONYTAIL_THERMO_DOORSTOP_TDD: (
@@ -113,6 +120,19 @@ COMBINATION_ARMS: dict[str, tuple[str, ...]] = {
         "graphify",
         "benjamin-plus-skill",
         "reclaim-code-entropy",
+    ),
+    COMBO_PYTHON_HARNESS_V123_TDD: (
+        "python-harness",
+        "ponytail",
+        "tdd",
+        "graphify",
+        "benjamin-plus-skill",
+    ),
+    COMBO_PYTHON_HARNESS_V123: (
+        "python-harness",
+        "ponytail",
+        "graphify",
+        "benjamin-plus-skill",
     ),
 }
 
@@ -180,6 +200,12 @@ ARMS: dict[str, ArmSpec] = {
         skill_name="python-harness",
         activation_phrase="Activate and follow the installed Codex skill `python-harness`",
     ),
+    PYTHON_HARNESS_V123: ArmSpec(
+        name=PYTHON_HARNESS_V123,
+        kind="single",
+        skill_name="python-harness",
+        activation_phrase="Activate and follow the installed Codex skill `python-harness`",
+    ),
     "benjamin-plus-skill": ArmSpec(
         name="benjamin-plus-skill",
         kind="single",
@@ -217,6 +243,7 @@ DEFAULT_EXPERIMENT_ARMS: tuple[str, ...] = (
     "strictdoc",
     "doorstop",
     "python-harness",
+    PYTHON_HARNESS_V123,
     "benjamin-plus-skill",
     "reclaim-code-entropy",
     *COMBINATION_ARMS,
