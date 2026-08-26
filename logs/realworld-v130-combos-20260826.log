@@ -1,0 +1,7 @@
+=== run-all × 2 jobs=3 agent=opencode provider=opencode_auth 
+model=x-preview-f-free thinking=high transient_retries=2 
+feedback_strategy=(state.json) 
+arms=python-harness-v1.3.0+graphify,python-harness-v1.3.0+doorstop,python-harnes
+s-v1.3.0+strictdoc 
+experiment_id=realworld-opencode-x-preview-f-free-high-python-harness-v1.3.0-com
+bos-20260826 ===

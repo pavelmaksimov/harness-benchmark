@@ -1,0 +1,7 @@
+experiment_id=realworld-opencode-x-preview-f-free-high-all-20260822-1838 
+arm=baseline runs=1 jobs=1 agent=opencode provider=opencode_auth 
+model=x-preview-f-free thinking=high transient_retries=0 
+feedback_strategy=current-first
+Completed 1 runs → 
+/home/user/my/harness-benchmark/results/realworld-opencode-x-preview-f-free-high
+-all-20260822-1838/baseline

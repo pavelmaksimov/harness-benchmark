@@ -26,5 +26,5 @@ DEFAULT_MODEL = "gpt-5.6-luna"
 DEFAULT_THINKING = "max"
 DEFAULT_AGENT = "codex"
 DEFAULT_PROVIDER = "codex_auth"
-SUPPORTED_AGENTS = ("codex", "opencode")
+SUPPORTED_AGENTS = ("codex", "opencode", "omp")
 MODELS_DIR = CONFIGS_DIR / "models"

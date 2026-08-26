@@ -1,0 +1,13 @@
+# Versioned Python Harness 1.3.0 combined realworld arm.
+agent: configs/agent_opencode.yaml
+environment: docker-python3.12-uv
+prompt: configs/prompts/python-harness-v1.3.0+doorstop-solve.jinja
+model:
+  provider: opencode_auth
+  name: x-preview-f-free
+thinking: high
+pass_policy: all-core-cases
+problems:
+  - realworld
+save_dir: results/raw
+save_template: ${model.name}/python_harness_v1_3_0_combo_${prompt}_${thinking}_${now:%Y%m%dT%H%M%S}

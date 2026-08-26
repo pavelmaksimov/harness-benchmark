@@ -1,0 +1,14 @@
+{
+  "name": "python-harness-v1.3.0+doorstop",
+  "skill_names": [
+    "doorstop",
+    "python-harness"
+  ],
+  "version": "pinned-local",
+  "kind": "bundle",
+  "tree_sha256": "c2d37715861ce0082ea0980592d4eb7bb98025b0ad984f33763e18acee0588a7",
+  "skill_bytes": 13089,
+  "file_count": 3,
+  "pinned_at": "2026-08-26T09:42:07.459688+00:00",
+  "source": "/home/user/my/harness-benchmark/harnesses/python-harness-v1.3.0+doorstop/skills + /home/user/my/harness-benchmark/harnesses/python-harness-v1.3.0+doorstop/home"
+}

@@ -4,5 +4,6 @@
   "ponytail_version": "4.8.4",
   "ponytail_skill_sha256": "1316a2f3f95741d2300b116fe0c2d81ce4a9568656ed0a62643f54aaf09957f2",
   "codex_cli_host_version": "0.145.0",
-  "opencode_cli_version": "1.14.33"
+  "opencode_cli_version": "1.14.33",
+  "omp_cli_version": "18.0.4"
 }
