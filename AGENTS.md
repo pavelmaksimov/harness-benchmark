@@ -603,6 +603,35 @@ Hermes используется как компромиссный канал у�
   запускай только нужный arm отдельной командой с `--runs 1 --jobs 1` и тем же
   `--experiment-id`; `_next_append_index` добавит следующий `run_N` безопасно.
 
+### Интеграция omp (oh-my-pi) как агента benchmark (2026-08-26)
+
+Адаптер: `benchmark/omp_agent.py` (`OmpAgent(PiAgent)`, тип `omp`), образ
+`benchmark/assets/omp.docker.j2` ставит прекомпилированный бинарь через
+`https://omp.sh/install.sh --binary --ref v<pin>`; pin `omp_cli_version` в
+`vendor/pins.json`. Грабли:
+
+1. Сабкласс `PiConfig` наследует ClassVar `agent_type='pi'` и регистрируется под
+   ним — нужен явный `class OmpConfig(PiConfig, agent_type="omp")` И переопределение
+   поля `type: Literal["omp"]`; без второго pydantic отвергает yaml с `type: omp`.
+2. `RUN` в Dockerfile исполняется через `bash -lc`: login-shell сбрасывает PATH,
+   поэтому вызывать установленный бинарь надо по абсолютному пути. npm-пакет
+   `@oh-my-pi/pi-coding-agent` требует bun-рантайм — не использовать, только
+   prebuilt binary.
+3. `harness_sitecustomize/sitecustomize.py` грузит оверлеи моделей в воркерах
+   независимо от `scb_main`: любой новый провайдер должен регистрироваться до
+   `ModelCatalog.load_from_directory` и там тоже (иначе «unknown provider» и
+   молчаливый пропуск оверлея).
+4. Патч агента в `skill_hook.py` обязан заменять ОБА метода (setup + save_artifacts):
+   после инцидента с потерянной строкой `OmpAgent.save_artifacts = ...` смоук дважды
+   падал с `activation_verified=False` при зелёных Core-тестах.
+5. Маршрут omp `opencode-go/ox-alpha-free` → 401 Insufficient balance. Рабочий
+   бесплатный путь: токен из хранилища pi (`~/.omp/agent`, монтируется в контейнер)
+   + провайдер `openrouter`, модель `stealth/ox-alpha` (overlay
+   `configs/models/stealth-ox-alpha.yaml`, CLI-имя без слэша). Провайдер
+   `omp_auth` — файловый маркер `~/.omp/agent/.scb-credential`, значение не используется.
+6. `resolve_run_selection` для baseline-arm исторически подменял агента на codex;
+   теперь явно переданный agent сохраняется (нужно для baseline на omp).
+
 ## graphify
 
 This project has a knowledge graph at graphify-out/ with god nodes, community structure, and cross-file relationships.

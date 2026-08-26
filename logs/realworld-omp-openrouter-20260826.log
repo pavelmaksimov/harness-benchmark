@@ -3,3 +3,94 @@ thinking=high transient_retries=(state.json) feedback_strategy=(state.json)
 arms=baseline,python-harness 
 experiment_id=realworld-omp-stealthoxalpha-high-baseline-pythonharness-20260826 
 ===
+REALWORLD — multi-harness
+
+N baseline=0  python-harness=0
+Failed checkpoints includes checkpoints repaired by rework.
+Rework tokens are All tokens minus Creation tokens when per-attempt usage is 
+unavailable.
+Transient retries are separate from semantic rework and require high-confidence 
+truncation signals.
+Excluded (activation unverified): python-harness=1
+Incomplete (excluded from averages): baseline=1, python-harness=1
+
+Metric                       baseline python-harness
+----------------------------------------------------
+CP passed/total                   -/-            -/-
+Failed checkpoints                  -              -
+Regressions                         -              -
+Creation input tokens               -              -
+Creation output tokens              -              -
+Rework input tokens                 -              -
+Rework output tokens                -              -
+Transient input tokens              -              -
+Transient output tokens              -              -
+All input tokens                    -              -
+All output tokens                   -              -
+Reasoning tokens                    -              -
+Normalized cost                     -              -
+Elapsed time                        -              -
+Final LOC                           -              -
+Python modules                      -              -
+Changed LOC                         -              -
+Files touched                       -              -
+Dependencies                        -              -
+Complexity                          -              -
+Semantic rework attempts              -              -
+Repeated attempts                   -              -
+Rework fixed                        -              -
+Rework unresolved                   -              -
+Transient retries                   -              -
+Provider truncations                -              -
+Transient recoveries                -              -
+Truncations unresolved              -              -
+
+Δ vs baseline (mean):
+Metric                 python-harness
+CP passed/total                     -
+Failed checkpoints                  -
+Regressions                         -
+Creation input tokens               -
+Creation output tokens              -
+Rework input tokens                 -
+Rework output tokens                -
+Transient input tokens              -
+Transient output tokens              -
+All input tokens                    -
+All output tokens                   -
+Reasoning tokens                    -
+Normalized cost                     -
+Elapsed time                        -
+Final LOC                           -
+Python modules                      -
+Changed LOC                         -
+Files touched                       -
+Dependencies                        -
+Complexity                          -
+Semantic rework attempts              -
+Repeated attempts                   -
+Rework fixed                        -
+Rework unresolved                   -
+Transient retries                   -
+Provider truncations                -
+Transient recoveries                -
+Truncations unresolved              -
+
+Per-checkpoint (raw):
+CP   Arm                                  Pass   Create In Create Out  Rework In
+Rework Out Transient In Transient Out     All In    All Out     Cost     Time   
+LOCΔ   FilesΔ   Reg Repeat
+
+Stats per metric include mean/median/min/max/stddev in the JSON report.
+
+Wrote 
+/home/user/my/harness-benchmark/reports/realworld-omp-stealthoxalpha-high-baseli
+ne-pythonharness-20260826/comparison.txt and 
+/home/user/my/harness-benchmark/reports/realworld-omp-stealthoxalpha-high-baseli
+ne-pythonharness-20260826/comparison.json
+Published 
+/home/user/my/harness-benchmark/docs/reports/realworld-omp-stealthoxalpha-high-b
+aseline-pythonharness-20260826.md, 
+/home/user/my/harness-benchmark/docs/reports/realworld-omp-stealthoxalpha-high-b
+aseline-pythonharness-20260826.json, 
+/home/user/my/harness-benchmark/docs/LEADERBOARD.md

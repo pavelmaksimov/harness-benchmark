@@ -96,7 +96,7 @@ def resolve_run_selection(
         return agent, provider, model, thinking if thinking is not None else "none"
 
     return (
-        DEFAULT_AGENT,
+        agent,
         provider if provider is not None else DEFAULT_PROVIDER,
         model if model is not None else DEFAULT_MODEL,
         thinking if thinking is not None else DEFAULT_THINKING,

@@ -11,6 +11,8 @@ from benchmark.arms import get_arm
 from benchmark.paths import ACTIVATION_MARKER
 from benchmark.versions import copy_arm_agents_file, copy_arm_skills
 
+_ORIG_OMPA_SETUP = None
+_ORIG_OMPA_SAVE = None
 _ORIG_SETUP = None
 _ORIG_SAVE = None
 _ORIG_OC_VOLUMES = None
@@ -20,8 +22,9 @@ _LAST_MARKER: dict[str, Any] | None = None
 
 
 def install_skill_hook() -> None:
-    """Monkeypatch CodexAgent.setup/save_artifacts and OpenCodeAgent volumes for skill injection."""
+    """Monkeypatch Codex/OpenCode/Omp agents for skill injection."""
     global _ORIG_SETUP, _ORIG_SAVE, _ORIG_OC_VOLUMES, _ORIG_OC_SAVE, _INSTALLED
+    global _ORIG_OMPA_SETUP, _ORIG_OMPA_SAVE
     if _INSTALLED:
         return
 
@@ -151,6 +154,89 @@ def install_skill_hook() -> None:
 
     OpenCodeAgent._get_volumes = oc_get_volumes  # type: ignore[method-assign]
     OpenCodeAgent.save_artifacts = oc_save_artifacts  # type: ignore[method-assign]
+    # ---- OmpAgent: install skills into the omp agent-state mount ----
+    import tempfile
+
+    from benchmark.omp_agent import OMP_AGENT_HOST_DIR, OmpAgent
+    _ORIG_OMPA_SETUP = OmpAgent.setup
+    _ORIG_OMPA_SAVE = OmpAgent.save_artifacts
+
+    def ompa_setup(self, session):  # type: ignore[no-untyped-def]
+        global _LAST_MARKER
+        self._session = session
+        self._environment = session.spec
+        self._artifact_payloads = []
+        self._tmp_dir = tempfile.TemporaryDirectory()
+        tmp = Path(self._tmp_dir.name)
+        arm_name = os.environ.get("HB_ARM") or os.environ.get("HB_ENABLE_HARNESS")
+        mounts: dict[str, dict[str, str]] = {
+            str(OMP_AGENT_HOST_DIR): {
+                "bind": f"{HOME_PATH}/.omp/agent",
+                "mode": "rw",
+            },
+        }
+        env_vars = {
+            "HOME": HOME_PATH,
+            "PI_CODING_AGENT_DIR": f"{HOME_PATH}/.omp/agent",
+        }
+        if not arm_name:
+            _LAST_MARKER = {
+                "harness_activation_verified": False,
+                "reason": "no_HB_ARM",
+            }
+        else:
+            arm = get_arm(arm_name)
+            if not arm.needs_hook:
+                _LAST_MARKER = None
+            else:
+                skills_root = tmp / "skills"
+                codex_home = tmp / ".codex"
+                codex_home.mkdir(parents=True, exist_ok=True)
+                _LAST_MARKER = copy_arm_skills(arm, skills_root, codex_home=codex_home)
+                mounts[str(skills_root)] = {
+                    "bind": f"{HOME_PATH}/.omp/agent/skills",
+                    "mode": "rw",
+                }
+                agents_path = tmp / "AGENTS.md"
+                agents_marker = copy_arm_agents_file(arm, agents_path)
+                if agents_marker.get("agents_file_present"):
+                    _LAST_MARKER.update(agents_marker)
+                    _LAST_MARKER["activation_mechanism"] = (
+                        f"{_LAST_MARKER['activation_mechanism']}+workspace_agents_mount"
+                    )
+                    if not agents_marker.get("agents_file_verified"):
+                        _LAST_MARKER["harness_activation_verified"] = False
+                    mounts[str(agents_path)] = {
+                        "bind": "/workspace/AGENTS.md",
+                        "mode": "ro",
+                    }
+                (codex_home / ACTIVATION_MARKER).write_text(
+                    json.dumps(_LAST_MARKER, indent=2) + "\n",
+                    encoding="utf-8",
+                )
+        self._runtime = session.spawn(
+            mounts=mounts,
+            env_vars=env_vars,
+            image=self._image,
+            user="agent",
+            disable_setup=True,
+        )
+
+    def ompa_save_artifacts(self, path: Path) -> None:  # type: ignore[no-untyped-def]
+        _ORIG_OMPA_SAVE(self, path)
+        marker = _LAST_MARKER
+        if marker is None and self._tmp_dir is not None:
+            candidate = Path(self._tmp_dir.name) / ".codex" / ACTIVATION_MARKER
+            if candidate.exists():
+                marker = json.loads(candidate.read_text(encoding="utf-8"))
+        if marker is not None:
+            (path / ACTIVATION_MARKER).write_text(
+                json.dumps(marker, indent=2) + "\n",
+                encoding="utf-8",
+            )
+
+    OmpAgent.setup = ompa_setup  # type: ignore[method-assign]
+    OmpAgent.save_artifacts = ompa_save_artifacts  # type: ignore[method-assign]
     _INSTALLED = True
 
 
@@ -169,6 +255,14 @@ def uninstall_skill_hook() -> None:
         OpenCodeAgent._get_volumes = _ORIG_OC_VOLUMES  # type: ignore[method-assign]
     if _ORIG_OC_SAVE is not None:
         OpenCodeAgent.save_artifacts = _ORIG_OC_SAVE  # type: ignore[method-assign]
+    if _ORIG_OMPA_SETUP is not None:
+        from benchmark.omp_agent import OmpAgent
+
+        OmpAgent.setup = _ORIG_OMPA_SETUP  # type: ignore[method-assign]
+    if _ORIG_OMPA_SAVE is not None:
+        from benchmark.omp_agent import OmpAgent as _OmpAgent
+
+        _OmpAgent.save_artifacts = _ORIG_OMPA_SAVE  # type: ignore[method-assign]
     _INSTALLED = False
     _LAST_MARKER = None
 

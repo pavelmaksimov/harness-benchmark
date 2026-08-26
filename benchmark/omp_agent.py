@@ -4,19 +4,17 @@ The ``omp`` binary is flag-compatible with the vendored ``pi`` adapter
 (``--print --mode json --no-session --provider --model --thinking``), so this
 module subclasses :class:`PiAgent` and only changes:
 
-- binary name and Docker image payload (npm package ``@oh-my-pi/pi-coding-agent``);
-- the agent-state directory (``~/.omp/agent`` instead of ``~/.pi/agent``;
-  ``PI_CODING_AGENT_DIR`` relocates the omp base dir, so no bind mount and no
-  host-side credential copying are needed);
+- binary name and Docker image payload (prebuilt omp binary installed by
+  ``benchmark/assets/omp.docker.j2``);
+- the agent-state directory: the host ``~/.omp/agent`` dir (which holds the
+  provider tokens installed inside pi, e.g. openrouter) is bind-mounted over
+  the container ``~/.omp/agent``; ``PI_CODING_AGENT_DIR`` relocates the base;
 - provider-id allowlist (adds ``opencode-zen``, ``opencode-go``, ``cursor``,
   ``gitlab-duo``, ``gitlab-duo-agent`` unknown to the upstream pi mapping).
 
-Credentials are resolved by SCB through a normal env-var provider
-(``omp_auth`` -> ``OPENCODE_API_KEY``), registered below so no vendor file
-changes are needed.
+Credentials come from the mounted pi auth store, so no env-var provider is
+required; ``omp_auth`` stays registered for validation compatibility.
 """
-
-from __future__ import annotations
 
 import typing as tp
 from pathlib import Path
@@ -27,10 +25,12 @@ from slop_code.agent_runner.credentials import CredentialType, ProviderCatalog, 
 from slop_code.agent_runner.registry import register_agent
 
 BENCHMARK_ASSETS = Path(__file__).resolve().parent / "assets"
+OMP_AGENT_HOST_DIR = Path.home() / ".omp" / "agent"
 
 # omp provider ids accepted in configs/agent_omp.yaml (`provider:` field).
 _OMP_PROVIDER_IDS = frozenset(
     {
+        "openrouter",
         "opencode-zen",
         "opencode-go",
         "cursor",
@@ -41,27 +41,33 @@ _OMP_PROVIDER_IDS = frozenset(
 
 
 def _ensure_omp_auth_provider() -> None:
-    """Register the ``omp_auth`` env-var credential provider once."""
+    """Register the ``omp_auth`` pseudo-provider (marker-file credential)."""
     ProviderCatalog.ensure_loaded()
-    if "omp_auth" not in ProviderCatalog.list_providers():
-        ProviderCatalog.register(
-            ProviderDefinition(
-                name="omp_auth",
-                credential_type=CredentialType.ENV_VAR,
-                env_var="OPENCODE_API_KEY",
-                description=(
-                    "opencode zen API key routed through the omp CLI "
-                    "(export OPENCODE_API_KEY before launching)"
-                ),
-            )
+    if "omp_auth" in ProviderCatalog.list_providers():
+        return
+    marker = OMP_AGENT_HOST_DIR / ".scb-credential"
+    if not marker.exists():
+        OMP_AGENT_HOST_DIR.mkdir(parents=True, exist_ok=True)
+        marker.write_text("omp tokens are read from the mounted ~/.omp/agent store\n")
+    ProviderCatalog.register(
+        ProviderDefinition(
+            name="omp_auth",
+            credential_type=CredentialType.FILE,
+            file_path=str(marker),
+            destination_key="OMP_AUTH_MARKER",
+            description=(
+                "routing alias for the omp CLI; tokens are read from the "
+                "mounted host ~/.omp/agent store, not from this credential"
+            ),
         )
+    )
 
 
 class OmpConfig(PiConfig, agent_type="omp"):
     """Configuration for :class:`OmpAgent` instances."""
 
     type: tp.Literal["omp"] = "omp"
-    binary: str = "omp"
+    binary: str = "/tmp/agent_home/.local/bin/omp"
     version: str
     docker_template: Path = BENCHMARK_ASSETS / "omp.docker.j2"
 
@@ -76,17 +82,24 @@ class OmpAgent(PiAgent):
         return PiAgent._resolve_pi_provider(provider)
 
     def setup(self, session) -> None:  # type: ignore[no-untyped-def]
-        """PiAgent.setup contract, but with the omp state dir inside the image."""
+        """PiAgent.setup contract, with the omp state dir (tokens) mounted."""
         self._session = session
         self._environment = session.spec
         self._artifact_payloads = []
         self._tmp_dir = None
         self._pi_auth_dir = None
         # PI_CODING_AGENT_DIR relocates the ~/.omp/agent base; the directory is
-        # created (and owned by user ``agent``) by benchmark/assets/omp.docker.j2.
+        # created by benchmark/assets/omp.docker.j2 and the host agent-state dir
+        # (~/.omp/agent with stored provider tokens) is mounted over it.
         self._pi_agent_dir_env = f"{HOME_PATH}/.omp/agent"
+        mounts = {
+            str(OMP_AGENT_HOST_DIR): {
+                "bind": self._pi_agent_dir_env,
+                "mode": "rw",
+            },
+        }
         self._runtime = session.spawn(
-            mounts={},
+            mounts=mounts,
             env_vars={
                 "HOME": HOME_PATH,
                 "PI_CODING_AGENT_DIR": self._pi_agent_dir_env,

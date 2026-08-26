@@ -1,0 +1,50 @@
+=== smoke CP1 arm=python-harness agent=omp provider=omp_auth 
+model=stealth-ox-alpha thinking=high ===
+╭───────────────────── Traceback (most recent call last) ──────────────────────╮
+│ /home/user/my/harness-benchmark/benchmark/cli.py:139 in smoke_cmd            │
+│                                                                              │
+│   136 │   │   f"=== smoke CP{checkpoints} arm={arm} agent={agent}            │
+│       provider={provider} "                                                  │
+│   137 │   │   f"model={model} thinking={thinking} ==="                       │
+│   138 │   )                                                                  │
+│ ❱ 139 │   collected = run_smoke(                                             │
+│   140 │   │   arm=arm,                                                       │
+│   141 │   │   problem=problem,                                               │
+│   142 │   │   agent=agent,                                                   │
+│                                                                              │
+│ /home/user/my/harness-benchmark/benchmark/scb_run.py:888 in run_smoke        │
+│                                                                              │
+│    885 │   │   checkpoint_count=checkpoint_count,                            │
+│    886 │   )                                                                 │
+│    887 │                                                                     │
+│ ❱  888 │   collected = run_one(                                              │
+│    889 │   │   arm=arm,                                                      │
+│    890 │   │   problem=problem,                                              │
+│    891 │   │   thinking=thinking,                                            │
+│                                                                              │
+│ /home/user/my/harness-benchmark/benchmark/scb_run.py:826 in run_one          │
+│                                                                              │
+│    823 │   use_native_resume = resume and (out_dir / "scb").is_dir()         │
+│    824 │                                                                     │
+│    825 │   try:                                                              │
+│ ❱  826 │   │   run_slop_code(                                                │
+│    827 │   │   │   arm=arm,                                                  │
+│    828 │   │   │   problem=problem,                                          │
+│    829 │   │   │   thinking=ctx.thinking,                                    │
+│                                                                              │
+│ /home/user/my/harness-benchmark/benchmark/scb_run.py:583 in run_slop_code    │
+│                                                                              │
+│    580 │   │   )                                                             │
+│    581 │   (output_dir /                                                     │
+│        "scb_exit_code.txt").write_text(str(proc.returncode),                 │
+│        encoding="utf-8")                                                     │
+│    582 │   if proc.returncode != 0:                                          │
+│ ❱  583 │   │   raise RuntimeError(                                           │
+│    584 │   │   │   f"slop-code run failed for arm={arm} (exit                │
+│        {proc.returncode}); see {log_path}"                                   │
+│    585 │   │   )                                                             │
+│    586 │   return output_dir                                                 │
+╰──────────────────────────────────────────────────────────────────────────────╯
+RuntimeError: slop-code run failed for arm=python-harness (exit 1); see 
+/home/user/my/harness-benchmark/results/smoke-python-harness-20260826T1244287674
+91-df429a59/python-harness/run_1/scb_run.log

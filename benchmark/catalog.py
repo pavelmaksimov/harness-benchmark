@@ -42,6 +42,8 @@ def load_catalogs() -> tuple[Any, Any]:
     from slop_code.agent_runner.credentials import ProviderCatalog
     from slop_code.common.llms import ModelCatalog
 
+    import benchmark.omp_agent  # noqa: F401  (registers omp agent + omp_auth provider)
+
     ProviderCatalog.ensure_loaded()
     ModelCatalog.ensure_loaded()
     if MODELS_DIR.is_dir():
