@@ -1,0 +1,22 @@
+{
+  "name": "python-harness-v1.2.3+ponytail+graphify+benjamin-plus-skill",
+  "skill_names": [
+    "benjamin-plus-skill",
+    "graphify",
+    "ponytail",
+    "python-harness"
+  ],
+  "version": "pinned-local",
+  "kind": "bundle",
+  "tree_sha256": "3223a203456afeda4c95f295604bcc6c795c860f9ab0e478a4f5e7a4a462abe6",
+  "skill_bytes": 97588,
+  "file_count": 13,
+  "pinned_at": "2026-08-25T15:33:14.320842+00:00",
+  "source": "/home/user/my/harness-benchmark/harnesses/python-harness-v1.2.3+ponytail+graphify+benjamin-plus-skill/skills + /home/user/my/harness-benchmark/harnesses/python-harness-v1.2.3+ponytail+graphify+benjamin-plus-skill/home",
+  "component_arms": [
+    "python-harness",
+    "ponytail",
+    "graphify",
+    "benjamin-plus-skill"
+  ]
+}

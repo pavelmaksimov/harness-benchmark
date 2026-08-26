@@ -1,0 +1,329 @@
+=== run-all × 1 jobs=1 agent=opencode provider=opencode_auth 
+model=x-preview-f-free thinking=high transient_retries=2 
+feedback_strategy=(state.json) arms=reclaim-code-entropy 
+experiment_id=realworld-opencode-x-preview-f-free-high-harnesses-retry-b ===
+REALWORLD — multi-harness
+
+N 
+python-harness+ponytail+tdd+graphify+benjamin-plus-skill+reclaim-code-entropy=1 
+reclaim-code-entropy=2
+Failed checkpoints includes checkpoints repaired by rework.
+Rework tokens are All tokens minus Creation tokens when per-attempt usage is 
+unavailable.
+Transient retries are separate from semantic rework and require high-confidence 
+truncation signals.
+
+Metric                 
+python-harness+ponytail+tdd+graphify+benjamin-plus-skill+reclaim-code-entropy   
+reclaim-code-entropy
+--------------------------------------------------------------------------------
+--------------------------------------------------------------------------------
+------------------
+CP passed/total                                                                 
+14/14                                                                         
+14/14
+Failed checkpoints                                                              
+1                                                                             1
+Regressions                                                                     
+0                                                                             0
+Creation input tokens                                                           
+317,730                                                                       
+388,386
+Creation output tokens                                                          
+39,191                                                                        
+42,193
+Rework input tokens                                                             
+10,099                                                                        
+49,825
+Rework output tokens                                                            
+2,865                                                                         
+4,236
+Transient input tokens                                                          
+0                                                                             0
+Transient output tokens                                                         
+0                                                                             0
+All input tokens                                                                
+327,829                                                                       
+438,210
+All output tokens                                                               
+42,056                                                                        
+46,428
+Reasoning tokens                                                                
+6,640                                                                        
+14,196
+Normalized cost                                                                 
+$0.00                                                                         
+$0.00
+Elapsed time                                                                    
+43.9m                                                                         
+49.5m
+Final LOC                                                                       
+1841                                                                          
+1394
+Python modules                                                                  
+19                                                                             9
+Changed LOC                                                                     
+11422                                                                          
+9221
+Files touched                                                                   
+119                                                                          
+79.5
+Dependencies                                                                    
+7                                                                             6
+Complexity                                                                      
+552                                                                         
+332.5
+Semantic rework attempts                                                        
+1                                                                             1
+Repeated attempts                                                               
+1                                                                             1
+Rework fixed                                                                    
+1                                                                             1
+Rework unresolved                                                               
+0                                                                             0
+Transient retries                                                               
+0                                                                             0
+Provider truncations                                                            
+0                                                                             0
+Transient recoveries                                                            
+0                                                                             0
+Truncations unresolved                                                          
+0                                                                             0
+
+Δ vs baseline (mean):
+Metric                 
+python-harness+ponytail+tdd+graphify+benjamin-plus-skill+reclaim-code-entropy   
+reclaim-code-entropy
+CP passed/total                                                                 
+-                                                                             -
+Failed checkpoints                                                              
+-                                                                             -
+Regressions                                                                     
+-                                                                             -
+Creation input tokens                                                           
+-                                                                             -
+Creation output tokens                                                          
+-                                                                             -
+Rework input tokens                                                             
+-                                                                             -
+Rework output tokens                                                            
+-                                                                             -
+Transient input tokens                                                          
+-                                                                             -
+Transient output tokens                                                         
+-                                                                             -
+All input tokens                                                                
+-                                                                             -
+All output tokens                                                               
+-                                                                             -
+Reasoning tokens                                                                
+-                                                                             -
+Normalized cost                                                                 
+-                                                                             -
+Elapsed time                                                                    
+-                                                                             -
+Final LOC                                                                       
+-                                                                             -
+Python modules                                                                  
+-                                                                             -
+Changed LOC                                                                     
+-                                                                             -
+Files touched                                                                   
+-                                                                             -
+Dependencies                                                                    
+-                                                                             -
+Complexity                                                                      
+-                                                                             -
+Semantic rework attempts                                                        
+-                                                                             -
+Repeated attempts                                                               
+-                                                                             -
+Rework fixed                                                                    
+-                                                                             -
+Rework unresolved                                                               
+-                                                                             -
+Transient retries                                                               
+-                                                                             -
+Provider truncations                                                            
+-                                                                             -
+Transient recoveries                                                            
+-                                                                             -
+Truncations unresolved                                                          
+-                                                                             -
+
+Per-checkpoint (raw):
+CP   Arm                                  Pass   Create In Create Out  Rework In
+Rework Out Transient In Transient Out     All In    All Out     Cost     Time   
+LOCΔ   FilesΔ   Reg Repeat
+1    
+python-harness+ponytail+tdd+graphify+benjamin-plus-skill+reclaim-code-entropy 
+True      44,135      8,330          0          0            0             0    
+44,135      8,330        -      494      261        7     0      0
+2    
+python-harness+ponytail+tdd+graphify+benjamin-plus-skill+reclaim-code-entropy 
+True      10,860        120     10,099      2,865            0             0    
+20,959      2,985        -      165      201        4     0      1
+3    
+python-harness+ponytail+tdd+graphify+benjamin-plus-skill+reclaim-code-entropy 
+True      26,873      2,940          0          0            0             0    
+26,873      2,940        -      183      232        2     0      0
+4    
+python-harness+ponytail+tdd+graphify+benjamin-plus-skill+reclaim-code-entropy 
+True      12,510        965          0          0            0             0    
+12,510        965        -       61       76        2     0      0
+5    
+python-harness+ponytail+tdd+graphify+benjamin-plus-skill+reclaim-code-entropy 
+True      23,892      3,693          0          0            0             0    
+23,892      3,693        -      261      197        3     0      0
+6    
+python-harness+ponytail+tdd+graphify+benjamin-plus-skill+reclaim-code-entropy 
+True      17,662      1,585          0          0            0             0    
+17,662      1,585        -      129     1023       12     0      0
+7    
+python-harness+ponytail+tdd+graphify+benjamin-plus-skill+reclaim-code-entropy 
+True      16,249      2,527          0          0            0             0    
+16,249      2,527        -      127      215        2     0      0
+8    
+python-harness+ponytail+tdd+graphify+benjamin-plus-skill+reclaim-code-entropy 
+True      25,002      1,173          0          0            0             0    
+25,002      1,173        -       82     1327       14     0      0
+9    
+python-harness+ponytail+tdd+graphify+benjamin-plus-skill+reclaim-code-entropy 
+True      27,077      4,161          0          0            0             0    
+27,077      4,161        -      150     1518       15     0      0
+10   
+python-harness+ponytail+tdd+graphify+benjamin-plus-skill+reclaim-code-entropy 
+True      15,327      4,042          0          0            0             0    
+15,327      4,042        -      207      180        2     0      0
+11   
+python-harness+ponytail+tdd+graphify+benjamin-plus-skill+reclaim-code-entropy 
+True      18,546      2,850          0          0            0             0    
+18,546      2,850        -      108     1866       17     0      0
+12   
+python-harness+ponytail+tdd+graphify+benjamin-plus-skill+reclaim-code-entropy 
+True      36,014      3,128          0          0            0             0    
+36,014      3,128        -      166     1990       18     0      0
+13   
+python-harness+ponytail+tdd+graphify+benjamin-plus-skill+reclaim-code-entropy 
+True      21,170      2,769          0          0            0             0    
+21,170      2,769        -      411     2270       19     0      0
+14   
+python-harness+ponytail+tdd+graphify+benjamin-plus-skill+reclaim-code-entropy 
+True      22,413        908          0          0            0             0    
+22,413        908        -       89       66        2     0      0
+1    reclaim-code-entropy                 True      17,769      6,085          0
+0            0             0     17,769      6,085        -      606      314   
+7     0      0
+2    reclaim-code-entropy                 True      25,332      6,408          0
+0            0             0     25,332      6,408        -      522      566   
+8     0      0
+3    reclaim-code-entropy                 True      24,122      4,026          0
+0            0             0     24,122      4,026        -      152      844   
+9     0      0
+4    reclaim-code-entropy                 True      33,353      1,452          0
+0            0             0     33,353      1,452        -       91      891   
+9     0      0
+5    reclaim-code-entropy                 True      20,302      4,096          0
+0            0             0     20,302      4,096        -      146     1155   
+10     0      0
+6    reclaim-code-entropy                 True      18,643      1,459          0
+0            0             0     18,643      1,459        -       66     1283   
+11     0      0
+7    reclaim-code-entropy                 True      23,809      3,381          0
+0            0             0     23,809      3,381        -      127      246   
+2     0      0
+8    reclaim-code-entropy                 True      19,675      1,440          0
+0            0             0     19,675      1,440        -       94     1642   
+13     0      0
+9    reclaim-code-entropy                 True      23,536      4,033          0
+0            0             0     23,536      4,033        -      147     1743   
+13     0      0
+10   reclaim-code-entropy                 True      23,086      3,855          0
+0            0             0     23,086      3,855        -      186     1966   
+14     0      0
+11   reclaim-code-entropy                 True      25,379      4,880          0
+0            0             0     25,379      4,880        -      241      138   
+2     0      0
+12   reclaim-code-entropy                 True      22,238      2,608          0
+0            0             0     22,238      2,608        -      105     2129   
+14     0      0
+13   reclaim-code-entropy                 True      24,904      3,382          0
+0            0             0     24,904      3,382        -      213     2259   
+14     0      0
+14   reclaim-code-entropy                 True      42,589        823          0
+0            0             0     42,589        823        -      698     2274   
+14     0      0
+1    reclaim-code-entropy                 True      25,150      3,084     48,468
+5,600            0             0     73,618      8,684        -      479      
+148        2     0      1
+2    reclaim-code-entropy                 True      59,170      3,698          0
+0            0             0     59,170      3,698        -      179       95   
+2     0      0
+3    reclaim-code-entropy                 True      47,592      2,610          0
+0            0             0     47,592      2,610        -      130       83   
+1     0      0
+4    reclaim-code-entropy                 True      39,640      2,078          0
+0            0             0     39,640      2,078        -      132       46   
+1     0      0
+5    reclaim-code-entropy                 True      50,848      4,849     51,182
+2,871            0             0    102,030      7,720        -      651       
+27        1     0      1
+6    reclaim-code-entropy                 True      17,527      1,389          0
+0            0             0     17,527      1,389        -       56       12   
+1     0      0
+7    reclaim-code-entropy                 True      13,634      2,122          0
+0            0             0     13,634      2,122        -      106       56   
+1     0      0
+8    reclaim-code-entropy                 True      17,310        977          0
+0            0             0     17,310        977        -       50       15   
+1     0      0
+9    reclaim-code-entropy                 True      50,548      3,424          0
+0            0             0     50,548      3,424        -      210       79   
+2     0      0
+10   reclaim-code-entropy                 True      25,051      2,754          0
+0            0             0     25,051      2,754        -      167       99   
+1     0      0
+11   reclaim-code-entropy                 True      24,459      4,564          0
+0            0             0     24,459      4,564        -      151      139   
+2     0      0
+12   reclaim-code-entropy                 True      23,543      1,779          0
+0            0             0     23,543      1,779        -       84       42   
+1     0      0
+13   reclaim-code-entropy                 True      23,299      2,431          0
+0            0             0     23,299      2,431        -      119      138   
+2     0      0
+14   reclaim-code-entropy                 True      14,263        699          0
+0            0             0     14,263        699        -       38       13   
+1     0      0
+
+Rework attempts (raw):
+CP   Arm                                  Stage      #  Core p/f/t         In   
+Out     Time     Cost Failed
+2    
+python-harness+ponytail+tdd+graphify+benjamin-plus-skill+reclaim-code-entropy 
+creation   1       0/2/2     10,860        120       21     0.00      2
+2    
+python-harness+ponytail+tdd+graphify+benjamin-plus-skill+reclaim-code-entropy 
+rework     2       2/0/2     10,099      2,865      144     0.00      0
+1    reclaim-code-entropy                 creation   1       1/1/2     25,150   
+3,084      227     0.00      1
+1    reclaim-code-entropy                 rework     2       2/0/2     48,468   
+5,600      251     0.00      0
+5    reclaim-code-entropy                 creation   1       1/1/2     50,848   
+4,849      289     0.00      1
+5    reclaim-code-entropy                 rework     2       2/0/2     51,182   
+2,871      362     0.00      0
+
+Stats per metric include mean/median/min/max/stddev in the JSON report.
+
+Wrote 
+/home/user/my/harness-benchmark/reports/realworld-opencode-x-preview-f-free-high
+-harnesses-retry-b/comparison.txt and 
+/home/user/my/harness-benchmark/reports/realworld-opencode-x-preview-f-free-high
+-harnesses-retry-b/comparison.json
+Published 
+/home/user/my/harness-benchmark/docs/reports/realworld-opencode-x-preview-f-free
+-high-harnesses-retry-b.md, 
+/home/user/my/harness-benchmark/docs/reports/realworld-opencode-x-preview-f-free
+-high-harnesses-retry-b.json, 
+/home/user/my/harness-benchmark/docs/LEADERBOARD.md
