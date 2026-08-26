@@ -1,0 +1,5 @@
+=== run-all × 1 jobs=2 agent=omp provider=omp_auth model=stealth-ox-alpha 
+thinking=high transient_retries=(state.json) feedback_strategy=(state.json) 
+arms=baseline,python-harness 
+experiment_id=realworld-omp-stealthoxalpha-high-baseline-pythonharness-20260826 
+===
