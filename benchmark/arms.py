@@ -89,6 +89,10 @@ COMBO_PYTHON_HARNESS_V123_TDD = (
 COMBO_PYTHON_HARNESS_V123 = (
     "python-harness-v1.2.3+ponytail+graphify+benjamin-plus-skill"
 )
+PYTHON_HARNESS_V130 = "python-harness-v1.3.0"
+COMBO_PYTHON_HARNESS_V130_GRAPHIFY = "python-harness-v1.3.0+graphify"
+COMBO_PYTHON_HARNESS_V130_DOORSTOP = "python-harness-v1.3.0+doorstop"
+COMBO_PYTHON_HARNESS_V130_STRICTDOC = "python-harness-v1.3.0+strictdoc"
 
 COMBINATION_ARMS: dict[str, tuple[str, ...]] = {
     COMBO_SUPERMEMORY_GRAPHIFY_PONYTAIL_THERMO_DOORSTOP_TDD: (
@@ -134,6 +138,9 @@ COMBINATION_ARMS: dict[str, tuple[str, ...]] = {
         "graphify",
         "benjamin-plus-skill",
     ),
+    COMBO_PYTHON_HARNESS_V130_GRAPHIFY: ("python-harness", "graphify"),
+    COMBO_PYTHON_HARNESS_V130_DOORSTOP: ("python-harness", "doorstop"),
+    COMBO_PYTHON_HARNESS_V130_STRICTDOC: ("python-harness", "strictdoc"),
 }
 
 ARMS: dict[str, ArmSpec] = {
@@ -202,6 +209,12 @@ ARMS: dict[str, ArmSpec] = {
     ),
     PYTHON_HARNESS_V123: ArmSpec(
         name=PYTHON_HARNESS_V123,
+        kind="single",
+        skill_name="python-harness",
+        activation_phrase="Activate and follow the installed Codex skill `python-harness`",
+    ),
+    PYTHON_HARNESS_V130: ArmSpec(
+        name=PYTHON_HARNESS_V130,
         kind="single",
         skill_name="python-harness",
         activation_phrase="Activate and follow the installed Codex skill `python-harness`",

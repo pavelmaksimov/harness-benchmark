@@ -1,0 +1,14 @@
+{
+  "name": "python-harness-v1.3.0+strictdoc",
+  "skill_names": [
+    "python-harness",
+    "strictdoc"
+  ],
+  "version": "pinned-local",
+  "kind": "bundle",
+  "tree_sha256": "a8b8010f146fb2b52c46a5cf373c8547ae365372cd3cff7b509f9f0660f5aa4a",
+  "skill_bytes": 12719,
+  "file_count": 3,
+  "pinned_at": "2026-08-26T09:42:07.460385+00:00",
+  "source": "/home/user/my/harness-benchmark/harnesses/python-harness-v1.3.0+strictdoc/skills + /home/user/my/harness-benchmark/harnesses/python-harness-v1.3.0+strictdoc/home"
+}

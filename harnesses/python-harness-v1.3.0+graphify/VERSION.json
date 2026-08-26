@@ -1,0 +1,14 @@
+{
+  "name": "python-harness-v1.3.0+graphify",
+  "skill_names": [
+    "graphify",
+    "python-harness"
+  ],
+  "version": "pinned-local",
+  "kind": "bundle",
+  "tree_sha256": "432a3ac6ce752a4a63d1004f9649a307b77fa454d023fba89a7ba8089a0d3d09",
+  "skill_bytes": 87772,
+  "file_count": 11,
+  "pinned_at": "2026-08-26T09:42:07.458911+00:00",
+  "source": "/home/user/my/harness-benchmark/harnesses/python-harness-v1.3.0+graphify/skills + /home/user/my/harness-benchmark/harnesses/python-harness-v1.3.0+graphify/home"
+}

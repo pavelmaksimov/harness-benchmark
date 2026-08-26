@@ -1,0 +1,14 @@
+{
+  "name": "python-harness-v1.3.0",
+  "skill_name": "python-harness-v1.3.0",
+  "version": "pinned-local",
+  "kind": "single",
+  "skill_sha256": "6a4c4c6ac4bd8a244d0a5c2c63e9b9d6373269a39ec10e8a1d580a68d5b6fa5d",
+  "tree_sha256": "8dc6ac9aab610c26570b7e831b0b51e7ab4638f4fe3c37db493a2665738f3ec9",
+  "skill_bytes": 5671,
+  "file_count": 1,
+  "pinned_at": "2026-08-26T09:42:07.457419+00:00",
+  "source": "/home/user/my/harness-benchmark/harnesses/python-harness-v1.3.0/skill",
+  "agents_sha256": "1873e459197713a78cc22be34432a941d0ca1bf514945f1010f15b7385a8544e",
+  "agents_bytes": 59643
+}

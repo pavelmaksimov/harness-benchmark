@@ -84,7 +84,7 @@ def resolve_run_selection(
             f"unsupported agent {agent!r}; expected one of: {', '.join(SUPPORTED_AGENTS)}"
         )
 
-    if agent == "opencode":
+    if agent in ("opencode", "omp"):
         if not provider:
             raise ValueError(
                 "OpenCode requires --provider (e.g. --provider opencode_auth)"
@@ -106,6 +106,8 @@ def resolve_run_selection(
 def _agent_config_path(agent: str) -> Path:
     if agent == "opencode":
         return CONFIGS_DIR / "agent_opencode.yaml"
+    if agent == "omp":
+        return CONFIGS_DIR / "agent_omp.yaml"
     return CONFIGS_DIR / "agent_codex.yaml"
 
 
@@ -128,6 +130,8 @@ def _agent_config_for_thinking(agent: str, thinking: str, output_dir: Path) -> P
 def _agent_version(agent: str, pins: dict[str, Any]) -> str | None:
     if agent == "opencode":
         return pins.get("opencode_cli_version")
+    if agent == "omp":
+        return pins.get("omp_cli_version")
     return pins.get("codex_cli_host_version")
 
 

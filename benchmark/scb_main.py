@@ -7,6 +7,7 @@ import sys
 
 
 def main() -> None:
+    import benchmark.omp_agent  # noqa: F401  (registers the omp agent + provider)
     from benchmark.catalog import load_catalogs
     from benchmark.eval_deps_hook import install_eval_deps_hook
 

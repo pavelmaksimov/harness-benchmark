@@ -1,0 +1,11 @@
+# omp (oh-my-pi) CLI agent for SlopCodeBench.
+# Binary installed from npm @oh-my-pi/pi-coding-agent; must match the
+# omp_cli_version pin in vendor/pins.json.
+type: omp
+version: "18.0.4"
+provider: opencode-zen
+env: {}
+cost_limits:
+  cost_limit: 25
+  step_limit: 0
+  net_cost_limit: 0
