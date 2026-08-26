@@ -3,6 +3,7 @@
   "agent_version": "1.14.33",
   "arms": {
     "python-harness+ponytail+tdd+graphify+benjamin-plus-skill+reclaim-code-entropy": {
+      "cache_read_tokens": 3458560.0,
       "checkpoints_failed": 1.0,
       "checkpoints_passed": 14.0,
       "checkpoints_total": 14.0,
@@ -14,6 +15,7 @@
       "creation_output_tokens": 39191.0,
       "dependencies_added": 7.0,
       "elapsed_time": 2633.765258,
+      "llm_requests": 195.0,
       "loc_changed": 11422.0,
       "loc_final": 1841.0,
       "module_count": 19.0,
@@ -33,6 +35,7 @@
       "transient_retries": 0.0
     },
     "reclaim-code-entropy": {
+      "cache_read_tokens": 3180960.0,
       "checkpoints_failed": 1.0,
       "checkpoints_passed": 14.0,
       "checkpoints_total": 14.0,
@@ -44,6 +47,7 @@
       "creation_output_tokens": 42193.0,
       "dependencies_added": 6.0,
       "elapsed_time": 2972.421508,
+      "llm_requests": 222.5,
       "loc_changed": 9221.0,
       "loc_final": 1394.0,
       "module_count": 9.0,
@@ -65,6 +69,7 @@
   },
   "date": "2026-08-25T13:17:37.745382+00:00",
   "deltas": {
+    "cache_read_tokens": null,
     "checkpoints_failed": null,
     "checkpoints_passed": null,
     "checkpoints_total": null,
@@ -76,6 +81,7 @@
     "creation_output_tokens": null,
     "dependencies_added": null,
     "elapsed_time": null,
+    "llm_requests": null,
     "loc_changed": null,
     "loc_final": null,
     "module_count": null,
@@ -96,6 +102,7 @@
   },
   "deltas_by_arm": {
     "python-harness+ponytail+tdd+graphify+benjamin-plus-skill+reclaim-code-entropy": {
+      "cache_read_tokens": null,
       "checkpoints_failed": null,
       "checkpoints_passed": null,
       "checkpoints_total": null,
@@ -107,6 +114,7 @@
       "creation_output_tokens": null,
       "dependencies_added": null,
       "elapsed_time": null,
+      "llm_requests": null,
       "loc_changed": null,
       "loc_final": null,
       "module_count": null,
@@ -126,6 +134,7 @@
       "transient_retries": null
     },
     "reclaim-code-entropy": {
+      "cache_read_tokens": null,
       "checkpoints_failed": null,
       "checkpoints_passed": null,
       "checkpoints_total": null,
@@ -137,6 +146,7 @@
       "creation_output_tokens": null,
       "dependencies_added": null,
       "elapsed_time": null,
+      "llm_requests": null,
       "loc_changed": null,
       "loc_final": null,
       "module_count": null,

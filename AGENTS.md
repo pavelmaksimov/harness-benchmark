@@ -455,6 +455,45 @@ reasoning-шаг) поражает не только первые попытки
 [docs/fleet-autopilot.md](docs/fleet-autopilot.md); чеклист нового arm — в
 [docs/harness-onboarding.md](docs/harness-onboarding.md).
 
+### Перезапуск fleet после правок загруженных модулей
+
+`harness-benchmark-fleet.service` — долгоживущий Python-процесс: код Python
+загружается в память при старте и сам по себе не обновляется при изменении файлов
+в checkout. После правки любого из проектных модулей ниже обязательно перезапусти
+процесс до следующего цикла fleet:
+
+- entrypoint: `benchmark/__init__.py`, `benchmark/__main__.py`, `benchmark/cli.py`;
+- fleet: `benchmark/fleet/__init__.py`, `benchmark/fleet/config.py`,
+  `benchmark/fleet/daemon.py`, `benchmark/fleet/locks.py`,
+  `benchmark/fleet/planner.py`;
+- публикация: `benchmark/analyze.py`, `benchmark/compare.py`,
+  `benchmark/publish.py`, `benchmark/paths.py`;
+- выбор и проверка: `benchmark/arms.py`, `benchmark/catalog.py`,
+  `benchmark/profiles.py`, `benchmark/versions.py`, `benchmark/smoke.py`,
+  `benchmark/isolation.py`;
+- сбор и выполнение: `benchmark/attempt_diagnostics.py`, `benchmark/collect.py`,
+  `benchmark/cost.py`, `benchmark/dependencies.py`, `benchmark/failures.py`,
+  `benchmark/manifest.py`, `benchmark/rework.py`, `benchmark/rework_hook.py`,
+  `benchmark/resume_state.py`, `benchmark/scb_run.py`, `benchmark/structure.py`;
+- операции fleet: `benchmark/notify.py`, `benchmark/onboard.py`.
+
+Список соответствует модулям, импортируемым текущим fleet-процессом при старте и
+первом `build_plan`; при сомнении правка любого другого файла под `benchmark/`
+тоже требует restart. Для штатного unit используй:
+
+```bash
+systemctl --user restart harness-benchmark-fleet.service
+```
+
+Если менялся unit-файл, сначала выполни `systemctl --user daemon-reload`, затем
+restart. Перед restart проверь, что нет активных benchmark-monitor'ов: unit
+использует `KillMode=control-group` и может остановить дочерние процессы.
+
+`configs/desired.yaml` не требует restart: daemon перечитывает его в каждом цикле
+(сейчас интервал — 30 секунд). Изменения в `pyproject.toml`, `uv.lock`,
+`requirements.txt`, systemd environment или установленных зависимостях требуют
+restart; если изменилось содержимое окружения, сначала обнови `.venv`.
+
 ### Уровень инструкций Hermes для benchmark
 
 Hermes используется как компромиссный канал уведомлений, а не как исполнитель задач benchmark.

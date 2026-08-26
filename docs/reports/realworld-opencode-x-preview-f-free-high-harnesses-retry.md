@@ -32,6 +32,8 @@ Failed checkpoints include checkpoints repaired by rework; Rework = All - Create
 | Truncations unresolved | 0 | 0 |
 | All input tokens | 376,088 | 870,305 |
 | All output tokens | 38,632 | 108,024 |
+| Cached tokens | 1,937,600 | 14,413,824 |
+| LLM requests | 156 | 440 |
 | Normalized cost | $0.00 | $0.00 |
 | Elapsed | 45.1m | 95.8m |
 | Final LOC | 859 | 3357 |
@@ -61,6 +63,8 @@ Failed checkpoints include checkpoints repaired by rework; Rework = All - Create
 | Truncations unresolved | - | - |
 | All input tokens | - | - |
 | All output tokens | - | - |
+| Cached tokens | - | - |
+| LLM requests | - | - |
 | Normalized cost | - | - |
 | Elapsed | - | - |
 | Final LOC | - | - |
