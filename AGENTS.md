@@ -555,6 +555,15 @@ Hermes используется как компромиссный канал у�
   при старте ждёт активное orphan-дерево и ориентируется на изменения файлов на диске, а не на тишину
   буферизованного лога.
 
+### Инцидент parallel run-all same-arm race (2026-08-25)
+
+- `run-all --runs 2 --jobs > 1` может одновременно создать `run_1` и `run_2` одного arm.
+  Пока первый поток ещё не записал `state.json`/`manifest.json`, второй видит каталог `run_1`
+  как незавершённый и получает `cannot append ... has no state.json or manifest.json`.
+- Это не ошибка модели и не причина повторять весь experiment. Для отсутствующего слота
+  запускай только нужный arm отдельной командой с `--runs 1 --jobs 1` и тем же
+  `--experiment-id`; `_next_append_index` добавит следующий `run_N` безопасно.
+
 ## graphify
 
 This project has a knowledge graph at graphify-out/ with god nodes, community structure, and cross-file relationships.

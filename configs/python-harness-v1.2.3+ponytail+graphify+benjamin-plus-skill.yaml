@@ -1,0 +1,13 @@
+# Versioned Python Harness 1.2.3 combined realworld arm.
+agent: configs/agent_opencode.yaml
+environment: docker-python3.12-uv
+prompt: configs/prompts/python-harness-v1.2.3+ponytail+graphify+benjamin-plus-skill-solve.jinja
+model:
+  provider: opencode_auth
+  name: x-preview-f-free
+thinking: high
+pass_policy: all-core-cases
+problems:
+  - realworld
+save_dir: results/raw
+save_template: ${model.name}/python_harness_v1_2_3_combo_${prompt}_${thinking}_${now:%Y%m%dT%H%M%S}
