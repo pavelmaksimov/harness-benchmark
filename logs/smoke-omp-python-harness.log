@@ -1,0 +1,8 @@
+=== smoke CP1 arm=python-harness agent=omp provider=omp_auth 
+model=x-preview-f-free thinking=high ===
+smoke_ok=False 
+marker=/home/user/my/harness-benchmark/harnesses/python-harness/SMOKE.json
+activation_verified=False
+snapshot top-level dirs: ['realworld_app']
+No obvious new artifact dirs flagged for exclusion review.
+Smoke failed — fix harness before full runs.

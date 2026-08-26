@@ -1,0 +1,12 @@
+# Ox Alpha via the OpenRouter route of the omp CLI ("stealth/ox-alpha").
+# The access token lives in the host pi/omp auth store (~/.omp/agent), which
+# OmpAgent bind-mounts into the container. Use --model stealth-ox-alpha.
+internal_name: stealth/ox-alpha
+provider: omp_auth
+pricing:
+  input: 0
+  output: 0
+  cache_read: 0
+  cache_write: 0
+aliases:
+  - stealth-ox-alpha

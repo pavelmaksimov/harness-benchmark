@@ -19,9 +19,11 @@ def _install_eval_deps_hook() -> None:
 def _load_hb_models() -> None:
     """Overlay harness-benchmark model YAMLs onto SCB ModelCatalog (ProcessPool-safe)."""
     try:
-        from benchmark.paths import MODELS_DIR
         from slop_code.agent_runner.credentials import ProviderCatalog
         from slop_code.common.llms import ModelCatalog
+
+        import benchmark.omp_agent  # noqa: F401  (registers omp_auth provider)
+        from benchmark.paths import MODELS_DIR
 
         ProviderCatalog.ensure_loaded()
         ModelCatalog.ensure_loaded()

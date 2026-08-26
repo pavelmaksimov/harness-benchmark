@@ -4,7 +4,8 @@
     "checkpoint_1"
   ],
   "checkpoints_completed": [
-    1
+    1,
+    2
   ],
   "exclude_dir_names": [
     ".git",
@@ -22,20 +23,30 @@
     "strictdoc-docs",
     "venv"
   ],
-  "experiment_id": "smoke-python-harness-codex-20260823",
+  "experiment_id": "smoke-python-harness-20260826T130604813247-db018fe9",
   "harness_activation_verified": true,
   "harness_content_sha": "2bc3e4beb85fbe083b39d1469e31a976cfd4b102aa26fb15e2d90ea33400f4de",
   "ok": true,
-  "problem": "file_backup",
-  "run_dir": "/home/user/my/harness-benchmark/results/smoke-python-harness-codex-20260823/python-harness/run_1",
+  "problem": "realworld",
+  "run_dir": "/home/user/my/harness-benchmark/results/smoke-python-harness-20260826T130604813247-db018fe9/python-harness/run_1",
   "snapshot": {
     "already_excluded": [],
     "needs_exclude_review": [],
     "top_level": [
-      "backup_scheduler.py",
-      "requirements.txt"
+      ".gitignore",
+      "AGENTS.md",
+      "env.example",
+      "layers.toml",
+      "pyproject.toml",
+      "realworld_app",
+      "requirements-dev.txt",
+      "requirements.txt",
+      "tests"
     ],
-    "top_level_dirs": []
+    "top_level_dirs": [
+      "realworld_app",
+      "tests"
+    ]
   },
-  "validated_at": "2026-08-23T13:35:42.319803+00:00"
+  "validated_at": "2026-08-26T13:34:28.926706+00:00"
 }
