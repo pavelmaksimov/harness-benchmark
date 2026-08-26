@@ -14,6 +14,9 @@ Failed CP counts checkpoints that failed at least once, including repaired ones.
 
 | Agent | Model | Harness | N | CP | Failed CP | Repeated | Reg | Create in | Create out | Rework in | Rework out | Cached tokens | LLM requests | Cost | Time | LOC | Py modules | ΔLOC | Deps | Cx |
 |-------|-------|---------|--:|--:|----------:|----------:|----:|----------:|-----------:|----------:|-----------:|-------------:|------------:|-----:|-----:|----:|----------:|-----:|-----:|---:|
+| opencode | x-preview-f-free | python-harness-v1.3.0+doorstop | 1 | 13/14 | 1 | 2 | 0 | 534,486 | 87,843 | 87,569 | 12,637 | 16,284,800 | 617 | $0.00 | 156.0m | 3612 | 54 | 4070 | 11 | 838 |
+| opencode | x-preview-f-free | python-harness-v1.3.0+graphify | 1 | 14/14 | 1 | 1 | 0 | 718,174 | 88,514 | 29,885 | 1,717 | 15,953,920 | 461 | $0.00 | 123.9m | 3047 | 49 | 3782 | 7 | 834 |
+| opencode | x-preview-f-free | python-harness-v1.3.0+strictdoc | 1 | 14/14 | 1 | 2 | 0 | 465,912 | 68,887 | 57,108 | 4,551 | 9,920,640 | 421 | $0.00 | 99.2m | 2654 | 24 | 3133 | 9 | 825 |
 | opencode | x-preview-f-free | python-harness-v1.3.0 | 2 | 14/14 | 1 | 1.5 | 0 | 651,188 | 72,708 | 68,132 | 5,108 | 13,620,672 | 393 | $0.00 | 102.0m | 3487 | 54.5 | 4000 | 10 | 941.5 |
 | opencode | x-preview-f-free | python-harness-v1.2.3 | 2 | 13/14 | 2.5 | 4 | 0 | 885,262 | 73,702 | 340,264 | 17,608 | 17,358,592 | 483 | $0.00 | 118.2m | 3581.5 | 44.5 | 3683.5 | 26.5 | 992.5 |
 | opencode | x-preview-f-free | python-harness-v1.2.3+ponytail+graphify+benjamin-plus-skill | 2 | 14/14 | 1 | 1.5 | 0 | 668,908 | 41,727 | 32,560 | 3,275 | 5,160,320 | 267 | $0.00 | 51.2m | 1404 | 24 | 1720.5 | 7.5 | 403 |
@@ -47,6 +50,9 @@ Failed CP counts checkpoints that failed at least once, including repaired ones.
 
 | Problem | Agent | Harness | N | CP | Failed CP | Repeated | Reg | Create in | Create out | Rework in | Rework out | Cached tokens | LLM requests | Cost | Time | LOC | Py modules | ΔLOC | Deps | Cx |
 |---------|-------|---------|--:|--:|----------:|----------:|----:|----------:|-----------:|----------:|-----------:|-------------:|------------:|-----:|-----:|----:|----------:|-----:|-----:|---:|
+| realworld | opencode | python-harness-v1.3.0+doorstop | 1 | 13/14 | 1 | 2 | 0 | 534,486 | 87,843 | 87,569 | 12,637 | 16,284,800 | 617 | $0.00 | 156.0m | 3612 | 54 | 4070 | 11 | 838 |
+| realworld | opencode | python-harness-v1.3.0+graphify | 1 | 14/14 | 1 | 1 | 0 | 718,174 | 88,514 | 29,885 | 1,717 | 15,953,920 | 461 | $0.00 | 123.9m | 3047 | 49 | 3782 | 7 | 834 |
+| realworld | opencode | python-harness-v1.3.0+strictdoc | 1 | 14/14 | 1 | 2 | 0 | 465,912 | 68,887 | 57,108 | 4,551 | 9,920,640 | 421 | $0.00 | 99.2m | 2654 | 24 | 3133 | 9 | 825 |
 | realworld | opencode | python-harness-v1.3.0 | 2 | 14/14 | 1 | 1.5 | 0 | 651,188 | 72,708 | 68,132 | 5,108 | 13,620,672 | 393 | $0.00 | 102.0m | 3487 | 54.5 | 4000 | 10 | 941.5 |
 | realworld | opencode | python-harness-v1.2.3 | 2 | 13/14 | 2.5 | 4 | 0 | 885,262 | 73,702 | 340,264 | 17,608 | 17,358,592 | 483 | $0.00 | 118.2m | 3581.5 | 44.5 | 3683.5 | 26.5 | 992.5 |
 | realworld | opencode | python-harness-v1.2.3+ponytail+graphify+benjamin-plus-skill | 2 | 14/14 | 1 | 1.5 | 0 | 668,908 | 41,727 | 32,560 | 3,275 | 5,160,320 | 267 | $0.00 | 51.2m | 1404 | 24 | 1720.5 | 7.5 | 403 |
@@ -73,6 +79,7 @@ Failed CP counts checkpoints that failed at least once, including repaired ones.
 
 | Experiment | Date | Problem | Agent | Model | N | Report |
 |------------|------|---------|-------|-------|---|--------|
+| realworld-opencode-x-preview-f-free-high-python-harness-v1.3.0-combos-20260826 | 2026-08-26 | realworld | opencode | x-preview-f-free | 1+1+1 | [short](reports/realworld-opencode-x-preview-f-free-high-python-harness-v1.3.0-combos-20260826.md) |
 | realworld-opencode-x-preview-f-free-high-python-harness-v1.3.0-20260826 | 2026-08-26 | realworld | opencode | x-preview-f-free | 2 | [short](reports/realworld-opencode-x-preview-f-free-high-python-harness-v1.3.0-20260826.md) |
 | realworld-opencode-x-preview-f-free-high-python-harness-v1.2.3-20260825 | 2026-08-25 | realworld | opencode | x-preview-f-free | 2+2+2 | [short](reports/realworld-opencode-x-preview-f-free-high-python-harness-v1.2.3-20260825.md) |
 | realworld-opencode-x-preview-f-free-high-harnesses-retry | 2026-08-25 | realworld | opencode | x-preview-f-free | 2+1 | [short](reports/realworld-opencode-x-preview-f-free-high-harnesses-retry.md) |
@@ -109,15 +116,18 @@ Higher is better. Passed and total checkpoints for the published cell.
 | 10 | realworld | x-preview-f-free | python-harness+ponytail+tdd+graphify+benjamin-plus-skill+reclaim-code-entropy | 14/14 |
 | 11 | realworld | x-preview-f-free | python-harness-v1.2.3+ponytail+graphify+benjamin-plus-skill | 14/14 |
 | 12 | realworld | x-preview-f-free | python-harness-v1.3.0 | 14/14 |
-| 13 | realworld | x-preview-f-free | reclaim-code-entropy | 14/14 |
-| 14 | realworld | x-preview-f-free | strictdoc | 14/14 |
-| 15 | realworld | x-preview-f-free | supermemory | 14/14 |
-| 16 | realworld | x-preview-f-free | tdd | 14/14 |
-| 17 | realworld | x-preview-f-free | ponytail | 13.5/14 |
-| 18 | realworld | x-preview-f-free | python-harness-v1.2.3+ponytail+tdd+graphify+benjamin-plus-skill | 13.5/14 |
-| 19 | realworld | x-preview-f-free | combo-supermemory-graphify-ponytail-thermo-nuclear-code-quality-review-doorstop-tdd | 13/14 |
-| 20 | realworld | x-preview-f-free | python-harness-v1.2.3 | 13/14 |
-| 21 | realworld | x-preview-f-free | thermo-nuclear-code-quality-review | 9.5/14 |
+| 13 | realworld | x-preview-f-free | python-harness-v1.3.0+graphify | 14/14 |
+| 14 | realworld | x-preview-f-free | python-harness-v1.3.0+strictdoc | 14/14 |
+| 15 | realworld | x-preview-f-free | reclaim-code-entropy | 14/14 |
+| 16 | realworld | x-preview-f-free | strictdoc | 14/14 |
+| 17 | realworld | x-preview-f-free | supermemory | 14/14 |
+| 18 | realworld | x-preview-f-free | tdd | 14/14 |
+| 19 | realworld | x-preview-f-free | ponytail | 13.5/14 |
+| 20 | realworld | x-preview-f-free | python-harness-v1.2.3+ponytail+tdd+graphify+benjamin-plus-skill | 13.5/14 |
+| 21 | realworld | x-preview-f-free | combo-supermemory-graphify-ponytail-thermo-nuclear-code-quality-review-doorstop-tdd | 13/14 |
+| 22 | realworld | x-preview-f-free | python-harness-v1.2.3 | 13/14 |
+| 23 | realworld | x-preview-f-free | python-harness-v1.3.0+doorstop | 13/14 |
+| 24 | realworld | x-preview-f-free | thermo-nuclear-code-quality-review | 9.5/14 |
 
 ### Failed checkpoints
 
@@ -131,21 +141,24 @@ Lower is better. Number of checkpoints that failed at least once, including repa
 | 4 | realworld | x-preview-f-free | python-harness+ponytail+tdd+graphify+benjamin-plus-skill+reclaim-code-entropy | 1 |
 | 5 | realworld | x-preview-f-free | python-harness-v1.2.3+ponytail+graphify+benjamin-plus-skill | 1 |
 | 6 | realworld | x-preview-f-free | python-harness-v1.3.0 | 1 |
-| 7 | realworld | x-preview-f-free | reclaim-code-entropy | 1 |
-| 8 | realworld | x-preview-f-free | baseline | 1.5 |
-| 9 | realworld | x-preview-f-free | combo-supermemory-graphify-ponytail-thermo-nuclear-code-quality-review-tdd | 1.5 |
-| 10 | realworld | x-preview-f-free | doorstop | 1.5 |
-| 11 | realworld | x-preview-f-free | supermemory | 1.5 |
-| 12 | realworld | x-preview-f-free | combo-supermemory-graphify | 2 |
-| 13 | realworld | x-preview-f-free | ponytail | 2 |
-| 14 | realworld | x-preview-f-free | python-harness | 2 |
-| 15 | realworld | x-preview-f-free | python-harness-v1.2.3+ponytail+tdd+graphify+benjamin-plus-skill | 2 |
-| 16 | realworld | x-preview-f-free | tdd | 2 |
-| 17 | realworld | x-preview-f-free | python-harness-v1.2.3 | 2.5 |
-| 18 | realworld | x-preview-f-free | strictdoc | 2.5 |
-| 19 | task_manager | x-preview-f-free | baseline | 2.7 |
-| 20 | realworld | x-preview-f-free | combo-supermemory-graphify-ponytail-thermo-nuclear-code-quality-review-doorstop-tdd | 3 |
-| 21 | realworld | x-preview-f-free | thermo-nuclear-code-quality-review | 6.5 |
+| 7 | realworld | x-preview-f-free | python-harness-v1.3.0+doorstop | 1 |
+| 8 | realworld | x-preview-f-free | python-harness-v1.3.0+graphify | 1 |
+| 9 | realworld | x-preview-f-free | python-harness-v1.3.0+strictdoc | 1 |
+| 10 | realworld | x-preview-f-free | reclaim-code-entropy | 1 |
+| 11 | realworld | x-preview-f-free | baseline | 1.5 |
+| 12 | realworld | x-preview-f-free | combo-supermemory-graphify-ponytail-thermo-nuclear-code-quality-review-tdd | 1.5 |
+| 13 | realworld | x-preview-f-free | doorstop | 1.5 |
+| 14 | realworld | x-preview-f-free | supermemory | 1.5 |
+| 15 | realworld | x-preview-f-free | combo-supermemory-graphify | 2 |
+| 16 | realworld | x-preview-f-free | ponytail | 2 |
+| 17 | realworld | x-preview-f-free | python-harness | 2 |
+| 18 | realworld | x-preview-f-free | python-harness-v1.2.3+ponytail+tdd+graphify+benjamin-plus-skill | 2 |
+| 19 | realworld | x-preview-f-free | tdd | 2 |
+| 20 | realworld | x-preview-f-free | python-harness-v1.2.3 | 2.5 |
+| 21 | realworld | x-preview-f-free | strictdoc | 2.5 |
+| 22 | task_manager | x-preview-f-free | baseline | 2.7 |
+| 23 | realworld | x-preview-f-free | combo-supermemory-graphify-ponytail-thermo-nuclear-code-quality-review-doorstop-tdd | 3 |
+| 24 | realworld | x-preview-f-free | thermo-nuclear-code-quality-review | 6.5 |
 
 ### Repeated attempts
 
@@ -157,23 +170,26 @@ Lower is better. Additional semantic attempts after the initial attempt.
 | 2 | realworld | x-preview-f-free | combo-supermemory-graphify-ponytail-thermo-nuclear-code-quality-review | 1 |
 | 3 | realworld | x-preview-f-free | graphify | 1 |
 | 4 | realworld | x-preview-f-free | python-harness+ponytail+tdd+graphify+benjamin-plus-skill+reclaim-code-entropy | 1 |
-| 5 | realworld | x-preview-f-free | reclaim-code-entropy | 1 |
-| 6 | realworld | x-preview-f-free | baseline | 1.5 |
-| 7 | realworld | x-preview-f-free | combo-supermemory-graphify-ponytail-thermo-nuclear-code-quality-review-tdd | 1.5 |
-| 8 | realworld | x-preview-f-free | python-harness-v1.2.3+ponytail+graphify+benjamin-plus-skill | 1.5 |
-| 9 | realworld | x-preview-f-free | python-harness-v1.3.0 | 1.5 |
-| 10 | realworld | x-preview-f-free | doorstop | 2 |
-| 11 | realworld | x-preview-f-free | combo-supermemory-graphify | 2.5 |
-| 12 | realworld | x-preview-f-free | supermemory | 2.5 |
-| 13 | realworld | x-preview-f-free | tdd | 2.5 |
-| 14 | realworld | x-preview-f-free | ponytail | 3 |
-| 15 | realworld | x-preview-f-free | python-harness | 3 |
-| 16 | realworld | x-preview-f-free | python-harness-v1.2.3+ponytail+tdd+graphify+benjamin-plus-skill | 3 |
-| 17 | task_manager | x-preview-f-free | baseline | 3 |
-| 18 | realworld | x-preview-f-free | python-harness-v1.2.3 | 4 |
-| 19 | realworld | x-preview-f-free | strictdoc | 4 |
-| 20 | realworld | x-preview-f-free | combo-supermemory-graphify-ponytail-thermo-nuclear-code-quality-review-doorstop-tdd | 6 |
-| 21 | realworld | x-preview-f-free | thermo-nuclear-code-quality-review | 15.5 |
+| 5 | realworld | x-preview-f-free | python-harness-v1.3.0+graphify | 1 |
+| 6 | realworld | x-preview-f-free | reclaim-code-entropy | 1 |
+| 7 | realworld | x-preview-f-free | baseline | 1.5 |
+| 8 | realworld | x-preview-f-free | combo-supermemory-graphify-ponytail-thermo-nuclear-code-quality-review-tdd | 1.5 |
+| 9 | realworld | x-preview-f-free | python-harness-v1.2.3+ponytail+graphify+benjamin-plus-skill | 1.5 |
+| 10 | realworld | x-preview-f-free | python-harness-v1.3.0 | 1.5 |
+| 11 | realworld | x-preview-f-free | doorstop | 2 |
+| 12 | realworld | x-preview-f-free | python-harness-v1.3.0+doorstop | 2 |
+| 13 | realworld | x-preview-f-free | python-harness-v1.3.0+strictdoc | 2 |
+| 14 | realworld | x-preview-f-free | combo-supermemory-graphify | 2.5 |
+| 15 | realworld | x-preview-f-free | supermemory | 2.5 |
+| 16 | realworld | x-preview-f-free | tdd | 2.5 |
+| 17 | realworld | x-preview-f-free | ponytail | 3 |
+| 18 | realworld | x-preview-f-free | python-harness | 3 |
+| 19 | realworld | x-preview-f-free | python-harness-v1.2.3+ponytail+tdd+graphify+benjamin-plus-skill | 3 |
+| 20 | task_manager | x-preview-f-free | baseline | 3 |
+| 21 | realworld | x-preview-f-free | python-harness-v1.2.3 | 4 |
+| 22 | realworld | x-preview-f-free | strictdoc | 4 |
+| 23 | realworld | x-preview-f-free | combo-supermemory-graphify-ponytail-thermo-nuclear-code-quality-review-doorstop-tdd | 6 |
+| 24 | realworld | x-preview-f-free | thermo-nuclear-code-quality-review | 15.5 |
 
 ### Regressions
 
@@ -196,12 +212,15 @@ Lower is better. Regression tests failing in the final checkpoint evaluations.
 | 13 | realworld | x-preview-f-free | python-harness-v1.2.3+ponytail+graphify+benjamin-plus-skill | 0 |
 | 14 | realworld | x-preview-f-free | python-harness-v1.2.3+ponytail+tdd+graphify+benjamin-plus-skill | 0 |
 | 15 | realworld | x-preview-f-free | python-harness-v1.3.0 | 0 |
-| 16 | realworld | x-preview-f-free | reclaim-code-entropy | 0 |
-| 17 | realworld | x-preview-f-free | strictdoc | 0 |
-| 18 | realworld | x-preview-f-free | supermemory | 0 |
-| 19 | realworld | x-preview-f-free | tdd | 0 |
-| 20 | realworld | x-preview-f-free | thermo-nuclear-code-quality-review | 0 |
-| 21 | task_manager | x-preview-f-free | baseline | 1.7 |
+| 16 | realworld | x-preview-f-free | python-harness-v1.3.0+doorstop | 0 |
+| 17 | realworld | x-preview-f-free | python-harness-v1.3.0+graphify | 0 |
+| 18 | realworld | x-preview-f-free | python-harness-v1.3.0+strictdoc | 0 |
+| 19 | realworld | x-preview-f-free | reclaim-code-entropy | 0 |
+| 20 | realworld | x-preview-f-free | strictdoc | 0 |
+| 21 | realworld | x-preview-f-free | supermemory | 0 |
+| 22 | realworld | x-preview-f-free | tdd | 0 |
+| 23 | realworld | x-preview-f-free | thermo-nuclear-code-quality-review | 0 |
+| 24 | task_manager | x-preview-f-free | baseline | 1.7 |
 
 ### Creation input tokens
 
@@ -222,14 +241,17 @@ Lower is better. Input tokens used by initial checkpoint attempts.
 | 11 | realworld | x-preview-f-free | combo-supermemory-graphify-ponytail-thermo-nuclear-code-quality-review-tdd | 381,832 |
 | 12 | realworld | x-preview-f-free | reclaim-code-entropy | 388,386 |
 | 13 | realworld | x-preview-f-free | strictdoc | 398,588 |
-| 14 | realworld | x-preview-f-free | graphify | 484,474 |
-| 15 | realworld | x-preview-f-free | python-harness-v1.2.3+ponytail+tdd+graphify+benjamin-plus-skill | 582,129 |
-| 16 | realworld | x-preview-f-free | python-harness-v1.3.0 | 651,188 |
-| 17 | realworld | x-preview-f-free | python-harness-v1.2.3+ponytail+graphify+benjamin-plus-skill | 668,908 |
-| 18 | realworld | x-preview-f-free | combo-supermemory-graphify-ponytail-thermo-nuclear-code-quality-review-doorstop-tdd | 706,788 |
-| 19 | realworld | x-preview-f-free | python-harness | 725,810 |
-| 20 | realworld | x-preview-f-free | python-harness-v1.2.3 | 885,262 |
-| 21 | task_manager | x-preview-f-free | baseline | 900,910 |
+| 14 | realworld | x-preview-f-free | python-harness-v1.3.0+strictdoc | 465,912 |
+| 15 | realworld | x-preview-f-free | graphify | 484,474 |
+| 16 | realworld | x-preview-f-free | python-harness-v1.3.0+doorstop | 534,486 |
+| 17 | realworld | x-preview-f-free | python-harness-v1.2.3+ponytail+tdd+graphify+benjamin-plus-skill | 582,129 |
+| 18 | realworld | x-preview-f-free | python-harness-v1.3.0 | 651,188 |
+| 19 | realworld | x-preview-f-free | python-harness-v1.2.3+ponytail+graphify+benjamin-plus-skill | 668,908 |
+| 20 | realworld | x-preview-f-free | combo-supermemory-graphify-ponytail-thermo-nuclear-code-quality-review-doorstop-tdd | 706,788 |
+| 21 | realworld | x-preview-f-free | python-harness-v1.3.0+graphify | 718,174 |
+| 22 | realworld | x-preview-f-free | python-harness | 725,810 |
+| 23 | realworld | x-preview-f-free | python-harness-v1.2.3 | 885,262 |
+| 24 | task_manager | x-preview-f-free | baseline | 900,910 |
 
 ### Creation output tokens
 
@@ -254,10 +276,13 @@ Lower is better. Output tokens used by initial checkpoint attempts.
 | 15 | realworld | x-preview-f-free | thermo-nuclear-code-quality-review | 62,509 |
 | 16 | realworld | x-preview-f-free | strictdoc | 62,940 |
 | 17 | realworld | x-preview-f-free | doorstop | 66,256 |
-| 18 | realworld | x-preview-f-free | python-harness-v1.3.0 | 72,708 |
-| 19 | realworld | x-preview-f-free | python-harness-v1.2.3 | 73,702 |
-| 20 | realworld | x-preview-f-free | python-harness | 80,603 |
-| 21 | task_manager | x-preview-f-free | baseline | 202,798 |
+| 18 | realworld | x-preview-f-free | python-harness-v1.3.0+strictdoc | 68,887 |
+| 19 | realworld | x-preview-f-free | python-harness-v1.3.0 | 72,708 |
+| 20 | realworld | x-preview-f-free | python-harness-v1.2.3 | 73,702 |
+| 21 | realworld | x-preview-f-free | python-harness | 80,603 |
+| 22 | realworld | x-preview-f-free | python-harness-v1.3.0+doorstop | 87,843 |
+| 23 | realworld | x-preview-f-free | python-harness-v1.3.0+graphify | 88,514 |
+| 24 | task_manager | x-preview-f-free | baseline | 202,798 |
 
 ### Rework input tokens
 
@@ -274,18 +299,21 @@ Lower is better. Input tokens used by semantic rework attempts.
 | 7 | realworld | x-preview-f-free | doorstop | 19,770 |
 | 8 | realworld | x-preview-f-free | benjamin-plus-skill | 24,868 |
 | 9 | realworld | x-preview-f-free | ponytail | 27,967 |
-| 10 | realworld | x-preview-f-free | tdd | 30,196 |
-| 11 | realworld | x-preview-f-free | python-harness-v1.2.3+ponytail+graphify+benjamin-plus-skill | 32,560 |
-| 12 | realworld | x-preview-f-free | combo-supermemory-graphify-ponytail-thermo-nuclear-code-quality-review-tdd | 40,394 |
-| 13 | realworld | x-preview-f-free | supermemory | 48,913 |
-| 14 | realworld | x-preview-f-free | combo-supermemory-graphify | 48,955 |
-| 15 | realworld | x-preview-f-free | reclaim-code-entropy | 49,825 |
-| 16 | realworld | x-preview-f-free | python-harness-v1.3.0 | 68,132 |
-| 17 | realworld | x-preview-f-free | python-harness-v1.2.3+ponytail+tdd+graphify+benjamin-plus-skill | 81,140 |
-| 18 | realworld | x-preview-f-free | thermo-nuclear-code-quality-review | 90,941 |
-| 19 | realworld | x-preview-f-free | python-harness | 144,495 |
-| 20 | realworld | x-preview-f-free | combo-supermemory-graphify-ponytail-thermo-nuclear-code-quality-review-doorstop-tdd | 309,366 |
-| 21 | realworld | x-preview-f-free | python-harness-v1.2.3 | 340,264 |
+| 10 | realworld | x-preview-f-free | python-harness-v1.3.0+graphify | 29,885 |
+| 11 | realworld | x-preview-f-free | tdd | 30,196 |
+| 12 | realworld | x-preview-f-free | python-harness-v1.2.3+ponytail+graphify+benjamin-plus-skill | 32,560 |
+| 13 | realworld | x-preview-f-free | combo-supermemory-graphify-ponytail-thermo-nuclear-code-quality-review-tdd | 40,394 |
+| 14 | realworld | x-preview-f-free | supermemory | 48,913 |
+| 15 | realworld | x-preview-f-free | combo-supermemory-graphify | 48,955 |
+| 16 | realworld | x-preview-f-free | reclaim-code-entropy | 49,825 |
+| 17 | realworld | x-preview-f-free | python-harness-v1.3.0+strictdoc | 57,108 |
+| 18 | realworld | x-preview-f-free | python-harness-v1.3.0 | 68,132 |
+| 19 | realworld | x-preview-f-free | python-harness-v1.2.3+ponytail+tdd+graphify+benjamin-plus-skill | 81,140 |
+| 20 | realworld | x-preview-f-free | python-harness-v1.3.0+doorstop | 87,569 |
+| 21 | realworld | x-preview-f-free | thermo-nuclear-code-quality-review | 90,941 |
+| 22 | realworld | x-preview-f-free | python-harness | 144,495 |
+| 23 | realworld | x-preview-f-free | combo-supermemory-graphify-ponytail-thermo-nuclear-code-quality-review-doorstop-tdd | 309,366 |
+| 24 | realworld | x-preview-f-free | python-harness-v1.2.3 | 340,264 |
 
 ### Rework output tokens
 
@@ -295,25 +323,28 @@ Lower is better. Output tokens used by semantic rework attempts.
 |----:|---------|-------|---------|------:|
 | 1 | realworld | x-preview-f-free | baseline | 0 |
 | 2 | realworld | x-preview-f-free | strictdoc | 0 |
-| 3 | realworld | x-preview-f-free | graphify | 1,964 |
-| 4 | task_manager | x-preview-f-free | baseline | 2,472 |
-| 5 | realworld | x-preview-f-free | benjamin-plus-skill | 2,830 |
-| 6 | realworld | x-preview-f-free | python-harness+ponytail+tdd+graphify+benjamin-plus-skill+reclaim-code-entropy | 2,865 |
-| 7 | realworld | x-preview-f-free | combo-supermemory-graphify-ponytail-thermo-nuclear-code-quality-review-tdd | 3,082 |
-| 8 | realworld | x-preview-f-free | python-harness-v1.2.3+ponytail+graphify+benjamin-plus-skill | 3,275 |
-| 9 | realworld | x-preview-f-free | combo-supermemory-graphify-ponytail-thermo-nuclear-code-quality-review | 3,392 |
-| 10 | realworld | x-preview-f-free | doorstop | 3,926 |
-| 11 | realworld | x-preview-f-free | reclaim-code-entropy | 4,236 |
-| 12 | realworld | x-preview-f-free | tdd | 4,356 |
-| 13 | realworld | x-preview-f-free | ponytail | 4,879 |
-| 14 | realworld | x-preview-f-free | python-harness-v1.3.0 | 5,108 |
-| 15 | realworld | x-preview-f-free | python-harness-v1.2.3+ponytail+tdd+graphify+benjamin-plus-skill | 6,034 |
-| 16 | realworld | x-preview-f-free | combo-supermemory-graphify | 8,562 |
-| 17 | realworld | x-preview-f-free | supermemory | 12,466 |
-| 18 | realworld | x-preview-f-free | python-harness-v1.2.3 | 17,608 |
-| 19 | realworld | x-preview-f-free | thermo-nuclear-code-quality-review | 18,577 |
-| 20 | realworld | x-preview-f-free | python-harness | 27,421 |
-| 21 | realworld | x-preview-f-free | combo-supermemory-graphify-ponytail-thermo-nuclear-code-quality-review-doorstop-tdd | 39,710 |
+| 3 | realworld | x-preview-f-free | python-harness-v1.3.0+graphify | 1,717 |
+| 4 | realworld | x-preview-f-free | graphify | 1,964 |
+| 5 | task_manager | x-preview-f-free | baseline | 2,472 |
+| 6 | realworld | x-preview-f-free | benjamin-plus-skill | 2,830 |
+| 7 | realworld | x-preview-f-free | python-harness+ponytail+tdd+graphify+benjamin-plus-skill+reclaim-code-entropy | 2,865 |
+| 8 | realworld | x-preview-f-free | combo-supermemory-graphify-ponytail-thermo-nuclear-code-quality-review-tdd | 3,082 |
+| 9 | realworld | x-preview-f-free | python-harness-v1.2.3+ponytail+graphify+benjamin-plus-skill | 3,275 |
+| 10 | realworld | x-preview-f-free | combo-supermemory-graphify-ponytail-thermo-nuclear-code-quality-review | 3,392 |
+| 11 | realworld | x-preview-f-free | doorstop | 3,926 |
+| 12 | realworld | x-preview-f-free | reclaim-code-entropy | 4,236 |
+| 13 | realworld | x-preview-f-free | tdd | 4,356 |
+| 14 | realworld | x-preview-f-free | python-harness-v1.3.0+strictdoc | 4,551 |
+| 15 | realworld | x-preview-f-free | ponytail | 4,879 |
+| 16 | realworld | x-preview-f-free | python-harness-v1.3.0 | 5,108 |
+| 17 | realworld | x-preview-f-free | python-harness-v1.2.3+ponytail+tdd+graphify+benjamin-plus-skill | 6,034 |
+| 18 | realworld | x-preview-f-free | combo-supermemory-graphify | 8,562 |
+| 19 | realworld | x-preview-f-free | supermemory | 12,466 |
+| 20 | realworld | x-preview-f-free | python-harness-v1.3.0+doorstop | 12,637 |
+| 21 | realworld | x-preview-f-free | python-harness-v1.2.3 | 17,608 |
+| 22 | realworld | x-preview-f-free | thermo-nuclear-code-quality-review | 18,577 |
+| 23 | realworld | x-preview-f-free | python-harness | 27,421 |
+| 24 | realworld | x-preview-f-free | combo-supermemory-graphify-ponytail-thermo-nuclear-code-quality-review-doorstop-tdd | 39,710 |
 
 ### Cached tokens
 
@@ -337,11 +368,14 @@ Lower is better. Prompt tokens read from the provider cache.
 | 14 | realworld | x-preview-f-free | doorstop | 5,743,136 |
 | 15 | realworld | x-preview-f-free | combo-supermemory-graphify | 5,749,696 |
 | 16 | realworld | x-preview-f-free | strictdoc | 5,786,336 |
-| 17 | realworld | x-preview-f-free | python-harness-v1.3.0 | 13,620,672 |
-| 18 | realworld | x-preview-f-free | combo-supermemory-graphify-ponytail-thermo-nuclear-code-quality-review-doorstop-tdd | 13,633,472 |
-| 19 | realworld | x-preview-f-free | python-harness | 14,413,824 |
-| 20 | realworld | x-preview-f-free | python-harness-v1.2.3 | 17,358,592 |
-| 21 | task_manager | x-preview-f-free | baseline | 17,479,296 |
+| 17 | realworld | x-preview-f-free | python-harness-v1.3.0+strictdoc | 9,920,640 |
+| 18 | realworld | x-preview-f-free | python-harness-v1.3.0 | 13,620,672 |
+| 19 | realworld | x-preview-f-free | combo-supermemory-graphify-ponytail-thermo-nuclear-code-quality-review-doorstop-tdd | 13,633,472 |
+| 20 | realworld | x-preview-f-free | python-harness | 14,413,824 |
+| 21 | realworld | x-preview-f-free | python-harness-v1.3.0+graphify | 15,953,920 |
+| 22 | realworld | x-preview-f-free | python-harness-v1.3.0+doorstop | 16,284,800 |
+| 23 | realworld | x-preview-f-free | python-harness-v1.2.3 | 17,358,592 |
+| 24 | task_manager | x-preview-f-free | baseline | 17,479,296 |
 
 ### LLM requests
 
@@ -366,10 +400,13 @@ Lower is better. Sum of SCB agent steps (LLM requests) across checkpoints.
 | 15 | realworld | x-preview-f-free | thermo-nuclear-code-quality-review | 306 |
 | 16 | realworld | x-preview-f-free | doorstop | 352 |
 | 17 | realworld | x-preview-f-free | python-harness-v1.3.0 | 393 |
-| 18 | realworld | x-preview-f-free | python-harness | 440 |
-| 19 | realworld | x-preview-f-free | python-harness-v1.2.3 | 483 |
-| 20 | task_manager | x-preview-f-free | baseline | 496 |
-| 21 | realworld | x-preview-f-free | combo-supermemory-graphify-ponytail-thermo-nuclear-code-quality-review-doorstop-tdd | 509 |
+| 18 | realworld | x-preview-f-free | python-harness-v1.3.0+strictdoc | 421 |
+| 19 | realworld | x-preview-f-free | python-harness | 440 |
+| 20 | realworld | x-preview-f-free | python-harness-v1.3.0+graphify | 461 |
+| 21 | realworld | x-preview-f-free | python-harness-v1.2.3 | 483 |
+| 22 | task_manager | x-preview-f-free | baseline | 496 |
+| 23 | realworld | x-preview-f-free | combo-supermemory-graphify-ponytail-thermo-nuclear-code-quality-review-doorstop-tdd | 509 |
+| 24 | realworld | x-preview-f-free | python-harness-v1.3.0+doorstop | 617 |
 
 ### Normalized cost
 
@@ -392,12 +429,15 @@ Lower is better. Cost normalized with the versioned pricing configuration.
 | 13 | realworld | x-preview-f-free | python-harness-v1.2.3+ponytail+graphify+benjamin-plus-skill | $0.00 |
 | 14 | realworld | x-preview-f-free | python-harness-v1.2.3+ponytail+tdd+graphify+benjamin-plus-skill | $0.00 |
 | 15 | realworld | x-preview-f-free | python-harness-v1.3.0 | $0.00 |
-| 16 | realworld | x-preview-f-free | reclaim-code-entropy | $0.00 |
-| 17 | realworld | x-preview-f-free | strictdoc | $0.00 |
-| 18 | realworld | x-preview-f-free | supermemory | $0.00 |
-| 19 | realworld | x-preview-f-free | tdd | $0.00 |
-| 20 | realworld | x-preview-f-free | thermo-nuclear-code-quality-review | $0.00 |
-| 21 | task_manager | x-preview-f-free | baseline | $0.00 |
+| 16 | realworld | x-preview-f-free | python-harness-v1.3.0+doorstop | $0.00 |
+| 17 | realworld | x-preview-f-free | python-harness-v1.3.0+graphify | $0.00 |
+| 18 | realworld | x-preview-f-free | python-harness-v1.3.0+strictdoc | $0.00 |
+| 19 | realworld | x-preview-f-free | reclaim-code-entropy | $0.00 |
+| 20 | realworld | x-preview-f-free | strictdoc | $0.00 |
+| 21 | realworld | x-preview-f-free | supermemory | $0.00 |
+| 22 | realworld | x-preview-f-free | tdd | $0.00 |
+| 23 | realworld | x-preview-f-free | thermo-nuclear-code-quality-review | $0.00 |
+| 24 | task_manager | x-preview-f-free | baseline | $0.00 |
 
 ### Elapsed time
 
@@ -422,10 +462,13 @@ Lower is better. Sum of agent inference time across checkpoints.
 | 15 | realworld | x-preview-f-free | combo-supermemory-graphify | 75.3m |
 | 16 | realworld | x-preview-f-free | thermo-nuclear-code-quality-review | 83.5m |
 | 17 | realworld | x-preview-f-free | python-harness | 95.8m |
-| 18 | realworld | x-preview-f-free | python-harness-v1.3.0 | 102.0m |
-| 19 | realworld | x-preview-f-free | python-harness-v1.2.3 | 118.2m |
-| 20 | realworld | x-preview-f-free | combo-supermemory-graphify-ponytail-thermo-nuclear-code-quality-review-doorstop-tdd | 161.6m |
-| 21 | task_manager | x-preview-f-free | baseline | 215.6m |
+| 18 | realworld | x-preview-f-free | python-harness-v1.3.0+strictdoc | 99.2m |
+| 19 | realworld | x-preview-f-free | python-harness-v1.3.0 | 102.0m |
+| 20 | realworld | x-preview-f-free | python-harness-v1.2.3 | 118.2m |
+| 21 | realworld | x-preview-f-free | python-harness-v1.3.0+graphify | 123.9m |
+| 22 | realworld | x-preview-f-free | python-harness-v1.3.0+doorstop | 156.0m |
+| 23 | realworld | x-preview-f-free | combo-supermemory-graphify-ponytail-thermo-nuclear-code-quality-review-doorstop-tdd | 161.6m |
+| 24 | task_manager | x-preview-f-free | baseline | 215.6m |
 
 ### Final LOC
 
@@ -450,10 +493,13 @@ Descriptive. Lines of solution code in the final snapshot.
 | 15 | realworld | x-preview-f-free | python-harness-v1.2.3+ponytail+tdd+graphify+benjamin-plus-skill | 1841.5 |
 | 16 | realworld | x-preview-f-free | combo-supermemory-graphify-ponytail-thermo-nuclear-code-quality-review-doorstop-tdd | 1861 |
 | 17 | realworld | x-preview-f-free | tdd | 2536.5 |
-| 18 | realworld | x-preview-f-free | python-harness | 3357 |
-| 19 | realworld | x-preview-f-free | python-harness-v1.3.0 | 3487 |
-| 20 | realworld | x-preview-f-free | python-harness-v1.2.3 | 3581.5 |
-| 21 | task_manager | x-preview-f-free | baseline | 4686.7 |
+| 18 | realworld | x-preview-f-free | python-harness-v1.3.0+strictdoc | 2654 |
+| 19 | realworld | x-preview-f-free | python-harness-v1.3.0+graphify | 3047 |
+| 20 | realworld | x-preview-f-free | python-harness | 3357 |
+| 21 | realworld | x-preview-f-free | python-harness-v1.3.0 | 3487 |
+| 22 | realworld | x-preview-f-free | python-harness-v1.2.3 | 3581.5 |
+| 23 | realworld | x-preview-f-free | python-harness-v1.3.0+doorstop | 3612 |
+| 24 | task_manager | x-preview-f-free | baseline | 4686.7 |
 
 ### Python modules
 
@@ -479,9 +525,12 @@ Descriptive. Python source modules in the final snapshot.
 | 16 | realworld | x-preview-f-free | python-harness-v1.2.3+ponytail+tdd+graphify+benjamin-plus-skill | 19 |
 | 17 | realworld | x-preview-f-free | tdd | 19 |
 | 18 | realworld | x-preview-f-free | python-harness-v1.2.3+ponytail+graphify+benjamin-plus-skill | 24 |
-| 19 | realworld | x-preview-f-free | python-harness-v1.2.3 | 44.5 |
-| 20 | realworld | x-preview-f-free | python-harness | 49 |
-| 21 | realworld | x-preview-f-free | python-harness-v1.3.0 | 54.5 |
+| 19 | realworld | x-preview-f-free | python-harness-v1.3.0+strictdoc | 24 |
+| 20 | realworld | x-preview-f-free | python-harness-v1.2.3 | 44.5 |
+| 21 | realworld | x-preview-f-free | python-harness | 49 |
+| 22 | realworld | x-preview-f-free | python-harness-v1.3.0+graphify | 49 |
+| 23 | realworld | x-preview-f-free | python-harness-v1.3.0+doorstop | 54 |
+| 24 | realworld | x-preview-f-free | python-harness-v1.3.0 | 54.5 |
 
 ### Changed LOC
 
@@ -503,13 +552,16 @@ Lower is better as a churn measure. Lines changed from the initial snapshot.
 | 12 | realworld | x-preview-f-free | python-harness-v1.2.3+ponytail+tdd+graphify+benjamin-plus-skill | 1944 |
 | 13 | realworld | x-preview-f-free | combo-supermemory-graphify-ponytail-thermo-nuclear-code-quality-review-tdd | 2001 |
 | 14 | realworld | x-preview-f-free | tdd | 2797 |
-| 15 | realworld | x-preview-f-free | benjamin-plus-skill | 3278.5 |
-| 16 | realworld | x-preview-f-free | python-harness-v1.2.3 | 3683.5 |
-| 17 | realworld | x-preview-f-free | python-harness-v1.3.0 | 4000 |
-| 18 | task_manager | x-preview-f-free | baseline | 5738.3 |
-| 19 | realworld | x-preview-f-free | python-harness | 9125 |
-| 20 | realworld | x-preview-f-free | reclaim-code-entropy | 9221 |
-| 21 | realworld | x-preview-f-free | python-harness+ponytail+tdd+graphify+benjamin-plus-skill+reclaim-code-entropy | 11422 |
+| 15 | realworld | x-preview-f-free | python-harness-v1.3.0+strictdoc | 3133 |
+| 16 | realworld | x-preview-f-free | benjamin-plus-skill | 3278.5 |
+| 17 | realworld | x-preview-f-free | python-harness-v1.2.3 | 3683.5 |
+| 18 | realworld | x-preview-f-free | python-harness-v1.3.0+graphify | 3782 |
+| 19 | realworld | x-preview-f-free | python-harness-v1.3.0 | 4000 |
+| 20 | realworld | x-preview-f-free | python-harness-v1.3.0+doorstop | 4070 |
+| 21 | task_manager | x-preview-f-free | baseline | 5738.3 |
+| 22 | realworld | x-preview-f-free | python-harness | 9125 |
+| 23 | realworld | x-preview-f-free | reclaim-code-entropy | 9221 |
+| 24 | realworld | x-preview-f-free | python-harness+ponytail+tdd+graphify+benjamin-plus-skill+reclaim-code-entropy | 11422 |
 
 ### Dependencies
 
@@ -530,14 +582,17 @@ Lower is better as a complexity measure. Dependencies added by the solution.
 | 11 | realworld | x-preview-f-free | thermo-nuclear-code-quality-review | 6 |
 | 12 | realworld | x-preview-f-free | python-harness-v1.2.3+ponytail+tdd+graphify+benjamin-plus-skill | 6.5 |
 | 13 | realworld | x-preview-f-free | python-harness+ponytail+tdd+graphify+benjamin-plus-skill+reclaim-code-entropy | 7 |
-| 14 | realworld | x-preview-f-free | python-harness-v1.2.3+ponytail+graphify+benjamin-plus-skill | 7.5 |
-| 15 | realworld | x-preview-f-free | python-harness | 10 |
-| 16 | realworld | x-preview-f-free | python-harness-v1.3.0 | 10 |
-| 17 | realworld | x-preview-f-free | benjamin-plus-skill | 11.5 |
-| 18 | realworld | x-preview-f-free | supermemory | 14.5 |
-| 19 | realworld | x-preview-f-free | ponytail | 15 |
-| 20 | realworld | x-preview-f-free | tdd | 18.5 |
-| 21 | realworld | x-preview-f-free | python-harness-v1.2.3 | 26.5 |
+| 14 | realworld | x-preview-f-free | python-harness-v1.3.0+graphify | 7 |
+| 15 | realworld | x-preview-f-free | python-harness-v1.2.3+ponytail+graphify+benjamin-plus-skill | 7.5 |
+| 16 | realworld | x-preview-f-free | python-harness-v1.3.0+strictdoc | 9 |
+| 17 | realworld | x-preview-f-free | python-harness | 10 |
+| 18 | realworld | x-preview-f-free | python-harness-v1.3.0 | 10 |
+| 19 | realworld | x-preview-f-free | python-harness-v1.3.0+doorstop | 11 |
+| 20 | realworld | x-preview-f-free | benjamin-plus-skill | 11.5 |
+| 21 | realworld | x-preview-f-free | supermemory | 14.5 |
+| 22 | realworld | x-preview-f-free | ponytail | 15 |
+| 23 | realworld | x-preview-f-free | tdd | 18.5 |
+| 24 | realworld | x-preview-f-free | python-harness-v1.2.3 | 26.5 |
 
 ### Complexity
 
@@ -562,7 +617,10 @@ Lower is better. Measured code complexity in the final snapshot.
 | 15 | realworld | x-preview-f-free | combo-supermemory-graphify-ponytail-thermo-nuclear-code-quality-review-tdd | 621 |
 | 16 | realworld | x-preview-f-free | combo-supermemory-graphify-ponytail-thermo-nuclear-code-quality-review-doorstop-tdd | 653 |
 | 17 | realworld | x-preview-f-free | tdd | 748.5 |
-| 18 | task_manager | x-preview-f-free | baseline | 931.7 |
-| 19 | realworld | x-preview-f-free | python-harness-v1.3.0 | 941.5 |
-| 20 | realworld | x-preview-f-free | python-harness | 968 |
-| 21 | realworld | x-preview-f-free | python-harness-v1.2.3 | 992.5 |
+| 18 | realworld | x-preview-f-free | python-harness-v1.3.0+strictdoc | 825 |
+| 19 | realworld | x-preview-f-free | python-harness-v1.3.0+graphify | 834 |
+| 20 | realworld | x-preview-f-free | python-harness-v1.3.0+doorstop | 838 |
+| 21 | task_manager | x-preview-f-free | baseline | 931.7 |
+| 22 | realworld | x-preview-f-free | python-harness-v1.3.0 | 941.5 |
+| 23 | realworld | x-preview-f-free | python-harness | 968 |
+| 24 | realworld | x-preview-f-free | python-harness-v1.2.3 | 992.5 |

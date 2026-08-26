@@ -3,3 +3,190 @@ model=x-preview-f-free thinking=high transient_retries=2
 feedback_strategy=(state.json) arms=python-harness-v1.3.0 
 experiment_id=realworld-opencode-x-preview-f-free-high-python-harness-v1.3.0-202
 60826 ===
+REALWORLD — multi-harness
+
+N python-harness-v1.3.0=2
+Failed checkpoints includes checkpoints repaired by rework.
+Rework tokens are All tokens minus Creation tokens when per-attempt usage is 
+unavailable.
+Transient retries are separate from semantic rework and require high-confidence 
+truncation signals.
+
+Metric                 python-harness-v1.3.0
+--------------------------------------------
+CP passed/total                        14/14
+Failed checkpoints                         1
+Regressions                                0
+Creation input tokens                651,188
+Creation output tokens                72,708
+Rework input tokens                   68,132
+Rework output tokens                   5,108
+Transient input tokens                     0
+Transient output tokens                     0
+All input tokens                     719,320
+All output tokens                     77,816
+Reasoning tokens                      38,972
+Normalized cost                        $0.00
+Elapsed time                          102.0m
+Final LOC                               3487
+Python modules                          54.5
+Changed LOC                             4000
+Files touched                            107
+Dependencies                              10
+Complexity                             941.5
+Semantic rework attempts                   1.5
+Repeated attempts                        1.5
+Rework fixed                               1
+Rework unresolved                          0
+Transient retries                          0
+Provider truncations                       0
+Transient recoveries                       0
+Truncations unresolved                     0
+
+Δ vs baseline (mean):
+Metric                 python-harness-v1.3.0
+CP passed/total                            -
+Failed checkpoints                         -
+Regressions                                -
+Creation input tokens                      -
+Creation output tokens                     -
+Rework input tokens                        -
+Rework output tokens                       -
+Transient input tokens                     -
+Transient output tokens                     -
+All input tokens                           -
+All output tokens                          -
+Reasoning tokens                           -
+Normalized cost                            -
+Elapsed time                               -
+Final LOC                                  -
+Python modules                             -
+Changed LOC                                -
+Files touched                              -
+Dependencies                               -
+Complexity                                 -
+Semantic rework attempts                     -
+Repeated attempts                          -
+Rework fixed                               -
+Rework unresolved                          -
+Transient retries                          -
+Provider truncations                       -
+Transient recoveries                       -
+Truncations unresolved                     -
+
+Per-checkpoint (raw):
+CP   Arm                                  Pass   Create In Create Out  Rework In
+Rework Out Transient In Transient Out     All In    All Out     Cost     Time   
+LOCΔ   FilesΔ   Reg Repeat
+1    python-harness-v1.3.0                True      69,809     14,017     95,549
+7,566            0             0    165,358     21,583        -     2349       
+69        4     0      2
+2    python-harness-v1.3.0                True      44,001      8,248          0
+0            0             0     44,001      8,248        -      416      403   
+10     0      0
+3    python-harness-v1.3.0                True      31,705      4,811          0
+0            0             0     31,705      4,811        -      286      331   
+7     0      0
+4    python-harness-v1.3.0                True      33,224      2,802          0
+0            0             0     33,224      2,802        -      166      131   
+7     0      0
+5    python-harness-v1.3.0                True      46,246      6,724          0
+0            0             0     46,246      6,724        -      581      424   
+10     0      0
+6    python-harness-v1.3.0                True      34,147      2,561          0
+0            0             0     34,147      2,561        -      196      139   
+7     0      0
+7    python-harness-v1.3.0                True      42,791      4,728          0
+0            0             0     42,791      4,728        -      268      323   
+8     0      0
+8    python-harness-v1.3.0                True      34,868      1,897          0
+0            0             0     34,868      1,897        -      644       98   
+6     0      0
+9    python-harness-v1.3.0                True      39,507      4,612          0
+0            0             0     39,507      4,612        -      266      329   
+6     0      0
+10   python-harness-v1.3.0                True      79,756      5,446          0
+0            0             0     79,756      5,446        -     1040      363   
+6     0      0
+11   python-harness-v1.3.0                True      50,238      6,951          0
+0            0             0     50,238      6,951        -      338      400   
+8     0      0
+12   python-harness-v1.3.0                True      45,585      5,060          0
+0            0             0     45,585      5,060        -      229      251   
+5     0      0
+13   python-harness-v1.3.0                True      46,162      6,818          0
+0            0             0     46,162      6,818        -      430      456   
+9     0      0
+14   python-harness-v1.3.0                True      37,150      1,491          0
+0            0             0     37,150      1,491        -      157       70   
+6     0      0
+1    python-harness-v1.3.0                True      70,979      9,005          0
+0            0             0     70,979      9,005        -      613      680   
+32     0      0
+2    python-harness-v1.3.0                True      59,997      6,623          0
+0            0             0     59,997      6,623        -      301      372   
+10     0      0
+3    python-harness-v1.3.0                True      37,169      6,820          0
+0            0             0     37,169      6,820        -      414      437   
+7     0      0
+4    python-harness-v1.3.0                True      54,942      2,909          0
+0            0             0     54,942      2,909        -      225      188   
+7     0      0
+5    python-harness-v1.3.0                True      39,485      4,238     40,714
+2,649            0             0     80,199      6,887        -      734       
+57        2     0      1
+6    python-harness-v1.3.0                True      33,934      2,086          0
+0            0             0     33,934      2,086        -      124      150   
+5     0      0
+7    python-harness-v1.3.0                True      42,990      6,981          0
+0            0             0     42,990      6,981        -      421      395   
+7     0      0
+8    python-harness-v1.3.0                True      54,258      2,202          0
+0            0             0     54,258      2,202        -      132      147   
+5     0      0
+9    python-harness-v1.3.0                True      35,179      4,019          0
+0            0             0     35,179      4,019        -      231      276   
+6     0      0
+10   python-harness-v1.3.0                True      43,231      5,589          0
+0            0             0     43,231      5,589        -      367      340   
+7     0      0
+11   python-harness-v1.3.0                True      47,317      6,550          0
+0            0             0     47,317      6,550        -      385      343   
+7     0      0
+12   python-harness-v1.3.0                True      61,846      3,608          0
+0            0             0     61,846      3,608        -      493      246   
+5     0      0
+13   python-harness-v1.3.0                True      46,747      6,746          0
+0            0             0     46,747      6,746        -      283      480   
+8     0      0
+14   python-harness-v1.3.0                True      39,114      1,875          0
+0            0             0     39,114      1,875        -      146      102   
+7     0      0
+
+Rework attempts (raw):
+CP   Arm                                  Stage      #  Core p/f/t         In   
+Out     Time     Cost Failed
+1    python-harness-v1.3.0                creation   1       1/1/2     69,809   
+14,017     1340     0.00      1
+1    python-harness-v1.3.0                rework     2       1/1/2     55,598   
+4,437      707     0.00      1
+1    python-harness-v1.3.0                rework     3       2/0/2     39,951   
+3,129      302     0.00      0
+5    python-harness-v1.3.0                creation   1       1/1/2     39,485   
+4,238      331     0.00      1
+5    python-harness-v1.3.0                rework     2       2/0/2     40,714   
+2,649      403     0.00      0
+
+Stats per metric include mean/median/min/max/stddev in the JSON report.
+
+Wrote 
+/home/user/my/harness-benchmark/reports/realworld-opencode-x-preview-f-free-high
+-python-harness-v1.3.0-20260826/comparison.txt and 
+/home/user/my/harness-benchmark/reports/realworld-opencode-x-preview-f-free-high
+-python-harness-v1.3.0-20260826/comparison.json
+Published 
+/home/user/my/harness-benchmark/docs/reports/realworld-opencode-x-preview-f-free
+-high-python-harness-v1.3.0-20260826.md, 
+/home/user/my/harness-benchmark/docs/reports/realworld-opencode-x-preview-f-free
+-high-python-harness-v1.3.0-20260826.json, 
+/home/user/my/harness-benchmark/docs/LEADERBOARD.md
