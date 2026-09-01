@@ -1,8 +1,18 @@
 # Pinned pricing used for normalized_cost_usd (USD per 1M tokens).
 # Keep this file versioned with each experiment via manifest.pricing_version.
-version: "2026-08-12-openai-gpt-5.6-luna"
+version: "2026-08-31-x-preview-f-free"
 currency: USD
 models:
+  x-preview-f-free:
+    input: 0.15
+    output: 0.50
+    cache_read: 0.015
+    cache_write: 0.0
+    reasoning: 0.50
+    # OpenCode step-finish usage reports fresh input, cache reads, ordinary output,
+    # and reasoning as disjoint counters whose sum equals total tokens.
+    input_includes_cache: false
+    reasoning_in_output: false
   gpt-5.6-luna:
     # Placeholder rates until official public pricing is pinned; update when confirmed.
     # Luna is positioned as fast/affordable vs frontier; keep below gpt-5.5 for now.
