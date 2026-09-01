@@ -1,0 +1,38 @@
+Building base image...
+Starting Slop Code CLI
+	Seed: 42
+	Verbose: 0
+--------------------------------
+[2m2026-09-01 09:14:02[0m [[32m[1minfo     [0m] [1mBuilding base image for environment 'python3.12' base_image='ghcr.io/astral-sh/uv:python3.12-trixie-slim' image_name='slop-code:python3.12'[0m
+[2m2026-09-01 09:14:02[0m [[32m[1minfo     [0m] [1mChecking if image exists image_name='slop-code:python3.12'[0m
+[2m2026-09-01 09:14:02[0m [[32m[1minfo     [0m] [1mImage does not exist image_name='slop-code:python3.12'[0m
+[2m2026-09-01 09:14:02[0m [[32m[1minfo     [0m] [1mBuilding image image_name='slop-code:python3.12'[0m
+[2m2026-09-01 09:21:02[0m [[32m[1minfo     [0m] [1mFinished building image image_id='sha256:1a14f5c48edb9621e142aaa6a34d6c756f4f5b4e76173e7f0becc55bf1bd90b0' image_name='slop-code:python3.12'[0m
+Building Codex agent image...
+Starting Slop Code CLI
+	Seed: 42
+	Verbose: 0
+--------------------------------
+[2m2026-09-01 09:21:04[0m [[32m[1minfo     [0m] [1mBuilding base image for environment 'python3.12' base_image='ghcr.io/astral-sh/uv:python3.12-trixie-slim' image_name='slop-code:python3.12'[0m
+[2m2026-09-01 09:21:04[0m [[32m[1minfo     [0m] [1mChecking if image exists image_name='slop-code:python3.12'[0m
+[2m2026-09-01 09:21:04[0m [[32m[1minfo     [0m] [1mFound current image and not forcing build[0m
+[2m2026-09-01 09:21:04[0m [[32m[1minfo     [0m] [1mChecking if image exists image_name='slop-code:codex-0.145.0-python3.12'[0m
+[2m2026-09-01 09:21:04[0m [[32m[1minfo     [0m] [1mImage does not exist image_name='slop-code:codex-0.145.0-python3.12'[0m
+[2m2026-09-01 09:21:04[0m [[32m[1minfo     [0m] [1mBuilding image image_name='slop-code:codex-0.145.0-python3.12'[0m
+[2m2026-09-01 09:21:49[0m [[32m[1minfo     [0m] [1mFinished building image image_id='sha256:c13d961f51c4ae67cdd82e7b0dcb45e5f26f0463bd126609f305caab6b786e4e' image_name='slop-code:codex-0.145.0-python3.12'[0m
+Building OpenCode agent image...
+Starting Slop Code CLI
+	Seed: 42
+	Verbose: 0
+--------------------------------
+[2m2026-09-01 09:21:49[0m [[32m[1minfo     [0m] [1mBuilding base image for environment 'python3.12' base_image='ghcr.io/astral-sh/uv:python3.12-trixie-slim' image_name='slop-code:python3.12'[0m
+[2m2026-09-01 09:21:49[0m [[32m[1minfo     [0m] [1mChecking if image exists image_name='slop-code:python3.12'[0m
+[2m2026-09-01 09:21:49[0m [[32m[1minfo     [0m] [1mFound current image and not forcing build[0m
+[2m2026-09-01 09:21:50[0m [[32m[1minfo     [0m] [1mChecking if image exists image_name='slop-code:opencode-1.14.33-python3.12'[0m
+[2m2026-09-01 09:21:50[0m [[32m[1minfo     [0m] [1mImage does not exist image_name='slop-code:opencode-1.14.33-python3.12'[0m
+[2m2026-09-01 09:21:50[0m [[32m[1minfo     [0m] [1mBuilding image image_name='slop-code:opencode-1.14.33-python3.12'[0m
+[2m2026-09-01 09:22:38[0m [[32m[1minfo     [0m] [1mFinished building image image_id='sha256:8ffd14e3d3418ac5fd2f5a0ceda5713326b443cc35979b5a2c93457c6c5adcac' image_name='slop-code:opencode-1.14.33-python3.12'[0m
+slop-code:codex-0.145.0-python3.12            c13d961f51c4        4.9GB             0B        
+slop-code:opencode-1.14.33-python3.12         8ffd14e3d341       5.11GB             0B        
+slop-code:python3.12                          1a14f5c48edb       4.39GB             0B        
+Done.
