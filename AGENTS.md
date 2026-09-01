@@ -641,6 +641,25 @@ Hermes используется как компромиссный канал у�
   `reasoning_in_output: false`. Для провайдеров с inclusive counters дефолты остаются
   `true`, чтобы reasoning не биллился дважды.
 
+### Инцидент Markdown-лидерборда (2026-09-01)
+
+- При добавлении колонок в `benchmark/publish.py` заголовки и строки имели 23 поля,
+  а hardcoded separator rows — 24; затем проверка только числа `|` пропустила `--:`:
+  GitHub Flavored Markdown требует минимум три дефиса в каждой ячейке разделителя.
+  После изменения колонок проверяй одинаковое число `|`, минимум `---` дефиса и
+  renderer output для header/data/separator всех таблиц; сверяй `LEADERBOARD.md`
+  с `format_leaderboard(...)`.
+- Если `LEADERBOARD.md` после ручной починки снова возвращается к старому формату,
+  сначала ищи фоновый fleet на хосте: изолированный agent shell может не видеть его
+  PID. Проверяй `ps -eo ...` и `systemctl --user status harness-benchmark-fleet.service`;
+  для этого инцидента виновником был `python3 -m benchmark fleet --config
+  configs/desired.yaml`, запущенный до правки `benchmark/publish.py`.
+- После правок модулей публикации перезапускай user unit:
+  `systemctl --user restart harness-benchmark-fleet.service`. Затем проверь, что PID
+  изменился, renderer видит 31 таблицу, а через один fleet-цикл разделители не
+  вернулись к `--:` и имеют то же число `|`, что и заголовки. Не лечи такой симптом
+  повторным редактированием только сгенерированного `docs/LEADERBOARD.md`.
+
 ## graphify
 
 This project has a knowledge graph at graphify-out/ with god nodes, community structure, and cross-file relationships.

@@ -4,6 +4,7 @@
   "arms": {},
   "date": "2026-08-21T16:57:21.471708+00:00",
   "deltas": {
+    "cache_read_tokens": null,
     "checkpoints_failed": null,
     "checkpoints_passed": null,
     "checkpoints_total": null,
@@ -15,15 +16,25 @@
     "creation_output_tokens": null,
     "dependencies_added": null,
     "elapsed_time": null,
+    "llm_requests": null,
     "loc_changed": null,
     "loc_final": null,
+    "module_count": null,
     "normalized_cost": null,
+    "provider_truncation_unresolved": null,
+    "provider_truncations": null,
+    "reasoning_tokens": null,
     "regression_failures": null,
     "repeated_attempts": null,
     "rework_input_tokens": null,
     "rework_output_tokens": null,
+    "semantic_rework_attempts": null,
     "total_input_tokens": null,
-    "total_output_tokens": null
+    "total_output_tokens": null,
+    "transient_input_tokens": null,
+    "transient_output_tokens": null,
+    "transient_recoveries": null,
+    "transient_retries": null
   },
   "deltas_by_arm": {},
   "excluded_ponytail_runs": 0,
@@ -31,6 +42,7 @@
     "baseline": 0
   },
   "experiment_id": "hc-opencode-oxalpha-high",
+  "feedback_strategy": null,
   "git_commits": {
     "harness_benchmark": "c12cb67e6e73cb601dc9002a8c9d6f206792f997",
     "scb_problems": "ef6a9dd13911566b6b01075ca121758c9f7b5c5f",
@@ -40,6 +52,7 @@
     "baseline": [
       {
         "agent": "opencode",
+        "feedback_strategy": null,
         "fully_completed": false,
         "interrupt_reason": "interrupted",
         "model": "x-preview-f-free",
@@ -48,7 +61,8 @@
         "rework_attempts": 2,
         "run_index": 2,
         "stopped_at_checkpoint": "checkpoint_18",
-        "thinking": "high"
+        "thinking": "high",
+        "transient_retries": null
       }
     ]
   },
@@ -59,5 +73,7 @@
   "pricing_version": "2026-08-12-openai-gpt-5.6-luna",
   "problem": "healthchecks",
   "provider": "opencode_auth",
-  "thinking": "high"
+  "rework_attempts": null,
+  "thinking": "high",
+  "transient_retries": null
 }

@@ -111,6 +111,7 @@ def test_leaderboard_shows_stage_tokens_without_diagnostic_columns() -> None:
                 "total_input_tokens": 1234,
                 "total_output_tokens": 567,
                 "cache_read_tokens": 2345,
+                "reasoning_tokens": 789,
                 "llm_requests": 6,
                 "normalized_cost": 0.0,
                 "elapsed_time": 60.0,
@@ -127,13 +128,22 @@ def test_leaderboard_shows_stage_tokens_without_diagnostic_columns() -> None:
     text = format_leaderboard([payload])
 
     assert (
-        "| Agent | Model | Harness | N | CP | Failed CP | Repeated | Reg | Create in | "
-        "Create out | Rework in | Rework out | Cached tokens | LLM requests | Cost | Time | "
-        "LOC | Py modules | ΔLOC | Deps | Cx |"
+        "| Agent | Model | Harness | N | CP | Failed CP | Repeated | Reg | Create input | "
+        "Create output | Rework input | Rework output | Cached tokens | Reasoning | Output tokens | LLM requests | "
+        "Cost | Time | LOC | Py modules | ΔLOC | Deps | Cx |"
     ) in text
+    lines = text.splitlines()
+    for header in (
+        next(line for line in lines if line.startswith("| Agent | Model | Harness |")),
+        next(line for line in lines if line.startswith("| Problem | Agent | Harness |")),
+    ):
+        header_index = lines.index(header)
+        separator = lines[header_index + 1]
+        assert separator.count("|") == header.count("|")
+        assert all(cell.strip().strip(":").count("-") >= 3 for cell in separator.strip("|").split("|"))
     assert "| Experiment | Date | Problem | Agent | Model | N | Report |" in text
-    assert "| Problem | Agent | Harness | N | CP | Failed CP | Repeated | Reg | Create in | " in text
-    assert "| 1,000 | 400 | 234 | 167 | 2,345 | 6 | $0.00 |" in text
+    assert "| Problem | Agent | Harness | N | CP | Failed CP | Repeated | Reg | Create input | " in text
+    assert "| 1,000 | 400 | 234 | 167 | 2,345 | 789 | 567 | 6 | $0.00 |" in text
     assert "## Metric leaderboards" in text
     assert "### CP passed/total" in text
     assert "### Python modules" in text
@@ -144,14 +154,6 @@ def test_leaderboard_shows_stage_tokens_without_diagnostic_columns() -> None:
     assert "167" in text
     assert "| 2 |" in text
     assert "| 10 | 2 | 3 | 0 | 2 |" in text
-    assert "All in" not in text
-    assert "All out" not in text
-    assert "Transient in" not in text
-    assert "Transient out" not in text
-    assert "Trunc" not in text
-    assert "Tr. retry" not in text
-    assert "Recovery" not in text
-    assert "Unresolved" not in text
     assert "Core fail" not in text
     assert "| Agent | Provider |" not in text
     assert "| Problem | Agent | Provider |" not in text
