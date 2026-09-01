@@ -33,6 +33,7 @@ Failed checkpoints include checkpoints repaired by rework; Rework = All - Create
 | All input tokens | 327,829 | 438,210 |
 | All output tokens | 42,056 | 46,428 |
 | Cached tokens | 3,458,560 | 3,180,960 |
+| Reasoning tokens | 6,640 | 14,196 |
 | LLM requests | 195 | 222 |
 | Normalized cost | $0.00 | $0.00 |
 | Elapsed | 43.9m | 49.5m |
@@ -64,6 +65,7 @@ Failed checkpoints include checkpoints repaired by rework; Rework = All - Create
 | All input tokens | - | - |
 | All output tokens | - | - |
 | Cached tokens | - | - |
+| Reasoning tokens | - | - |
 | LLM requests | - | - |
 | Normalized cost | - | - |
 | Elapsed | - | - |
