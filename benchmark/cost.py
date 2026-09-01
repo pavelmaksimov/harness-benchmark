@@ -37,15 +37,19 @@ def normalized_cost_usd(
     cache_read = cache_read_tokens or 0
     cache_write = cache_write_tokens or 0
     reasoning = reasoning_tokens or 0
-    uncached_input = max(int(input_tokens) - int(cache_read), 0)
+    input_includes_cache = bool(rates.get("input_includes_cache", True))
+    reasoning_in_output = bool(rates.get("reasoning_in_output", True))
+    uncached_input = (
+        max(int(input_tokens) - int(cache_read), 0)
+        if input_includes_cache
+        else int(input_tokens)
+    )
 
     cost = 0.0
     cost += uncached_input / 1_000_000 * float(rates.get("input") or 0)
     cost += int(output_tokens) / 1_000_000 * float(rates.get("output") or 0)
     cost += int(cache_read) / 1_000_000 * float(rates.get("cache_read") or 0)
     cost += int(cache_write) / 1_000_000 * float(rates.get("cache_write") or 0)
-    # Reasoning tokens are tracked separately in usage metrics. Do not add an extra
-    # reasoning surcharge here: Codex/OpenAI output pricing typically already covers
-    # billed completion tokens. Keep `reasoning` in pricing.yaml for documentation.
-    _ = reasoning
+    if not reasoning_in_output:
+        cost += reasoning / 1_000_000 * float(rates.get("reasoning") or 0)
     return cost

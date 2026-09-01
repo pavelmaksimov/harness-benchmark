@@ -632,6 +632,15 @@ Hermes используется как компромиссный канал у�
 6. `resolve_run_selection` для baseline-arm исторически подменял агента на codex;
    теперь явно переданный agent сохраняется (нужно для baseline на omp).
 
+### OpenCode token usage и normalized cost (2026-08-31)
+
+- В `step-finish.tokens` OpenCode поля `input`, `cache.read`, `output` и `reasoning`
+  раздельны: их сумма равна `total`. Поэтому для таких моделей нельзя повторно
+  вычитать cache из input — это обнуляет стоимость свежего input при большом cache.
+- Семантика задаётся в `configs/pricing.yaml`: `input_includes_cache: false` и
+  `reasoning_in_output: false`. Для провайдеров с inclusive counters дефолты остаются
+  `true`, чтобы reasoning не биллился дважды.
+
 ## graphify
 
 This project has a knowledge graph at graphify-out/ with god nodes, community structure, and cross-file relationships.
