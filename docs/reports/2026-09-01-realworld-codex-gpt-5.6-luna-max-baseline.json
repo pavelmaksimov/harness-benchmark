@@ -1,0 +1,493 @@
+{
+  "agent": "codex",
+  "agent_version": "0.145.0",
+  "arms": {
+    "baseline": {
+      "cache_read_tokens": 5285888.0,
+      "checkpoints_failed": 1.0,
+      "checkpoints_passed": 14.0,
+      "checkpoints_total": 14.0,
+      "complexity": 184.0,
+      "core_failed": 0.0,
+      "core_passed": 26.0,
+      "core_total": 26.0,
+      "creation_input_tokens": 5420944.0,
+      "creation_output_tokens": 137280.0,
+      "dependencies_added": 5.0,
+      "elapsed_time": 3225.287612,
+      "llm_requests": 355.0,
+      "loc_changed": 1306.0,
+      "loc_final": 1093.0,
+      "module_count": 7.0,
+      "normalized_cost": 2.7878735,
+      "provider_truncation_unresolved": 0.0,
+      "provider_truncations": 0.0,
+      "reasoning_tokens": 80615.0,
+      "regression_failures": 0.0,
+      "repeated_attempts": 1.0,
+      "rework_input_tokens": 405590.0,
+      "rework_output_tokens": 7853.0,
+      "semantic_rework_attempts": 1.0,
+      "total_input_tokens": 5826534.0,
+      "total_output_tokens": 145133.0,
+      "transient_input_tokens": 0.0,
+      "transient_output_tokens": 0.0,
+      "transient_recoveries": 0.0,
+      "transient_retries": 0.0
+    }
+  },
+  "date": "2026-09-01T14:42:02.711597+00:00",
+  "deltas": {
+    "cache_read_tokens": null,
+    "checkpoints_failed": null,
+    "checkpoints_passed": null,
+    "checkpoints_total": null,
+    "complexity": null,
+    "core_failed": null,
+    "core_passed": null,
+    "core_total": null,
+    "creation_input_tokens": null,
+    "creation_output_tokens": null,
+    "dependencies_added": null,
+    "elapsed_time": null,
+    "llm_requests": null,
+    "loc_changed": null,
+    "loc_final": null,
+    "module_count": null,
+    "normalized_cost": null,
+    "provider_truncation_unresolved": null,
+    "provider_truncations": null,
+    "reasoning_tokens": null,
+    "regression_failures": null,
+    "repeated_attempts": null,
+    "rework_input_tokens": null,
+    "rework_output_tokens": null,
+    "semantic_rework_attempts": null,
+    "total_input_tokens": null,
+    "total_output_tokens": null,
+    "transient_input_tokens": null,
+    "transient_output_tokens": null,
+    "transient_recoveries": null,
+    "transient_retries": null
+  },
+  "deltas_by_arm": {},
+  "excluded_ponytail_runs": 0,
+  "excluded_runs": {
+    "baseline": 0
+  },
+  "experiment_id": "2026-09-01-realworld-codex-gpt-5.6-luna-max-baseline",
+  "feedback_strategy": "current-first",
+  "git_commits": {
+    "harness_benchmark": "e6f342e58a0504ac4e8c74574b01ffca6a48068a",
+    "scb_problems": "ef6a9dd13911566b6b01075ca121758c9f7b5c5f",
+    "slop_code_bench": "06b5c0687d4c05ee502e9696a4d0c22fc1eec5e0"
+  },
+  "incomplete_runs": {},
+  "model": "gpt-5.6-luna",
+  "n_baseline": 1,
+  "n_ponytail": 0,
+  "ponytail": null,
+  "pricing_version": "2026-08-31-x-preview-f-free",
+  "problem": "realworld",
+  "provider": "codex_auth",
+  "rework": {
+    "baseline": {
+      "attempts": 2,
+      "fixed": 1,
+      "provider_truncation_unresolved": 0,
+      "provider_truncations": 0,
+      "repeated_attempts": 1,
+      "transient_recoveries": 0,
+      "transient_retries": 0,
+      "unresolved": 0
+    }
+  },
+  "rework_attempts": 2,
+  "rework_details": [
+    {
+      "arm": "baseline",
+      "attempt_diagnostics": {
+        "feedback_strategy": "current-first",
+        "final": {
+          "confidence": "none",
+          "detected": false,
+          "failure_class": "none",
+          "finish_reason": null,
+          "message_count": 0,
+          "message_path": null,
+          "message_types": [],
+          "output_threshold": 500,
+          "output_tokens": 7853,
+          "parse_errors": 0,
+          "signals": {
+            "no_explicit_error": true,
+            "no_explicit_error_or_limit": true,
+            "no_explicit_limit": true,
+            "no_infrastructure_failure": true,
+            "output_below_threshold": false,
+            "preceding_reasoning": false,
+            "unknown_finish": false
+          },
+          "steps": 22
+        },
+        "provider_truncation_unresolved": false,
+        "provider_truncations": 0,
+        "transient_recovered": false,
+        "transient_retries": 0
+      },
+      "cache_read_tokens": 762368,
+      "cache_write_tokens": 0,
+      "core_failed": 0,
+      "core_passed": 2,
+      "core_total": 2,
+      "cost": 0.39783225,
+      "cp": 5,
+      "creation_input_tokens": 430287,
+      "creation_output_tokens": 13212,
+      "files_delta": 1,
+      "input_tokens": 835877,
+      "loc_delta": 9,
+      "output_tokens": 21065,
+      "pass": true,
+      "reasoning_tokens": 11138,
+      "regressions": 0,
+      "reported_cost_usd": 0.48907660000000003,
+      "rework": {
+        "attempts": [
+          {
+            "attempt": 1,
+            "cache_read_tokens": 387072,
+            "cache_write_tokens": 0,
+            "confidence": "none",
+            "core": {
+              "failed": 1,
+              "failed_tests": [
+                "test_create_article_errors_and_duplicate_titles"
+              ],
+              "passed": 1,
+              "total": 2
+            },
+            "diagnostics": {
+              "confidence": "none",
+              "detected": false,
+              "failure_class": "none",
+              "finish_reason": null,
+              "message_count": 0,
+              "message_path": null,
+              "message_types": [],
+              "output_threshold": 500,
+              "output_tokens": 13212,
+              "parse_errors": 0,
+              "signals": {
+                "no_explicit_error": true,
+                "no_explicit_error_or_limit": true,
+                "no_explicit_limit": true,
+                "no_infrastructure_failure": true,
+                "output_below_threshold": false,
+                "preceding_reasoning": false,
+                "unknown_finish": false
+              },
+              "steps": 28
+            },
+            "duration": 17.954226970672607,
+            "elapsed_seconds": 304.442217,
+            "failed_tests": [
+              "test_create_article_errors_and_duplicate_titles"
+            ],
+            "failed_tests_by_group": {
+              "Core": [
+                "test_create_article_errors_and_duplicate_titles"
+              ]
+            },
+            "failure_class": "none",
+            "feedback_context": {
+              "all_failed_tests": [
+                "test_create_article_errors_and_duplicate_titles"
+              ],
+              "current_checkpoint": 5,
+              "current_other_failures": [],
+              "failed_tests_by_bucket": {
+                "checkpoint_5-Core": [
+                  "test_create_article_errors_and_duplicate_titles"
+                ]
+              },
+              "failure_items": [
+                {
+                  "bucket": "checkpoint_5-Core",
+                  "group": "Core",
+                  "name": "test_create_article_errors_and_duplicate_titles",
+                  "source_checkpoint": 5
+                }
+              ],
+              "other_failures": [],
+              "policy_failures": [
+                "test_create_article_errors_and_duplicate_titles"
+              ],
+              "regression_comparison_available": true,
+              "regression_new_failures": [],
+              "regression_persistent_failures": [],
+              "strategy_version": "current-first-v1"
+            },
+            "feedback_metadata": {
+              "limits": {
+                "context_failures": 5,
+                "policy_failures": 20
+              },
+              "omitted_counts": {
+                "current_other_failures": 0,
+                "other_failures": 0,
+                "policy_failures": 0,
+                "regression_new_failures": 0,
+                "regression_persistent_failures": 0
+              },
+              "regression_comparison_available": true,
+              "shown_counts": {
+                "current_other_failures": 0,
+                "other_failures": 0,
+                "policy_failures": 1,
+                "regression_new_failures": 0,
+                "regression_persistent_failures": 0
+              },
+              "strategy": "current-first",
+              "strategy_version": "current-first-v1"
+            },
+            "feedback_strategy": "current-first",
+            "groups": {
+              "Core": {
+                "failed": 1,
+                "failed_tests": [
+                  "test_create_article_errors_and_duplicate_titles"
+                ],
+                "passed": 1,
+                "total": 2
+              },
+              "Error": {
+                "failed": 0,
+                "failed_tests": [],
+                "passed": 0,
+                "total": 0
+              },
+              "Functionality": {
+                "failed": 0,
+                "failed_tests": [],
+                "passed": 0,
+                "total": 0
+              },
+              "Regression": {
+                "failed": 0,
+                "failed_tests": [],
+                "passed": 0,
+                "total": 0
+              }
+            },
+            "infrastructure_failure": false,
+            "input_tokens": 430287,
+            "message_path": null,
+            "output_tokens": 13212,
+            "pass_counts": {
+              "Core": 1,
+              "Error": 0,
+              "Functionality": 0,
+              "Regression": 0
+            },
+            "passed_policy": false,
+            "reasoning_tokens": 7247,
+            "reported_cost_usd": 0.2827524,
+            "signals": {
+              "no_explicit_error": true,
+              "no_explicit_error_or_limit": true,
+              "no_explicit_limit": true,
+              "no_infrastructure_failure": true,
+              "output_below_threshold": false,
+              "preceding_reasoning": false,
+              "unknown_finish": false
+            },
+            "stage": "creation",
+            "steps": 28,
+            "total_counts": {
+              "Core": 2,
+              "Error": 0,
+              "Functionality": 0,
+              "Regression": 0
+            },
+            "truncation_output_threshold": 500,
+            "usage": {
+              "cache_read_tokens": 387072,
+              "cache_write_tokens": 0,
+              "elapsed_seconds": 304.442217,
+              "input_tokens": 430287,
+              "output_tokens": 13212,
+              "reasoning_tokens": 7247,
+              "reported_cost_usd": 0.2827524,
+              "steps": 28
+            }
+          },
+          {
+            "attempt": 2,
+            "cache_read_tokens": 375296,
+            "cache_write_tokens": 0,
+            "confidence": "none",
+            "core": {
+              "failed": 0,
+              "failed_tests": [],
+              "passed": 2,
+              "total": 2
+            },
+            "diagnostics": {
+              "confidence": "none",
+              "detected": false,
+              "failure_class": "none",
+              "finish_reason": null,
+              "message_count": 0,
+              "message_path": null,
+              "message_types": [],
+              "output_threshold": 500,
+              "output_tokens": 7853,
+              "parse_errors": 0,
+              "signals": {
+                "no_explicit_error": true,
+                "no_explicit_error_or_limit": true,
+                "no_explicit_limit": true,
+                "no_infrastructure_failure": true,
+                "output_below_threshold": false,
+                "preceding_reasoning": false,
+                "unknown_finish": false
+              },
+              "steps": 22
+            },
+            "duration": 21.151472806930542,
+            "elapsed_seconds": 189.249751,
+            "failed_tests": [],
+            "failed_tests_by_group": {},
+            "failure_class": "none",
+            "feedback_context": {
+              "all_failed_tests": [],
+              "current_checkpoint": 5,
+              "current_other_failures": [],
+              "failed_tests_by_bucket": {},
+              "failure_items": [],
+              "other_failures": [],
+              "policy_failures": [],
+              "regression_comparison_available": true,
+              "regression_new_failures": [],
+              "regression_persistent_failures": [],
+              "strategy_version": "current-first-v1"
+            },
+            "feedback_metadata": {
+              "limits": {
+                "context_failures": 5,
+                "policy_failures": 20
+              },
+              "omitted_counts": {
+                "current_other_failures": 0,
+                "other_failures": 0,
+                "policy_failures": 0,
+                "regression_new_failures": 0,
+                "regression_persistent_failures": 0
+              },
+              "regression_comparison_available": true,
+              "shown_counts": {
+                "current_other_failures": 0,
+                "other_failures": 0,
+                "policy_failures": 0,
+                "regression_new_failures": 0,
+                "regression_persistent_failures": 0
+              },
+              "strategy": "current-first",
+              "strategy_version": "current-first-v1"
+            },
+            "feedback_strategy": "current-first",
+            "groups": {
+              "Core": {
+                "failed": 0,
+                "failed_tests": [],
+                "passed": 2,
+                "total": 2
+              },
+              "Error": {
+                "failed": 0,
+                "failed_tests": [],
+                "passed": 0,
+                "total": 0
+              },
+              "Functionality": {
+                "failed": 0,
+                "failed_tests": [],
+                "passed": 0,
+                "total": 0
+              },
+              "Regression": {
+                "failed": 0,
+                "failed_tests": [],
+                "passed": 0,
+                "total": 0
+              }
+            },
+            "infrastructure_failure": false,
+            "input_tokens": 405590,
+            "message_path": null,
+            "output_tokens": 7853,
+            "pass_counts": {
+              "Core": 2,
+              "Error": 0,
+              "Functionality": 0,
+              "Regression": 0
+            },
+            "passed_policy": true,
+            "reasoning_tokens": 3891,
+            "reported_cost_usd": 0.2063242,
+            "signals": {
+              "no_explicit_error": true,
+              "no_explicit_error_or_limit": true,
+              "no_explicit_limit": true,
+              "no_infrastructure_failure": true,
+              "output_below_threshold": false,
+              "preceding_reasoning": false,
+              "unknown_finish": false
+            },
+            "stage": "rework",
+            "steps": 22,
+            "total_counts": {
+              "Core": 2,
+              "Error": 0,
+              "Functionality": 0,
+              "Regression": 0
+            },
+            "truncation_output_threshold": 500,
+            "usage": {
+              "cache_read_tokens": 375296,
+              "cache_write_tokens": 0,
+              "elapsed_seconds": 189.249751,
+              "input_tokens": 405590,
+              "output_tokens": 7853,
+              "reasoning_tokens": 3891,
+              "reported_cost_usd": 0.2063242,
+              "steps": 22
+            }
+          }
+        ],
+        "attempts_total": 2,
+        "checkpoint": "checkpoint_5",
+        "feedback_strategy": "current-first",
+        "fixed": true,
+        "max_additional_attempts": 2,
+        "max_transient_retries": 0,
+        "provider_truncation_attempts": 0,
+        "provider_truncation_recovered": false,
+        "provider_truncation_unresolved": false,
+        "semantic_attempts_total": 2,
+        "transient_retries_total": 0
+      },
+      "rework_input_tokens": 405590,
+      "rework_output_tokens": 7853,
+      "run_id": "2026-09-01-realworld-codex-gpt-5.6-luna-max-baseline-baseline-r1-7d76efe6",
+      "steps": 50,
+      "time": 493.69196800000003,
+      "tokens": 856942,
+      "transient_input_tokens": 0,
+      "transient_output_tokens": 0
+    }
+  ],
+  "thinking": "max",
+  "transient_retries": 0
+}
