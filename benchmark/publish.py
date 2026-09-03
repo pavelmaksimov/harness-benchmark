@@ -625,7 +625,10 @@ def format_leaderboard(payloads: list[dict[str, Any]]) -> str:
             "| Agent | Model | Harness | N | CP | Failed CP | Repeated | Reg | Create input | Create output | Rework input | Rework output | Cached tokens | Reasoning | Output tokens | LLM requests | Cost | Time | LOC | Py modules | ΔLOC | Deps | Cx |"
         )
         lines.append("|-------|-------|---------|---:|---:|----------:|----------:|----:|----------:|-----------:|----------:|-----------:|-------------:|------------:|----------:|-----------:|------------:|-----:|-----:|----:|----------:|-----:|---:|")
-        rows = _sort_table_rows([c for c in cells if c["problem"] == problem], "model")
+        rows = sorted(
+            [c for c in cells if c["problem"] == problem],
+            key=lambda c: (c["harness"], c["model"], c["agent"]),
+        )
         for row in rows:
             lines.append(
                 f"| {row['agent']} | {row['model']} | {row['harness']} | "
