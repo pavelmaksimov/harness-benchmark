@@ -1,0 +1,4 @@
+experiment_id=realworld-opencode-zai-glm53flash-high-baseline-20260903 
+arm=baseline runs=1 jobs=1 agent=opencode provider=opencode_auth 
+model=glm-5.3-flash thinking=high transient_retries=(state.json) 
+feedback_strategy=(state.json)

@@ -1,0 +1,6 @@
+id: opencode-go-muse-spark-1.3-medium
+description: OpenCode Go Muse Spark 1.3 contributor at medium reasoning.
+agent: opencode
+provider: opencode_auth
+model: muse-spark-1.3-contributor
+thinking: medium
