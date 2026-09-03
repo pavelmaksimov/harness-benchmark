@@ -1,0 +1,6 @@
+id: opencode-zai-glm-5.3-flash-high
+description: OpenCode z.ai GLM 5.3 Flash at high reasoning via zai-coding-plan.
+agent: opencode
+provider: opencode_auth
+model: glm-5.3-flash
+thinking: high

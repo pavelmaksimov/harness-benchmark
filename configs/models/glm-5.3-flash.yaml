@@ -1,0 +1,62 @@
+# GLM 5.3 Flash via zai-coding-plan (and opencode-go).
+# Discovered as `zai-coding-plan/glm-5.3-flash` and `opencode-go/glm-5.3-flash`.
+# Default route for this overlay is zai-coding-plan (user request: opencode/z.ai).
+# Use: --agent opencode --provider opencode_auth --model glm-5.3-flash --thinking high
+# Alternative: provider_name_overrides allows openrouter if needed.
+internal_name: glm-5.3-flash
+provider: opencode_auth
+pricing:
+  input: 0
+  output: 0
+  cache_read: 0
+  cache_write: 0
+aliases: []
+agent_specific:
+  opencode:
+    provider_name: zai-coding-plan
+    provider_name_overrides:
+      openrouter: openrouter
+    config:
+      provider:
+        zai-coding-plan:
+          models:
+            glm-5.3-flash:
+              variants:
+                low:
+                  reasoningEffort: low
+                medium:
+                  reasoningEffort: medium
+                high:
+                  reasoningEffort: high
+                xhigh:
+                  reasoningEffort: xhigh
+                max:
+                  reasoningEffort: max
+        opencode-go:
+          models:
+            glm-5.3-flash:
+              variants:
+                low:
+                  reasoningEffort: low
+                medium:
+                  reasoningEffort: medium
+                high:
+                  reasoningEffort: high
+                xhigh:
+                  reasoningEffort: xhigh
+                max:
+                  reasoningEffort: max
+        openrouter:
+          models:
+            glm-5.3-flash:
+              variants:
+                low:
+                  reasoningEffort: low
+                medium:
+                  reasoningEffort: medium
+                high:
+                  reasoningEffort: high
+                xhigh:
+                  reasoningEffort: xhigh
+                max:
+                  reasoningEffort: max

@@ -1,0 +1,30 @@
+# Muse Spark 1.2 via opencode-go (contributor tier).
+# Discovered via `opencode models opencode-go` as `opencode-go/muse-spark-1.2-contributor`.
+# Use: --agent opencode --provider opencode_auth --model muse-spark-1.2-contributor --thinking medium
+internal_name: muse-spark-1.2-contributor
+provider: opencode_auth
+pricing:
+  input: 0
+  output: 0
+  cache_read: 0
+  cache_write: 0
+aliases: []
+agent_specific:
+  opencode:
+    provider_name: opencode-go
+    config:
+      provider:
+        opencode-go:
+          models:
+            muse-spark-1.2-contributor:
+              variants:
+                low:
+                  reasoningEffort: low
+                medium:
+                  reasoningEffort: medium
+                high:
+                  reasoningEffort: high
+                xhigh:
+                  reasoningEffort: xhigh
+                max:
+                  reasoningEffort: max
