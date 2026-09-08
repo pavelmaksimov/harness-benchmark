@@ -1,0 +1,53 @@
+[2026-09-08T08:16:05+00:00] monitor started: experiment=realworld-opencode-go-dsflash-high-baseline-20260908 arms=baseline runs=1 jobs=1 rework_attempts=2
+[2026-09-08T08:16:05+00:00] starting attempt 1 (fresh): /home/user/my/harness-benchmark/.venv/bin/python3 -m benchmark run-all --experiment-id realworld-opencode-go-dsflash-high-baseline-20260908 --problem realworld --arms baseline --runs 1 --jobs 1 --agent opencode --provider opencode_auth --model deepseek-v4-flash --thinking high
+[2026-09-08T08:16:05+00:00] heartbeat: 0/1 slots complete; pending: baseline/run_1: no state.json; experiment processes=1
+[2026-09-08T08:17:05+00:00] heartbeat: 0/1 slots complete; pending: baseline/run_1: phase=started stop=started; experiment processes=4
+[2026-09-08T08:18:05+00:00] heartbeat: 0/1 slots complete; pending: baseline/run_1: phase=started stop=started; experiment processes=4
+[2026-09-08T08:19:05+00:00] heartbeat: 0/1 slots complete; pending: baseline/run_1: phase=started stop=started; experiment processes=4
+[2026-09-08T08:20:05+00:00] heartbeat: 0/1 slots complete; pending: baseline/run_1: phase=started stop=started; experiment processes=4
+[2026-09-08T08:21:05+00:00] heartbeat: 0/1 slots complete; pending: baseline/run_1: phase=started stop=started; experiment processes=4
+[2026-09-08T08:22:05+00:00] heartbeat: 0/1 slots complete; pending: baseline/run_1: phase=started stop=started; experiment processes=4
+[2026-09-08T08:23:05+00:00] heartbeat: 0/1 slots complete; pending: baseline/run_1: phase=started stop=started; experiment processes=4
+[2026-09-08T08:24:05+00:00] heartbeat: 0/1 slots complete; pending: baseline/run_1: phase=started stop=started; experiment processes=4
+[2026-09-08T08:25:05+00:00] heartbeat: 0/1 slots complete; pending: baseline/run_1: phase=started stop=started; experiment processes=4
+[2026-09-08T08:26:05+00:00] heartbeat: 0/1 slots complete; pending: baseline/run_1: phase=started stop=started; experiment processes=4
+[2026-09-08T08:27:05+00:00] heartbeat: 0/1 slots complete; pending: baseline/run_1: phase=started stop=started; experiment processes=4
+[2026-09-08T08:28:05+00:00] heartbeat: 0/1 slots complete; pending: baseline/run_1: phase=started stop=started; experiment processes=4
+[2026-09-08T08:29:05+00:00] heartbeat: 0/1 slots complete; pending: baseline/run_1: phase=started stop=started; experiment processes=4
+[2026-09-08T08:30:05+00:00] heartbeat: 0/1 slots complete; pending: baseline/run_1: phase=started stop=started; experiment processes=4
+[2026-09-08T08:31:05+00:00] heartbeat: 0/1 slots complete; pending: baseline/run_1: phase=started stop=started; experiment processes=4
+[2026-09-08T08:32:05+00:00] heartbeat: 0/1 slots complete; pending: baseline/run_1: phase=started stop=started; experiment processes=4
+[2026-09-08T08:33:05+00:00] heartbeat: 0/1 slots complete; pending: baseline/run_1: phase=started stop=started; experiment processes=4
+[2026-09-08T08:34:05+00:00] heartbeat: 0/1 slots complete; pending: baseline/run_1: phase=started stop=started; experiment processes=4
+[2026-09-08T08:35:05+00:00] heartbeat: 0/1 slots complete; pending: baseline/run_1: phase=started stop=started; experiment processes=4
+[2026-09-08T08:36:05+00:00] heartbeat: 0/1 slots complete; pending: baseline/run_1: phase=started stop=started; experiment processes=4
+[2026-09-08T08:37:05+00:00] heartbeat: 0/1 slots complete; pending: baseline/run_1: phase=started stop=started; experiment processes=4
+[2026-09-08T08:38:06+00:00] heartbeat: 0/1 slots complete; pending: baseline/run_1: phase=started stop=started; experiment processes=4
+[2026-09-08T08:39:06+00:00] heartbeat: 0/1 slots complete; pending: baseline/run_1: phase=started stop=started; experiment processes=4
+[2026-09-08T08:40:06+00:00] heartbeat: 0/1 slots complete; pending: baseline/run_1: phase=started stop=started; experiment processes=4
+[2026-09-08T08:41:06+00:00] heartbeat: 0/1 slots complete; pending: baseline/run_1: phase=started stop=started; experiment processes=4
+[2026-09-08T08:42:06+00:00] heartbeat: 0/1 slots complete; pending: baseline/run_1: phase=started stop=started; experiment processes=4
+[2026-09-08T08:43:06+00:00] heartbeat: 0/1 slots complete; pending: baseline/run_1: phase=started stop=started; experiment processes=4
+[2026-09-08T08:44:06+00:00] heartbeat: 0/1 slots complete; pending: baseline/run_1: phase=started stop=started; experiment processes=4
+[2026-09-08T08:45:06+00:00] heartbeat: 0/1 slots complete; pending: baseline/run_1: phase=started stop=started; experiment processes=4
+[2026-09-08T08:46:06+00:00] heartbeat: 0/1 slots complete; pending: baseline/run_1: phase=started stop=started; experiment processes=4
+[2026-09-08T08:47:06+00:00] heartbeat: 0/1 slots complete; pending: baseline/run_1: phase=started stop=started; experiment processes=4
+[2026-09-08T08:48:06+00:00] heartbeat: 0/1 slots complete; pending: baseline/run_1: phase=started stop=started; experiment processes=4
+[2026-09-08T08:49:06+00:00] heartbeat: 0/1 slots complete; pending: baseline/run_1: phase=started stop=started; experiment processes=4
+[2026-09-08T08:50:06+00:00] heartbeat: 0/1 slots complete; pending: baseline/run_1: phase=started stop=started; experiment processes=4
+[2026-09-08T08:51:06+00:00] heartbeat: 0/1 slots complete; pending: baseline/run_1: phase=started stop=started; experiment processes=4
+[2026-09-08T08:52:06+00:00] heartbeat: 0/1 slots complete; pending: baseline/run_1: phase=started stop=started; experiment processes=4
+[2026-09-08T08:53:06+00:00] heartbeat: 0/1 slots complete; pending: baseline/run_1: phase=started stop=started; experiment processes=4
+[2026-09-08T08:54:06+00:00] heartbeat: 0/1 slots complete; pending: baseline/run_1: phase=started stop=started; experiment processes=4
+[2026-09-08T08:55:06+00:00] heartbeat: 0/1 slots complete; pending: baseline/run_1: phase=started stop=started; experiment processes=4
+[2026-09-08T08:56:06+00:00] heartbeat: 0/1 slots complete; pending: baseline/run_1: phase=started stop=started; experiment processes=4
+[2026-09-08T08:57:06+00:00] heartbeat: 0/1 slots complete; pending: baseline/run_1: phase=started stop=started; experiment processes=4
+[2026-09-08T08:58:06+00:00] heartbeat: 0/1 slots complete; pending: baseline/run_1: phase=started stop=started; experiment processes=4
+[2026-09-08T08:59:06+00:00] heartbeat: 0/1 slots complete; pending: baseline/run_1: phase=started stop=started; experiment processes=4
+[2026-09-08T09:00:06+00:00] heartbeat: 0/1 slots complete; pending: baseline/run_1: phase=started stop=started; experiment processes=4
+[2026-09-08T09:01:06+00:00] heartbeat: 0/1 slots complete; pending: baseline/run_1: phase=started stop=started; experiment processes=4
+[2026-09-08T09:02:06+00:00] heartbeat: 0/1 slots complete; pending: baseline/run_1: phase=started stop=started; experiment processes=4
+[2026-09-08T09:03:06+00:00] heartbeat: 0/1 slots complete; pending: baseline/run_1: phase=started stop=started; experiment processes=4
+[2026-09-08T09:04:06+00:00] heartbeat: 0/1 slots complete; pending: baseline/run_1: phase=started stop=started; experiment processes=4
+[2026-09-08T09:05:01+00:00] attempt 1 ended with exit=0; 1/1 slots complete
+[2026-09-08T09:05:01+00:00] benchmark complete

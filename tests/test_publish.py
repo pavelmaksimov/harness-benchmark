@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 from pathlib import Path
+from typing import Any
 
 from benchmark.publish import (
     METRIC_KEYS,
@@ -128,21 +129,24 @@ def test_leaderboard_shows_stage_tokens_without_diagnostic_columns() -> None:
     text = format_leaderboard([payload])
 
     assert (
-        "| Agent | Model | Harness | N | CP | Failed CP | Repeated | Reg | Create input | "
+        "| Agent | Model | Thinking | Harness | N | CP | Failed CP | Repeated | Reg | Create input | "
         "Create output | Rework input | Rework output | Cached tokens | Reasoning | Output tokens | LLM requests | "
         "Cost | Time | LOC | Py modules | ΔLOC | Deps | Cx |"
     ) in text
     lines = text.splitlines()
     for header in (
-        next(line for line in lines if line.startswith("| Agent | Model | Harness |")),
-        next(line for line in lines if line.startswith("| Problem | Agent | Harness |")),
+        next(line for line in lines if line.startswith("| Agent | Model | Thinking |")),
+        next(line for line in lines if line.startswith("| Problem | Agent | Thinking |")),
+        next(line for line in lines if line.startswith("| Rank | Problem | Model | Thinking |")),
     ):
         header_index = lines.index(header)
         separator = lines[header_index + 1]
         assert separator.count("|") == header.count("|")
         assert all(cell.strip().strip(":").count("-") >= 3 for cell in separator.strip("|").split("|"))
-    assert "| Experiment | Date | Problem | Agent | Model | N | Report |" in text
-    assert "| Problem | Agent | Harness | N | CP | Failed CP | Repeated | Reg | Create input | " in text
+    assert "| Experiment | Date | Problem | Agent | Model | Thinking | N | Report |" in text
+    assert (
+        "| Problem | Agent | Thinking | Harness | N | CP | Failed CP | Repeated | Reg | Create input | " in text
+    )
     assert "| 1,000 | 400 | 234 | 167 | 2,345 | 789 | 567 | 6 | $0.00 |" in text
     assert "## Metric leaderboards" in text
     assert "### CP passed/total" in text
@@ -157,6 +161,78 @@ def test_leaderboard_shows_stage_tokens_without_diagnostic_columns() -> None:
     assert "Core fail" not in text
     assert "| Agent | Provider |" not in text
     assert "| Problem | Agent | Provider |" not in text
+
+
+def test_aggregate_cells_splits_same_cell_by_thinking() -> None:
+    def payload(date: str, experiment_id: str, thinking: str) -> dict[str, Any]:
+        return {
+            "date": date,
+            "experiment_id": experiment_id,
+            "problem": "realworld",
+            "agent": "opencode",
+            "provider": "opencode_auth",
+            "model": "same-model",
+            "thinking": thinking,
+            "arms": {"baseline": {"checkpoints_passed": 14, "checkpoints_total": 14}},
+            "n_baseline": 1,
+        }
+
+    cells = _aggregate_cells(
+        [
+            payload("2026-09-08T10:00:00Z", "high-exp", "high"),
+            payload("2026-09-07T10:00:00Z", "max-exp", "max"),
+        ]
+    )
+
+    assert len(cells) == 2
+    assert {cell["thinking"] for cell in cells} == {"high", "max"}
+
+
+def test_aggregate_cells_merges_payloads_without_thinking() -> None:
+    def payload(date: str, experiment_id: str) -> dict[str, Any]:
+        return {
+            "date": date,
+            "experiment_id": experiment_id,
+            "problem": "realworld",
+            "agent": "opencode",
+            "provider": "opencode_auth",
+            "model": "same-model",
+            "arms": {"baseline": {"checkpoints_passed": 14, "checkpoints_total": 14}},
+            "n_baseline": 1,
+        }
+
+    cells = _aggregate_cells(
+        [
+            payload("2026-09-08T10:00:00Z", "new-exp"),
+            payload("2026-09-07T10:00:00Z", "old-exp"),
+        ]
+    )
+
+    assert len(cells) == 1
+    assert cells[0]["thinking"] == ""
+
+
+def test_leaderboard_shows_thinking_level() -> None:
+    payload = {
+        "date": "2026-09-08T10:00:00Z",
+        "experiment_id": "exp-thinking",
+        "problem": "realworld",
+        "agent": "opencode",
+        "provider": "opencode_auth",
+        "model": "model-x",
+        "thinking": "high",
+        "arms": {"baseline": {"checkpoints_passed": 14, "checkpoints_total": 14}},
+        "n_baseline": 1,
+    }
+    no_thinking = dict(payload, experiment_id="exp-legacy", thinking=None, date="2026-09-07T10:00:00Z")
+
+    text = format_leaderboard([payload, no_thinking])
+
+    assert "| opencode | model-x | high | baseline | 1 | 14/14 |" in text
+    assert "| opencode | model-x | - | baseline | 1 | 14/14 |" in text
+    assert "| realworld | model-x | high | baseline | 14/14 |" in text
+    assert "| exp-thinking | 2026-09-08 | realworld | opencode | model-x | high | 1 |" in text
+    assert "| exp-legacy | 2026-09-07 | realworld | opencode | model-x | - | 1 |" in text
 
 
 def test_short_report_shows_stage_tokens_without_core_failures() -> None:

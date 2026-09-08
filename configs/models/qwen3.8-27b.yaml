@@ -1,0 +1,28 @@
+# Qwen3.8-27B via neuraldeep (OpenAI-compatible endpoint https://api.neuraldeep.ru/v1).
+# Custom route is not natively known to opencode, so the overlay carries the same
+# provider definition as the host ~/.config/opencode/opencode.json (name + npm +
+# baseURL + model entry). The API key comes from the mounted opencode auth.json
+# (provider entry "neuraldeep") — same as on the host.
+# Run: --agent opencode --provider opencode_auth --model qwen3.8-27b
+# (default thinking: no --thinking / thinking none — no variants defined).
+internal_name: qwen3.8-27b
+provider: opencode_auth
+pricing:
+  input: 0
+  output: 0
+  cache_read: 0
+  cache_write: 0
+aliases: []
+agent_specific:
+  opencode:
+    provider_name: neuraldeep
+    config:
+      provider:
+        neuraldeep:
+          name: neuraldeep
+          npm: "@ai-sdk/openai-compatible"
+          options:
+            baseURL: "https://api.neuraldeep.ru/v1"
+          models:
+            qwen3.8-27b:
+              name: qwen3.8-27b

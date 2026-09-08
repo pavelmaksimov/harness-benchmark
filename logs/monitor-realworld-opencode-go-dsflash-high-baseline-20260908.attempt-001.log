@@ -1,0 +1,142 @@
+=== run-all × 1 jobs=1 agent=opencode provider=opencode_auth 
+model=deepseek-v4-flash thinking=high transient_retries=(state.json) 
+feedback_strategy=(state.json) arms=baseline 
+experiment_id=realworld-opencode-go-dsflash-high-baseline-20260908 ===
+REALWORLD — multi-harness
+
+N baseline=1
+Failed checkpoints includes checkpoints repaired by rework.
+Rework tokens are All tokens minus Creation tokens when per-attempt usage is 
+unavailable.
+Transient retries are separate from semantic rework and require high-confidence 
+truncation signals.
+
+Metric                     baseline
+-----------------------------------
+CP passed/total               12/14
+Failed checkpoints                3
+Regressions                       0
+Creation input tokens       349,724
+Creation output tokens       70,493
+Rework input tokens          42,351
+Rework output tokens          7,724
+Transient input tokens            0
+Transient output tokens            0
+All input tokens            392,075
+All output tokens            78,217
+Reasoning tokens             69,085
+Normalized cost               $0.00
+Elapsed time                  37.3m
+Final LOC                      1631
+Python modules                    6
+Changed LOC                    1627
+Files touched                    17
+Dependencies                      8
+Complexity                      407
+Semantic rework attempts            1
+Repeated attempts                 1
+Rework fixed                      1
+Rework unresolved                 0
+Transient retries                 0
+Provider truncations              0
+Transient recoveries              0
+Truncations unresolved            0
+
+Δ vs baseline (mean):
+Metric                
+CP passed/total       
+Failed checkpoints    
+Regressions           
+Creation input tokens 
+Creation output tokens
+Rework input tokens   
+Rework output tokens  
+Transient input tokens
+Transient output tokens
+All input tokens      
+All output tokens     
+Reasoning tokens      
+Normalized cost       
+Elapsed time          
+Final LOC             
+Python modules        
+Changed LOC           
+Files touched         
+Dependencies          
+Complexity            
+Semantic rework attempts
+Repeated attempts     
+Rework fixed          
+Rework unresolved     
+Transient retries     
+Provider truncations  
+Transient recoveries  
+Truncations unresolved
+
+Per-checkpoint (raw):
+CP   Arm                                  Pass   Create In Create Out  Rework In
+Rework Out Transient In Transient Out     All In    All Out     Cost     Time   
+LOCΔ   FilesΔ   Reg Repeat
+1    baseline                             True      26,714      4,792     42,351
+7,724            0             0     69,065     12,516        -      619       
+21        1     0      1
+2    baseline                             True      19,048      4,444          0
+0            0             0     19,048      4,444        -       97      223   
+2     0      0
+3    baseline                             True      32,076     23,916          0
+0            0             0     32,076     23,916        -      365      412   
+2     0      0
+4    baseline                             True      11,179      1,411          0
+0            0             0     11,179      1,411        -       63       24   
+1     0      0
+5    baseline                             True      28,275      4,851          0
+0            0             0     28,275      4,851        -      200      137   
+1     0      0
+6    baseline                             True      43,375      1,810          0
+0            0             0     43,375      1,810        -       49       36   
+1     0      0
+7    baseline                             True      14,994      3,235          0
+0            0             0     14,994      3,235        -       73       89   
+1     0      0
+8    baseline                             True       9,725      1,517          0
+0            0             0      9,725      1,517        -       30       20   
+1     0      0
+9    baseline                             True      26,141      5,039          0
+0            0             0     26,141      5,039        -      123      117   
+1     0      0
+10   baseline                             True      24,841      4,379          0
+0            0             0     24,841      4,379        -      150      107   
+1     0      0
+11   baseline                             True      26,905      6,819          0
+0            0             0     26,905      6,819        -      159      247   
+2     0      0
+12   baseline                             True      22,660      2,067          0
+0            0             0     22,660      2,067        -       57       47   
+1     0      0
+13   baseline                             False     37,887      4,715          0
+0            0             0     37,887      4,715        -      182      131   
+1     0      0
+14   baseline                             False     25,904      1,498          0
+0            0             0     25,904      1,498        -       68       16   
+1     0      0
+
+Rework attempts (raw):
+CP   Arm                                  Stage      #  Core p/f/t         In   
+Out     Time     Cost Failed
+1    baseline                             creation   1       1/1/2     26,714   
+4,792      192     0.01      1
+1    baseline                             rework     2       2/0/2     42,351   
+7,724      427     0.02      0
+
+Stats per metric include mean/median/min/max/stddev in the JSON report.
+
+Wrote 
+/home/user/my/harness-benchmark/reports/realworld-opencode-go-dsflash-high-basel
+ine-20260908/comparison.txt and 
+/home/user/my/harness-benchmark/reports/realworld-opencode-go-dsflash-high-basel
+ine-20260908/comparison.json
+Published 
+/home/user/my/harness-benchmark/docs/reports/realworld-opencode-go-dsflash-high-
+baseline-20260908.md, 
+/home/user/my/harness-benchmark/docs/reports/realworld-opencode-go-dsflash-high-
+baseline-20260908.json, /home/user/my/harness-benchmark/docs/LEADERBOARD.md

@@ -1,0 +1,6 @@
+id: opencode-neuraldeep-qwen3827b-none
+description: OpenCode via neuraldeep route, Qwen3.8-27B, default (none) thinking.
+agent: opencode
+provider: opencode_auth
+model: qwen3.8-27b
+thinking: none

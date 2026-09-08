@@ -446,17 +446,22 @@ def load_published_reports(docs_reports_dir: Path | None = None) -> list[dict[st
     return payloads
 
 
+def _thinking_label(cell: dict[str, Any]) -> str:
+    return cell.get("thinking") or "-"
+
+
 def _aggregate_cells(payloads: list[dict[str, Any]]) -> list[dict[str, Any]]:
     """Flatten arm rows and aggregate repeated experiments by full cell."""
-    cells_by_key: dict[tuple[str, str, str, str, str], dict[str, Any]] = {}
-    metric_weights: dict[tuple[str, str, str, str, str], dict[str, float]] = {}
+    cells_by_key: dict[tuple[str, str, str, str, str, str], dict[str, Any]] = {}
+    metric_weights: dict[tuple[str, str, str, str, str, str], dict[str, float]] = {}
     for payload in payloads:
         problem = payload.get("problem") or "unknown"
         agent = payload.get("agent") or "unknown"
         provider = payload.get("provider") or "unknown"
         model = payload.get("model") or "unknown"
+        thinking = payload.get("thinking") or ""
         for harness, metrics in (payload.get("arms") or {}).items():
-            key = (problem, agent, provider, model, harness)
+            key = (problem, agent, provider, model, thinking, harness)
             n = int(payload.get(f"n_{harness}", 0) or 0)
             if n <= 0:
                 continue
@@ -469,6 +474,7 @@ def _aggregate_cells(payloads: list[dict[str, Any]]) -> list[dict[str, Any]]:
                     "agent": agent,
                     "provider": provider,
                     "model": model,
+                    "thinking": thinking,
                     "harness": harness,
                     "n": 0,
                     "metrics": {},
@@ -529,7 +535,12 @@ def _sort_table_rows(rows: list[dict[str, Any]], secondary: str) -> list[dict[st
     """Newest date first; within a date, secondary asc; baseline first."""
     ordered = sorted(
         rows,
-        key=lambda c: (c[secondary], 0 if c["harness"] == "baseline" else 1, c["harness"]),
+        key=lambda c: (
+            c[secondary],
+            0 if c["harness"] == "baseline" else 1,
+            c["harness"],
+            c.get("thinking") or "",
+        ),
     )
     return sorted(ordered, key=lambda c: c["date"], reverse=True)
 
@@ -538,7 +549,7 @@ def _metric_leaderboard_lines(cells: list[dict[str, Any]]) -> list[str]:
     lines = [
         "## Metric leaderboards",
         "",
-        "Each ranking aggregates all published runs for each `(problem, adapter, provider, model, harness)`.",
+        "Each ranking aggregates all published runs for each `(problem, adapter, provider, model, thinking, harness)`.",
         "Values are means across runs, including runs from different experiments. Ties are ordered alphabetically.",
         "",
     ]
@@ -566,6 +577,7 @@ def _metric_leaderboard_lines(cells: list[dict[str, Any]]) -> list[str]:
                     -item[0][2],
                     item[1]["problem"],
                     item[1]["model"],
+                    item[1].get("thinking") or "",
                     item[1]["harness"],
                 )
             )
@@ -575,6 +587,7 @@ def _metric_leaderboard_lines(cells: list[dict[str, Any]]) -> list[str]:
                     item[0],
                     item[1]["problem"],
                     item[1]["model"],
+                    item[1].get("thinking") or "",
                     item[1]["harness"],
                 )
             )
@@ -584,14 +597,14 @@ def _metric_leaderboard_lines(cells: list[dict[str, Any]]) -> list[str]:
                 "",
                 definition,
                 "",
-                "| Rank | Problem | Model | Harness | Value |",
-                "|----:|---------|-------|---------|------:|",
+                "| Rank | Problem | Model | Thinking | Harness | Value |",
+                "|----:|---------|-------|----------|---------|------:|",
             ]
         )
         for rank, (_, cell, display) in enumerate(entries, start=1):
             lines.append(
                 f"| {rank} | {cell['problem']} | {cell['model']} | "
-                f"{cell['harness']} | {display} |"
+                f"{_thinking_label(cell)} | {cell['harness']} | {display} |"
             )
         lines.append("")
     return lines
@@ -603,7 +616,7 @@ def format_leaderboard(payloads: list[dict[str, Any]]) -> str:
         "# Leaderboard",
         "",
         "No single score. Absolute metrics only. Δ vs baseline is only in short reports",
-        "for the same `(problem, adapter, provider, model)` cell.",
+        "for the same `(problem, adapter, provider, model, thinking)` cell.",
         "",
         "Published from `docs/reports/*.json`. Rebuilt by `python -m benchmark report`.",
         "Create/Rework columns are per-attempt token usage split by stage (create = initial attempts);",
@@ -622,16 +635,16 @@ def format_leaderboard(payloads: list[dict[str, Any]]) -> str:
         lines.append(f"### `{problem}`")
         lines.append("")
         lines.append(
-            "| Agent | Model | Harness | N | CP | Failed CP | Repeated | Reg | Create input | Create output | Rework input | Rework output | Cached tokens | Reasoning | Output tokens | LLM requests | Cost | Time | LOC | Py modules | ΔLOC | Deps | Cx |"
+            "| Agent | Model | Thinking | Harness | N | CP | Failed CP | Repeated | Reg | Create input | Create output | Rework input | Rework output | Cached tokens | Reasoning | Output tokens | LLM requests | Cost | Time | LOC | Py modules | ΔLOC | Deps | Cx |"
         )
-        lines.append("|-------|-------|---------|---:|---:|----------:|----------:|----:|----------:|-----------:|----------:|-----------:|-------------:|------------:|----------:|-----------:|------------:|-----:|-----:|----:|----------:|-----:|---:|")
+        lines.append("|-------|-------|----------|---------|---:|---:|----------:|----------:|----:|----------:|-----------:|----------:|-----------:|-------------:|------------:|----------:|-----------:|------------:|-----:|-----:|----:|----------:|-----:|---:|")
         rows = sorted(
             [c for c in cells if c["problem"] == problem],
-            key=lambda c: (c["harness"], c["model"], c["agent"]),
+            key=lambda c: (c["harness"], c["model"], c.get("thinking") or "", c["agent"]),
         )
         for row in rows:
             lines.append(
-                f"| {row['agent']} | {row['model']} | {row['harness']} | "
+                f"| {row['agent']} | {row['model']} | {_thinking_label(row)} | {row['harness']} | "
                 f"{row['n']} | {_metric_cells(row['metrics'])} |"
             )
         lines.append("")
@@ -645,13 +658,13 @@ def format_leaderboard(payloads: list[dict[str, Any]]) -> str:
         lines.append(f"### `{model}`")
         lines.append("")
         lines.append(
-            "| Problem | Agent | Harness | N | CP | Failed CP | Repeated | Reg | Create input | Create output | Rework input | Rework output | Cached tokens | Reasoning | Output tokens | LLM requests | Cost | Time | LOC | Py modules | ΔLOC | Deps | Cx |"
+            "| Problem | Agent | Thinking | Harness | N | CP | Failed CP | Repeated | Reg | Create input | Create output | Rework input | Rework output | Cached tokens | Reasoning | Output tokens | LLM requests | Cost | Time | LOC | Py modules | ΔLOC | Deps | Cx |"
         )
-        lines.append("|---------|-------|---------|---:|---:|----------:|----------:|----:|----------:|-----------:|----------:|-----------:|-------------:|------------:|----------:|-----------:|------------:|-----:|-----:|----:|----------:|-----:|---:|")
+        lines.append("|---------|-------|----------|---------|---:|---:|----------:|----------:|----:|----------:|-----------:|----------:|-----------:|-------------:|------------:|----------:|-----------:|------------:|-----:|-----:|----:|----------:|-----:|---:|")
         rows = _sort_table_rows([c for c in cells if c["model"] == model], "problem")
         for row in rows:
             lines.append(
-                f"| {row['problem']} | {row['agent']} | {row['harness']} | "
+                f"| {row['problem']} | {row['agent']} | {_thinking_label(row)} | {row['harness']} | "
                 f"{row['n']} | {_metric_cells(row['metrics'])} |"
             )
         lines.append("")
@@ -660,8 +673,8 @@ def format_leaderboard(payloads: list[dict[str, Any]]) -> str:
         [
             "## Experiments",
             "",
-            "| Experiment | Date | Problem | Agent | Model | N | Report |",
-            "|------------|------|---------|-------|-------|---|--------|",
+            "| Experiment | Date | Problem | Agent | Model | Thinking | N | Report |",
+            "|------------|------|---------|-------|-------|----------|---|--------|",
         ]
     )
     for payload in payloads:
@@ -674,7 +687,7 @@ def format_leaderboard(payloads: list[dict[str, Any]]) -> str:
             n = f"{payload.get('n_baseline', 0)}+{payload.get('n_ponytail', 0)}"
         lines.append(
             f"| {eid} | {date} | {payload.get('problem')} | {payload.get('agent')} | "
-            f"{payload.get('model')} | {n} | "
+            f"{payload.get('model')} | {payload.get('thinking') or '-'} | {n} | "
             f"[short](reports/{eid}.md) |"
         )
     lines.append("")

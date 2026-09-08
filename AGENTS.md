@@ -10,6 +10,76 @@
 используй [docs/experiment-status.md](docs/experiment-status.md): это быстрый read-only
 runbook по `state.json`, checkpoint-артефактам, monitor и Docker.
 
+## Инцидент cron `docker image prune -af` в 12:00 МСК + re-score снапшота (2026-09-08)
+
+В user-crontab ежедневно в 12:00 выполняется `docker image prune -af`. Он удаляет ВСЕ
+образы, не привязанные к запущенным контейнерам — в том числе базовый
+`slop-code:python3.12`. Прогон `dsflash-high` (завершение ~12:05 локального времени)
+получил невалидные оценки CP13/14: eval-`docker run` не нашёл образ локально, попытался
+пуллить `slop-code` из Docker Hub (denied), `pytest_exit_code=125`, collected=0 → 0/0.
+При этом `infrastructure_failure` SCB НЕ выставил — оценки выглядели как «0 тестов».
+Параллельный qwen-прогон при следующем чекпоинте сам пересобрал образ (детерминированная
+сборка даёт тот же image ID), поэтому «сейчас образ есть» не противоречит «в 12:03 его не было».
+
+1. Перед прогонами, которые могут пересекаться с ~12:00 МСК, проверяй `crontab -l` и живость
+   образов `slop-code:*`; надёжнее перенести prune (например, на 04:00) или запускать бенчмарки вне окна.
+2. Диагностика таких сбоев: `pytest_exit_code=125` + `collected=0` + `pull access denied`
+   в `evaluation/stderr.txt` = runner/инфраструктура, не модель; в `journalctl -u docker`
+   видны и сам prune, и отклонённые пулли по минутам.
+3. **Re-score снапшота** (CP evaluation битая, снапшот цел): скопировать `run_1/scb` во
+   временную директорию, удалить в копии `checkpoint_N/evaluation.json` + `evaluation/`,
+   запустить переоценку ТОЛЬКО недостающих:
+
+   ```bash
+   DOCKER_CONFIG=<пустой каталог с config.json={}> \
+   SCBENCH_PROBLEMS_PATH=vendor/scb-problems \
+   PYTHONPATH=<repo>:<repo>/harness_sitecustomize \
+   uv run python -m benchmark.scb_main eval <tmp>/scb --problem realworld
+   ```
+
+   Грабли: без пустого `DOCKER_CONFIG` docker-py падает на credHelper
+   `docker-credential-yc`; без `SCBENCH_PROBLEMS_PATH` eval ищет проблему в дефолтном
+   каталоге `~/.cache/scbench` и молча выдаёт «No problems to evaluate».
+4. После проверки перенести свежие `evaluation.json` + `evaluation/` обратно в run-каталог
+   (старые оставить как `*.invalid.bak`), пересобрать метрики
+   (`python -m benchmark collect <run>/scb/realworld --arm ... --run-id <оригинальный> ...
+   --out <run>/metrics`) и опубликовать (`python -m benchmark report --experiment-id ...`).
+   Лидерборд-строка после этого поднялась 13/14 → 14/14.
+
+## Инцидент qwen3.8-27b/neuraldeep: смерти дерева прогона и полная остановка (2026-09-08)
+
+Запуск кастомного маршрута: `opencode` + маршрут `neuraldeep` (OpenAI-compatible
+`api.neuraldeep.ru/v1`, определён в host `~/.config/opencode/opencode.json` и auth.json).
+Маршрут не входит в models.dev → контейнерный opencode.json собирается ТОЛЬКО из оверлея,
+поэтому в `configs/models/qwen3.8-27b.yaml` внесён полный провайдер (name + npm
+`@ai-sdk/openai-compatible` + options.baseURL + запись модели); ключ приезжает из
+монтируемого auth.json по имени провайдера.
+
+1. **`pass_policy: all-core-cases` останавливает весь прогон** на первом навсегда красном
+   чекпоинте (`runner.py::_should_early_stop`): run-all завершается с exit=0 и слотом
+   incomplete («Agent runs completed failed=1»). Монитор считает это process-level failure
+   и жжёт свой retry-бюджет (3) на КАЖДЫЙ постоянный провал CP → needs-human. Вчерашние
+   ряды 14/14 с Failed CP>0 — это «упал и был починен реворком», не постоянные провалы.
+2. **Резюму монитора сбрасывает незавершённый CP на пустой workspace**: checkpoint в
+   состоянии error инвалидируется, восстановление кода из `snapshot_exists=True` не
+   происходит (наблюдалось: попытка 1 — 70 минут кода сгорели). Завершённые CP
+   (`state=done`) переживают resume корректно.
+3. **Причина смертей сессий qwen** — `stream error` от neuraldeep (уровень ERROR в логе
+   opencode внутри контейнера); иногда opencode переживает (retry), иногда завершается с
+   error-стейт. Полезный приём: фоновый сборщик `docker exec <agent-container> cat
+   ~/.local/share/opencode/log/<свежий>` раз в минуту — контейнер удаляется и лог
+   пропадает вместе с ним; логи SCB ротируются при resume (инференс предыдущей попытки
+   стирается). Opencode пишет сессию в `opencode.db-wal` — по mtime видно «живой» стрим.
+4. **Тихое убийство дерева не останавливает детей**: после kill дерева осиротевшие
+   ProcessPool-воркеры eval (`multiprocessing.spawn`) продолжали плодить one-shot
+   uvx-контейнеры, а осиротевший агентский контейнер (`sleep infinity` + opencode) продолжал
+   жечь API. Чеклист остановки прогона: kill monitor → kill run-all/scb_main → kill
+   `spawn_main`/`resource_tracker` воркеров → `docker stop` агентского контейнера →
+   убедиться по `docker ps`, что контейнеры больше не рождаются.
+5. Модель по сути не прошла realworld CP2 (token в `/api/user` после рестарта; 1/2 core
+   после 4+ независимых попыток с реворками) — валидный вывод о слабости модели, прогон
+   остановлен по решению пользователя; результат остаётся incomplete (исключён из средних).
+
 ## Cursor rules (обязательные к прочтению)
 
 Правила из `.cursor/rules/` — они применяются Cursor, но агенты вне Cursor должны читать их напрямую. Ключевые для работы с бенчмарком:
@@ -695,6 +765,24 @@ Hermes используется как компромиссный канал у�
    проходит). Проверяй models.dev и/или OPENCODE_CONFIG с явно описанными variants.
 3. Примеры: `configs/models/deepseek-v4-flash.yaml` (low/high/max, max используется
    при `--thinking max`), `configs/models/omen-alpha.yaml` (только low/high).
+
+## Колонка Thinking в лидерборде (2026-09-08)
+
+- `benchmark/publish.py`: уровень ризонинга добавлен в ключ агрегации ячеек
+  `(problem, agent, provider, model, thinking, harness)` и колонкой `Thinking` во все
+  таблицы LEADERBOARD.md (By task, By model, Experiments, метрик-лидерборды).
+- До правки прогоны одной модели с разным thinking молча сливались в одну строку:
+  deepseek-v4-flash `high` и `max` показывались как baseline N=2 со смешанными средними.
+  Если в ячейке появляются строки с одинаковой моделью и разным thinking — это не дубль.
+- Payload'ы без поля `thinking` (legacy) агрегируются вместе и отображаются как `-`;
+  «неизвестно» и `none` (осознанное отсутствие ризонинга) — разные вещи, не нормализовать.
+- После правки колонок: проверка согласованности всех таблиц LEADERBOARD.md (одинаковое
+  число `|`, минимум `---` в сепараторе) — сейчас их 37; тесты `tests/test_publish.py`.
+- Не связанный с этим преждесуществующий красный: 3 теста
+  `tests/test_combination_arms.py::test_combination_arm_is_pinned_and_activatable`
+  (python-harness-v1.3.0+*) падают и без локальных правок — `KeyError: 'component_arms'`
+  в VERSION.json, схема пина комбо-армов устарела относительно теста. Проверять
+  «сломал ли я тесты» через `git stash` + повтор, а не по числу failures.
 
 ## graphify
 
