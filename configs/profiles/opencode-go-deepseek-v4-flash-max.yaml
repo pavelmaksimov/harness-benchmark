@@ -1,0 +1,6 @@
+id: opencode-go-deepseek-v4-flash-max
+description: OpenCode Go DeepSeek V4 Flash at max reasoning.
+agent: opencode
+provider: opencode_auth
+model: deepseek-v4-flash
+thinking: max

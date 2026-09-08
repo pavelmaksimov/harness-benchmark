@@ -1,0 +1,6 @@
+id: opencode-go-omen-alpha-high
+description: OpenCode Go Omen Alpha at high reasoning (model maximum; no max/xhigh effort exists for omen-alpha).
+agent: opencode
+provider: opencode_auth
+model: omen-alpha
+thinking: high

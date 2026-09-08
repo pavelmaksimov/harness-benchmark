@@ -1,0 +1,26 @@
+# Omen Alpha via opencode-go (free Go tier).
+# Discovered via `opencode models opencode-go` as `opencode-go/omen-alpha`.
+# models.dev reasoning_options for this model: effort low|high ONLY.
+# There is no medium/xhigh/max effort — request --thinking high for the maximum.
+# Use: --agent opencode --provider opencode_auth --model omen-alpha --thinking high
+internal_name: omen-alpha
+provider: opencode_auth
+pricing:
+  input: 0
+  output: 0
+  cache_read: 0
+  cache_write: 0
+aliases: []
+agent_specific:
+  opencode:
+    provider_name: opencode-go
+    config:
+      provider:
+        opencode-go:
+          models:
+            omen-alpha:
+              variants:
+                low:
+                  reasoningEffort: low
+                high:
+                  reasoningEffort: high

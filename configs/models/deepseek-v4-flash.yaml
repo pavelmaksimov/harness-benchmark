@@ -1,0 +1,30 @@
+# DeepSeek V4 Flash via opencode-go (free Go tier).
+# Discovered via `opencode models opencode-go` as `opencode-go/deepseek-v4-flash`.
+# Not the same as deepseek-v4-flash-free (route `opencode`); this overlay pins route opencode-go.
+# models.dev reasoning_options for this model: effort low|high|max.
+# SCB maps preset xhigh (wrapper's `--thinking max`) to `--variant=max` for opencode,
+# so the identity `max` variant below is the one actually used.
+# Use: --agent opencode --provider opencode_auth --model deepseek-v4-flash --thinking max
+internal_name: deepseek-v4-flash
+provider: opencode_auth
+pricing:
+  input: 0
+  output: 0
+  cache_read: 0
+  cache_write: 0
+aliases: []
+agent_specific:
+  opencode:
+    provider_name: opencode-go
+    config:
+      provider:
+        opencode-go:
+          models:
+            deepseek-v4-flash:
+              variants:
+                low:
+                  reasoningEffort: low
+                high:
+                  reasoningEffort: high
+                max:
+                  reasoningEffort: max

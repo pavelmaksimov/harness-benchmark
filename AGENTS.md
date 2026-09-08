@@ -663,6 +663,39 @@ Hermes используется как компромиссный канал у�
   для `systemctl --user`, даже когда user-unit существует. Для остановки или отключения
   fleet управляй unit с host-level правами и проверяй результат через `is-active`/`is-enabled`.
 
+## reasoning-усилия моделей opencode-go: сверяйся с models.dev (инцидент 2026-09-07)
+
+При добавлении новой модели на маршруте `opencode-go` (или любом другом) обязательный
+шаг — проверить её `reasoning_options` в https://models.dev/api.json (провайдер
+`opencode-go`): список валидных значений effort у каждой модели свой.
+
+Инцидент: шаблонный overlay со всеми пятью вариантами (low..max) дал `omen-alpha`
+(валидны только `low|high`) вариант `reasoningEffort: max` — невалидное усилие.
+Прогон остановлен на CP1, оверлей переписан под low/high. (`deepseek-v4-flash`
+пострадал зря: у него `max` валиден.)
+
+Механика (важно знать, чтобы не ошибиться, как в этом инциденте):
+
+- wrapper переводит `--thinking max` в SCB-пресет `xhigh` (потолок `ThinkingPreset`);
+- для opencode SCB мапит пресет в вариант: `THINKING_TO_VARIANT = {low, medium,
+  high, xhigh→max}` (`vendor/.../agents/opencode/agent.py`), т.е. `--thinking max`
+  шлёт агенту `--variant=max` — вариант `xhigh` для opencode вообще не испускается;
+- mounted opencode.json резолвит `--variant=max` в `provider.<route>.models.<id>.
+  variants.max.reasoningEffort` из overlay — именно overlay решает, какой реально
+  effort получит модель;
+- инжект SCB `agent.build.reasonEffort: xhigh` для моделей без такого значения
+  безвреден (проверено живым запуском; работает механизм variants).
+
+Правила:
+
+1. Overlay определяет **только валидные** для модели варианты; «максимальный
+   доступный» запрашивай явно (`--thinking high`, если max не существует).
+2. `opencode run --variant=<имя>` на хосте **не валидирует** имена вариантов без
+   конфига — «успешный» ping с `--variant=max` ничего не доказывает (bogus-имя тоже
+   проходит). Проверяй models.dev и/или OPENCODE_CONFIG с явно описанными variants.
+3. Примеры: `configs/models/deepseek-v4-flash.yaml` (low/high/max, max используется
+   при `--thinking max`), `configs/models/omen-alpha.yaml` (только low/high).
+
 ## graphify
 
 This project has a knowledge graph at graphify-out/ with god nodes, community structure, and cross-file relationships.

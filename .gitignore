@@ -34,3 +34,4 @@ vendor/slop-code-bench/
 vendor/scb-problems/
 .omo/
 TODO.md
+memory/.tmp/

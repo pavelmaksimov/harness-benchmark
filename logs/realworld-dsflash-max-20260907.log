@@ -1,0 +1,6 @@
+experiment_id=realworld-opencode-go-dsflash-max-baseline-20260907 arm=baseline 
+runs=1 jobs=1 agent=opencode provider=opencode_auth model=deepseek-v4-flash 
+thinking=max transient_retries=(state.json) feedback_strategy=(state.json)
+slop-code run failed for arm=baseline (exit 143); see 
+/home/user/my/harness-benchmark/results/realworld-opencode-go-dsflash-max-baseli
+ne-20260907/baseline/run_1/scb_run.log

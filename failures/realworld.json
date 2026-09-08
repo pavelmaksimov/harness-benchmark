@@ -28111,5 +28111,2164 @@
       "reported_cost_usd": 0.0,
       "steps": 18
     }
+  },
+  {
+    "agent": "opencode",
+    "agent_version": "1.14.33",
+    "arm": "baseline",
+    "attempts": [
+      {
+        "attempt": 1,
+        "cache_read_tokens": 443648,
+        "cache_write_tokens": 0,
+        "confidence": "none",
+        "core": {
+          "failed": 1,
+          "failed_tests": [
+            "test_registration_validation_and_uniqueness"
+          ],
+          "passed": 1,
+          "total": 2
+        },
+        "diagnostics": {
+          "confidence": "none",
+          "detected": false,
+          "failure_class": "none",
+          "finish_reason": "stop",
+          "message_count": 86,
+          "message_path": "/home/user/my/harness-benchmark/results/realworld-opencode-go-dsflash-max-baseline-20260907/baseline/run_1/scb/realworld/checkpoint_1/agent/messages.jsonl",
+          "message_types": [
+            "step_start",
+            "reasoning",
+            "tool_use",
+            "step_finish",
+            "step_start",
+            "reasoning",
+            "tool_use",
+            "step_finish",
+            "step_start",
+            "tool_use",
+            "step_finish",
+            "step_start",
+            "reasoning",
+            "text",
+            "tool_use",
+            "step_finish",
+            "step_start",
+            "reasoning",
+            "tool_use",
+            "text",
+            "step_finish",
+            "step_start",
+            "tool_use",
+            "step_finish",
+            "step_start",
+            "tool_use",
+            "step_finish",
+            "step_start",
+            "tool_use",
+            "step_finish",
+            "step_start",
+            "tool_use",
+            "step_finish",
+            "step_start",
+            "tool_use",
+            "step_finish",
+            "step_start",
+            "reasoning",
+            "tool_use",
+            "step_finish",
+            "step_start",
+            "reasoning",
+            "tool_use",
+            "text",
+            "step_finish",
+            "step_start",
+            "tool_use",
+            "step_finish",
+            "step_start",
+            "tool_use",
+            "step_finish",
+            "step_start",
+            "reasoning",
+            "tool_use",
+            "text",
+            "step_finish",
+            "step_start",
+            "tool_use",
+            "step_finish",
+            "step_start",
+            "reasoning",
+            "text",
+            "tool_use",
+            "step_finish",
+            "step_start",
+            "reasoning",
+            "text",
+            "tool_use",
+            "step_finish",
+            "step_start",
+            "reasoning",
+            "tool_use",
+            "step_finish",
+            "step_start",
+            "reasoning",
+            "text",
+            "tool_use",
+            "step_finish",
+            "step_start",
+            "reasoning",
+            "tool_use",
+            "text",
+            "step_finish",
+            "step_start",
+            "text",
+            "step_finish"
+          ],
+          "output_threshold": 500,
+          "output_tokens": 6471,
+          "parse_errors": 0,
+          "signals": {
+            "no_explicit_error": true,
+            "no_explicit_error_or_limit": true,
+            "no_explicit_limit": true,
+            "no_infrastructure_failure": true,
+            "output_below_threshold": false,
+            "preceding_reasoning": true,
+            "unknown_finish": false
+          },
+          "steps": 22
+        },
+        "duration": 12.556931972503662,
+        "elapsed_seconds": 452.542564,
+        "failed_tests": [
+          "test_registration_validation_and_uniqueness"
+        ],
+        "failed_tests_by_group": {
+          "Core": [
+            "test_registration_validation_and_uniqueness"
+          ]
+        },
+        "failure_class": "none",
+        "feedback_context": {
+          "all_failed_tests": [
+            "test_registration_validation_and_uniqueness"
+          ],
+          "current_checkpoint": 1,
+          "current_other_failures": [],
+          "failed_tests_by_bucket": {
+            "checkpoint_1-Core": [
+              "test_registration_validation_and_uniqueness"
+            ]
+          },
+          "failure_items": [
+            {
+              "bucket": "checkpoint_1-Core",
+              "group": "Core",
+              "name": "test_registration_validation_and_uniqueness",
+              "source_checkpoint": 1
+            }
+          ],
+          "other_failures": [],
+          "policy_failures": [
+            "test_registration_validation_and_uniqueness"
+          ],
+          "regression_comparison_available": false,
+          "regression_new_failures": [],
+          "regression_persistent_failures": [],
+          "strategy_version": "current-first-v1"
+        },
+        "feedback_metadata": {
+          "limits": {
+            "context_failures": 5,
+            "policy_failures": 20
+          },
+          "omitted_counts": {
+            "current_other_failures": 0,
+            "other_failures": 0,
+            "policy_failures": 0,
+            "regression_new_failures": 0,
+            "regression_persistent_failures": 0
+          },
+          "regression_comparison_available": false,
+          "shown_counts": {
+            "current_other_failures": 0,
+            "other_failures": 0,
+            "policy_failures": 1,
+            "regression_new_failures": 0,
+            "regression_persistent_failures": 0
+          },
+          "strategy": "current-first",
+          "strategy_version": "current-first-v1"
+        },
+        "feedback_strategy": "current-first",
+        "groups": {
+          "Core": {
+            "failed": 1,
+            "failed_tests": [
+              "test_registration_validation_and_uniqueness"
+            ],
+            "passed": 1,
+            "total": 2
+          },
+          "Error": {
+            "failed": 0,
+            "failed_tests": [],
+            "passed": 0,
+            "total": 0
+          },
+          "Functionality": {
+            "failed": 0,
+            "failed_tests": [],
+            "passed": 0,
+            "total": 0
+          },
+          "Regression": {
+            "failed": 0,
+            "failed_tests": [],
+            "passed": 0,
+            "total": 0
+          }
+        },
+        "infrastructure_failure": false,
+        "input_tokens": 37400,
+        "message_path": "/home/user/my/harness-benchmark/results/realworld-opencode-go-dsflash-max-baseline-20260907/baseline/run_1/scb/realworld/checkpoint_1/agent/messages.jsonl",
+        "output_tokens": 6471,
+        "pass_counts": {
+          "Core": 1,
+          "Error": 0,
+          "Functionality": 0,
+          "Regression": 0
+        },
+        "passed_policy": false,
+        "reasoning_tokens": 12455,
+        "reported_cost_usd": 0.023824696000000003,
+        "signals": {
+          "no_explicit_error": true,
+          "no_explicit_error_or_limit": true,
+          "no_explicit_limit": true,
+          "no_infrastructure_failure": true,
+          "output_below_threshold": false,
+          "preceding_reasoning": true,
+          "unknown_finish": false
+        },
+        "stage": "creation",
+        "steps": 22,
+        "total_counts": {
+          "Core": 2,
+          "Error": 0,
+          "Functionality": 0,
+          "Regression": 0
+        },
+        "truncation_output_threshold": 500,
+        "usage": {
+          "cache_read_tokens": 443648,
+          "cache_write_tokens": 0,
+          "elapsed_seconds": 452.542564,
+          "input_tokens": 37400,
+          "output_tokens": 6471,
+          "reasoning_tokens": 12455,
+          "reported_cost_usd": 0.023824696000000003,
+          "steps": 22
+        }
+      },
+      {
+        "attempt": 2,
+        "cache_read_tokens": 1666304,
+        "cache_write_tokens": 0,
+        "confidence": "none",
+        "core": {
+          "failed": 0,
+          "failed_tests": [],
+          "passed": 2,
+          "total": 2
+        },
+        "diagnostics": {
+          "confidence": "none",
+          "detected": false,
+          "failure_class": "none",
+          "finish_reason": "stop",
+          "message_count": 100,
+          "message_path": "/home/user/my/harness-benchmark/results/realworld-opencode-go-dsflash-max-baseline-20260907/baseline/run_1/scb/realworld/checkpoint_1/agent/messages.jsonl",
+          "message_types": [
+            "tool_use",
+            "step_finish",
+            "step_start",
+            "reasoning",
+            "tool_use",
+            "step_finish",
+            "step_start",
+            "tool_use",
+            "step_finish",
+            "step_start",
+            "reasoning",
+            "tool_use",
+            "step_finish",
+            "step_start",
+            "reasoning",
+            "tool_use",
+            "tool_use",
+            "step_finish",
+            "step_start",
+            "reasoning",
+            "tool_use",
+            "step_finish",
+            "step_start",
+            "tool_use",
+            "step_finish",
+            "step_start",
+            "tool_use",
+            "step_finish",
+            "step_start",
+            "reasoning",
+            "tool_use",
+            "step_finish",
+            "step_start",
+            "reasoning",
+            "tool_use",
+            "step_finish",
+            "step_start",
+            "reasoning",
+            "tool_use",
+            "tool_use",
+            "tool_use",
+            "step_finish",
+            "step_start",
+            "reasoning",
+            "tool_use",
+            "tool_use",
+            "step_finish",
+            "step_start",
+            "reasoning",
+            "tool_use",
+            "step_finish",
+            "step_start",
+            "reasoning",
+            "tool_use",
+            "text",
+            "step_finish",
+            "step_start",
+            "reasoning",
+            "tool_use",
+            "step_finish",
+            "step_start",
+            "reasoning",
+            "tool_use",
+            "step_finish",
+            "step_start",
+            "reasoning",
+            "tool_use",
+            "text",
+            "step_finish",
+            "step_start",
+            "tool_use",
+            "step_finish",
+            "step_start",
+            "reasoning",
+            "tool_use",
+            "step_finish",
+            "step_start",
+            "tool_use",
+            "step_finish",
+            "step_start",
+            "reasoning",
+            "tool_use",
+            "step_finish",
+            "step_start",
+            "reasoning",
+            "text",
+            "tool_use",
+            "step_finish",
+            "step_start",
+            "reasoning",
+            "tool_use",
+            "step_finish",
+            "step_start",
+            "reasoning",
+            "tool_use",
+            "step_finish",
+            "step_start",
+            "reasoning",
+            "text",
+            "step_finish"
+          ],
+          "output_threshold": 500,
+          "output_tokens": 25778,
+          "parse_errors": 1,
+          "signals": {
+            "no_explicit_error": true,
+            "no_explicit_error_or_limit": true,
+            "no_explicit_limit": true,
+            "no_infrastructure_failure": true,
+            "output_below_threshold": false,
+            "preceding_reasoning": true,
+            "unknown_finish": false
+          },
+          "steps": 34
+        },
+        "duration": 13.001105308532715,
+        "elapsed_seconds": 322.551639,
+        "failed_tests": [],
+        "failed_tests_by_group": {},
+        "failure_class": "none",
+        "feedback_context": {
+          "all_failed_tests": [],
+          "current_checkpoint": 1,
+          "current_other_failures": [],
+          "failed_tests_by_bucket": {},
+          "failure_items": [],
+          "other_failures": [],
+          "policy_failures": [],
+          "regression_comparison_available": false,
+          "regression_new_failures": [],
+          "regression_persistent_failures": [],
+          "strategy_version": "current-first-v1"
+        },
+        "feedback_metadata": {
+          "limits": {
+            "context_failures": 5,
+            "policy_failures": 20
+          },
+          "omitted_counts": {
+            "current_other_failures": 0,
+            "other_failures": 0,
+            "policy_failures": 0,
+            "regression_new_failures": 0,
+            "regression_persistent_failures": 0
+          },
+          "regression_comparison_available": false,
+          "shown_counts": {
+            "current_other_failures": 0,
+            "other_failures": 0,
+            "policy_failures": 0,
+            "regression_new_failures": 0,
+            "regression_persistent_failures": 0
+          },
+          "strategy": "current-first",
+          "strategy_version": "current-first-v1"
+        },
+        "feedback_strategy": "current-first",
+        "groups": {
+          "Core": {
+            "failed": 0,
+            "failed_tests": [],
+            "passed": 2,
+            "total": 2
+          },
+          "Error": {
+            "failed": 0,
+            "failed_tests": [],
+            "passed": 0,
+            "total": 0
+          },
+          "Functionality": {
+            "failed": 0,
+            "failed_tests": [],
+            "passed": 0,
+            "total": 0
+          },
+          "Regression": {
+            "failed": 0,
+            "failed_tests": [],
+            "passed": 0,
+            "total": 0
+          }
+        },
+        "infrastructure_failure": false,
+        "input_tokens": 86585,
+        "message_path": "/home/user/my/harness-benchmark/results/realworld-opencode-go-dsflash-max-baseline-20260907/baseline/run_1/scb/realworld/checkpoint_1/agent/messages.jsonl",
+        "output_tokens": 25778,
+        "pass_counts": {
+          "Core": 2,
+          "Error": 0,
+          "Functionality": 0,
+          "Regression": 0
+        },
+        "passed_policy": true,
+        "reasoning_tokens": 0,
+        "reported_cost_usd": 0.047726308,
+        "signals": {
+          "no_explicit_error": true,
+          "no_explicit_error_or_limit": true,
+          "no_explicit_limit": true,
+          "no_infrastructure_failure": true,
+          "output_below_threshold": false,
+          "preceding_reasoning": true,
+          "unknown_finish": false
+        },
+        "stage": "rework",
+        "steps": 34,
+        "total_counts": {
+          "Core": 2,
+          "Error": 0,
+          "Functionality": 0,
+          "Regression": 0
+        },
+        "truncation_output_threshold": 500,
+        "usage": {
+          "cache_read_tokens": 1666304,
+          "cache_write_tokens": 0,
+          "elapsed_seconds": 322.551639,
+          "input_tokens": 86585,
+          "output_tokens": 25778,
+          "reasoning_tokens": 0,
+          "reported_cost_usd": 0.047726308,
+          "steps": 34
+        }
+      }
+    ],
+    "attempts_total": 2,
+    "checkpoint": "checkpoint_1",
+    "core": {
+      "failed": 0,
+      "failed_tests": [],
+      "passed": 2,
+      "total": 2
+    },
+    "creation_input_tokens": 37400,
+    "creation_output_tokens": 6471,
+    "date": "2026-09-07T16:18:47.544450+00:00",
+    "diagnostics": {
+      "confidence": "none",
+      "detected": false,
+      "failure_class": "none",
+      "finish_reason": "stop",
+      "message_count": 100,
+      "message_path": "/home/user/my/harness-benchmark/results/realworld-opencode-go-dsflash-max-baseline-20260907/baseline/run_1/scb/realworld/checkpoint_1/agent/messages.jsonl",
+      "message_types": [
+        "tool_use",
+        "step_finish",
+        "step_start",
+        "reasoning",
+        "tool_use",
+        "step_finish",
+        "step_start",
+        "tool_use",
+        "step_finish",
+        "step_start",
+        "reasoning",
+        "tool_use",
+        "step_finish",
+        "step_start",
+        "reasoning",
+        "tool_use",
+        "tool_use",
+        "step_finish",
+        "step_start",
+        "reasoning",
+        "tool_use",
+        "step_finish",
+        "step_start",
+        "tool_use",
+        "step_finish",
+        "step_start",
+        "tool_use",
+        "step_finish",
+        "step_start",
+        "reasoning",
+        "tool_use",
+        "step_finish",
+        "step_start",
+        "reasoning",
+        "tool_use",
+        "step_finish",
+        "step_start",
+        "reasoning",
+        "tool_use",
+        "tool_use",
+        "tool_use",
+        "step_finish",
+        "step_start",
+        "reasoning",
+        "tool_use",
+        "tool_use",
+        "step_finish",
+        "step_start",
+        "reasoning",
+        "tool_use",
+        "step_finish",
+        "step_start",
+        "reasoning",
+        "tool_use",
+        "text",
+        "step_finish",
+        "step_start",
+        "reasoning",
+        "tool_use",
+        "step_finish",
+        "step_start",
+        "reasoning",
+        "tool_use",
+        "step_finish",
+        "step_start",
+        "reasoning",
+        "tool_use",
+        "text",
+        "step_finish",
+        "step_start",
+        "tool_use",
+        "step_finish",
+        "step_start",
+        "reasoning",
+        "tool_use",
+        "step_finish",
+        "step_start",
+        "tool_use",
+        "step_finish",
+        "step_start",
+        "reasoning",
+        "tool_use",
+        "step_finish",
+        "step_start",
+        "reasoning",
+        "text",
+        "tool_use",
+        "step_finish",
+        "step_start",
+        "reasoning",
+        "tool_use",
+        "step_finish",
+        "step_start",
+        "reasoning",
+        "tool_use",
+        "step_finish",
+        "step_start",
+        "reasoning",
+        "text",
+        "step_finish"
+      ],
+      "output_threshold": 500,
+      "output_tokens": 25778,
+      "parse_errors": 1,
+      "signals": {
+        "no_explicit_error": true,
+        "no_explicit_error_or_limit": true,
+        "no_explicit_limit": true,
+        "no_infrastructure_failure": true,
+        "output_below_threshold": false,
+        "preceding_reasoning": true,
+        "unknown_finish": false
+      },
+      "steps": 34
+    },
+    "experiment_id": "realworld-opencode-go-dsflash-max-baseline-20260907",
+    "failed_tests": [],
+    "failed_tests_by_group": {},
+    "failure_class": "none",
+    "feedback_context": {
+      "all_failed_tests": [],
+      "current_checkpoint": 1,
+      "current_other_failures": [],
+      "failed_tests_by_bucket": {},
+      "failure_items": [],
+      "other_failures": [],
+      "policy_failures": [],
+      "regression_comparison_available": false,
+      "regression_new_failures": [],
+      "regression_persistent_failures": [],
+      "strategy_version": "current-first-v1"
+    },
+    "feedback_strategy": "current-first",
+    "fix": "rework",
+    "fixed": true,
+    "groups": {
+      "Core": {
+        "failed": 0,
+        "failed_tests": [],
+        "passed": 2,
+        "total": 2
+      },
+      "Error": {
+        "failed": 0,
+        "failed_tests": [],
+        "passed": 0,
+        "total": 0
+      },
+      "Functionality": {
+        "failed": 0,
+        "failed_tests": [],
+        "passed": 0,
+        "total": 0
+      },
+      "Regression": {
+        "failed": 0,
+        "failed_tests": [],
+        "passed": 0,
+        "total": 0
+      }
+    },
+    "harness": "baseline",
+    "infrastructure_failure": false,
+    "model": "deepseek-v4-flash",
+    "pass_counts": {
+      "Core": 2,
+      "Error": 0,
+      "Functionality": 0,
+      "Regression": 0
+    },
+    "paths": {
+      "checkpoint_dir": "/home/user/my/harness-benchmark/results/realworld-opencode-go-dsflash-max-baseline-20260907/baseline/run_1/scb/realworld/checkpoint_1",
+      "run_dir": "/home/user/my/harness-benchmark/results/realworld-opencode-go-dsflash-max-baseline-20260907/baseline/run_1",
+      "snapshot_dir": "/home/user/my/harness-benchmark/results/realworld-opencode-go-dsflash-max-baseline-20260907/baseline/run_1/scb/realworld/checkpoint_1/snapshot"
+    },
+    "post_fix_score": "2/2",
+    "problem": "realworld",
+    "provider": "opencode_auth",
+    "provider_truncation_recovered": false,
+    "provider_truncation_unresolved": false,
+    "provider_truncations": 0,
+    "resumed": false,
+    "rework_input_tokens": 86585,
+    "rework_output_tokens": 25778,
+    "root_cause": null,
+    "run_index": 1,
+    "semantic_attempts_total": 2,
+    "source": "rework",
+    "thinking": "max",
+    "total_counts": {
+      "Core": 2,
+      "Error": 0,
+      "Functionality": 0,
+      "Regression": 0
+    },
+    "transient_retries": 0,
+    "usage": {
+      "cache_read_tokens": 1666304,
+      "cache_write_tokens": 0,
+      "elapsed_seconds": 322.551639,
+      "input_tokens": 86585,
+      "output_tokens": 25778,
+      "reasoning_tokens": 0,
+      "reported_cost_usd": 0.047726308,
+      "steps": 34
+    }
+  },
+  {
+    "agent": "opencode",
+    "agent_version": "1.14.33",
+    "arm": "baseline",
+    "attempts": [
+      {
+        "attempt": 1,
+        "cache_read_tokens": 152448,
+        "cache_write_tokens": 0,
+        "confidence": "none",
+        "core": {
+          "failed": 1,
+          "failed_tests": [
+            "test_registration_validation_and_uniqueness"
+          ],
+          "passed": 1,
+          "total": 2
+        },
+        "diagnostics": {
+          "confidence": "none",
+          "detected": false,
+          "failure_class": "none",
+          "finish_reason": "stop",
+          "message_count": 57,
+          "message_path": "/home/user/my/harness-benchmark/results/realworld-opencode-go-omenalpha-high-baseline-20260907/baseline/run_1/scb/realworld/checkpoint_1/agent/messages.jsonl",
+          "message_types": [
+            "step_start",
+            "reasoning",
+            "tool_use",
+            "step_finish",
+            "step_start",
+            "reasoning",
+            "tool_use",
+            "step_finish",
+            "step_start",
+            "reasoning",
+            "tool_use",
+            "step_finish",
+            "step_start",
+            "tool_use",
+            "tool_use",
+            "step_finish",
+            "step_start",
+            "tool_use",
+            "tool_use",
+            "step_finish",
+            "step_start",
+            "tool_use",
+            "step_finish",
+            "step_start",
+            "tool_use",
+            "step_finish",
+            "step_start",
+            "reasoning",
+            "tool_use",
+            "step_finish",
+            "step_start",
+            "reasoning",
+            "tool_use",
+            "step_finish",
+            "step_start",
+            "tool_use",
+            "step_finish",
+            "step_start",
+            "tool_use",
+            "step_finish",
+            "step_start",
+            "tool_use",
+            "step_finish",
+            "step_start",
+            "reasoning",
+            "tool_use",
+            "step_finish",
+            "step_start",
+            "tool_use",
+            "step_finish",
+            "step_start",
+            "reasoning",
+            "tool_use",
+            "step_finish",
+            "step_start",
+            "text",
+            "step_finish"
+          ],
+          "output_threshold": 500,
+          "output_tokens": 3719,
+          "parse_errors": 0,
+          "signals": {
+            "no_explicit_error": true,
+            "no_explicit_error_or_limit": true,
+            "no_explicit_limit": true,
+            "no_infrastructure_failure": true,
+            "output_below_threshold": false,
+            "preceding_reasoning": true,
+            "unknown_finish": false
+          },
+          "steps": 16
+        },
+        "duration": 10.604594230651855,
+        "elapsed_seconds": 206.070767,
+        "failed_tests": [
+          "test_registration_validation_and_uniqueness"
+        ],
+        "failed_tests_by_group": {
+          "Core": [
+            "test_registration_validation_and_uniqueness"
+          ]
+        },
+        "failure_class": "none",
+        "feedback_context": {
+          "all_failed_tests": [
+            "test_registration_validation_and_uniqueness"
+          ],
+          "current_checkpoint": 1,
+          "current_other_failures": [],
+          "failed_tests_by_bucket": {
+            "checkpoint_1-Core": [
+              "test_registration_validation_and_uniqueness"
+            ]
+          },
+          "failure_items": [
+            {
+              "bucket": "checkpoint_1-Core",
+              "group": "Core",
+              "name": "test_registration_validation_and_uniqueness",
+              "source_checkpoint": 1
+            }
+          ],
+          "other_failures": [],
+          "policy_failures": [
+            "test_registration_validation_and_uniqueness"
+          ],
+          "regression_comparison_available": false,
+          "regression_new_failures": [],
+          "regression_persistent_failures": [],
+          "strategy_version": "current-first-v1"
+        },
+        "feedback_metadata": {
+          "limits": {
+            "context_failures": 5,
+            "policy_failures": 20
+          },
+          "omitted_counts": {
+            "current_other_failures": 0,
+            "other_failures": 0,
+            "policy_failures": 0,
+            "regression_new_failures": 0,
+            "regression_persistent_failures": 0
+          },
+          "regression_comparison_available": false,
+          "shown_counts": {
+            "current_other_failures": 0,
+            "other_failures": 0,
+            "policy_failures": 1,
+            "regression_new_failures": 0,
+            "regression_persistent_failures": 0
+          },
+          "strategy": "current-first",
+          "strategy_version": "current-first-v1"
+        },
+        "feedback_strategy": "current-first",
+        "groups": {
+          "Core": {
+            "failed": 1,
+            "failed_tests": [
+              "test_registration_validation_and_uniqueness"
+            ],
+            "passed": 1,
+            "total": 2
+          },
+          "Error": {
+            "failed": 0,
+            "failed_tests": [],
+            "passed": 0,
+            "total": 0
+          },
+          "Functionality": {
+            "failed": 0,
+            "failed_tests": [],
+            "passed": 0,
+            "total": 0
+          },
+          "Regression": {
+            "failed": 0,
+            "failed_tests": [],
+            "passed": 0,
+            "total": 0
+          }
+        },
+        "infrastructure_failure": false,
+        "input_tokens": 20241,
+        "message_path": "/home/user/my/harness-benchmark/results/realworld-opencode-go-omenalpha-high-baseline-20260907/baseline/run_1/scb/realworld/checkpoint_1/agent/messages.jsonl",
+        "output_tokens": 3719,
+        "pass_counts": {
+          "Core": 1,
+          "Error": 0,
+          "Functionality": 0,
+          "Regression": 0
+        },
+        "passed_policy": false,
+        "reasoning_tokens": 1127,
+        "reported_cost_usd": 0.01334448,
+        "signals": {
+          "no_explicit_error": true,
+          "no_explicit_error_or_limit": true,
+          "no_explicit_limit": true,
+          "no_infrastructure_failure": true,
+          "output_below_threshold": false,
+          "preceding_reasoning": true,
+          "unknown_finish": false
+        },
+        "stage": "creation",
+        "steps": 16,
+        "total_counts": {
+          "Core": 2,
+          "Error": 0,
+          "Functionality": 0,
+          "Regression": 0
+        },
+        "truncation_output_threshold": 500,
+        "usage": {
+          "cache_read_tokens": 152448,
+          "cache_write_tokens": 0,
+          "elapsed_seconds": 206.070767,
+          "input_tokens": 20241,
+          "output_tokens": 3719,
+          "reasoning_tokens": 1127,
+          "reported_cost_usd": 0.01334448,
+          "steps": 16
+        }
+      },
+      {
+        "attempt": 2,
+        "cache_read_tokens": 234688,
+        "cache_write_tokens": 0,
+        "confidence": "none",
+        "core": {
+          "failed": 1,
+          "failed_tests": [
+            "test_registration_validation_and_uniqueness"
+          ],
+          "passed": 1,
+          "total": 2
+        },
+        "diagnostics": {
+          "confidence": "none",
+          "detected": false,
+          "failure_class": "none",
+          "finish_reason": "stop",
+          "message_count": 68,
+          "message_path": "/home/user/my/harness-benchmark/results/realworld-opencode-go-omenalpha-high-baseline-20260907/baseline/run_1/scb/realworld/checkpoint_1/agent/messages.jsonl",
+          "message_types": [
+            "step_start",
+            "tool_use",
+            "tool_use",
+            "step_finish",
+            "step_start",
+            "tool_use",
+            "step_finish",
+            "step_start",
+            "reasoning",
+            "tool_use",
+            "step_finish",
+            "step_start",
+            "reasoning",
+            "text",
+            "tool_use",
+            "step_finish",
+            "step_start",
+            "tool_use",
+            "step_finish",
+            "step_start",
+            "reasoning",
+            "tool_use",
+            "tool_use",
+            "text",
+            "step_finish",
+            "step_start",
+            "tool_use",
+            "tool_use",
+            "step_finish",
+            "step_start",
+            "reasoning",
+            "tool_use",
+            "step_finish",
+            "step_start",
+            "tool_use",
+            "text",
+            "step_finish",
+            "step_start",
+            "tool_use",
+            "step_finish",
+            "step_start",
+            "tool_use",
+            "step_finish",
+            "step_start",
+            "reasoning",
+            "tool_use",
+            "step_finish",
+            "step_start",
+            "reasoning",
+            "tool_use",
+            "step_finish",
+            "step_start",
+            "reasoning",
+            "tool_use",
+            "text",
+            "step_finish",
+            "step_start",
+            "tool_use",
+            "step_finish",
+            "step_start",
+            "reasoning",
+            "text",
+            "tool_use",
+            "step_finish",
+            "step_start",
+            "reasoning",
+            "text",
+            "step_finish"
+          ],
+          "output_threshold": 500,
+          "output_tokens": 3390,
+          "parse_errors": 0,
+          "signals": {
+            "no_explicit_error": true,
+            "no_explicit_error_or_limit": true,
+            "no_explicit_limit": true,
+            "no_infrastructure_failure": true,
+            "output_below_threshold": false,
+            "preceding_reasoning": true,
+            "unknown_finish": false
+          },
+          "steps": 17
+        },
+        "duration": 14.50304126739502,
+        "elapsed_seconds": 294.394568,
+        "failed_tests": [
+          "test_registration_validation_and_uniqueness"
+        ],
+        "failed_tests_by_group": {
+          "Core": [
+            "test_registration_validation_and_uniqueness"
+          ]
+        },
+        "failure_class": "none",
+        "feedback_context": {
+          "all_failed_tests": [
+            "test_registration_validation_and_uniqueness"
+          ],
+          "current_checkpoint": 1,
+          "current_other_failures": [],
+          "failed_tests_by_bucket": {
+            "checkpoint_1-Core": [
+              "test_registration_validation_and_uniqueness"
+            ]
+          },
+          "failure_items": [
+            {
+              "bucket": "checkpoint_1-Core",
+              "group": "Core",
+              "name": "test_registration_validation_and_uniqueness",
+              "source_checkpoint": 1
+            }
+          ],
+          "other_failures": [],
+          "policy_failures": [
+            "test_registration_validation_and_uniqueness"
+          ],
+          "regression_comparison_available": false,
+          "regression_new_failures": [],
+          "regression_persistent_failures": [],
+          "strategy_version": "current-first-v1"
+        },
+        "feedback_metadata": {
+          "limits": {
+            "context_failures": 5,
+            "policy_failures": 20
+          },
+          "omitted_counts": {
+            "current_other_failures": 0,
+            "other_failures": 0,
+            "policy_failures": 0,
+            "regression_new_failures": 0,
+            "regression_persistent_failures": 0
+          },
+          "regression_comparison_available": false,
+          "shown_counts": {
+            "current_other_failures": 0,
+            "other_failures": 0,
+            "policy_failures": 1,
+            "regression_new_failures": 0,
+            "regression_persistent_failures": 0
+          },
+          "strategy": "current-first",
+          "strategy_version": "current-first-v1"
+        },
+        "feedback_strategy": "current-first",
+        "groups": {
+          "Core": {
+            "failed": 1,
+            "failed_tests": [
+              "test_registration_validation_and_uniqueness"
+            ],
+            "passed": 1,
+            "total": 2
+          },
+          "Error": {
+            "failed": 0,
+            "failed_tests": [],
+            "passed": 0,
+            "total": 0
+          },
+          "Functionality": {
+            "failed": 0,
+            "failed_tests": [],
+            "passed": 0,
+            "total": 0
+          },
+          "Regression": {
+            "failed": 0,
+            "failed_tests": [],
+            "passed": 0,
+            "total": 0
+          }
+        },
+        "infrastructure_failure": false,
+        "input_tokens": 16920,
+        "message_path": "/home/user/my/harness-benchmark/results/realworld-opencode-go-omenalpha-high-baseline-20260907/baseline/run_1/scb/realworld/checkpoint_1/agent/messages.jsonl",
+        "output_tokens": 3390,
+        "pass_counts": {
+          "Core": 1,
+          "Error": 0,
+          "Functionality": 0,
+          "Regression": 0
+        },
+        "passed_policy": false,
+        "reasoning_tokens": 4658,
+        "reported_cost_usd": 0.018083199999999997,
+        "signals": {
+          "no_explicit_error": true,
+          "no_explicit_error_or_limit": true,
+          "no_explicit_limit": true,
+          "no_infrastructure_failure": true,
+          "output_below_threshold": false,
+          "preceding_reasoning": true,
+          "unknown_finish": false
+        },
+        "stage": "rework",
+        "steps": 17,
+        "total_counts": {
+          "Core": 2,
+          "Error": 0,
+          "Functionality": 0,
+          "Regression": 0
+        },
+        "truncation_output_threshold": 500,
+        "usage": {
+          "cache_read_tokens": 234688,
+          "cache_write_tokens": 0,
+          "elapsed_seconds": 294.394568,
+          "input_tokens": 16920,
+          "output_tokens": 3390,
+          "reasoning_tokens": 4658,
+          "reported_cost_usd": 0.018083199999999997,
+          "steps": 17
+        }
+      },
+      {
+        "attempt": 3,
+        "cache_read_tokens": 134016,
+        "cache_write_tokens": 0,
+        "confidence": "none",
+        "core": {
+          "failed": 0,
+          "failed_tests": [],
+          "passed": 2,
+          "total": 2
+        },
+        "diagnostics": {
+          "confidence": "none",
+          "detected": false,
+          "failure_class": "none",
+          "finish_reason": "stop",
+          "message_count": 43,
+          "message_path": "/home/user/my/harness-benchmark/results/realworld-opencode-go-omenalpha-high-baseline-20260907/baseline/run_1/scb/realworld/checkpoint_1/agent/messages.jsonl",
+          "message_types": [
+            "step_start",
+            "reasoning",
+            "tool_use",
+            "tool_use",
+            "step_finish",
+            "step_start",
+            "tool_use",
+            "step_finish",
+            "step_start",
+            "reasoning",
+            "tool_use",
+            "step_finish",
+            "step_start",
+            "reasoning",
+            "text",
+            "tool_use",
+            "step_finish",
+            "step_start",
+            "step_start",
+            "reasoning",
+            "tool_use",
+            "text",
+            "step_finish",
+            "step_start",
+            "tool_use",
+            "step_finish",
+            "step_start",
+            "reasoning",
+            "tool_use",
+            "text",
+            "step_finish",
+            "step_start",
+            "tool_use",
+            "step_finish",
+            "step_start",
+            "reasoning",
+            "text",
+            "tool_use",
+            "step_finish",
+            "step_start",
+            "reasoning",
+            "text",
+            "step_finish"
+          ],
+          "output_threshold": 500,
+          "output_tokens": 2548,
+          "parse_errors": 0,
+          "signals": {
+            "no_explicit_error": true,
+            "no_explicit_error_or_limit": true,
+            "no_explicit_limit": true,
+            "no_infrastructure_failure": true,
+            "output_below_threshold": false,
+            "preceding_reasoning": true,
+            "unknown_finish": false
+          },
+          "steps": 10
+        },
+        "duration": 10.971616983413696,
+        "elapsed_seconds": 788.578952,
+        "failed_tests": [],
+        "failed_tests_by_group": {},
+        "failure_class": "none",
+        "feedback_context": {
+          "all_failed_tests": [],
+          "current_checkpoint": 1,
+          "current_other_failures": [],
+          "failed_tests_by_bucket": {},
+          "failure_items": [],
+          "other_failures": [],
+          "policy_failures": [],
+          "regression_comparison_available": false,
+          "regression_new_failures": [],
+          "regression_persistent_failures": [],
+          "strategy_version": "current-first-v1"
+        },
+        "feedback_metadata": {
+          "limits": {
+            "context_failures": 5,
+            "policy_failures": 20
+          },
+          "omitted_counts": {
+            "current_other_failures": 0,
+            "other_failures": 0,
+            "policy_failures": 0,
+            "regression_new_failures": 0,
+            "regression_persistent_failures": 0
+          },
+          "regression_comparison_available": false,
+          "shown_counts": {
+            "current_other_failures": 0,
+            "other_failures": 0,
+            "policy_failures": 0,
+            "regression_new_failures": 0,
+            "regression_persistent_failures": 0
+          },
+          "strategy": "current-first",
+          "strategy_version": "current-first-v1"
+        },
+        "feedback_strategy": "current-first",
+        "groups": {
+          "Core": {
+            "failed": 0,
+            "failed_tests": [],
+            "passed": 2,
+            "total": 2
+          },
+          "Error": {
+            "failed": 0,
+            "failed_tests": [],
+            "passed": 0,
+            "total": 0
+          },
+          "Functionality": {
+            "failed": 0,
+            "failed_tests": [],
+            "passed": 0,
+            "total": 0
+          },
+          "Regression": {
+            "failed": 0,
+            "failed_tests": [],
+            "passed": 0,
+            "total": 0
+          }
+        },
+        "infrastructure_failure": false,
+        "input_tokens": 28402,
+        "message_path": "/home/user/my/harness-benchmark/results/realworld-opencode-go-omenalpha-high-baseline-20260907/baseline/run_1/scb/realworld/checkpoint_1/agent/messages.jsonl",
+        "output_tokens": 2548,
+        "pass_counts": {
+          "Core": 2,
+          "Error": 0,
+          "Functionality": 0,
+          "Regression": 0
+        },
+        "passed_policy": true,
+        "reasoning_tokens": 9389,
+        "reported_cost_usd": 0.01891946,
+        "signals": {
+          "no_explicit_error": true,
+          "no_explicit_error_or_limit": true,
+          "no_explicit_limit": true,
+          "no_infrastructure_failure": true,
+          "output_below_threshold": false,
+          "preceding_reasoning": true,
+          "unknown_finish": false
+        },
+        "stage": "rework",
+        "steps": 10,
+        "total_counts": {
+          "Core": 2,
+          "Error": 0,
+          "Functionality": 0,
+          "Regression": 0
+        },
+        "truncation_output_threshold": 500,
+        "usage": {
+          "cache_read_tokens": 134016,
+          "cache_write_tokens": 0,
+          "elapsed_seconds": 788.578952,
+          "input_tokens": 28402,
+          "output_tokens": 2548,
+          "reasoning_tokens": 9389,
+          "reported_cost_usd": 0.01891946,
+          "steps": 10
+        }
+      }
+    ],
+    "attempts_total": 3,
+    "checkpoint": "checkpoint_1",
+    "core": {
+      "failed": 0,
+      "failed_tests": [],
+      "passed": 2,
+      "total": 2
+    },
+    "creation_input_tokens": 20241,
+    "creation_output_tokens": 3719,
+    "date": "2026-09-07T16:30:51.432441+00:00",
+    "diagnostics": {
+      "confidence": "none",
+      "detected": false,
+      "failure_class": "none",
+      "finish_reason": "stop",
+      "message_count": 43,
+      "message_path": "/home/user/my/harness-benchmark/results/realworld-opencode-go-omenalpha-high-baseline-20260907/baseline/run_1/scb/realworld/checkpoint_1/agent/messages.jsonl",
+      "message_types": [
+        "step_start",
+        "reasoning",
+        "tool_use",
+        "tool_use",
+        "step_finish",
+        "step_start",
+        "tool_use",
+        "step_finish",
+        "step_start",
+        "reasoning",
+        "tool_use",
+        "step_finish",
+        "step_start",
+        "reasoning",
+        "text",
+        "tool_use",
+        "step_finish",
+        "step_start",
+        "step_start",
+        "reasoning",
+        "tool_use",
+        "text",
+        "step_finish",
+        "step_start",
+        "tool_use",
+        "step_finish",
+        "step_start",
+        "reasoning",
+        "tool_use",
+        "text",
+        "step_finish",
+        "step_start",
+        "tool_use",
+        "step_finish",
+        "step_start",
+        "reasoning",
+        "text",
+        "tool_use",
+        "step_finish",
+        "step_start",
+        "reasoning",
+        "text",
+        "step_finish"
+      ],
+      "output_threshold": 500,
+      "output_tokens": 2548,
+      "parse_errors": 0,
+      "signals": {
+        "no_explicit_error": true,
+        "no_explicit_error_or_limit": true,
+        "no_explicit_limit": true,
+        "no_infrastructure_failure": true,
+        "output_below_threshold": false,
+        "preceding_reasoning": true,
+        "unknown_finish": false
+      },
+      "steps": 10
+    },
+    "experiment_id": "realworld-opencode-go-omenalpha-high-baseline-20260907",
+    "failed_tests": [],
+    "failed_tests_by_group": {},
+    "failure_class": "none",
+    "feedback_context": {
+      "all_failed_tests": [],
+      "current_checkpoint": 1,
+      "current_other_failures": [],
+      "failed_tests_by_bucket": {},
+      "failure_items": [],
+      "other_failures": [],
+      "policy_failures": [],
+      "regression_comparison_available": false,
+      "regression_new_failures": [],
+      "regression_persistent_failures": [],
+      "strategy_version": "current-first-v1"
+    },
+    "feedback_strategy": "current-first",
+    "fix": "rework",
+    "fixed": true,
+    "groups": {
+      "Core": {
+        "failed": 0,
+        "failed_tests": [],
+        "passed": 2,
+        "total": 2
+      },
+      "Error": {
+        "failed": 0,
+        "failed_tests": [],
+        "passed": 0,
+        "total": 0
+      },
+      "Functionality": {
+        "failed": 0,
+        "failed_tests": [],
+        "passed": 0,
+        "total": 0
+      },
+      "Regression": {
+        "failed": 0,
+        "failed_tests": [],
+        "passed": 0,
+        "total": 0
+      }
+    },
+    "harness": "baseline",
+    "infrastructure_failure": false,
+    "model": "omen-alpha",
+    "pass_counts": {
+      "Core": 2,
+      "Error": 0,
+      "Functionality": 0,
+      "Regression": 0
+    },
+    "paths": {
+      "checkpoint_dir": "/home/user/my/harness-benchmark/results/realworld-opencode-go-omenalpha-high-baseline-20260907/baseline/run_1/scb/realworld/checkpoint_1",
+      "run_dir": "/home/user/my/harness-benchmark/results/realworld-opencode-go-omenalpha-high-baseline-20260907/baseline/run_1",
+      "snapshot_dir": "/home/user/my/harness-benchmark/results/realworld-opencode-go-omenalpha-high-baseline-20260907/baseline/run_1/scb/realworld/checkpoint_1/snapshot"
+    },
+    "post_fix_score": "2/2",
+    "problem": "realworld",
+    "provider": "opencode_auth",
+    "provider_truncation_recovered": false,
+    "provider_truncation_unresolved": false,
+    "provider_truncations": 0,
+    "resumed": false,
+    "rework_input_tokens": 45322,
+    "rework_output_tokens": 5938,
+    "root_cause": null,
+    "run_index": 1,
+    "semantic_attempts_total": 3,
+    "source": "rework",
+    "thinking": "high",
+    "total_counts": {
+      "Core": 2,
+      "Error": 0,
+      "Functionality": 0,
+      "Regression": 0
+    },
+    "transient_retries": 0,
+    "usage": {
+      "cache_read_tokens": 134016,
+      "cache_write_tokens": 0,
+      "elapsed_seconds": 788.578952,
+      "input_tokens": 28402,
+      "output_tokens": 2548,
+      "reasoning_tokens": 9389,
+      "reported_cost_usd": 0.01891946,
+      "steps": 10
+    }
+  },
+  {
+    "agent": "opencode",
+    "agent_version": "1.14.33",
+    "arm": "baseline",
+    "attempts": [
+      {
+        "attempt": 1,
+        "cache_read_tokens": 198464,
+        "cache_write_tokens": 0,
+        "confidence": "none",
+        "core": {
+          "failed": 1,
+          "failed_tests": [
+            "test_create_article_full_contract_and_default_tags"
+          ],
+          "passed": 1,
+          "total": 2
+        },
+        "diagnostics": {
+          "confidence": "none",
+          "detected": false,
+          "failure_class": "none",
+          "finish_reason": "stop",
+          "message_count": 60,
+          "message_path": "/home/user/my/harness-benchmark/results/realworld-opencode-go-omenalpha-high-baseline-20260907/baseline/run_1/scb/realworld/checkpoint_5/agent/messages.jsonl",
+          "message_types": [
+            "step_start",
+            "reasoning",
+            "tool_use",
+            "tool_use",
+            "step_finish",
+            "step_start",
+            "tool_use",
+            "tool_use",
+            "tool_use",
+            "tool_use",
+            "tool_use",
+            "tool_use",
+            "step_finish",
+            "step_start",
+            "reasoning",
+            "tool_use",
+            "step_finish",
+            "step_start",
+            "reasoning",
+            "tool_use",
+            "text",
+            "step_finish",
+            "step_start",
+            "tool_use",
+            "step_finish",
+            "step_start",
+            "reasoning",
+            "tool_use",
+            "text",
+            "step_finish",
+            "step_start",
+            "tool_use",
+            "step_finish",
+            "step_start",
+            "reasoning",
+            "text",
+            "tool_use",
+            "step_finish",
+            "step_start",
+            "tool_use",
+            "step_finish",
+            "step_start",
+            "tool_use",
+            "text",
+            "step_finish",
+            "step_start",
+            "reasoning",
+            "tool_use",
+            "step_finish",
+            "step_start",
+            "reasoning",
+            "tool_use",
+            "step_finish",
+            "step_start",
+            "tool_use",
+            "step_finish",
+            "step_start",
+            "reasoning",
+            "text",
+            "step_finish"
+          ],
+          "output_threshold": 500,
+          "output_tokens": 3727,
+          "parse_errors": 0,
+          "signals": {
+            "no_explicit_error": true,
+            "no_explicit_error_or_limit": true,
+            "no_explicit_limit": true,
+            "no_infrastructure_failure": true,
+            "output_below_threshold": false,
+            "preceding_reasoning": true,
+            "unknown_finish": false
+          },
+          "steps": 14
+        },
+        "duration": 11.948679685592651,
+        "elapsed_seconds": 192.493147,
+        "failed_tests": [
+          "test_create_article_full_contract_and_default_tags"
+        ],
+        "failed_tests_by_group": {
+          "Core": [
+            "test_create_article_full_contract_and_default_tags"
+          ]
+        },
+        "failure_class": "none",
+        "feedback_context": {
+          "all_failed_tests": [
+            "test_create_article_full_contract_and_default_tags"
+          ],
+          "current_checkpoint": 5,
+          "current_other_failures": [],
+          "failed_tests_by_bucket": {
+            "checkpoint_5-Core": [
+              "test_create_article_full_contract_and_default_tags"
+            ]
+          },
+          "failure_items": [
+            {
+              "bucket": "checkpoint_5-Core",
+              "group": "Core",
+              "name": "test_create_article_full_contract_and_default_tags",
+              "source_checkpoint": 5
+            }
+          ],
+          "other_failures": [],
+          "policy_failures": [
+            "test_create_article_full_contract_and_default_tags"
+          ],
+          "regression_comparison_available": true,
+          "regression_new_failures": [],
+          "regression_persistent_failures": [],
+          "strategy_version": "current-first-v1"
+        },
+        "feedback_metadata": {
+          "limits": {
+            "context_failures": 5,
+            "policy_failures": 20
+          },
+          "omitted_counts": {
+            "current_other_failures": 0,
+            "other_failures": 0,
+            "policy_failures": 0,
+            "regression_new_failures": 0,
+            "regression_persistent_failures": 0
+          },
+          "regression_comparison_available": true,
+          "shown_counts": {
+            "current_other_failures": 0,
+            "other_failures": 0,
+            "policy_failures": 1,
+            "regression_new_failures": 0,
+            "regression_persistent_failures": 0
+          },
+          "strategy": "current-first",
+          "strategy_version": "current-first-v1"
+        },
+        "feedback_strategy": "current-first",
+        "groups": {
+          "Core": {
+            "failed": 1,
+            "failed_tests": [
+              "test_create_article_full_contract_and_default_tags"
+            ],
+            "passed": 1,
+            "total": 2
+          },
+          "Error": {
+            "failed": 0,
+            "failed_tests": [],
+            "passed": 0,
+            "total": 0
+          },
+          "Functionality": {
+            "failed": 0,
+            "failed_tests": [],
+            "passed": 0,
+            "total": 0
+          },
+          "Regression": {
+            "failed": 0,
+            "failed_tests": [],
+            "passed": 0,
+            "total": 0
+          }
+        },
+        "infrastructure_failure": false,
+        "input_tokens": 25999,
+        "message_path": "/home/user/my/harness-benchmark/results/realworld-opencode-go-omenalpha-high-baseline-20260907/baseline/run_1/scb/realworld/checkpoint_5/agent/messages.jsonl",
+        "output_tokens": 3727,
+        "pass_counts": {
+          "Core": 1,
+          "Error": 0,
+          "Functionality": 0,
+          "Regression": 0
+        },
+        "passed_policy": false,
+        "reasoning_tokens": 2645,
+        "reported_cost_usd": 0.01734388,
+        "signals": {
+          "no_explicit_error": true,
+          "no_explicit_error_or_limit": true,
+          "no_explicit_limit": true,
+          "no_infrastructure_failure": true,
+          "output_below_threshold": false,
+          "preceding_reasoning": true,
+          "unknown_finish": false
+        },
+        "stage": "creation",
+        "steps": 14,
+        "total_counts": {
+          "Core": 2,
+          "Error": 0,
+          "Functionality": 0,
+          "Regression": 0
+        },
+        "truncation_output_threshold": 500,
+        "usage": {
+          "cache_read_tokens": 198464,
+          "cache_write_tokens": 0,
+          "elapsed_seconds": 192.493147,
+          "input_tokens": 25999,
+          "output_tokens": 3727,
+          "reasoning_tokens": 2645,
+          "reported_cost_usd": 0.01734388,
+          "steps": 14
+        }
+      },
+      {
+        "attempt": 2,
+        "cache_read_tokens": 160832,
+        "cache_write_tokens": 0,
+        "confidence": "none",
+        "core": {
+          "failed": 0,
+          "failed_tests": [],
+          "passed": 2,
+          "total": 2
+        },
+        "diagnostics": {
+          "confidence": "none",
+          "detected": false,
+          "failure_class": "none",
+          "finish_reason": "stop",
+          "message_count": 49,
+          "message_path": "/home/user/my/harness-benchmark/results/realworld-opencode-go-omenalpha-high-baseline-20260907/baseline/run_1/scb/realworld/checkpoint_5/agent/messages.jsonl",
+          "message_types": [
+            "step_start",
+            "reasoning",
+            "tool_use",
+            "tool_use",
+            "step_finish",
+            "step_start",
+            "tool_use",
+            "tool_use",
+            "tool_use",
+            "tool_use",
+            "tool_use",
+            "tool_use",
+            "step_finish",
+            "step_start",
+            "reasoning",
+            "tool_use",
+            "step_finish",
+            "step_start",
+            "reasoning",
+            "tool_use",
+            "step_finish",
+            "step_start",
+            "tool_use",
+            "step_finish",
+            "step_start",
+            "reasoning",
+            "tool_use",
+            "step_finish",
+            "step_start",
+            "reasoning",
+            "text",
+            "tool_use",
+            "step_finish",
+            "step_start",
+            "tool_use",
+            "step_finish",
+            "step_start",
+            "reasoning",
+            "tool_use",
+            "text",
+            "step_finish",
+            "step_start",
+            "reasoning",
+            "tool_use",
+            "step_finish",
+            "step_start",
+            "reasoning",
+            "text",
+            "step_finish"
+          ],
+          "output_threshold": 500,
+          "output_tokens": 2859,
+          "parse_errors": 0,
+          "signals": {
+            "no_explicit_error": true,
+            "no_explicit_error_or_limit": true,
+            "no_explicit_limit": true,
+            "no_infrastructure_failure": true,
+            "output_below_threshold": false,
+            "preceding_reasoning": true,
+            "unknown_finish": false
+          },
+          "steps": 11
+        },
+        "duration": 12.372341394424438,
+        "elapsed_seconds": 227.679696,
+        "failed_tests": [],
+        "failed_tests_by_group": {},
+        "failure_class": "none",
+        "feedback_context": {
+          "all_failed_tests": [],
+          "current_checkpoint": 5,
+          "current_other_failures": [],
+          "failed_tests_by_bucket": {},
+          "failure_items": [],
+          "other_failures": [],
+          "policy_failures": [],
+          "regression_comparison_available": true,
+          "regression_new_failures": [],
+          "regression_persistent_failures": [],
+          "strategy_version": "current-first-v1"
+        },
+        "feedback_metadata": {
+          "limits": {
+            "context_failures": 5,
+            "policy_failures": 20
+          },
+          "omitted_counts": {
+            "current_other_failures": 0,
+            "other_failures": 0,
+            "policy_failures": 0,
+            "regression_new_failures": 0,
+            "regression_persistent_failures": 0
+          },
+          "regression_comparison_available": true,
+          "shown_counts": {
+            "current_other_failures": 0,
+            "other_failures": 0,
+            "policy_failures": 0,
+            "regression_new_failures": 0,
+            "regression_persistent_failures": 0
+          },
+          "strategy": "current-first",
+          "strategy_version": "current-first-v1"
+        },
+        "feedback_strategy": "current-first",
+        "groups": {
+          "Core": {
+            "failed": 0,
+            "failed_tests": [],
+            "passed": 2,
+            "total": 2
+          },
+          "Error": {
+            "failed": 0,
+            "failed_tests": [],
+            "passed": 0,
+            "total": 0
+          },
+          "Functionality": {
+            "failed": 0,
+            "failed_tests": [],
+            "passed": 0,
+            "total": 0
+          },
+          "Regression": {
+            "failed": 0,
+            "failed_tests": [],
+            "passed": 0,
+            "total": 0
+          }
+        },
+        "infrastructure_failure": false,
+        "input_tokens": 27859,
+        "message_path": "/home/user/my/harness-benchmark/results/realworld-opencode-go-omenalpha-high-baseline-20260907/baseline/run_1/scb/realworld/checkpoint_5/agent/messages.jsonl",
+        "output_tokens": 2859,
+        "pass_counts": {
+          "Core": 2,
+          "Error": 0,
+          "Functionality": 0,
+          "Regression": 0
+        },
+        "passed_policy": true,
+        "reasoning_tokens": 3761,
+        "reported_cost_usd": 0.016374279999999998,
+        "signals": {
+          "no_explicit_error": true,
+          "no_explicit_error_or_limit": true,
+          "no_explicit_limit": true,
+          "no_infrastructure_failure": true,
+          "output_below_threshold": false,
+          "preceding_reasoning": true,
+          "unknown_finish": false
+        },
+        "stage": "rework",
+        "steps": 11,
+        "total_counts": {
+          "Core": 2,
+          "Error": 0,
+          "Functionality": 0,
+          "Regression": 0
+        },
+        "truncation_output_threshold": 500,
+        "usage": {
+          "cache_read_tokens": 160832,
+          "cache_write_tokens": 0,
+          "elapsed_seconds": 227.679696,
+          "input_tokens": 27859,
+          "output_tokens": 2859,
+          "reasoning_tokens": 3761,
+          "reported_cost_usd": 0.016374279999999998,
+          "steps": 11
+        }
+      }
+    ],
+    "attempts_total": 2,
+    "checkpoint": "checkpoint_5",
+    "core": {
+      "failed": 0,
+      "failed_tests": [],
+      "passed": 2,
+      "total": 2
+    },
+    "creation_input_tokens": 25999,
+    "creation_output_tokens": 3727,
+    "date": "2026-09-07T16:30:51.443319+00:00",
+    "diagnostics": {
+      "confidence": "none",
+      "detected": false,
+      "failure_class": "none",
+      "finish_reason": "stop",
+      "message_count": 49,
+      "message_path": "/home/user/my/harness-benchmark/results/realworld-opencode-go-omenalpha-high-baseline-20260907/baseline/run_1/scb/realworld/checkpoint_5/agent/messages.jsonl",
+      "message_types": [
+        "step_start",
+        "reasoning",
+        "tool_use",
+        "tool_use",
+        "step_finish",
+        "step_start",
+        "tool_use",
+        "tool_use",
+        "tool_use",
+        "tool_use",
+        "tool_use",
+        "tool_use",
+        "step_finish",
+        "step_start",
+        "reasoning",
+        "tool_use",
+        "step_finish",
+        "step_start",
+        "reasoning",
+        "tool_use",
+        "step_finish",
+        "step_start",
+        "tool_use",
+        "step_finish",
+        "step_start",
+        "reasoning",
+        "tool_use",
+        "step_finish",
+        "step_start",
+        "reasoning",
+        "text",
+        "tool_use",
+        "step_finish",
+        "step_start",
+        "tool_use",
+        "step_finish",
+        "step_start",
+        "reasoning",
+        "tool_use",
+        "text",
+        "step_finish",
+        "step_start",
+        "reasoning",
+        "tool_use",
+        "step_finish",
+        "step_start",
+        "reasoning",
+        "text",
+        "step_finish"
+      ],
+      "output_threshold": 500,
+      "output_tokens": 2859,
+      "parse_errors": 0,
+      "signals": {
+        "no_explicit_error": true,
+        "no_explicit_error_or_limit": true,
+        "no_explicit_limit": true,
+        "no_infrastructure_failure": true,
+        "output_below_threshold": false,
+        "preceding_reasoning": true,
+        "unknown_finish": false
+      },
+      "steps": 11
+    },
+    "experiment_id": "realworld-opencode-go-omenalpha-high-baseline-20260907",
+    "failed_tests": [],
+    "failed_tests_by_group": {},
+    "failure_class": "none",
+    "feedback_context": {
+      "all_failed_tests": [],
+      "current_checkpoint": 5,
+      "current_other_failures": [],
+      "failed_tests_by_bucket": {},
+      "failure_items": [],
+      "other_failures": [],
+      "policy_failures": [],
+      "regression_comparison_available": true,
+      "regression_new_failures": [],
+      "regression_persistent_failures": [],
+      "strategy_version": "current-first-v1"
+    },
+    "feedback_strategy": "current-first",
+    "fix": "rework",
+    "fixed": true,
+    "groups": {
+      "Core": {
+        "failed": 0,
+        "failed_tests": [],
+        "passed": 2,
+        "total": 2
+      },
+      "Error": {
+        "failed": 0,
+        "failed_tests": [],
+        "passed": 0,
+        "total": 0
+      },
+      "Functionality": {
+        "failed": 0,
+        "failed_tests": [],
+        "passed": 0,
+        "total": 0
+      },
+      "Regression": {
+        "failed": 0,
+        "failed_tests": [],
+        "passed": 0,
+        "total": 0
+      }
+    },
+    "harness": "baseline",
+    "infrastructure_failure": false,
+    "model": "omen-alpha",
+    "pass_counts": {
+      "Core": 2,
+      "Error": 0,
+      "Functionality": 0,
+      "Regression": 0
+    },
+    "paths": {
+      "checkpoint_dir": "/home/user/my/harness-benchmark/results/realworld-opencode-go-omenalpha-high-baseline-20260907/baseline/run_1/scb/realworld/checkpoint_5",
+      "run_dir": "/home/user/my/harness-benchmark/results/realworld-opencode-go-omenalpha-high-baseline-20260907/baseline/run_1",
+      "snapshot_dir": "/home/user/my/harness-benchmark/results/realworld-opencode-go-omenalpha-high-baseline-20260907/baseline/run_1/scb/realworld/checkpoint_5/snapshot"
+    },
+    "post_fix_score": "2/2",
+    "problem": "realworld",
+    "provider": "opencode_auth",
+    "provider_truncation_recovered": false,
+    "provider_truncation_unresolved": false,
+    "provider_truncations": 0,
+    "resumed": false,
+    "rework_input_tokens": 27859,
+    "rework_output_tokens": 2859,
+    "root_cause": null,
+    "run_index": 1,
+    "semantic_attempts_total": 2,
+    "source": "rework",
+    "thinking": "high",
+    "total_counts": {
+      "Core": 2,
+      "Error": 0,
+      "Functionality": 0,
+      "Regression": 0
+    },
+    "transient_retries": 0,
+    "usage": {
+      "cache_read_tokens": 160832,
+      "cache_write_tokens": 0,
+      "elapsed_seconds": 227.679696,
+      "input_tokens": 27859,
+      "output_tokens": 2859,
+      "reasoning_tokens": 3761,
+      "reported_cost_usd": 0.016374279999999998,
+      "steps": 11
+    }
   }
 ]
