@@ -1,0 +1,6 @@
+experiment_id=realworld-opencode-go-dsflash-high-baseline-20260910 arm=baseline 
+runs=1 jobs=1 agent=opencode provider=opencode_auth model=deepseek-v4-flash 
+thinking=high transient_retries=(state.json) feedback_strategy=(state.json)
+Completed 1 runs → 
+/home/user/my/harness-benchmark/results/realworld-opencode-go-dsflash-high-basel
+ine-20260910/baseline

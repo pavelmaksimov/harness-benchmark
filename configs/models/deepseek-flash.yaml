@@ -1,0 +1,26 @@
+# DeepSeek V4.1 Flash via opencode-go.
+# Official OpenCode Go model id: opencode-go/deepseek-flash.
+internal_name: deepseek-flash
+provider: opencode_auth
+pricing:
+  input: 0
+  output: 0
+  cache_read: 0
+  cache_write: 0
+aliases:
+  - deepseek-v4.1-flash
+agent_specific:
+  opencode:
+    provider_name: opencode-go
+    config:
+      provider:
+        opencode-go:
+          models:
+            deepseek-flash:
+              variants:
+                low:
+                  reasoningEffort: low
+                high:
+                  reasoningEffort: high
+                max:
+                  reasoningEffort: max
