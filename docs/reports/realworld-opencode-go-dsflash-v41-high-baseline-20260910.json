@@ -83,7 +83,7 @@
     "slop_code_bench": "06b5c0687d4c05ee502e9696a4d0c22fc1eec5e0"
   },
   "incomplete_runs": {},
-  "model": "deepseek-flash",
+  "model": "deepseek-flash-v4.1",
   "n_baseline": 1,
   "n_ponytail": 0,
   "ponytail": null,

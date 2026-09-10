@@ -1,6 +1,6 @@
-id: opencode-go-deepseek-v41-flash-high
+id: opencode-go-deepseek-flash-v41-high
 description: OpenCode Go DeepSeek V4.1 Flash at high reasoning.
 agent: opencode
 provider: opencode_auth
-model: deepseek-flash
+model: deepseek-flash-v4.1
 thinking: high

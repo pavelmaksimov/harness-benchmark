@@ -147,7 +147,7 @@ def test_leaderboard_shows_total_tokens_without_stage_or_cache_columns() -> None
     assert (
         "| Problem | Agent | Thinking | Harness | N | CP | Failed CP | Repeated | Reg | Input tokens | " in text
     )
-    assert "| 1,234 | 567 | 789 | 6 | $0.00 |" in text
+    assert "| 3,579 | 1,356 | 789 | 6 | $0.00 |" in text
     assert "## Metric leaderboards" in text
     assert "### CP passed/total" in text
     assert "### Python modules" in text
@@ -170,7 +170,36 @@ def test_leaderboard_shows_total_tokens_without_stage_or_cache_columns() -> None
         assert retired not in text
     assert "### Rework input tokens" in text
     assert "### Rework output tokens" in text
-    assert "### All input tokens" in text
+    assert "### Input tokens" in text
+    assert "### Output tokens" in text
+
+
+def test_leaderboard_keeps_inclusive_agent_token_counters() -> None:
+    payload = {
+        "date": "2026-09-01T10:00:00Z",
+        "experiment_id": "exp-codex",
+        "problem": "realworld",
+        "agent": "codex",
+        "provider": "codex_auth",
+        "model": "model-y",
+        "arms": {
+            "baseline": {
+                "checkpoints_passed": 1,
+                "checkpoints_total": 1,
+                "total_input_tokens": 1000,
+                "total_output_tokens": 400,
+                "cache_read_tokens": 900,
+                "reasoning_tokens": 100,
+            }
+        },
+        "n_baseline": 1,
+    }
+
+    text = format_leaderboard([payload])
+
+    assert "| 1,000 | 400 | 100 |" in text
+    assert "| 1,900 |" not in text
+    assert "| 500 |" not in text
 
 
 def test_aggregate_cells_splits_same_cell_by_thinking() -> None:

@@ -5,6 +5,7 @@ from pathlib import Path
 from typing import Any
 
 from benchmark.arms import DEFAULT_EXPERIMENT_ARMS
+from benchmark.cost import completion_tokens, prompt_tokens
 from benchmark.paths import DOCS_DIR, DOCS_REPORTS_DIR
 
 METRIC_KEYS = (
@@ -79,8 +80,8 @@ METRIC_LEADERBOARDS = (
     ("rework_input_tokens", "Rework input tokens", "Lower is better. Input tokens used by semantic rework attempts."),
     ("rework_output_tokens", "Rework output tokens", "Lower is better. Output tokens used by semantic rework attempts."),
     ("reasoning_tokens", "Reasoning tokens", "Lower is better. Reasoning tokens reported by the provider across checkpoints."),
-    ("total_input_tokens", "All input tokens", "Lower is better. Total input tokens across checkpoints, including rework and retries."),
-    ("total_output_tokens", "All output tokens", "Lower is better. Total output tokens across checkpoints, including rework."),
+    ("total_input_tokens", "Input tokens", "Lower is better. Prompt tokens across checkpoints, cached reads included."),
+    ("total_output_tokens", "Output tokens", "Lower is better. Completion tokens across checkpoints, reasoning included."),
     ("transient_input_tokens", "Transient input tokens", "Lower is better. Input tokens used by transient retry attempts."),
     ("transient_output_tokens", "Transient output tokens", "Lower is better. Output tokens used by transient retry attempts."),
     ("llm_requests", "LLM requests", "Lower is better. Sum of SCB agent steps (LLM requests) across checkpoints."),
@@ -496,7 +497,20 @@ def _aggregate_cells(payloads: list[dict[str, Any]]) -> list[dict[str, Any]]:
                     + numeric_value * n
                 ) / (weight + n)
                 metric_weights[key][metric] = weight + n
-    return list(cells_by_key.values())
+    cells = list(cells_by_key.values())
+    for cell in cells:
+        metrics = cell["metrics"]
+        metrics["total_input_tokens"] = prompt_tokens(
+            agent=cell["agent"],
+            input_tokens=metrics.get("total_input_tokens"),
+            cache_read_tokens=metrics.get("cache_read_tokens"),
+        )
+        metrics["total_output_tokens"] = completion_tokens(
+            agent=cell["agent"],
+            output_tokens=metrics.get("total_output_tokens"),
+            reasoning_tokens=metrics.get("reasoning_tokens"),
+        )
+    return cells
 
 
 def _section_order(values: list[str], latest_date_by_value: dict[str, str]) -> list[str]:
@@ -612,8 +626,8 @@ def format_leaderboard(payloads: list[dict[str, Any]]) -> str:
         "for the same `(problem, adapter, provider, model, thinking)` cell.",
         "",
         "Published from `docs/reports/*.json`. Rebuilt by `python -m benchmark report`.",
-        "Token columns are totals across all attempts (input, output, reasoning);",
-        "per-stage splits (create/rework/transient) live in the metric leaderboards and short reports.",
+        "Input/Output tokens are prompt and completion totals across all attempts on one scale:",
+        "cache reads are folded into input and reasoning into output, which OpenCode reports separately.",
         "`-` means a metric is unavailable.",
         "Failed CP counts checkpoints that failed at least once, including repaired ones.",
         "",

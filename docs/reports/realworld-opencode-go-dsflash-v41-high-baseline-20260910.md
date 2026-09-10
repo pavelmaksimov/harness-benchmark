@@ -3,7 +3,7 @@
 | | |
 |---|---|
 | Problem | `realworld` |
-| Model | `deepseek-flash` · thinking `high` |
+| Model | `deepseek-flash-v4.1` · thinking `high` |
 | Agent | opencode · provider `opencode_auth` · `1.14.33` |
 | N | baseline=1 |
 | Pins | SCB / problems / harness pins — see published JSON / local manifest |

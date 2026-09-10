@@ -13,6 +13,45 @@ def load_pricing(path: Path) -> dict[str, Any]:
     return data
 
 
+# Adapters whose usage counters are disjoint (see vendor SCB agent adapters):
+# OpenCode reports fresh input, cache reads, output and reasoning as separate counters
+# (agents/opencode/agent.py), while the Codex and pi adapters store prompt tokens already
+# including cache reads (agents/pi/agent.py: input += cacheRead; agents/gemini/agent.py
+# does the same) and OpenAI-style output tokens already including reasoning.
+DISJOINT_COUNTER_AGENTS = frozenset({"opencode"})
+
+
+def prompt_tokens(
+    *,
+    agent: str | None,
+    input_tokens: float | None,
+    cache_read_tokens: float | None,
+) -> float | None:
+    """Prompt tokens on one scale across adapters: cached reads folded into input.
+
+    Returns None when the input count itself is unknown.
+    """
+    if input_tokens is None:
+        return None
+    if agent in DISJOINT_COUNTER_AGENTS:
+        return input_tokens + (cache_read_tokens or 0)
+    return input_tokens
+
+
+def completion_tokens(
+    *,
+    agent: str | None,
+    output_tokens: float | None,
+    reasoning_tokens: float | None,
+) -> float | None:
+    """Completion tokens on one scale across adapters: reasoning folded into output."""
+    if output_tokens is None:
+        return None
+    if agent in DISJOINT_COUNTER_AGENTS:
+        return output_tokens + (reasoning_tokens or 0)
+    return output_tokens
+
+
 def normalized_cost_usd(
     *,
     model: str,

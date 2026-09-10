@@ -1,6 +1,6 @@
 import pytest
 
-from benchmark.cost import normalized_cost_usd
+from benchmark.cost import completion_tokens, normalized_cost_usd, prompt_tokens
 
 
 def test_normalized_cost_supports_disjoint_opencode_usage() -> None:
@@ -55,3 +55,16 @@ def test_normalized_cost_preserves_inclusive_provider_defaults() -> None:
     )
 
     assert cost == pytest.approx(3.82)
+
+
+def test_prompt_tokens_folds_disjoint_opencode_counters_only() -> None:
+    assert prompt_tokens(agent="opencode", input_tokens=1000, cache_read_tokens=2345) == 3345
+    assert prompt_tokens(agent="codex", input_tokens=1000, cache_read_tokens=900) == 1000
+    assert prompt_tokens(agent="opencode", input_tokens=1000, cache_read_tokens=None) == 1000
+    assert prompt_tokens(agent="opencode", input_tokens=None, cache_read_tokens=2345) is None
+
+
+def test_completion_tokens_folds_disjoint_reasoning_only() -> None:
+    assert completion_tokens(agent="opencode", output_tokens=567, reasoning_tokens=789) == 1356
+    assert completion_tokens(agent="codex", output_tokens=567, reasoning_tokens=789) == 567
+    assert completion_tokens(agent="opencode", output_tokens=None, reasoning_tokens=789) is None
