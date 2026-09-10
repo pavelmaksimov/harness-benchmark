@@ -4,8 +4,8 @@ No single score. Absolute metrics only. Δ vs baseline is only in short reports
 for the same `(problem, adapter, provider, model, thinking)` cell.
 
 Published from `docs/reports/*.json`. Rebuilt by `python -m benchmark report`.
-Token columns are totals across all attempts (input, output, reasoning);
-per-stage splits (create/rework/transient) live in the metric leaderboards and short reports.
+Input/Output tokens are prompt and completion totals across all attempts on one scale:
+cache reads are folded into input and reasoning into output, which OpenCode reports separately.
 `-` means a metric is unavailable.
 Failed CP counts checkpoints that failed at least once, including repaired ones.
 
@@ -15,82 +15,82 @@ Failed CP counts checkpoints that failed at least once, including repaired ones.
 
 | Agent | Model | Thinking | Harness | N | CP | Failed CP | Repeated | Reg | Input tokens | Output tokens | Reasoning | LLM requests | Cost | Time | LOC | Py modules | ΔLOC | Deps | Cx |
 |-------|-------|----------|---------|---:|---:|----------:|----------:|----:|-------------:|--------------:|----------:|-------------:|-----:|-----:|----:|----------:|-----:|---:|---:|
-| opencode | deepseek-flash | high | baseline | 1 | 14/14 | 1 | 1 | 0 | 339,704 | 56,221 | 46,081 | 270 | $0.00 | 20.8m | 1122 | 13 | 1320 | 5 | 202 |
-| opencode | deepseek-v4-flash | high | baseline | 1 | 14/14 | 1 | 1 | 0 | 392,075 | 78,217 | 69,085 | 208 | $0.00 | 37.3m | 1631 | 6 | 1627 | 8 | 407 |
-| opencode | deepseek-v4-flash | max | baseline | 1 | 14/14 | 1 | 1 | 0 | 643,445 | 95,762 | 74,460 | 252 | $0.00 | 39.9m | 1811 | 16 | 1904 | 5 | 514 |
-| opencode | glm-5.3-flash | high | baseline | 1 | 14/14 | 1 | 1 | 0 | 384,355 | 65,725 | 56,413 | 281 | $0.00 | 85.2m | 1324 | 14 | 1535 | 4 | 242 |
+| opencode | deepseek-flash-v4.1 | high | baseline | 1 | 14/14 | 1 | 1 | 0 | 6,222,456 | 102,302 | 46,081 | 270 | $0.00 | 20.8m | 1122 | 13 | 1320 | 5 | 202 |
+| opencode | deepseek-v4-flash | high | baseline | 1 | 14/14 | 1 | 1 | 0 | 4,677,899 | 147,302 | 69,085 | 208 | $0.00 | 37.3m | 1631 | 6 | 1627 | 8 | 407 |
+| opencode | deepseek-v4-flash | max | baseline | 1 | 14/14 | 1 | 1 | 0 | 6,614,517 | 170,222 | 74,460 | 252 | $0.00 | 39.9m | 1811 | 16 | 1904 | 5 | 514 |
+| opencode | glm-5.3-flash | high | baseline | 1 | 14/14 | 1 | 1 | 0 | 5,381,091 | 122,138 | 56,413 | 281 | $0.00 | 85.2m | 1324 | 14 | 1535 | 4 | 242 |
 | codex | gpt-5.6-luna | max | baseline | 1 | 14/14 | 1 | 1 | 0 | 5,826,534 | 145,133 | 80,615 | 355 | $2.79 | 53.8m | 1093 | 7 | 1306 | 5 | 184 |
-| opencode | muse-spark-1.2-contributor | medium | baseline | 1 | 14/14 | 0 | 0 | 0 | 580,285 | 85,495 | 48,686 | 266 | $0.00 | 51.6m | 1502 | 2 | 1929 | 6 | 458 |
-| opencode | muse-spark-1.3-contributor | medium | baseline | 1 | 14/14 | 0 | 0 | 0 | 376,686 | 52,362 | 27,421 | 170 | $0.00 | 25.1m | 1632 | 2 | 2104 | 6 | 487 |
-| opencode | omen-alpha | high | baseline | 1 | 14/14 | 2 | 3 | 0 | 528,103 | 53,046 | 26,581 | 232 | $0.00 | 51.2m | 1188 | 7 | 1112 | 22 | 190 |
-| opencode | x-preview-f-free | high | baseline | 3 | 14/14 | 1.3 | 1.7 | 0 | 293,733 | 45,486 | 8,932 | 196 | $0.00 | 58.1m | 1041 | 5 | 1239 | 10.7 | 212.7 |
-| opencode | x-preview-f-free | high | benjamin-plus-skill | 2 | 14/14 | 1 | 1 | 0 | 376,088 | 38,632 | 7,262 | 156 | $0.00 | 45.1m | 859 | 3 | 3278.5 | 11.5 | 198.5 |
-| opencode | x-preview-f-free | high | combo-supermemory-graphify | 2 | 14/14 | 2 | 2.5 | 0 | 427,378 | 63,581 | 7,752 | 286 | $0.00 | 75.3m | 1094 | 6.5 | 1064.5 | 6 | 228 |
-| opencode | x-preview-f-free | high | combo-supermemory-graphify-ponytail-thermo-nuclear-code-quality-review | 2 | 14/14 | 1 | 1 | 0 | 304,423 | 45,890 | 7,245 | 229 | $0.00 | 54.6m | 918 | 5.5 | 1046 | 5 | 248 |
-| opencode | x-preview-f-free | high | combo-supermemory-graphify-ponytail-thermo-nuclear-code-quality-review-doorstop-tdd | 1 | 13/14 | 3 | 6 | 0 | 1,016,154 | 99,409 | 20,436 | 509 | $0.00 | 161.6m | 1861 | 16 | 1832 | 4 | 653 |
-| opencode | x-preview-f-free | high | combo-supermemory-graphify-ponytail-thermo-nuclear-code-quality-review-tdd | 2 | 14/14 | 1.5 | 1.5 | 0 | 422,227 | 50,249 | 6,599 | 244 | $0.00 | 58.9m | 1745 | 16.5 | 2001 | 6 | 621 |
-| opencode | x-preview-f-free | high | doorstop | 2 | 14/14 | 1.5 | 2 | 0 | 368,711 | 61,858 | 6,264 | 352 | $0.00 | 72.5m | 1425 | 11.5 | 1673 | 5.5 | 377.5 |
-| opencode | x-preview-f-free | high | graphify | 2 | 14/14 | 1 | 1 | 0 | 544,445 | 53,665 | 5,434 | 243 | $0.00 | 69.8m | 933 | 12 | 1171.5 | 5.5 | 178.5 |
-| opencode | x-preview-f-free | high | ponytail | 2 | 13.5/14 | 2 | 3 | 0 | 278,688 | 29,696 | 2,702 | 144 | $0.00 | 31.1m | 612 | 2.5 | 618 | 15 | 143 |
-| opencode | x-preview-f-free | high | python-harness | 1 | 14/14 | 2 | 3 | 0 | 870,305 | 108,024 | 17,223 | 440 | $0.00 | 95.8m | 3357 | 49 | 9125 | 10 | 968 |
-| opencode | x-preview-f-free | high | python-harness+ponytail+tdd+graphify+benjamin-plus-skill+reclaim-code-entropy | 1 | 14/14 | 1 | 1 | 0 | 327,829 | 42,056 | 6,640 | 195 | $0.00 | 43.9m | 1841 | 19 | 11422 | 7 | 552 |
-| opencode | x-preview-f-free | high | python-harness-v1.2.3 | 2 | 13/14 | 2.5 | 4 | 0 | 1,225,525 | 91,310 | 70,656 | 483 | $0.00 | 118.2m | 3581.5 | 44.5 | 3683.5 | 26.5 | 992.5 |
-| opencode | x-preview-f-free | high | python-harness-v1.2.3+ponytail+graphify+benjamin-plus-skill | 2 | 14/14 | 1 | 1.5 | 0 | 701,469 | 45,002 | 21,024 | 267 | $0.00 | 51.2m | 1404 | 24 | 1720.5 | 7.5 | 403 |
-| opencode | x-preview-f-free | high | python-harness-v1.2.3+ponytail+tdd+graphify+benjamin-plus-skill | 2 | 13.5/14 | 2 | 3 | 0 | 663,268 | 41,792 | 21,156 | 229 | $0.00 | 50.7m | 1841.5 | 19 | 1944 | 6.5 | 595.5 |
-| opencode | x-preview-f-free | high | python-harness-v1.3.0 | 2 | 14/14 | 1 | 1.5 | 0 | 719,320 | 77,816 | 38,972 | 393 | $0.00 | 102.0m | 3487 | 54.5 | 4000 | 10 | 941.5 |
-| opencode | x-preview-f-free | high | python-harness-v1.3.0+doorstop | 1 | 13/14 | 1 | 2 | 0 | 622,055 | 100,480 | 49,827 | 617 | $0.00 | 156.0m | 3612 | 54 | 4070 | 11 | 838 |
-| opencode | x-preview-f-free | high | python-harness-v1.3.0+graphify | 1 | 14/14 | 1 | 1 | 0 | 748,059 | 90,231 | 40,985 | 461 | $0.00 | 123.9m | 3047 | 49 | 3782 | 7 | 834 |
-| opencode | x-preview-f-free | high | python-harness-v1.3.0+strictdoc | 1 | 14/14 | 1 | 2 | 0 | 523,020 | 73,438 | 24,656 | 421 | $0.00 | 99.2m | 2654 | 24 | 3133 | 9 | 825 |
-| opencode | x-preview-f-free | high | reclaim-code-entropy | 2 | 14/14 | 1 | 1 | 0 | 438,210 | 46,428 | 14,196 | 222 | $0.00 | 49.5m | 1394 | 9 | 9221 | 6 | 332.5 |
-| opencode | x-preview-f-free | high | strictdoc | 2 | 14/14 | 2.5 | 4 | 0 | 415,252 | 61,442 | 5,399 | 298 | $0.00 | 65.1m | 870.5 | 12 | 1124.5 | 5.5 | 201 |
-| opencode | x-preview-f-free | high | supermemory | 2 | 14/14 | 1.5 | 2.5 | 0 | 396,536 | 57,895 | 5,744 | 252 | $0.00 | 47.3m | 1078.5 | 8.5 | 1153.5 | 14.5 | 207.5 |
-| opencode | x-preview-f-free | high | tdd | 2 | 14/14 | 2 | 2.5 | 0 | 304,128 | 44,328 | 3,764 | 226 | $0.00 | 43.5m | 2536.5 | 19 | 2797 | 18.5 | 748.5 |
-| opencode | x-preview-f-free | high | thermo-nuclear-code-quality-review | 2 | 9.5/14 | 6.5 | 15.5 | 0 | 430,492 | 75,330 | 17,510 | 306 | $0.00 | 83.5m | 693.5 | 9.5 | 505.5 | 6 | 116 |
+| opencode | muse-spark-1.2-contributor | medium | baseline | 1 | 14/14 | 0 | 0 | 0 | 6,803,246 | 134,181 | 48,686 | 266 | $0.00 | 51.6m | 1502 | 2 | 1929 | 6 | 458 |
+| opencode | muse-spark-1.3-contributor | medium | baseline | 1 | 14/14 | 0 | 0 | 0 | 3,260,611 | 79,783 | 27,421 | 170 | $0.00 | 25.1m | 1632 | 2 | 2104 | 6 | 487 |
+| opencode | omen-alpha | high | baseline | 1 | 14/14 | 2 | 3 | 0 | 3,713,575 | 79,627 | 26,581 | 232 | $0.00 | 51.2m | 1188 | 7 | 1112 | 22 | 190 |
+| opencode | x-preview-f-free | high | baseline | 3 | 14/14 | 1.3 | 1.7 | 0 | 2,900,005 | 54,418 | 8,932 | 196 | $0.00 | 58.1m | 1041 | 5 | 1239 | 10.7 | 212.7 |
+| opencode | x-preview-f-free | high | benjamin-plus-skill | 2 | 14/14 | 1 | 1 | 0 | 2,313,688 | 45,894 | 7,262 | 156 | $0.00 | 45.1m | 859 | 3 | 3278.5 | 11.5 | 198.5 |
+| opencode | x-preview-f-free | high | combo-supermemory-graphify | 2 | 14/14 | 2 | 2.5 | 0 | 6,177,074 | 71,334 | 7,752 | 286 | $0.00 | 75.3m | 1094 | 6.5 | 1064.5 | 6 | 228 |
+| opencode | x-preview-f-free | high | combo-supermemory-graphify-ponytail-thermo-nuclear-code-quality-review | 2 | 14/14 | 1 | 1 | 0 | 3,624,071 | 53,134 | 7,245 | 229 | $0.00 | 54.6m | 918 | 5.5 | 1046 | 5 | 248 |
+| opencode | x-preview-f-free | high | combo-supermemory-graphify-ponytail-thermo-nuclear-code-quality-review-doorstop-tdd | 1 | 13/14 | 3 | 6 | 0 | 14,649,626 | 119,845 | 20,436 | 509 | $0.00 | 161.6m | 1861 | 16 | 1832 | 4 | 653 |
+| opencode | x-preview-f-free | high | combo-supermemory-graphify-ponytail-thermo-nuclear-code-quality-review-tdd | 2 | 14/14 | 1.5 | 1.5 | 0 | 4,353,683 | 56,848 | 6,599 | 244 | $0.00 | 58.9m | 1745 | 16.5 | 2001 | 6 | 621 |
+| opencode | x-preview-f-free | high | doorstop | 2 | 14/14 | 1.5 | 2 | 0 | 6,111,847 | 68,122 | 6,264 | 352 | $0.00 | 72.5m | 1425 | 11.5 | 1673 | 5.5 | 377.5 |
+| opencode | x-preview-f-free | high | graphify | 2 | 14/14 | 1 | 1 | 0 | 5,231,453 | 59,099 | 5,434 | 243 | $0.00 | 69.8m | 933 | 12 | 1171.5 | 5.5 | 178.5 |
+| opencode | x-preview-f-free | high | ponytail | 2 | 13.5/14 | 2 | 3 | 0 | 1,866,208 | 32,398 | 2,702 | 144 | $0.00 | 31.1m | 612 | 2.5 | 618 | 15 | 143 |
+| opencode | x-preview-f-free | high | python-harness | 1 | 14/14 | 2 | 3 | 0 | 15,284,129 | 125,247 | 17,223 | 440 | $0.00 | 95.8m | 3357 | 49 | 9125 | 10 | 968 |
+| opencode | x-preview-f-free | high | python-harness+ponytail+tdd+graphify+benjamin-plus-skill+reclaim-code-entropy | 1 | 14/14 | 1 | 1 | 0 | 3,786,389 | 48,696 | 6,640 | 195 | $0.00 | 43.9m | 1841 | 19 | 11422 | 7 | 552 |
+| opencode | x-preview-f-free | high | python-harness-v1.2.3 | 2 | 13/14 | 2.5 | 4 | 0 | 18,584,117 | 161,967 | 70,656 | 483 | $0.00 | 118.2m | 3581.5 | 44.5 | 3683.5 | 26.5 | 992.5 |
+| opencode | x-preview-f-free | high | python-harness-v1.2.3+ponytail+graphify+benjamin-plus-skill | 2 | 14/14 | 1 | 1.5 | 0 | 5,861,789 | 66,026 | 21,024 | 267 | $0.00 | 51.2m | 1404 | 24 | 1720.5 | 7.5 | 403 |
+| opencode | x-preview-f-free | high | python-harness-v1.2.3+ponytail+tdd+graphify+benjamin-plus-skill | 2 | 13.5/14 | 2 | 3 | 0 | 5,192,132 | 62,948 | 21,156 | 229 | $0.00 | 50.7m | 1841.5 | 19 | 1944 | 6.5 | 595.5 |
+| opencode | x-preview-f-free | high | python-harness-v1.3.0 | 2 | 14/14 | 1 | 1.5 | 0 | 14,339,992 | 116,788 | 38,972 | 393 | $0.00 | 102.0m | 3487 | 54.5 | 4000 | 10 | 941.5 |
+| opencode | x-preview-f-free | high | python-harness-v1.3.0+doorstop | 1 | 13/14 | 1 | 2 | 0 | 16,906,855 | 150,307 | 49,827 | 617 | $0.00 | 156.0m | 3612 | 54 | 4070 | 11 | 838 |
+| opencode | x-preview-f-free | high | python-harness-v1.3.0+graphify | 1 | 14/14 | 1 | 1 | 0 | 16,701,979 | 131,216 | 40,985 | 461 | $0.00 | 123.9m | 3047 | 49 | 3782 | 7 | 834 |
+| opencode | x-preview-f-free | high | python-harness-v1.3.0+strictdoc | 1 | 14/14 | 1 | 2 | 0 | 10,443,660 | 98,094 | 24,656 | 421 | $0.00 | 99.2m | 2654 | 24 | 3133 | 9 | 825 |
+| opencode | x-preview-f-free | high | reclaim-code-entropy | 2 | 14/14 | 1 | 1 | 0 | 3,619,170 | 60,625 | 14,196 | 222 | $0.00 | 49.5m | 1394 | 9 | 9221 | 6 | 332.5 |
+| opencode | x-preview-f-free | high | strictdoc | 2 | 14/14 | 2.5 | 4 | 0 | 6,201,588 | 66,840 | 5,399 | 298 | $0.00 | 65.1m | 870.5 | 12 | 1124.5 | 5.5 | 201 |
+| opencode | x-preview-f-free | high | supermemory | 2 | 14/14 | 1.5 | 2.5 | 0 | 3,764,984 | 63,640 | 5,744 | 252 | $0.00 | 47.3m | 1078.5 | 8.5 | 1153.5 | 14.5 | 207.5 |
+| opencode | x-preview-f-free | high | tdd | 2 | 14/14 | 2 | 2.5 | 0 | 3,491,264 | 48,091 | 3,764 | 226 | $0.00 | 43.5m | 2536.5 | 19 | 2797 | 18.5 | 748.5 |
+| opencode | x-preview-f-free | high | thermo-nuclear-code-quality-review | 2 | 9.5/14 | 6.5 | 15.5 | 0 | 5,275,612 | 92,840 | 17,510 | 306 | $0.00 | 83.5m | 693.5 | 9.5 | 505.5 | 6 | 116 |
 
 ### `task_manager`
 
 | Agent | Model | Thinking | Harness | N | CP | Failed CP | Repeated | Reg | Input tokens | Output tokens | Reasoning | LLM requests | Cost | Time | LOC | Py modules | ΔLOC | Deps | Cx |
 |-------|-------|----------|---------|---:|---:|----------:|----------:|----:|-------------:|--------------:|----------:|-------------:|-----:|-----:|----:|----------:|-----:|---:|---:|
-| opencode | x-preview-f-free | high | baseline | 3 | 15/15 | 2.7 | 3 | 1.7 | 812,392 | 186,779 | 28,451 | 496 | $0.00 | 215.6m | 4686.7 | 8.3 | 5738.3 | 5.7 | 931.7 |
+| opencode | x-preview-f-free | high | baseline | 3 | 15/15 | 2.7 | 3 | 1.7 | 18,291,688 | 215,230 | 28,451 | 496 | $0.00 | 215.6m | 4686.7 | 8.3 | 5738.3 | 5.7 | 931.7 |
 
 ## By model
 
-### `deepseek-flash`
+### `deepseek-flash-v4.1`
 
 | Problem | Agent | Thinking | Harness | N | CP | Failed CP | Repeated | Reg | Input tokens | Output tokens | Reasoning | LLM requests | Cost | Time | LOC | Py modules | ΔLOC | Deps | Cx |
 |---------|-------|----------|---------|---:|---:|----------:|----------:|----:|-------------:|--------------:|----------:|-------------:|-----:|-----:|----:|----------:|-----:|---:|---:|
-| realworld | opencode | high | baseline | 1 | 14/14 | 1 | 1 | 0 | 339,704 | 56,221 | 46,081 | 270 | $0.00 | 20.8m | 1122 | 13 | 1320 | 5 | 202 |
+| realworld | opencode | high | baseline | 1 | 14/14 | 1 | 1 | 0 | 6,222,456 | 102,302 | 46,081 | 270 | $0.00 | 20.8m | 1122 | 13 | 1320 | 5 | 202 |
 
 ### `deepseek-v4-flash`
 
 | Problem | Agent | Thinking | Harness | N | CP | Failed CP | Repeated | Reg | Input tokens | Output tokens | Reasoning | LLM requests | Cost | Time | LOC | Py modules | ΔLOC | Deps | Cx |
 |---------|-------|----------|---------|---:|---:|----------:|----------:|----:|-------------:|--------------:|----------:|-------------:|-----:|-----:|----:|----------:|-----:|---:|---:|
-| realworld | opencode | high | baseline | 1 | 14/14 | 1 | 1 | 0 | 392,075 | 78,217 | 69,085 | 208 | $0.00 | 37.3m | 1631 | 6 | 1627 | 8 | 407 |
-| realworld | opencode | max | baseline | 1 | 14/14 | 1 | 1 | 0 | 643,445 | 95,762 | 74,460 | 252 | $0.00 | 39.9m | 1811 | 16 | 1904 | 5 | 514 |
+| realworld | opencode | high | baseline | 1 | 14/14 | 1 | 1 | 0 | 4,677,899 | 147,302 | 69,085 | 208 | $0.00 | 37.3m | 1631 | 6 | 1627 | 8 | 407 |
+| realworld | opencode | max | baseline | 1 | 14/14 | 1 | 1 | 0 | 6,614,517 | 170,222 | 74,460 | 252 | $0.00 | 39.9m | 1811 | 16 | 1904 | 5 | 514 |
 
 ### `omen-alpha`
 
 | Problem | Agent | Thinking | Harness | N | CP | Failed CP | Repeated | Reg | Input tokens | Output tokens | Reasoning | LLM requests | Cost | Time | LOC | Py modules | ΔLOC | Deps | Cx |
 |---------|-------|----------|---------|---:|---:|----------:|----------:|----:|-------------:|--------------:|----------:|-------------:|-----:|-----:|----:|----------:|-----:|---:|---:|
-| realworld | opencode | high | baseline | 1 | 14/14 | 2 | 3 | 0 | 528,103 | 53,046 | 26,581 | 232 | $0.00 | 51.2m | 1188 | 7 | 1112 | 22 | 190 |
+| realworld | opencode | high | baseline | 1 | 14/14 | 2 | 3 | 0 | 3,713,575 | 79,627 | 26,581 | 232 | $0.00 | 51.2m | 1188 | 7 | 1112 | 22 | 190 |
 
 ### `glm-5.3-flash`
 
 | Problem | Agent | Thinking | Harness | N | CP | Failed CP | Repeated | Reg | Input tokens | Output tokens | Reasoning | LLM requests | Cost | Time | LOC | Py modules | ΔLOC | Deps | Cx |
 |---------|-------|----------|---------|---:|---:|----------:|----------:|----:|-------------:|--------------:|----------:|-------------:|-----:|-----:|----:|----------:|-----:|---:|---:|
-| realworld | opencode | high | baseline | 1 | 14/14 | 1 | 1 | 0 | 384,355 | 65,725 | 56,413 | 281 | $0.00 | 85.2m | 1324 | 14 | 1535 | 4 | 242 |
+| realworld | opencode | high | baseline | 1 | 14/14 | 1 | 1 | 0 | 5,381,091 | 122,138 | 56,413 | 281 | $0.00 | 85.2m | 1324 | 14 | 1535 | 4 | 242 |
 
 ### `muse-spark-1.2-contributor`
 
 | Problem | Agent | Thinking | Harness | N | CP | Failed CP | Repeated | Reg | Input tokens | Output tokens | Reasoning | LLM requests | Cost | Time | LOC | Py modules | ΔLOC | Deps | Cx |
 |---------|-------|----------|---------|---:|---:|----------:|----------:|----:|-------------:|--------------:|----------:|-------------:|-----:|-----:|----:|----------:|-----:|---:|---:|
-| realworld | opencode | medium | baseline | 1 | 14/14 | 0 | 0 | 0 | 580,285 | 85,495 | 48,686 | 266 | $0.00 | 51.6m | 1502 | 2 | 1929 | 6 | 458 |
+| realworld | opencode | medium | baseline | 1 | 14/14 | 0 | 0 | 0 | 6,803,246 | 134,181 | 48,686 | 266 | $0.00 | 51.6m | 1502 | 2 | 1929 | 6 | 458 |
 
 ### `muse-spark-1.3-contributor`
 
 | Problem | Agent | Thinking | Harness | N | CP | Failed CP | Repeated | Reg | Input tokens | Output tokens | Reasoning | LLM requests | Cost | Time | LOC | Py modules | ΔLOC | Deps | Cx |
 |---------|-------|----------|---------|---:|---:|----------:|----------:|----:|-------------:|--------------:|----------:|-------------:|-----:|-----:|----:|----------:|-----:|---:|---:|
-| realworld | opencode | medium | baseline | 1 | 14/14 | 0 | 0 | 0 | 376,686 | 52,362 | 27,421 | 170 | $0.00 | 25.1m | 1632 | 2 | 2104 | 6 | 487 |
+| realworld | opencode | medium | baseline | 1 | 14/14 | 0 | 0 | 0 | 3,260,611 | 79,783 | 27,421 | 170 | $0.00 | 25.1m | 1632 | 2 | 2104 | 6 | 487 |
 
 ### `gpt-5.6-luna`
 
@@ -102,36 +102,36 @@ Failed CP counts checkpoints that failed at least once, including repaired ones.
 
 | Problem | Agent | Thinking | Harness | N | CP | Failed CP | Repeated | Reg | Input tokens | Output tokens | Reasoning | LLM requests | Cost | Time | LOC | Py modules | ΔLOC | Deps | Cx |
 |---------|-------|----------|---------|---:|---:|----------:|----------:|----:|-------------:|--------------:|----------:|-------------:|-----:|-----:|----:|----------:|-----:|---:|---:|
-| realworld | opencode | high | python-harness-v1.3.0+doorstop | 1 | 13/14 | 1 | 2 | 0 | 622,055 | 100,480 | 49,827 | 617 | $0.00 | 156.0m | 3612 | 54 | 4070 | 11 | 838 |
-| realworld | opencode | high | python-harness-v1.3.0+graphify | 1 | 14/14 | 1 | 1 | 0 | 748,059 | 90,231 | 40,985 | 461 | $0.00 | 123.9m | 3047 | 49 | 3782 | 7 | 834 |
-| realworld | opencode | high | python-harness-v1.3.0+strictdoc | 1 | 14/14 | 1 | 2 | 0 | 523,020 | 73,438 | 24,656 | 421 | $0.00 | 99.2m | 2654 | 24 | 3133 | 9 | 825 |
-| realworld | opencode | high | python-harness-v1.3.0 | 2 | 14/14 | 1 | 1.5 | 0 | 719,320 | 77,816 | 38,972 | 393 | $0.00 | 102.0m | 3487 | 54.5 | 4000 | 10 | 941.5 |
-| realworld | opencode | high | python-harness-v1.2.3 | 2 | 13/14 | 2.5 | 4 | 0 | 1,225,525 | 91,310 | 70,656 | 483 | $0.00 | 118.2m | 3581.5 | 44.5 | 3683.5 | 26.5 | 992.5 |
-| realworld | opencode | high | python-harness-v1.2.3+ponytail+graphify+benjamin-plus-skill | 2 | 14/14 | 1 | 1.5 | 0 | 701,469 | 45,002 | 21,024 | 267 | $0.00 | 51.2m | 1404 | 24 | 1720.5 | 7.5 | 403 |
-| realworld | opencode | high | python-harness-v1.2.3+ponytail+tdd+graphify+benjamin-plus-skill | 2 | 13.5/14 | 2 | 3 | 0 | 663,268 | 41,792 | 21,156 | 229 | $0.00 | 50.7m | 1841.5 | 19 | 1944 | 6.5 | 595.5 |
-| realworld | opencode | high | benjamin-plus-skill | 2 | 14/14 | 1 | 1 | 0 | 376,088 | 38,632 | 7,262 | 156 | $0.00 | 45.1m | 859 | 3 | 3278.5 | 11.5 | 198.5 |
-| realworld | opencode | high | python-harness | 1 | 14/14 | 2 | 3 | 0 | 870,305 | 108,024 | 17,223 | 440 | $0.00 | 95.8m | 3357 | 49 | 9125 | 10 | 968 |
-| realworld | opencode | high | python-harness+ponytail+tdd+graphify+benjamin-plus-skill+reclaim-code-entropy | 1 | 14/14 | 1 | 1 | 0 | 327,829 | 42,056 | 6,640 | 195 | $0.00 | 43.9m | 1841 | 19 | 11422 | 7 | 552 |
-| realworld | opencode | high | reclaim-code-entropy | 2 | 14/14 | 1 | 1 | 0 | 438,210 | 46,428 | 14,196 | 222 | $0.00 | 49.5m | 1394 | 9 | 9221 | 6 | 332.5 |
-| realworld | opencode | high | baseline | 3 | 14/14 | 1.3 | 1.7 | 0 | 293,733 | 45,486 | 8,932 | 196 | $0.00 | 58.1m | 1041 | 5 | 1239 | 10.7 | 212.7 |
-| realworld | opencode | high | combo-supermemory-graphify | 2 | 14/14 | 2 | 2.5 | 0 | 427,378 | 63,581 | 7,752 | 286 | $0.00 | 75.3m | 1094 | 6.5 | 1064.5 | 6 | 228 |
-| realworld | opencode | high | combo-supermemory-graphify-ponytail-thermo-nuclear-code-quality-review | 2 | 14/14 | 1 | 1 | 0 | 304,423 | 45,890 | 7,245 | 229 | $0.00 | 54.6m | 918 | 5.5 | 1046 | 5 | 248 |
-| realworld | opencode | high | combo-supermemory-graphify-ponytail-thermo-nuclear-code-quality-review-tdd | 2 | 14/14 | 1.5 | 1.5 | 0 | 422,227 | 50,249 | 6,599 | 244 | $0.00 | 58.9m | 1745 | 16.5 | 2001 | 6 | 621 |
-| realworld | opencode | high | doorstop | 2 | 14/14 | 1.5 | 2 | 0 | 368,711 | 61,858 | 6,264 | 352 | $0.00 | 72.5m | 1425 | 11.5 | 1673 | 5.5 | 377.5 |
-| realworld | opencode | high | graphify | 2 | 14/14 | 1 | 1 | 0 | 544,445 | 53,665 | 5,434 | 243 | $0.00 | 69.8m | 933 | 12 | 1171.5 | 5.5 | 178.5 |
-| realworld | opencode | high | ponytail | 2 | 13.5/14 | 2 | 3 | 0 | 278,688 | 29,696 | 2,702 | 144 | $0.00 | 31.1m | 612 | 2.5 | 618 | 15 | 143 |
-| realworld | opencode | high | strictdoc | 2 | 14/14 | 2.5 | 4 | 0 | 415,252 | 61,442 | 5,399 | 298 | $0.00 | 65.1m | 870.5 | 12 | 1124.5 | 5.5 | 201 |
-| realworld | opencode | high | supermemory | 2 | 14/14 | 1.5 | 2.5 | 0 | 396,536 | 57,895 | 5,744 | 252 | $0.00 | 47.3m | 1078.5 | 8.5 | 1153.5 | 14.5 | 207.5 |
-| realworld | opencode | high | tdd | 2 | 14/14 | 2 | 2.5 | 0 | 304,128 | 44,328 | 3,764 | 226 | $0.00 | 43.5m | 2536.5 | 19 | 2797 | 18.5 | 748.5 |
-| realworld | opencode | high | thermo-nuclear-code-quality-review | 2 | 9.5/14 | 6.5 | 15.5 | 0 | 430,492 | 75,330 | 17,510 | 306 | $0.00 | 83.5m | 693.5 | 9.5 | 505.5 | 6 | 116 |
-| task_manager | opencode | high | baseline | 3 | 15/15 | 2.7 | 3 | 1.7 | 812,392 | 186,779 | 28,451 | 496 | $0.00 | 215.6m | 4686.7 | 8.3 | 5738.3 | 5.7 | 931.7 |
-| realworld | opencode | high | combo-supermemory-graphify-ponytail-thermo-nuclear-code-quality-review-doorstop-tdd | 1 | 13/14 | 3 | 6 | 0 | 1,016,154 | 99,409 | 20,436 | 509 | $0.00 | 161.6m | 1861 | 16 | 1832 | 4 | 653 |
+| realworld | opencode | high | python-harness-v1.3.0+doorstop | 1 | 13/14 | 1 | 2 | 0 | 16,906,855 | 150,307 | 49,827 | 617 | $0.00 | 156.0m | 3612 | 54 | 4070 | 11 | 838 |
+| realworld | opencode | high | python-harness-v1.3.0+graphify | 1 | 14/14 | 1 | 1 | 0 | 16,701,979 | 131,216 | 40,985 | 461 | $0.00 | 123.9m | 3047 | 49 | 3782 | 7 | 834 |
+| realworld | opencode | high | python-harness-v1.3.0+strictdoc | 1 | 14/14 | 1 | 2 | 0 | 10,443,660 | 98,094 | 24,656 | 421 | $0.00 | 99.2m | 2654 | 24 | 3133 | 9 | 825 |
+| realworld | opencode | high | python-harness-v1.3.0 | 2 | 14/14 | 1 | 1.5 | 0 | 14,339,992 | 116,788 | 38,972 | 393 | $0.00 | 102.0m | 3487 | 54.5 | 4000 | 10 | 941.5 |
+| realworld | opencode | high | python-harness-v1.2.3 | 2 | 13/14 | 2.5 | 4 | 0 | 18,584,117 | 161,967 | 70,656 | 483 | $0.00 | 118.2m | 3581.5 | 44.5 | 3683.5 | 26.5 | 992.5 |
+| realworld | opencode | high | python-harness-v1.2.3+ponytail+graphify+benjamin-plus-skill | 2 | 14/14 | 1 | 1.5 | 0 | 5,861,789 | 66,026 | 21,024 | 267 | $0.00 | 51.2m | 1404 | 24 | 1720.5 | 7.5 | 403 |
+| realworld | opencode | high | python-harness-v1.2.3+ponytail+tdd+graphify+benjamin-plus-skill | 2 | 13.5/14 | 2 | 3 | 0 | 5,192,132 | 62,948 | 21,156 | 229 | $0.00 | 50.7m | 1841.5 | 19 | 1944 | 6.5 | 595.5 |
+| realworld | opencode | high | benjamin-plus-skill | 2 | 14/14 | 1 | 1 | 0 | 2,313,688 | 45,894 | 7,262 | 156 | $0.00 | 45.1m | 859 | 3 | 3278.5 | 11.5 | 198.5 |
+| realworld | opencode | high | python-harness | 1 | 14/14 | 2 | 3 | 0 | 15,284,129 | 125,247 | 17,223 | 440 | $0.00 | 95.8m | 3357 | 49 | 9125 | 10 | 968 |
+| realworld | opencode | high | python-harness+ponytail+tdd+graphify+benjamin-plus-skill+reclaim-code-entropy | 1 | 14/14 | 1 | 1 | 0 | 3,786,389 | 48,696 | 6,640 | 195 | $0.00 | 43.9m | 1841 | 19 | 11422 | 7 | 552 |
+| realworld | opencode | high | reclaim-code-entropy | 2 | 14/14 | 1 | 1 | 0 | 3,619,170 | 60,625 | 14,196 | 222 | $0.00 | 49.5m | 1394 | 9 | 9221 | 6 | 332.5 |
+| realworld | opencode | high | baseline | 3 | 14/14 | 1.3 | 1.7 | 0 | 2,900,005 | 54,418 | 8,932 | 196 | $0.00 | 58.1m | 1041 | 5 | 1239 | 10.7 | 212.7 |
+| realworld | opencode | high | combo-supermemory-graphify | 2 | 14/14 | 2 | 2.5 | 0 | 6,177,074 | 71,334 | 7,752 | 286 | $0.00 | 75.3m | 1094 | 6.5 | 1064.5 | 6 | 228 |
+| realworld | opencode | high | combo-supermemory-graphify-ponytail-thermo-nuclear-code-quality-review | 2 | 14/14 | 1 | 1 | 0 | 3,624,071 | 53,134 | 7,245 | 229 | $0.00 | 54.6m | 918 | 5.5 | 1046 | 5 | 248 |
+| realworld | opencode | high | combo-supermemory-graphify-ponytail-thermo-nuclear-code-quality-review-tdd | 2 | 14/14 | 1.5 | 1.5 | 0 | 4,353,683 | 56,848 | 6,599 | 244 | $0.00 | 58.9m | 1745 | 16.5 | 2001 | 6 | 621 |
+| realworld | opencode | high | doorstop | 2 | 14/14 | 1.5 | 2 | 0 | 6,111,847 | 68,122 | 6,264 | 352 | $0.00 | 72.5m | 1425 | 11.5 | 1673 | 5.5 | 377.5 |
+| realworld | opencode | high | graphify | 2 | 14/14 | 1 | 1 | 0 | 5,231,453 | 59,099 | 5,434 | 243 | $0.00 | 69.8m | 933 | 12 | 1171.5 | 5.5 | 178.5 |
+| realworld | opencode | high | ponytail | 2 | 13.5/14 | 2 | 3 | 0 | 1,866,208 | 32,398 | 2,702 | 144 | $0.00 | 31.1m | 612 | 2.5 | 618 | 15 | 143 |
+| realworld | opencode | high | strictdoc | 2 | 14/14 | 2.5 | 4 | 0 | 6,201,588 | 66,840 | 5,399 | 298 | $0.00 | 65.1m | 870.5 | 12 | 1124.5 | 5.5 | 201 |
+| realworld | opencode | high | supermemory | 2 | 14/14 | 1.5 | 2.5 | 0 | 3,764,984 | 63,640 | 5,744 | 252 | $0.00 | 47.3m | 1078.5 | 8.5 | 1153.5 | 14.5 | 207.5 |
+| realworld | opencode | high | tdd | 2 | 14/14 | 2 | 2.5 | 0 | 3,491,264 | 48,091 | 3,764 | 226 | $0.00 | 43.5m | 2536.5 | 19 | 2797 | 18.5 | 748.5 |
+| realworld | opencode | high | thermo-nuclear-code-quality-review | 2 | 9.5/14 | 6.5 | 15.5 | 0 | 5,275,612 | 92,840 | 17,510 | 306 | $0.00 | 83.5m | 693.5 | 9.5 | 505.5 | 6 | 116 |
+| task_manager | opencode | high | baseline | 3 | 15/15 | 2.7 | 3 | 1.7 | 18,291,688 | 215,230 | 28,451 | 496 | $0.00 | 215.6m | 4686.7 | 8.3 | 5738.3 | 5.7 | 931.7 |
+| realworld | opencode | high | combo-supermemory-graphify-ponytail-thermo-nuclear-code-quality-review-doorstop-tdd | 1 | 13/14 | 3 | 6 | 0 | 14,649,626 | 119,845 | 20,436 | 509 | $0.00 | 161.6m | 1861 | 16 | 1832 | 4 | 653 |
 
 ## Experiments
 
 | Experiment | Date | Problem | Agent | Model | Thinking | N | Report |
 |------------|------|---------|-------|-------|----------|---|--------|
-| realworld-opencode-go-dsflash-v41-high-baseline-20260910 | 2026-09-10 | realworld | opencode | deepseek-flash | high | 1 | [short](reports/realworld-opencode-go-dsflash-v41-high-baseline-20260910.md) |
+| realworld-opencode-go-dsflash-v41-high-baseline-20260910 | 2026-09-10 | realworld | opencode | deepseek-flash-v4.1 | high | 1 | [short](reports/realworld-opencode-go-dsflash-v41-high-baseline-20260910.md) |
 | realworld-neuraldeep-qwen3827b-baseline-20260908 | 2026-09-08 | realworld | opencode | qwen3.8-27b | none | 0+0 | [short](reports/realworld-neuraldeep-qwen3827b-baseline-20260908.md) |
 | realworld-opencode-go-dsflash-high-baseline-20260908 | 2026-09-08 | realworld | opencode | deepseek-v4-flash | high | 1 | [short](reports/realworld-opencode-go-dsflash-high-baseline-20260908.md) |
 | realworld-opencode-go-omenalpha-high-baseline-20260907 | 2026-09-07 | realworld | opencode | omen-alpha | high | 1 | [short](reports/realworld-opencode-go-omenalpha-high-baseline-20260907.md) |
@@ -167,7 +167,7 @@ Higher is better. Passed and total checkpoints for the published cell.
 | Rank | Problem | Model | Thinking | Harness | Value |
 |----:|---------|-------|----------|---------|------:|
 | 1 | task_manager | x-preview-f-free | high | baseline | 15/15 |
-| 2 | realworld | deepseek-flash | high | baseline | 14/14 |
+| 2 | realworld | deepseek-flash-v4.1 | high | baseline | 14/14 |
 | 3 | realworld | deepseek-v4-flash | high | baseline | 14/14 |
 | 4 | realworld | deepseek-v4-flash | max | baseline | 14/14 |
 | 5 | realworld | glm-5.3-flash | high | baseline | 14/14 |
@@ -207,7 +207,7 @@ Lower is better. Number of checkpoints that failed at least once, including repa
 |----:|---------|-------|----------|---------|------:|
 | 1 | realworld | muse-spark-1.2-contributor | medium | baseline | 0 |
 | 2 | realworld | muse-spark-1.3-contributor | medium | baseline | 0 |
-| 3 | realworld | deepseek-flash | high | baseline | 1 |
+| 3 | realworld | deepseek-flash-v4.1 | high | baseline | 1 |
 | 4 | realworld | deepseek-v4-flash | high | baseline | 1 |
 | 5 | realworld | deepseek-v4-flash | max | baseline | 1 |
 | 6 | realworld | glm-5.3-flash | high | baseline | 1 |
@@ -246,7 +246,7 @@ Lower is better. Additional semantic attempts after the initial attempt.
 |----:|---------|-------|----------|---------|------:|
 | 1 | realworld | muse-spark-1.2-contributor | medium | baseline | 0 |
 | 2 | realworld | muse-spark-1.3-contributor | medium | baseline | 0 |
-| 3 | realworld | deepseek-flash | high | baseline | 1 |
+| 3 | realworld | deepseek-flash-v4.1 | high | baseline | 1 |
 | 4 | realworld | deepseek-v4-flash | high | baseline | 1 |
 | 5 | realworld | deepseek-v4-flash | max | baseline | 1 |
 | 6 | realworld | glm-5.3-flash | high | baseline | 1 |
@@ -283,7 +283,7 @@ Lower is better. Regression tests failing in the final checkpoint evaluations.
 
 | Rank | Problem | Model | Thinking | Harness | Value |
 |----:|---------|-------|----------|---------|------:|
-| 1 | realworld | deepseek-flash | high | baseline | 0 |
+| 1 | realworld | deepseek-flash-v4.1 | high | baseline | 0 |
 | 2 | realworld | deepseek-v4-flash | high | baseline | 0 |
 | 3 | realworld | deepseek-v4-flash | max | baseline | 0 |
 | 4 | realworld | glm-5.3-flash | high | baseline | 0 |
@@ -345,7 +345,7 @@ Lower is better. Input tokens used by semantic rework attempts.
 | 21 | realworld | x-preview-f-free | high | python-harness-v1.3.0+strictdoc | 57,108 |
 | 22 | realworld | x-preview-f-free | high | python-harness-v1.3.0 | 68,132 |
 | 23 | realworld | omen-alpha | high | baseline | 73,181 |
-| 24 | realworld | deepseek-flash | high | baseline | 75,623 |
+| 24 | realworld | deepseek-flash-v4.1 | high | baseline | 75,623 |
 | 25 | realworld | x-preview-f-free | high | python-harness-v1.2.3+ponytail+tdd+graphify+benjamin-plus-skill | 81,140 |
 | 26 | realworld | deepseek-v4-flash | max | baseline | 86,585 |
 | 27 | realworld | x-preview-f-free | high | python-harness-v1.3.0+doorstop | 87,569 |
@@ -380,7 +380,7 @@ Lower is better. Output tokens used by semantic rework attempts.
 | 17 | realworld | glm-5.3-flash | high | baseline | 4,686 |
 | 18 | realworld | x-preview-f-free | high | ponytail | 4,879 |
 | 19 | realworld | x-preview-f-free | high | python-harness-v1.3.0 | 5,108 |
-| 20 | realworld | deepseek-flash | high | baseline | 5,790 |
+| 20 | realworld | deepseek-flash-v4.1 | high | baseline | 5,790 |
 | 21 | realworld | x-preview-f-free | high | python-harness-v1.2.3+ponytail+tdd+graphify+benjamin-plus-skill | 6,034 |
 | 22 | realworld | deepseek-v4-flash | high | baseline | 7,724 |
 | 23 | realworld | gpt-5.6-luna | max | baseline | 7,853 |
@@ -424,7 +424,7 @@ Lower is better. Reasoning tokens reported by the provider across checkpoints.
 | 22 | task_manager | x-preview-f-free | high | baseline | 28,451 |
 | 23 | realworld | x-preview-f-free | high | python-harness-v1.3.0 | 38,972 |
 | 24 | realworld | x-preview-f-free | high | python-harness-v1.3.0+graphify | 40,985 |
-| 25 | realworld | deepseek-flash | high | baseline | 46,081 |
+| 25 | realworld | deepseek-flash-v4.1 | high | baseline | 46,081 |
 | 26 | realworld | muse-spark-1.2-contributor | medium | baseline | 48,686 |
 | 27 | realworld | x-preview-f-free | high | python-harness-v1.3.0+doorstop | 49,827 |
 | 28 | realworld | glm-5.3-flash | high | baseline | 56,413 |
@@ -433,83 +433,83 @@ Lower is better. Reasoning tokens reported by the provider across checkpoints.
 | 31 | realworld | deepseek-v4-flash | max | baseline | 74,460 |
 | 32 | realworld | gpt-5.6-luna | max | baseline | 80,615 |
 
-### All input tokens
+### Input tokens
 
-Lower is better. Total input tokens across checkpoints, including rework and retries.
-
-| Rank | Problem | Model | Thinking | Harness | Value |
-|----:|---------|-------|----------|---------|------:|
-| 1 | realworld | x-preview-f-free | high | ponytail | 278,688 |
-| 2 | realworld | x-preview-f-free | high | baseline | 293,733 |
-| 3 | realworld | x-preview-f-free | high | tdd | 304,128 |
-| 4 | realworld | x-preview-f-free | high | combo-supermemory-graphify-ponytail-thermo-nuclear-code-quality-review | 304,423 |
-| 5 | realworld | x-preview-f-free | high | python-harness+ponytail+tdd+graphify+benjamin-plus-skill+reclaim-code-entropy | 327,829 |
-| 6 | realworld | deepseek-flash | high | baseline | 339,704 |
-| 7 | realworld | x-preview-f-free | high | doorstop | 368,711 |
-| 8 | realworld | x-preview-f-free | high | benjamin-plus-skill | 376,088 |
-| 9 | realworld | muse-spark-1.3-contributor | medium | baseline | 376,686 |
-| 10 | realworld | glm-5.3-flash | high | baseline | 384,355 |
-| 11 | realworld | deepseek-v4-flash | high | baseline | 392,075 |
-| 12 | realworld | x-preview-f-free | high | supermemory | 396,536 |
-| 13 | realworld | x-preview-f-free | high | strictdoc | 415,252 |
-| 14 | realworld | x-preview-f-free | high | combo-supermemory-graphify-ponytail-thermo-nuclear-code-quality-review-tdd | 422,227 |
-| 15 | realworld | x-preview-f-free | high | combo-supermemory-graphify | 427,378 |
-| 16 | realworld | x-preview-f-free | high | thermo-nuclear-code-quality-review | 430,492 |
-| 17 | realworld | x-preview-f-free | high | reclaim-code-entropy | 438,210 |
-| 18 | realworld | x-preview-f-free | high | python-harness-v1.3.0+strictdoc | 523,020 |
-| 19 | realworld | omen-alpha | high | baseline | 528,103 |
-| 20 | realworld | x-preview-f-free | high | graphify | 544,445 |
-| 21 | realworld | muse-spark-1.2-contributor | medium | baseline | 580,285 |
-| 22 | realworld | x-preview-f-free | high | python-harness-v1.3.0+doorstop | 622,055 |
-| 23 | realworld | deepseek-v4-flash | max | baseline | 643,445 |
-| 24 | realworld | x-preview-f-free | high | python-harness-v1.2.3+ponytail+tdd+graphify+benjamin-plus-skill | 663,268 |
-| 25 | realworld | x-preview-f-free | high | python-harness-v1.2.3+ponytail+graphify+benjamin-plus-skill | 701,469 |
-| 26 | realworld | x-preview-f-free | high | python-harness-v1.3.0 | 719,320 |
-| 27 | realworld | x-preview-f-free | high | python-harness-v1.3.0+graphify | 748,059 |
-| 28 | task_manager | x-preview-f-free | high | baseline | 812,392 |
-| 29 | realworld | x-preview-f-free | high | python-harness | 870,305 |
-| 30 | realworld | x-preview-f-free | high | combo-supermemory-graphify-ponytail-thermo-nuclear-code-quality-review-doorstop-tdd | 1,016,154 |
-| 31 | realworld | x-preview-f-free | high | python-harness-v1.2.3 | 1,225,525 |
-| 32 | realworld | gpt-5.6-luna | max | baseline | 5,826,534 |
-
-### All output tokens
-
-Lower is better. Total output tokens across checkpoints, including rework.
+Lower is better. Prompt tokens across checkpoints, cached reads included.
 
 | Rank | Problem | Model | Thinking | Harness | Value |
 |----:|---------|-------|----------|---------|------:|
-| 1 | realworld | x-preview-f-free | high | ponytail | 29,696 |
-| 2 | realworld | x-preview-f-free | high | benjamin-plus-skill | 38,632 |
-| 3 | realworld | x-preview-f-free | high | python-harness-v1.2.3+ponytail+tdd+graphify+benjamin-plus-skill | 41,792 |
-| 4 | realworld | x-preview-f-free | high | python-harness+ponytail+tdd+graphify+benjamin-plus-skill+reclaim-code-entropy | 42,056 |
-| 5 | realworld | x-preview-f-free | high | tdd | 44,328 |
-| 6 | realworld | x-preview-f-free | high | python-harness-v1.2.3+ponytail+graphify+benjamin-plus-skill | 45,002 |
-| 7 | realworld | x-preview-f-free | high | baseline | 45,486 |
-| 8 | realworld | x-preview-f-free | high | combo-supermemory-graphify-ponytail-thermo-nuclear-code-quality-review | 45,890 |
-| 9 | realworld | x-preview-f-free | high | reclaim-code-entropy | 46,428 |
-| 10 | realworld | x-preview-f-free | high | combo-supermemory-graphify-ponytail-thermo-nuclear-code-quality-review-tdd | 50,249 |
-| 11 | realworld | muse-spark-1.3-contributor | medium | baseline | 52,362 |
-| 12 | realworld | omen-alpha | high | baseline | 53,046 |
-| 13 | realworld | x-preview-f-free | high | graphify | 53,665 |
-| 14 | realworld | deepseek-flash | high | baseline | 56,221 |
-| 15 | realworld | x-preview-f-free | high | supermemory | 57,895 |
-| 16 | realworld | x-preview-f-free | high | strictdoc | 61,442 |
-| 17 | realworld | x-preview-f-free | high | doorstop | 61,858 |
-| 18 | realworld | x-preview-f-free | high | combo-supermemory-graphify | 63,581 |
-| 19 | realworld | glm-5.3-flash | high | baseline | 65,725 |
-| 20 | realworld | x-preview-f-free | high | python-harness-v1.3.0+strictdoc | 73,438 |
-| 21 | realworld | x-preview-f-free | high | thermo-nuclear-code-quality-review | 75,330 |
-| 22 | realworld | x-preview-f-free | high | python-harness-v1.3.0 | 77,816 |
-| 23 | realworld | deepseek-v4-flash | high | baseline | 78,217 |
-| 24 | realworld | muse-spark-1.2-contributor | medium | baseline | 85,495 |
-| 25 | realworld | x-preview-f-free | high | python-harness-v1.3.0+graphify | 90,231 |
-| 26 | realworld | x-preview-f-free | high | python-harness-v1.2.3 | 91,310 |
-| 27 | realworld | deepseek-v4-flash | max | baseline | 95,762 |
-| 28 | realworld | x-preview-f-free | high | combo-supermemory-graphify-ponytail-thermo-nuclear-code-quality-review-doorstop-tdd | 99,409 |
-| 29 | realworld | x-preview-f-free | high | python-harness-v1.3.0+doorstop | 100,480 |
-| 30 | realworld | x-preview-f-free | high | python-harness | 108,024 |
-| 31 | realworld | gpt-5.6-luna | max | baseline | 145,133 |
-| 32 | task_manager | x-preview-f-free | high | baseline | 186,779 |
+| 1 | realworld | x-preview-f-free | high | ponytail | 1,866,208 |
+| 2 | realworld | x-preview-f-free | high | benjamin-plus-skill | 2,313,688 |
+| 3 | realworld | x-preview-f-free | high | baseline | 2,900,005 |
+| 4 | realworld | muse-spark-1.3-contributor | medium | baseline | 3,260,611 |
+| 5 | realworld | x-preview-f-free | high | tdd | 3,491,264 |
+| 6 | realworld | x-preview-f-free | high | reclaim-code-entropy | 3,619,170 |
+| 7 | realworld | x-preview-f-free | high | combo-supermemory-graphify-ponytail-thermo-nuclear-code-quality-review | 3,624,071 |
+| 8 | realworld | omen-alpha | high | baseline | 3,713,575 |
+| 9 | realworld | x-preview-f-free | high | supermemory | 3,764,984 |
+| 10 | realworld | x-preview-f-free | high | python-harness+ponytail+tdd+graphify+benjamin-plus-skill+reclaim-code-entropy | 3,786,389 |
+| 11 | realworld | x-preview-f-free | high | combo-supermemory-graphify-ponytail-thermo-nuclear-code-quality-review-tdd | 4,353,683 |
+| 12 | realworld | deepseek-v4-flash | high | baseline | 4,677,899 |
+| 13 | realworld | x-preview-f-free | high | python-harness-v1.2.3+ponytail+tdd+graphify+benjamin-plus-skill | 5,192,132 |
+| 14 | realworld | x-preview-f-free | high | graphify | 5,231,453 |
+| 15 | realworld | x-preview-f-free | high | thermo-nuclear-code-quality-review | 5,275,612 |
+| 16 | realworld | glm-5.3-flash | high | baseline | 5,381,091 |
+| 17 | realworld | gpt-5.6-luna | max | baseline | 5,826,534 |
+| 18 | realworld | x-preview-f-free | high | python-harness-v1.2.3+ponytail+graphify+benjamin-plus-skill | 5,861,789 |
+| 19 | realworld | x-preview-f-free | high | doorstop | 6,111,847 |
+| 20 | realworld | x-preview-f-free | high | combo-supermemory-graphify | 6,177,074 |
+| 21 | realworld | x-preview-f-free | high | strictdoc | 6,201,588 |
+| 22 | realworld | deepseek-flash-v4.1 | high | baseline | 6,222,456 |
+| 23 | realworld | deepseek-v4-flash | max | baseline | 6,614,517 |
+| 24 | realworld | muse-spark-1.2-contributor | medium | baseline | 6,803,246 |
+| 25 | realworld | x-preview-f-free | high | python-harness-v1.3.0+strictdoc | 10,443,660 |
+| 26 | realworld | x-preview-f-free | high | python-harness-v1.3.0 | 14,339,992 |
+| 27 | realworld | x-preview-f-free | high | combo-supermemory-graphify-ponytail-thermo-nuclear-code-quality-review-doorstop-tdd | 14,649,626 |
+| 28 | realworld | x-preview-f-free | high | python-harness | 15,284,129 |
+| 29 | realworld | x-preview-f-free | high | python-harness-v1.3.0+graphify | 16,701,979 |
+| 30 | realworld | x-preview-f-free | high | python-harness-v1.3.0+doorstop | 16,906,855 |
+| 31 | task_manager | x-preview-f-free | high | baseline | 18,291,688 |
+| 32 | realworld | x-preview-f-free | high | python-harness-v1.2.3 | 18,584,117 |
+
+### Output tokens
+
+Lower is better. Completion tokens across checkpoints, reasoning included.
+
+| Rank | Problem | Model | Thinking | Harness | Value |
+|----:|---------|-------|----------|---------|------:|
+| 1 | realworld | x-preview-f-free | high | ponytail | 32,398 |
+| 2 | realworld | x-preview-f-free | high | benjamin-plus-skill | 45,894 |
+| 3 | realworld | x-preview-f-free | high | tdd | 48,091 |
+| 4 | realworld | x-preview-f-free | high | python-harness+ponytail+tdd+graphify+benjamin-plus-skill+reclaim-code-entropy | 48,696 |
+| 5 | realworld | x-preview-f-free | high | combo-supermemory-graphify-ponytail-thermo-nuclear-code-quality-review | 53,134 |
+| 6 | realworld | x-preview-f-free | high | baseline | 54,418 |
+| 7 | realworld | x-preview-f-free | high | combo-supermemory-graphify-ponytail-thermo-nuclear-code-quality-review-tdd | 56,848 |
+| 8 | realworld | x-preview-f-free | high | graphify | 59,099 |
+| 9 | realworld | x-preview-f-free | high | reclaim-code-entropy | 60,625 |
+| 10 | realworld | x-preview-f-free | high | python-harness-v1.2.3+ponytail+tdd+graphify+benjamin-plus-skill | 62,948 |
+| 11 | realworld | x-preview-f-free | high | supermemory | 63,640 |
+| 12 | realworld | x-preview-f-free | high | python-harness-v1.2.3+ponytail+graphify+benjamin-plus-skill | 66,026 |
+| 13 | realworld | x-preview-f-free | high | strictdoc | 66,840 |
+| 14 | realworld | x-preview-f-free | high | doorstop | 68,122 |
+| 15 | realworld | x-preview-f-free | high | combo-supermemory-graphify | 71,334 |
+| 16 | realworld | omen-alpha | high | baseline | 79,627 |
+| 17 | realworld | muse-spark-1.3-contributor | medium | baseline | 79,783 |
+| 18 | realworld | x-preview-f-free | high | thermo-nuclear-code-quality-review | 92,840 |
+| 19 | realworld | x-preview-f-free | high | python-harness-v1.3.0+strictdoc | 98,094 |
+| 20 | realworld | deepseek-flash-v4.1 | high | baseline | 102,302 |
+| 21 | realworld | x-preview-f-free | high | python-harness-v1.3.0 | 116,788 |
+| 22 | realworld | x-preview-f-free | high | combo-supermemory-graphify-ponytail-thermo-nuclear-code-quality-review-doorstop-tdd | 119,845 |
+| 23 | realworld | glm-5.3-flash | high | baseline | 122,138 |
+| 24 | realworld | x-preview-f-free | high | python-harness | 125,247 |
+| 25 | realworld | x-preview-f-free | high | python-harness-v1.3.0+graphify | 131,216 |
+| 26 | realworld | muse-spark-1.2-contributor | medium | baseline | 134,181 |
+| 27 | realworld | gpt-5.6-luna | max | baseline | 145,133 |
+| 28 | realworld | deepseek-v4-flash | high | baseline | 147,302 |
+| 29 | realworld | x-preview-f-free | high | python-harness-v1.3.0+doorstop | 150,307 |
+| 30 | realworld | x-preview-f-free | high | python-harness-v1.2.3 | 161,967 |
+| 31 | realworld | deepseek-v4-flash | max | baseline | 170,222 |
+| 32 | task_manager | x-preview-f-free | high | baseline | 215,230 |
 
 ### Transient input tokens
 
@@ -517,7 +517,7 @@ Lower is better. Input tokens used by transient retry attempts.
 
 | Rank | Problem | Model | Thinking | Harness | Value |
 |----:|---------|-------|----------|---------|------:|
-| 1 | realworld | deepseek-flash | high | baseline | 0 |
+| 1 | realworld | deepseek-flash-v4.1 | high | baseline | 0 |
 | 2 | realworld | deepseek-v4-flash | high | baseline | 0 |
 | 3 | realworld | deepseek-v4-flash | max | baseline | 0 |
 | 4 | realworld | glm-5.3-flash | high | baseline | 0 |
@@ -556,7 +556,7 @@ Lower is better. Output tokens used by transient retry attempts.
 
 | Rank | Problem | Model | Thinking | Harness | Value |
 |----:|---------|-------|----------|---------|------:|
-| 1 | realworld | deepseek-flash | high | baseline | 0 |
+| 1 | realworld | deepseek-flash-v4.1 | high | baseline | 0 |
 | 2 | realworld | deepseek-v4-flash | high | baseline | 0 |
 | 3 | realworld | deepseek-v4-flash | max | baseline | 0 |
 | 4 | realworld | glm-5.3-flash | high | baseline | 0 |
@@ -612,7 +612,7 @@ Lower is better. Sum of SCB agent steps (LLM requests) across checkpoints.
 | 15 | realworld | x-preview-f-free | high | supermemory | 252 |
 | 16 | realworld | muse-spark-1.2-contributor | medium | baseline | 266 |
 | 17 | realworld | x-preview-f-free | high | python-harness-v1.2.3+ponytail+graphify+benjamin-plus-skill | 267 |
-| 18 | realworld | deepseek-flash | high | baseline | 270 |
+| 18 | realworld | deepseek-flash-v4.1 | high | baseline | 270 |
 | 19 | realworld | glm-5.3-flash | high | baseline | 281 |
 | 20 | realworld | x-preview-f-free | high | combo-supermemory-graphify | 286 |
 | 21 | realworld | x-preview-f-free | high | strictdoc | 298 |
@@ -636,7 +636,7 @@ Lower is better. Additional semantic attempts after the initial solve, per run.
 |----:|---------|-------|----------|---------|------:|
 | 1 | realworld | muse-spark-1.2-contributor | medium | baseline | 0 |
 | 2 | realworld | muse-spark-1.3-contributor | medium | baseline | 0 |
-| 3 | realworld | deepseek-flash | high | baseline | 1 |
+| 3 | realworld | deepseek-flash-v4.1 | high | baseline | 1 |
 | 4 | realworld | deepseek-v4-flash | high | baseline | 1 |
 | 5 | realworld | deepseek-v4-flash | max | baseline | 1 |
 | 6 | realworld | glm-5.3-flash | high | baseline | 1 |
@@ -673,7 +673,7 @@ Lower is better. High-confidence provider truncation retries, per run.
 
 | Rank | Problem | Model | Thinking | Harness | Value |
 |----:|---------|-------|----------|---------|------:|
-| 1 | realworld | deepseek-flash | high | baseline | 0 |
+| 1 | realworld | deepseek-flash-v4.1 | high | baseline | 0 |
 | 2 | realworld | deepseek-v4-flash | high | baseline | 0 |
 | 3 | realworld | deepseek-v4-flash | max | baseline | 0 |
 | 4 | realworld | glm-5.3-flash | high | baseline | 0 |
@@ -712,7 +712,7 @@ Lower is better. Observed provider truncation events, per run.
 
 | Rank | Problem | Model | Thinking | Harness | Value |
 |----:|---------|-------|----------|---------|------:|
-| 1 | realworld | deepseek-flash | high | baseline | 0 |
+| 1 | realworld | deepseek-flash-v4.1 | high | baseline | 0 |
 | 2 | realworld | deepseek-v4-flash | high | baseline | 0 |
 | 3 | realworld | deepseek-v4-flash | max | baseline | 0 |
 | 4 | realworld | glm-5.3-flash | high | baseline | 0 |
@@ -751,7 +751,7 @@ Lower is better. Truncation retries that resolved the checkpoint, per run.
 
 | Rank | Problem | Model | Thinking | Harness | Value |
 |----:|---------|-------|----------|---------|------:|
-| 1 | realworld | deepseek-flash | high | baseline | 0 |
+| 1 | realworld | deepseek-flash-v4.1 | high | baseline | 0 |
 | 2 | realworld | deepseek-v4-flash | high | baseline | 0 |
 | 3 | realworld | deepseek-v4-flash | max | baseline | 0 |
 | 4 | realworld | glm-5.3-flash | high | baseline | 0 |
@@ -790,7 +790,7 @@ Lower is better. Checkpoints still truncated after retries, per run.
 
 | Rank | Problem | Model | Thinking | Harness | Value |
 |----:|---------|-------|----------|---------|------:|
-| 1 | realworld | deepseek-flash | high | baseline | 0 |
+| 1 | realworld | deepseek-flash-v4.1 | high | baseline | 0 |
 | 2 | realworld | deepseek-v4-flash | high | baseline | 0 |
 | 3 | realworld | deepseek-v4-flash | max | baseline | 0 |
 | 4 | realworld | glm-5.3-flash | high | baseline | 0 |
@@ -829,7 +829,7 @@ Lower is better. Cost normalized with the versioned pricing configuration.
 
 | Rank | Problem | Model | Thinking | Harness | Value |
 |----:|---------|-------|----------|---------|------:|
-| 1 | realworld | deepseek-flash | high | baseline | $0.00 |
+| 1 | realworld | deepseek-flash-v4.1 | high | baseline | $0.00 |
 | 2 | realworld | deepseek-v4-flash | high | baseline | $0.00 |
 | 3 | realworld | deepseek-v4-flash | max | baseline | $0.00 |
 | 4 | realworld | glm-5.3-flash | high | baseline | $0.00 |
@@ -868,7 +868,7 @@ Lower is better. Sum of agent inference time across checkpoints.
 
 | Rank | Problem | Model | Thinking | Harness | Value |
 |----:|---------|-------|----------|---------|------:|
-| 1 | realworld | deepseek-flash | high | baseline | 20.8m |
+| 1 | realworld | deepseek-flash-v4.1 | high | baseline | 20.8m |
 | 2 | realworld | muse-spark-1.3-contributor | medium | baseline | 25.1m |
 | 3 | realworld | x-preview-f-free | high | ponytail | 31.1m |
 | 4 | realworld | deepseek-v4-flash | high | baseline | 37.3m |
@@ -917,7 +917,7 @@ Descriptive. Lines of solution code in the final snapshot.
 | 8 | realworld | x-preview-f-free | high | supermemory | 1078.5 |
 | 9 | realworld | gpt-5.6-luna | max | baseline | 1093 |
 | 10 | realworld | x-preview-f-free | high | combo-supermemory-graphify | 1094 |
-| 11 | realworld | deepseek-flash | high | baseline | 1122 |
+| 11 | realworld | deepseek-flash-v4.1 | high | baseline | 1122 |
 | 12 | realworld | omen-alpha | high | baseline | 1188 |
 | 13 | realworld | glm-5.3-flash | high | baseline | 1324 |
 | 14 | realworld | x-preview-f-free | high | reclaim-code-entropy | 1394 |
@@ -963,7 +963,7 @@ Descriptive. Python source modules in the final snapshot.
 | 15 | realworld | x-preview-f-free | high | doorstop | 11.5 |
 | 16 | realworld | x-preview-f-free | high | graphify | 12 |
 | 17 | realworld | x-preview-f-free | high | strictdoc | 12 |
-| 18 | realworld | deepseek-flash | high | baseline | 13 |
+| 18 | realworld | deepseek-flash-v4.1 | high | baseline | 13 |
 | 19 | realworld | glm-5.3-flash | high | baseline | 14 |
 | 20 | realworld | deepseek-v4-flash | max | baseline | 16 |
 | 21 | realworld | x-preview-f-free | high | combo-supermemory-graphify-ponytail-thermo-nuclear-code-quality-review-doorstop-tdd | 16 |
@@ -995,7 +995,7 @@ Lower is better as a churn measure. Lines changed from the initial snapshot.
 | 8 | realworld | x-preview-f-free | high | graphify | 1171.5 |
 | 9 | realworld | x-preview-f-free | high | baseline | 1239 |
 | 10 | realworld | gpt-5.6-luna | max | baseline | 1306 |
-| 11 | realworld | deepseek-flash | high | baseline | 1320 |
+| 11 | realworld | deepseek-flash-v4.1 | high | baseline | 1320 |
 | 12 | realworld | glm-5.3-flash | high | baseline | 1535 |
 | 13 | realworld | deepseek-v4-flash | high | baseline | 1627 |
 | 14 | realworld | x-preview-f-free | high | doorstop | 1673 |
@@ -1026,7 +1026,7 @@ Lower is better as a complexity measure. Dependencies added by the solution.
 |----:|---------|-------|----------|---------|------:|
 | 1 | realworld | glm-5.3-flash | high | baseline | 4 |
 | 2 | realworld | x-preview-f-free | high | combo-supermemory-graphify-ponytail-thermo-nuclear-code-quality-review-doorstop-tdd | 4 |
-| 3 | realworld | deepseek-flash | high | baseline | 5 |
+| 3 | realworld | deepseek-flash-v4.1 | high | baseline | 5 |
 | 4 | realworld | deepseek-v4-flash | max | baseline | 5 |
 | 5 | realworld | gpt-5.6-luna | max | baseline | 5 |
 | 6 | realworld | x-preview-f-free | high | combo-supermemory-graphify-ponytail-thermo-nuclear-code-quality-review | 5 |
@@ -1070,7 +1070,7 @@ Lower is better. Measured code complexity in the final snapshot.
 | 5 | realworld | omen-alpha | high | baseline | 190 |
 | 6 | realworld | x-preview-f-free | high | benjamin-plus-skill | 198.5 |
 | 7 | realworld | x-preview-f-free | high | strictdoc | 201 |
-| 8 | realworld | deepseek-flash | high | baseline | 202 |
+| 8 | realworld | deepseek-flash-v4.1 | high | baseline | 202 |
 | 9 | realworld | x-preview-f-free | high | supermemory | 207.5 |
 | 10 | realworld | x-preview-f-free | high | baseline | 212.7 |
 | 11 | realworld | x-preview-f-free | high | combo-supermemory-graphify | 228 |
