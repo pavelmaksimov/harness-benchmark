@@ -90,7 +90,7 @@ def test_aggregate_cells_combines_same_cell_across_experiments() -> None:
     assert cells[0]["metrics"]["elapsed_time"] == 75
 
 
-def test_leaderboard_shows_stage_tokens_without_diagnostic_columns() -> None:
+def test_leaderboard_shows_total_tokens_without_stage_or_cache_columns() -> None:
     payload = {
         "date": "2026-08-21T10:00:00Z",
         "experiment_id": "exp-1",
@@ -129,8 +129,8 @@ def test_leaderboard_shows_stage_tokens_without_diagnostic_columns() -> None:
     text = format_leaderboard([payload])
 
     assert (
-        "| Agent | Model | Thinking | Harness | N | CP | Failed CP | Repeated | Reg | Create input | "
-        "Create output | Rework input | Rework output | Cached tokens | Reasoning | Output tokens | LLM requests | "
+        "| Agent | Model | Thinking | Harness | N | CP | Failed CP | Repeated | Reg | Input tokens | "
+        "Output tokens | Reasoning | LLM requests | "
         "Cost | Time | LOC | Py modules | ΔLOC | Deps | Cx |"
     ) in text
     lines = text.splitlines()
@@ -145,22 +145,32 @@ def test_leaderboard_shows_stage_tokens_without_diagnostic_columns() -> None:
         assert all(cell.strip().strip(":").count("-") >= 3 for cell in separator.strip("|").split("|"))
     assert "| Experiment | Date | Problem | Agent | Model | Thinking | N | Report |" in text
     assert (
-        "| Problem | Agent | Thinking | Harness | N | CP | Failed CP | Repeated | Reg | Create input | " in text
+        "| Problem | Agent | Thinking | Harness | N | CP | Failed CP | Repeated | Reg | Input tokens | " in text
     )
-    assert "| 1,000 | 400 | 234 | 167 | 2,345 | 789 | 567 | 6 | $0.00 |" in text
+    assert "| 1,234 | 567 | 789 | 6 | $0.00 |" in text
     assert "## Metric leaderboards" in text
     assert "### CP passed/total" in text
     assert "### Python modules" in text
     assert "Higher is better." in text
-    assert "1,000" in text
-    assert "400" in text
-    assert "234" in text
-    assert "167" in text
-    assert "| 2 |" in text
     assert "| 10 | 2 | 3 | 0 | 2 |" in text
     assert "Core fail" not in text
     assert "| Agent | Provider |" not in text
     assert "| Problem | Agent | Provider |" not in text
+    for retired in (
+        "Create input",
+        "Create output",
+        "Cached tokens",
+        "### Creation input tokens",
+        "### Creation output tokens",
+        "### Cached tokens",
+        "1,000",
+        "400",
+        "2,345",
+    ):
+        assert retired not in text
+    assert "### Rework input tokens" in text
+    assert "### Rework output tokens" in text
+    assert "### All input tokens" in text
 
 
 def test_aggregate_cells_splits_same_cell_by_thinking() -> None:

@@ -76,11 +76,8 @@ METRIC_LEADERBOARDS = (
     ("checkpoints_failed", "Failed checkpoints", "Lower is better. Number of checkpoints that failed at least once, including repaired ones."),
     ("repeated_attempts", "Repeated attempts", "Lower is better. Additional semantic attempts after the initial attempt."),
     ("regression_failures", "Regressions", "Lower is better. Regression tests failing in the final checkpoint evaluations."),
-    ("creation_input_tokens", "Creation input tokens", "Lower is better. Input tokens used by initial checkpoint attempts."),
-    ("creation_output_tokens", "Creation output tokens", "Lower is better. Output tokens used by initial checkpoint attempts."),
     ("rework_input_tokens", "Rework input tokens", "Lower is better. Input tokens used by semantic rework attempts."),
     ("rework_output_tokens", "Rework output tokens", "Lower is better. Output tokens used by semantic rework attempts."),
-    ("cache_read_tokens", "Cached tokens", "Lower is better. Prompt tokens read from the provider cache."),
     ("reasoning_tokens", "Reasoning tokens", "Lower is better. Reasoning tokens reported by the provider across checkpoints."),
     ("total_input_tokens", "All input tokens", "Lower is better. Total input tokens across checkpoints, including rework and retries."),
     ("total_output_tokens", "All output tokens", "Lower is better. Total output tokens across checkpoints, including rework."),
@@ -512,13 +509,9 @@ def _metric_cells(metrics: dict[str, Any]) -> str:
         _fmt_metric("checkpoints_failed", metrics.get("checkpoints_failed")),
         _fmt_metric("repeated_attempts", metrics.get("repeated_attempts")),
         _fmt_metric("regression_failures", metrics.get("regression_failures")),
-        _fmt_metric("creation_input_tokens", metrics.get("creation_input_tokens")),
-        _fmt_metric("creation_output_tokens", metrics.get("creation_output_tokens")),
-        _fmt_metric("rework_input_tokens", metrics.get("rework_input_tokens")),
-        _fmt_metric("rework_output_tokens", metrics.get("rework_output_tokens")),
-        _fmt_metric("cache_read_tokens", metrics.get("cache_read_tokens")),
-        _fmt_metric("reasoning_tokens", metrics.get("reasoning_tokens")),
+        _fmt_metric("total_input_tokens", metrics.get("total_input_tokens")),
         _fmt_metric("total_output_tokens", metrics.get("total_output_tokens")),
+        _fmt_metric("reasoning_tokens", metrics.get("reasoning_tokens")),
         _fmt_metric("llm_requests", metrics.get("llm_requests")),
         _fmt_metric("normalized_cost", metrics.get("normalized_cost")),
         _fmt_metric("elapsed_time", metrics.get("elapsed_time")),
@@ -619,8 +612,9 @@ def format_leaderboard(payloads: list[dict[str, Any]]) -> str:
         "for the same `(problem, adapter, provider, model, thinking)` cell.",
         "",
         "Published from `docs/reports/*.json`. Rebuilt by `python -m benchmark report`.",
-        "Create/Rework columns are per-attempt token usage split by stage (create = initial attempts);",
-        "Cached/Reasoning/Output tokens cover all attempts; `-` means it is unavailable.",
+        "Token columns are totals across all attempts (input, output, reasoning);",
+        "per-stage splits (create/rework/transient) live in the metric leaderboards and short reports.",
+        "`-` means a metric is unavailable.",
         "Failed CP counts checkpoints that failed at least once, including repaired ones.",
         "",
         "## By task",
@@ -635,9 +629,9 @@ def format_leaderboard(payloads: list[dict[str, Any]]) -> str:
         lines.append(f"### `{problem}`")
         lines.append("")
         lines.append(
-            "| Agent | Model | Thinking | Harness | N | CP | Failed CP | Repeated | Reg | Create input | Create output | Rework input | Rework output | Cached tokens | Reasoning | Output tokens | LLM requests | Cost | Time | LOC | Py modules | ΔLOC | Deps | Cx |"
+            "| Agent | Model | Thinking | Harness | N | CP | Failed CP | Repeated | Reg | Input tokens | Output tokens | Reasoning | LLM requests | Cost | Time | LOC | Py modules | ΔLOC | Deps | Cx |"
         )
-        lines.append("|-------|-------|----------|---------|---:|---:|----------:|----------:|----:|----------:|-----------:|----------:|-----------:|-------------:|------------:|----------:|-----------:|------------:|-----:|-----:|----:|----------:|-----:|---:|")
+        lines.append("|-------|-------|----------|---------|---:|---:|----------:|----------:|----:|-------------:|--------------:|----------:|-------------:|-----:|-----:|----:|----------:|-----:|---:|---:|")
         rows = sorted(
             [c for c in cells if c["problem"] == problem],
             key=lambda c: (c["harness"], c["model"], c.get("thinking") or "", c["agent"]),
@@ -658,9 +652,9 @@ def format_leaderboard(payloads: list[dict[str, Any]]) -> str:
         lines.append(f"### `{model}`")
         lines.append("")
         lines.append(
-            "| Problem | Agent | Thinking | Harness | N | CP | Failed CP | Repeated | Reg | Create input | Create output | Rework input | Rework output | Cached tokens | Reasoning | Output tokens | LLM requests | Cost | Time | LOC | Py modules | ΔLOC | Deps | Cx |"
+            "| Problem | Agent | Thinking | Harness | N | CP | Failed CP | Repeated | Reg | Input tokens | Output tokens | Reasoning | LLM requests | Cost | Time | LOC | Py modules | ΔLOC | Deps | Cx |"
         )
-        lines.append("|---------|-------|----------|---------|---:|---:|----------:|----------:|----:|----------:|-----------:|----------:|-----------:|-------------:|------------:|----------:|-----------:|------------:|-----:|-----:|----:|----------:|-----:|---:|")
+        lines.append("|---------|-------|----------|---------|---:|---:|----------:|----------:|----:|-------------:|--------------:|----------:|-------------:|-----:|-----:|----:|----------:|-----:|---:|---:|")
         rows = _sort_table_rows([c for c in cells if c["model"] == model], "problem")
         for row in rows:
             lines.append(
