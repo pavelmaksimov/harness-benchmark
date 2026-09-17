@@ -35,3 +35,6 @@ vendor/scb-problems/
 .omo/
 TODO.md
 memory/.tmp/
+/vendor/scb-problems/
+/vendor/slop-code-bench/
+/cp14_skill_opt/
