@@ -146,7 +146,10 @@ def _resolve_config_paths(config_path: Path) -> Path:
 
 def _environment_config(arm: str) -> Path:
     """Resolve Docker environment yaml for an arm (absolute path for SCB)."""
-    if arm_includes(arm, "supermemory"):
+    if arm_includes(arm, "supermemory") or arm_includes(arm, "openviking"):
+        # supermemory: host-local embedding server on 6767.
+        # openviking: host-local context-database server on 8790 (llama-cpp-python
+        # cannot build inside the slim container, so the server runs on the host).
         return CONFIGS_DIR / "environments" / "docker-python3.12-uv-hostnet.yaml"
     local = CONFIGS_DIR / "environments" / "docker-python3.12-uv.yaml"
     return local if local.is_file() else SCB_DIR / "configs" / "environments" / "docker-python3.12-uv.yaml"

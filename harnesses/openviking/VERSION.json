@@ -1,0 +1,12 @@
+{
+  "name": "openviking",
+  "skill_name": "openviking",
+  "version": "pinned-local",
+  "kind": "single",
+  "skill_sha256": "01c6fe25f35d335bb13dc3035f57576106627924f9483852ae977d3ef40cab66",
+  "tree_sha256": "2317cda3637a493aefbc408603e428b1646b8d2623df3c8c89ba6f46ebfbfe77",
+  "skill_bytes": 4192,
+  "file_count": 1,
+  "pinned_at": "2026-09-16T15:51:20.936278+00:00",
+  "source": "/home/user/my/harness-benchmark/harnesses/openviking/skill"
+}

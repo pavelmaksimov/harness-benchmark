@@ -93,6 +93,7 @@ PYTHON_HARNESS_V130 = "python-harness-v1.3.0"
 COMBO_PYTHON_HARNESS_V130_GRAPHIFY = "python-harness-v1.3.0+graphify"
 COMBO_PYTHON_HARNESS_V130_DOORSTOP = "python-harness-v1.3.0+doorstop"
 COMBO_PYTHON_HARNESS_V130_STRICTDOC = "python-harness-v1.3.0+strictdoc"
+COMBO_MEMORY_STACK = "combo-ontoship-mempalace-openviking-baron"
 
 COMBINATION_ARMS: dict[str, tuple[str, ...]] = {
     COMBO_SUPERMEMORY_GRAPHIFY_PONYTAIL_THERMO_DOORSTOP_TDD: (
@@ -141,6 +142,7 @@ COMBINATION_ARMS: dict[str, tuple[str, ...]] = {
     COMBO_PYTHON_HARNESS_V130_GRAPHIFY: ("python-harness", "graphify"),
     COMBO_PYTHON_HARNESS_V130_DOORSTOP: ("python-harness", "doorstop"),
     COMBO_PYTHON_HARNESS_V130_STRICTDOC: ("python-harness", "strictdoc"),
+    COMBO_MEMORY_STACK: ("ontoship", "mempalace", "openviking", "baron"),
 }
 
 ARMS: dict[str, ArmSpec] = {
@@ -231,6 +233,30 @@ ARMS: dict[str, ArmSpec] = {
         skill_name="reclaim-code-entropy",
         activation_phrase="Activate and follow the installed Codex skill `reclaim-code-entropy`",
     ),
+    "ontoship": ArmSpec(
+        name="ontoship",
+        kind="single",
+        skill_name="ontoship",
+        activation_phrase="Activate and follow the installed Codex skill `ontoship`",
+    ),
+    "mempalace": ArmSpec(
+        name="mempalace",
+        kind="single",
+        skill_name="mempalace",
+        activation_phrase="Activate and follow the installed Codex skill `mempalace`",
+    ),
+    "openviking": ArmSpec(
+        name="openviking",
+        kind="single",
+        skill_name="openviking",
+        activation_phrase="Activate and follow the installed Codex skill `openviking`",
+    ),
+    "baron": ArmSpec(
+        name="baron",
+        kind="single",
+        skill_name="baron",
+        activation_phrase="Activate and follow the installed Codex skill `baron`",
+    ),
 }
 ARMS.update(
     {
@@ -259,6 +285,10 @@ DEFAULT_EXPERIMENT_ARMS: tuple[str, ...] = (
     PYTHON_HARNESS_V123,
     "benjamin-plus-skill",
     "reclaim-code-entropy",
+    "ontoship",
+    "mempalace",
+    "openviking",
+    "baron",
     *COMBINATION_ARMS,
 )
 

@@ -16,7 +16,7 @@
 |-------|---------|------------------|----------------|
 | **Traceability** (требования как дисциплина) | doorstop, strictdoc | 1–2 CP (file_backup CP1-2 или RealWorld CP1) | Валидность спеки, стабильность UID, налог времени/токенов |
 | **Verification** (тесты как спека) | tdd | 1 задача, 2–3 seams | Качество тестов, вертикальные срезы, survival при рефакторе |
-| **Memory** (межсессионная память) | supermemory | 14 CP RealWorld (длинный горизонт) | Hit-rate памяти, реюз фиксов, снижение повторных ошибок |
+| **Memory** (межсессионная память) | supermemory, memory-stack (ontoship+mempalace+openviking+baron) | 14 CP RealWorld (длинный горизонт) | Hit-rate памяти, реюз фиксов, снижение повторных ошибок |
 | **Efficiency** (экономия шагов) | benjamin-plus-skill | Любая, достаточно 1 CP | Токены, время, шаги, степень keyhole-чтения |
 
 ## Как анализировать — методика
@@ -30,6 +30,7 @@
 - [strictdoc — лёгкий SDoc-компас](strictdoc.md)
 - [tdd — тесты как строительные леса](tdd.md)
 - [supermemory — слон, который помнит](supermemory.md)
+- [memory-stack — четыре памяти в одной упряжке](memory-stack.md)
 - [benjamin-plus-skill — ключ-замочная скважина](benjamin-plus-skill.md)
 
 ## Метод: как оценивали

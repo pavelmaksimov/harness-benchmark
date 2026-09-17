@@ -27,6 +27,12 @@ EXCLUDE_DIR_NAMES = {
     # Mandated docs roots of requirements arms (strictdoc/doorstop): process artifacts, not solution code.
     "strictdoc-docs",
     "doorstop-docs",
+    # Mandated memory-state roots of the memory-stack arms (ontoship/mempalace/
+    # openviking/baron + combo): process artifacts, not solution code.
+    ".gitmark",
+    ".mempalace",
+    ".baron",
+    ".openviking",
 }
 
 

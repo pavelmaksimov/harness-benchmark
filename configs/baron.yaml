@@ -1,0 +1,14 @@
+# baron arm: OpenCode + pinned skill harness, z.ai GLM 5.3 Flash.
+# default bridge network: all memory tooling runs inside the container.
+agent: configs/agent_opencode.yaml
+environment: configs/environments/docker-python3.12-uv.yaml
+prompt: configs/prompts/baron-solve.jinja
+model:
+  provider: opencode_auth
+  name: glm-5.3-flash
+thinking: high
+pass_policy: all-core-cases
+problems:
+  - realworld
+save_dir: results/raw
+save_template: ${model.name}/baron_${prompt}_${thinking}_${now:%Y%m%dT%H%M%S}

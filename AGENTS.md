@@ -784,6 +784,53 @@ Hermes используется как компромиссный канал у�
   в VERSION.json, схема пина комбо-армов устарела относительно теста. Проверять
   «сломал ли я тесты» через `git stash` + повтор, а не по числу failures.
 
+## Внедрение memory-stack армов: ontoship / mempalace / openviking / baron + combo (2026-09-16)
+
+Четыре GitHub-проекта памяти агента собраны в скилл-армы и комбинационный bundle
+`combo-ontoship-mempalace-openviking-baron` (realworld, opencode/z.ai glm-5.3-flash, high).
+Апстримы: `vakovalskii/ontoship` (gitmark, stdlib), `MemPalace/mempalace` (PyPI 3.10.0,
+`--no-llm`), `volcengine/OpenViking` (PyPI 0.4.20, клиент), `shinegang/baron` (0.6.1, stdlib,
+вендорен в скилл-дир). Ключи API не нужны нигде.
+
+1. **OpenViking-сервер живёт на ХОСТЕ, не в контейнере** (`ops/openviking-host-server/`):
+   в slim-образе нет компилятора, `llama-cpp-python` (`openviking[local-embed]`, локальные
+   GGUF-эмбеддинги) не собирается. Сервер поднимается из постоянного venv
+   `ops/openviking-host-server/.venv` на 127.0.0.1:8790, контейнер достаёт его через
+   `docker-python3.12-uv-hostnet` (паттерн supermemory). VLM-режим (`remember`) не
+   используется — скилл мандатирует `add-resource`/`find`/`read`. OpenRouter для эмбеддингов
+   бесполезен: у него нет `/v1/embeddings`.
+2. **Environment арма выбирает `_environment_config(arm)` в `benchmark/scb_run.py`, а не
+   поле `environment:` в configs/<arm>.yaml** — поле декоративное, SCB получает `--environment`
+   из этой функции. Hostnet включён только для arm'ов с supermemory/openviking (`arm_includes`).
+   Новому арму с host-сервисом нужна правка ИМЕННО там; поле в yaml держим в согласии с ним.
+3. **ИНЦИДЕНТ: venv в workspace раздул снапшот до 981 МБ / 56 560 файлов** (smoke №1):
+   `.memory-tools` (openviking+mempalace в одном venv) попал в снапшот чекпоинта; фаза
+   метрик (`slop_code/metrics/driver.py`) ходит по каждому файлу и заваливает infer.log
+   «Unsupported file extension», страдает diff/snapshot, а `.py`-файлы site-packages считались
+   бы LOC решения. Правило: **tool CLIs в контейнере — только эфемерно через `uvx`
+   (кэш /tmp/uv-cache), в workspace — только ДАННЫЕ памяти** (`.baron/`, `.mempalace/`,
+   `.openviking/`, `kb/` + `.gitmark/`); скиллы прямо запрещают `uv venv`/`uv pip install`
+   в /workspace. После фикса снапшот CP1 — 940 КБ / 40 файлов.
+4. **Данные памяти между чекпоинтами живут в workspace** (маунт /tmp/tmpXXXX): контейнер
+   может пересоздаваться, workspace — нет. Поэтому `--palace`, `OPENVIKING_CLI_CONFIG_FILE`,
+   `--store` у baron — всегда абсолютные пути внутрь /workspace; кэши моделей
+   (`HF_HOME`) — наоборот, в /tmp контейнера (модель ~120 МБ не должна плодиться в снапшотах).
+5. **Эксклюзии `.gitmark/.mempalace/.baron/.openviking` добавлены в EXCLUDE_DIR_NAMES**
+   (structure.py) по итогам смоука; `kb/` не исключён — там только .md, на LOC не влияет.
+6. **Перед каждым новым экспериментом пересоздавай data-dir OpenViking-сервера**
+   (stop → `mv data-* …archived` → `start.sh <fresh-dir> 8790`): память сервера общая между
+   прогонами, иначе заметки смоука «утекут» в эксперимент (контаминация). MemPalace/Baron/kb
+   живут в workspace и рождаются чистыми вместе с ним.
+7. **ИНЦИДЕНТ: корневой раздел забился в 100%** во время сборки realworld-образа (Rust).
+   Лечение без вредных prune образов: `docker builder prune -f` (+7.3 ГБ), удаление ТОЛЬКО
+   осиротевших контейнеров бенчмарка поимённо; gitlab-стек и образы `slop-code:*` не трогать
+   (см. инцидент cron `docker image prune -af`).
+8. Механика повторного запуска: скиллы пересобрать → `scripts/pin_harness.py mempalace
+   openviking combo-…` (для combo — обновить payload из component-скиллов и вернуть
+   `component_arms` в VERSION.json) → смоук заново (tree_sha256 меняется — старый SMOKE.json
+   инвалидируется). Тест `test_combination_bundle_contains_component_payloads` требует
+   точного равенства skill_names в combo/skills и component_arms.
+
 ## graphify
 
 This project has a knowledge graph at graphify-out/ with god nodes, community structure, and cross-file relationships.

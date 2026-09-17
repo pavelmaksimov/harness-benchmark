@@ -1,0 +1,59 @@
+{
+  "arm": "combo-ontoship-mempalace-openviking-baron",
+  "checkpoints": [
+    "checkpoint_1"
+  ],
+  "checkpoints_completed": [
+    1,
+    2
+  ],
+  "exclude_dir_names": [
+    ".git",
+    ".mypy_cache",
+    ".pytest_cache",
+    ".ruff_cache",
+    ".tox",
+    ".venv",
+    "__pycache__",
+    "build",
+    "dist",
+    "doorstop-docs",
+    "graphify-out",
+    "node_modules",
+    "strictdoc-docs",
+    "venv"
+  ],
+  "experiment_id": "smoke-combo-ontoship-mempalace-openviking-baron-20260916T155130806857-481034e9",
+  "harness_activation_verified": true,
+  "harness_content_sha": "3c8a5bf2d10a0615d1c102f66d30b380b93096ac7bfd8cfbd0031ed36cd24587",
+  "ok": true,
+  "problem": "realworld",
+  "run_dir": "/home/user/my/harness-benchmark/results/smoke-combo-ontoship-mempalace-openviking-baron-20260916T155130806857-481034e9/combo-ontoship-mempalace-openviking-baron/run_1",
+  "snapshot": {
+    "already_excluded": [],
+    "needs_exclude_review": [
+      ".baron",
+      ".gitmark",
+      ".mempalace",
+      ".openviking"
+    ],
+    "top_level": [
+      ".baron",
+      ".gitmark",
+      ".mempalace",
+      ".openviking",
+      "kb",
+      "realworld_app",
+      "requirements.txt"
+    ],
+    "top_level_dirs": [
+      ".baron",
+      ".gitmark",
+      ".mempalace",
+      ".openviking",
+      "kb",
+      "realworld_app"
+    ]
+  },
+  "validated_at": "2026-09-16T16:21:20.278664+00:00"
+}

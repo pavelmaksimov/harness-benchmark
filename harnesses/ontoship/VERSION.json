@@ -1,0 +1,12 @@
+{
+  "name": "ontoship",
+  "skill_name": "ontoship",
+  "version": "pinned-local",
+  "kind": "single",
+  "skill_sha256": "142f1ec02f7e199c6e64fa4275e7aa2436965f9dffe21ea0933e6f89c830cee0",
+  "tree_sha256": "5d768a76a1c84a5e61b6bcf178d6ca4624c6bb76bee85455947641c08c941bd8",
+  "skill_bytes": 4195,
+  "file_count": 2,
+  "pinned_at": "2026-09-16T14:21:21.469600+00:00",
+  "source": "/home/user/my/harness-benchmark/harnesses/ontoship/skill"
+}

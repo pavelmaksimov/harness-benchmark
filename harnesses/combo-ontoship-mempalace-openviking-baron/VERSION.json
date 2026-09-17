@@ -1,0 +1,22 @@
+{
+  "name": "combo-ontoship-mempalace-openviking-baron",
+  "skill_names": [
+    "baron",
+    "mempalace",
+    "ontoship",
+    "openviking"
+  ],
+  "version": "pinned-local",
+  "kind": "bundle",
+  "tree_sha256": "3c8a5bf2d10a0615d1c102f66d30b380b93096ac7bfd8cfbd0031ed36cd24587",
+  "skill_bytes": 1131945,
+  "file_count": 37,
+  "pinned_at": "2026-09-16T15:51:20.944308+00:00",
+  "source": "/home/user/my/harness-benchmark/harnesses/combo-ontoship-mempalace-openviking-baron/skills + /home/user/my/harness-benchmark/harnesses/combo-ontoship-mempalace-openviking-baron/home",
+  "component_arms": [
+    "ontoship",
+    "mempalace",
+    "openviking",
+    "baron"
+  ]
+}

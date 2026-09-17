@@ -1,0 +1,11 @@
+=== smoke CP2 arm=combo-ontoship-mempalace-openviking-baron agent=opencode 
+provider=opencode_auth model=glm-5.3-flash thinking=high ===
+smoke_ok=True 
+marker=/home/user/my/harness-benchmark/harnesses/combo-ontoship-mempalace-openvi
+king-baron/SMOKE.json
+activation_verified=True
+snapshot top-level dirs: ['.baron', '.gitmark', '.mempalace', '.openviking', 
+'kb', 'realworld_app']
+Review these dirs for EXCLUDE_DIR_NAMES (benchmark/structure.py): ['.baron', 
+'.gitmark', '.mempalace', '.openviking']
+Smoke passed. Commit harnesses/<arm>/SMOKE.json after updating exclusions.

@@ -38,3 +38,7 @@ memory/.tmp/
 /vendor/scb-problems/
 /vendor/slop-code-bench/
 /cp14_skill_opt/
+/ops/openviking-host-server/
+/logs/aborted-smoke-combo-ontoship-mempalace-openviking-baron-20260916T142753708466-33d8fac5/
+/logs/aborted-smoke-combo-ontoship-mempalace-openviking-baron-20260916T142947849527-8bf7710e/
+/logs/aborted-smoke-combo-ontoship-mempalace-openviking-baron-20260916T143700262070-bac8d308/

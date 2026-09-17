@@ -1,0 +1,15 @@
+# combo-ontoship-mempalace-openviking-baron arm: OpenCode + pinned skill harness, z.ai GLM 5.3 Flash.
+# network=host: the agent reaches the host-local OpenViking server on 127.0.0.1:8790
+# (openviking arm) and downloads wheels/embedding models inside the container.
+agent: configs/agent_opencode.yaml
+environment: configs/environments/docker-python3.12-uv-hostnet.yaml
+prompt: configs/prompts/combo-ontoship-mempalace-openviking-baron-solve.jinja
+model:
+  provider: opencode_auth
+  name: glm-5.3-flash
+thinking: high
+pass_policy: all-core-cases
+problems:
+  - realworld
+save_dir: results/raw
+save_template: ${model.name}/combo-ontoship-mempalace-openviking-baron_${prompt}_${thinking}_${now:%Y%m%dT%H%M%S}
